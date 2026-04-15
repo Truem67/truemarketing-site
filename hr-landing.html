@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TrueMarketing · CCMA-Ready HR Documentation</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Nunito:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+:root{
+  --bg:       #080c09;
+  --bg2:      #0e1610;
+  --bg3:      #141f16;
+  --card:     #1a2a1c;
+  --card2:    #20321f;
+  --edge:     #283c2a;
+  --line:     rgba(100,200,120,.09);
+  --line2:    rgba(100,200,120,.16);
+  --line3:    rgba(100,200,120,.28);
+  --green:    #2dce82;
+  --green2:   #23b06d;
+  --green3:   #1a8a53;
+  --green4:   #117040;
+  --glow:     rgba(45,206,130,.14);
+  --glow2:    rgba(45,206,130,.06);
+  --gold:     #c8a84b;
+  --gold2:    rgba(200,168,75,.12);
+  --ivory:    #f2ede4;
+  --iv2:      rgba(242,237,228,.72);
+  --iv3:      rgba(242,237,228,.42);
+  --iv4:      rgba(242,237,228,.22);
+  --iv5:      rgba(242,237,228,.1);
+  --red:      #e05555;
+  --amber:    #e8a030;
+  --serif:    'Libre Baskerville', Georgia, serif;
+  --sans:     'Nunito', sans-serif;
+  --mono:     'JetBrains Mono', monospace;
+  --ease:     cubic-bezier(.4,0,.2,1);
+  --bounce:   cubic-bezier(.34,1.56,.64,1);
+}
+
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);
+  font-family:var(--sans);
+  color:var(--ivory);
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+::selection{background:rgba(45,206,130,.25);}
+::-webkit-scrollbar{width:3px;}
+::-webkit-scrollbar-thumb{background:var(--line2);border-radius:3px;}
+
+body::before{
+  content:'';position:fixed;inset:0;z-index:9998;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23g)' opacity='1'/%3E%3C/svg%3E");
+  opacity:.028;mix-blend-mode:screen;
+}
+
+/* ── NAV ── */
+.nav{
+  position:sticky;top:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 24px;
+  background:rgba(8,12,9,.92);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--line);
+}
+.nav-brand{
+  font-family:var(--serif);font-size:18px;
+  color:var(--ivory);letter-spacing:.2px;
+}
+.nav-brand b{color:var(--green);}
+.nav-cta{
+  padding:10px 22px;border-radius:10px;
+  background:linear-gradient(140deg,var(--green3),var(--green2));
+  font-size:13px;font-weight:700;color:#fff;
+  text-decoration:none;
+  box-shadow:0 4px 18px rgba(45,206,130,.25);
+  transition:all .2s var(--ease);
+  white-space:nowrap;
+}
+.nav-cta:hover{transform:translateY(-1px);box-shadow:0 8px 28px rgba(45,206,130,.38);}
+
+/* ── HERO ── */
+.hero{
+  padding:80px 24px 72px;
+  text-align:center;
+  background:
+    radial-gradient(ellipse 90% 60% at 20% -10%, rgba(45,206,130,.07) 0%, transparent 60%),
+    radial-gradient(ellipse 70% 50% at 80% 110%, rgba(26,138,83,.05) 0%, transparent 55%),
+    var(--bg);
+  position:relative;overflow:hidden;
+}
+.hero::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--line3),transparent);
+}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(45,206,130,.06);
+  border:1px solid rgba(45,206,130,.18);
+  border-radius:30px;padding:7px 18px;
+  font-size:11px;font-weight:700;letter-spacing:1.8px;
+  text-transform:uppercase;color:var(--green2);
+  margin-bottom:32px;
+}
+.hero-eyebrow-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--green);box-shadow:0 0 6px var(--green);
+  animation:flash 2s infinite;
+}
+@keyframes flash{0%,100%{opacity:1;}50%{opacity:.3;}}
+
+.hero-h1{
+  font-family:var(--serif);
+  font-size:clamp(28px,6vw,52px);
+  font-weight:700;line-height:1.1;
+  color:var(--ivory);
+  max-width:780px;margin:0 auto 24px;
+  letter-spacing:-.4px;
+}
+.hero-h1 em{font-style:italic;color:var(--green);}
+
+.hero-sub{
+  font-size:clamp(15px,2.2vw,18px);
+  color:var(--iv3);line-height:1.72;font-weight:300;
+  max-width:620px;margin:0 auto 44px;
+}
+
+.hero-cta{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:18px 40px;border-radius:14px;
+  background:linear-gradient(140deg,var(--green3) 0%,var(--green2) 100%);
+  font-size:16px;font-weight:700;color:#fff;
+  text-decoration:none;
+  box-shadow:0 10px 40px rgba(45,206,130,.32);
+  transition:all .24s var(--ease);
+  position:relative;overflow:hidden;
+}
+.hero-cta::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(255,255,255,.12),transparent);
+  pointer-events:none;
+}
+.hero-cta:hover{transform:translateY(-3px);box-shadow:0 18px 50px rgba(45,206,130,.42);}
+.hero-cta:active{transform:translateY(0);}
+
+.hero-note{
+  margin-top:20px;font-size:12px;color:var(--iv4);
+}
+.hero-note strong{color:var(--green2);}
+
+/* ── ROI BAR ── */
+.roi-bar{
+  background:var(--bg2);
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+  padding:28px 24px;
+  text-align:center;
+}
+.roi-inner{
+  max-width:900px;margin:0 auto;
+  display:flex;justify-content:center;gap:0;
+  flex-wrap:wrap;
+}
+.roi-stat{
+  padding:12px 40px;
+  border-right:1px solid var(--line);
+  flex:1;min-width:160px;
+}
+.roi-stat:last-child{border-right:none;}
+.roi-num{
+  font-family:var(--serif);font-size:clamp(26px,4vw,38px);
+  font-weight:700;color:var(--green);line-height:1;margin-bottom:6px;
+}
+.roi-lbl{font-size:11px;color:var(--iv3);font-weight:600;letter-spacing:.5px;text-transform:uppercase;}
+
+/* ── SECTIONS ── */
+.section{
+  max-width:860px;margin:0 auto;
+  padding:72px 24px;
+}
+.section-eyebrow{
+  font-size:10px;font-weight:700;letter-spacing:2.5px;
+  text-transform:uppercase;color:var(--green2);
+  margin-bottom:14px;
+}
+.section-h2{
+  font-family:var(--serif);
+  font-size:clamp(24px,4vw,36px);
+  font-weight:700;line-height:1.2;
+  color:var(--ivory);margin-bottom:16px;
+  letter-spacing:-.2px;
+}
+.section-h2 em{font-style:italic;color:var(--green);}
+.section-lead{
+  font-size:16px;color:var(--iv3);line-height:1.72;
+  font-weight:300;max-width:600px;margin-bottom:40px;
+}
+
+/* ── PROBLEM ── */
+.problem-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:14px;margin-bottom:40px;
+}
+.problem-card{
+  background:rgba(224,85,85,.04);
+  border:1px solid rgba(224,85,85,.14);
+  border-radius:14px;padding:20px 22px;
+  display:flex;gap:14px;align-items:flex-start;
+  transition:border-color .2s;
+}
+.problem-card:hover{border-color:rgba(224,85,85,.28);}
+.problem-ico{font-size:20px;flex-shrink:0;margin-top:1px;}
+.problem-txt{font-size:14px;color:var(--iv2);line-height:1.55;font-weight:400;}
+
+.law-box{
+  background:var(--card);
+  border:1px solid var(--line2);
+  border-left:3px solid var(--gold);
+  border-radius:14px;padding:24px 26px;
+  display:flex;gap:18px;align-items:flex-start;
+}
+.law-ico{font-size:24px;flex-shrink:0;margin-top:2px;}
+.law-body{}
+.law-title{font-size:13px;font-weight:700;color:var(--gold);letter-spacing:.3px;margin-bottom:8px;text-transform:uppercase;}
+.law-text{font-size:14px;color:var(--iv2);line-height:1.65;}
+.law-text strong{color:var(--ivory);}
+
+/* ── HOW IT WORKS ── */
+.how-section{
+  background:var(--bg2);
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+  padding:72px 24px;
+}
+.how-inner{max-width:860px;margin:0 auto;}
+.steps{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:2px;margin-top:40px;
+}
+.step{
+  background:var(--card);
+  padding:32px 28px;
+  position:relative;
+  transition:background .2s;
+}
+.step:first-child{border-radius:14px 0 0 14px;}
+.step:last-child{border-radius:0 14px 14px 0;}
+.step:hover{background:var(--card2);}
+.step-num{
+  font-family:var(--mono);font-size:11px;font-weight:500;
+  color:var(--green3);letter-spacing:1px;margin-bottom:16px;
+}
+.step-ico{font-size:28px;margin-bottom:14px;display:block;}
+.step-title{
+  font-family:var(--serif);font-size:18px;
+  font-weight:700;color:var(--ivory);
+  margin-bottom:10px;
+}
+.step-desc{font-size:13px;color:var(--iv3);line-height:1.65;}
+
+.connector{
+  display:flex;align-items:center;justify-content:center;
+  padding:0 2px;background:var(--card);
+  font-size:18px;color:var(--green3);
+}
+@media(max-width:640px){
+  .step:first-child,.step:last-child{border-radius:0;}
+  .step:first-child{border-radius:14px 14px 0 0;}
+  .step:last-child{border-radius:0 0 14px 14px;}
+  .connector{padding:2px 0;transform:rotate(90deg);}
+}
+
+/* ── USE CASES ── */
+.use-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:12px;margin-top:40px;
+}
+.use-card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:14px;padding:22px 24px;
+  display:flex;gap:14px;align-items:flex-start;
+  transition:all .2s;
+}
+.use-card:hover{
+  border-color:var(--line2);
+  background:var(--card2);
+  transform:translateY(-2px);
+}
+.use-check{
+  width:22px;height:22px;border-radius:50%;
+  background:rgba(45,206,130,.12);
+  border:1px solid rgba(45,206,130,.25);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;margin-top:1px;
+  font-size:11px;
+}
+.use-body{}
+.use-title{font-size:14px;font-weight:700;color:var(--ivory);margin-bottom:4px;}
+.use-desc{font-size:12px;color:var(--iv3);line-height:1.55;}
+
+/* ── PROOF LINE ── */
+.proof-section{
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 50%, rgba(45,206,130,.05) 0%, transparent 70%),
+    var(--bg);
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+  padding:72px 24px;text-align:center;
+}
+.proof-inner{max-width:680px;margin:0 auto;}
+.proof-quote{
+  font-family:var(--serif);
+  font-size:clamp(20px,3.5vw,30px);
+  font-weight:700;line-height:1.3;
+  color:var(--ivory);margin-bottom:24px;
+  letter-spacing:-.2px;
+}
+.proof-quote em{font-style:italic;color:var(--green);}
+.proof-calc{
+  display:inline-flex;flex-wrap:wrap;justify-content:center;gap:8px;
+  margin-bottom:32px;
+}
+.proof-chip{
+  background:var(--card);border:1px solid var(--line2);
+  border-radius:10px;padding:12px 20px;
+  font-size:13px;color:var(--iv2);
+}
+.proof-chip strong{color:var(--ivory);font-size:15px;}
+.proof-chip.hi{
+  background:rgba(45,206,130,.07);
+  border-color:rgba(45,206,130,.22);
+}
+.proof-chip.hi strong{color:var(--green);}
+.vs-arrow{font-size:20px;color:var(--iv4);align-self:center;}
+
+/* ── FAQ ── */
+.faq-list{margin-top:40px;display:flex;flex-direction:column;gap:2px;}
+.faq-item{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:0;overflow:hidden;
+}
+.faq-item:first-child{border-radius:14px 14px 0 0;}
+.faq-item:last-child{border-radius:0 0 14px 14px;}
+.faq-q{
+  width:100%;padding:22px 24px;
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  font-size:15px;font-weight:600;color:var(--ivory);
+  text-align:left;cursor:pointer;
+  background:none;border:none;font-family:var(--sans);
+  transition:background .15s;
+}
+.faq-q:hover{background:rgba(255,255,255,.02);}
+.faq-arrow{
+  font-size:12px;color:var(--green2);flex-shrink:0;
+  transition:transform .25s var(--ease);
+}
+.faq-item.open .faq-arrow{transform:rotate(180deg);}
+.faq-a{
+  display:none;padding:0 24px 22px;
+  font-size:14px;color:var(--iv3);line-height:1.72;
+  border-top:1px solid var(--line);padding-top:18px;
+}
+.faq-item.open .faq-a{display:block;}
+
+/* ── FINAL CTA ── */
+.final-cta{
+  padding:80px 24px;text-align:center;
+  background:
+    radial-gradient(ellipse 100% 80% at 50% 100%, rgba(26,138,83,.06) 0%, transparent 65%),
+    var(--bg2);
+  border-top:1px solid var(--line);
+}
+.final-inner{max-width:600px;margin:0 auto;}
+.final-h2{
+  font-family:var(--serif);
+  font-size:clamp(26px,5vw,40px);
+  font-weight:700;line-height:1.15;
+  color:var(--ivory);margin-bottom:16px;
+  letter-spacing:-.3px;
+}
+.final-h2 em{font-style:italic;color:var(--green);}
+.final-sub{
+  font-size:16px;color:var(--iv3);line-height:1.65;
+  font-weight:300;margin-bottom:36px;
+}
+.final-btn{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:20px 48px;border-radius:14px;
+  background:linear-gradient(140deg,var(--green3) 0%,var(--green2) 100%);
+  font-size:16px;font-weight:700;color:#fff;
+  text-decoration:none;
+  box-shadow:0 12px 44px rgba(45,206,130,.34);
+  transition:all .24s var(--ease);
+  position:relative;overflow:hidden;
+}
+.final-btn::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(255,255,255,.12),transparent);
+  pointer-events:none;
+}
+.final-btn:hover{transform:translateY(-3px);box-shadow:0 20px 56px rgba(45,206,130,.44);}
+.final-note{margin-top:18px;font-size:12px;color:var(--iv4);}
+.final-note strong{color:var(--green2);}
+
+/* ── FOOTER ── */
+.footer{
+  padding:28px 24px;
+  border-top:1px solid var(--line);
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:12px;
+}
+.footer-brand{
+  font-family:var(--serif);font-size:15px;color:var(--iv3);
+}
+.footer-brand b{color:var(--green2);}
+.footer-links{display:flex;gap:20px;}
+.footer-links a{
+  font-size:12px;color:var(--iv4);text-decoration:none;
+  transition:color .15s;
+}
+.footer-links a:hover{color:var(--green2);}
+
+/* ── MOBILE ── */
+@media(max-width:640px){
+  .nav-brand{font-size:15px;}
+  .nav-cta{padding:9px 16px;font-size:12px;}
+  .hero{padding:56px 20px 56px;}
+  .roi-stat{border-right:none;border-bottom:1px solid var(--line);padding:16px 20px;}
+  .roi-stat:last-child{border-bottom:none;}
+  .section{padding:52px 20px;}
+  .how-section{padding:52px 20px;}
+  .proof-section{padding:52px 20px;}
+  .final-cta{padding:56px 20px;}
+  .steps{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-brand"><b>True</b>Marketing</div>
+  <a href="https://truemarketing.co.za" class="nav-cta">Start Free Trial →</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eyebrow">
+    <span class="hero-eyebrow-dot"></span>
+    HR &amp; Labour Compliance
+  </div>
+  <h1 class="hero-h1">The CCMA doesn't care what you <em>remember.</em><br>It cares what you can <em>prove.</em></h1>
+  <p class="hero-sub">Seal every warning letter, disciplinary notice and HR communication permanently on the blockchain — timestamped, tamper-proof, CCMA-ready.</p>
+  <a href="https://truemarketing.co.za" class="hero-cta">
+    <span>Protect Your Business Today</span>
+    <span>→</span>
+  </a>
+  <p class="hero-note">No setup fees. Cancel anytime. <strong>From R297/month.</strong></p>
+</section>
+
+<!-- ROI BAR -->
+<div class="roi-bar">
+  <div class="roi-inner">
+    <div class="roi-stat">
+      <div class="roi-num">R150k</div>
+      <div class="roi-lbl">Average CCMA legal cost</div>
+    </div>
+    <div class="roi-stat">
+      <div class="roi-num">R297</div>
+      <div class="roi-lbl">TrueMarketing per month</div>
+    </div>
+    <div class="roi-stat">
+      <div class="roi-num">Seconds</div>
+      <div class="roi-lbl">To seal any document</div>
+    </div>
+    <div class="roi-stat">
+      <div class="roi-num">Forever</div>
+      <div class="roi-lbl">Proof stored on blockchain</div>
+    </div>
+  </div>
+</div>
+
+<!-- PROBLEM -->
+<section class="section">
+  <div class="section-eyebrow">Sound Familiar?</div>
+  <h2 class="section-h2">These disputes cost South African employers <em>millions</em> every year.</h2>
+  <p class="section-lead">Every one of these situations could have been resolved in minutes — with proof. Without it, you're at the CCMA's mercy.</p>
+
+  <div class="problem-grid">
+    <div class="problem-card">
+      <span class="problem-ico">⚠️</span>
+      <span class="problem-txt">Employee denies receiving their written warning</span>
+    </div>
+    <div class="problem-card">
+      <span class="problem-ico">⚠️</span>
+      <span class="problem-txt">Disciplinary hearing outcome disputed after the fact</span>
+    </div>
+    <div class="problem-card">
+      <span class="problem-ico">⚠️</span>
+      <span class="problem-txt">Resignation letter lost — now claiming constructive dismissal</span>
+    </div>
+    <div class="problem-card">
+      <span class="problem-ico">⚠️</span>
+      <span class="problem-txt">CCMA hearing next week and your documentation is incomplete</span>
+    </div>
+  </div>
+
+  <div class="law-box">
+    <span class="law-ico">⚖️</span>
+    <div class="law-body">
+      <div class="law-title">Code of Good Practice — September 2025</div>
+      <div class="law-text">The updated Code requires employers to <strong>document every warning, every counselling session, every probation review.</strong> If you cannot prove it happened — at the CCMA, it did not happen.</div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<div class="how-section">
+  <div class="how-inner">
+    <div class="section-eyebrow">How It Works</div>
+    <h2 class="section-h2">Three steps. <em>Permanent proof.</em></h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">STEP 01</div>
+        <span class="step-ico">✍️</span>
+        <div class="step-title">Type your notice</div>
+        <div class="step-desc">Warning letter, disciplinary outcome, resignation acceptance — any HR communication. Type it or paste it directly in TrueMarketing.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">STEP 02</div>
+        <span class="step-ico">🔐</span>
+        <div class="step-title">Seal it</div>
+        <div class="step-desc">Permanently recorded on the BSV blockchain in seconds. The exact content, the exact time. Mathematically impossible to alter or backdate.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">STEP 03</div>
+        <span class="step-ico">⛓</span>
+        <div class="step-title">Prove it</div>
+        <div class="step-desc">Show the CCMA an independently verifiable blockchain timestamp that nobody — not the employee, not their attorney — can dispute.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- USE CASES -->
+<section class="section">
+  <div class="section-eyebrow">Use Cases</div>
+  <h2 class="section-h2">Every document that matters <em>sealed the moment it's issued.</em></h2>
+  <div class="use-grid">
+    <div class="use-card">
+      <div class="use-check">✓</div>
+      <div class="use-body">
+        <div class="use-title">Written Warnings</div>
+        <div class="use-desc">Sealed the moment issued. First, second and final — all timestamped and tamper-proof.</div>
+      </div>
+    </div>
+    <div class="use-card">
+      <div class="use-check">✓</div>
+      <div class="use-body">
+        <div class="use-title">Disciplinary Hearing Outcomes</div>
+        <div class="use-desc">Timestamped immediately after the hearing. No disputes about when or what was decided.</div>
+      </div>
+    </div>
+    <div class="use-card">
+      <div class="use-check">✓</div>
+      <div class="use-body">
+        <div class="use-title">Resignation Acceptance</div>
+        <div class="use-desc">Sealed on receipt. Eliminates constructive dismissal claims built on disputed resignation dates.</div>
+      </div>
+    </div>
+    <div class="use-card">
+      <div class="use-check">✓</div>
+      <div class="use-body">
+        <div class="use-title">Probation Reviews</div>
+        <div class="use-desc">Documented at the time they happened. Proof the review occurred — and what was said.</div>
+      </div>
+    </div>
+    <div class="use-card">
+      <div class="use-check">✓</div>
+      <div class="use-body">
+        <div class="use-title">Retrenchment Consultations</div>
+        <div class="use-desc">Permanent record of every consultation meeting. Section 189 compliance made simple.</div>
+      </div>
+    </div>
+    <div class="use-card">
+      <div class="use-check">✓</div>
+      <div class="use-body">
+        <div class="use-title">Offer Letters</div>
+        <div class="use-desc">Sealed on issue. Terms of employment exactly as offered — no room for later reinterpretation.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROOF LINE -->
+<div class="proof-section">
+  <div class="proof-inner">
+    <p class="proof-quote">One avoided CCMA case pays for <em>10 years</em> of TrueMarketing.</p>
+    <div class="proof-calc">
+      <div class="proof-chip">
+        <strong>R20,000 – R150,000</strong><br>
+        <span style="font-size:11px;color:var(--iv4);">Average CCMA legal fees</span>
+      </div>
+      <div class="vs-arrow">vs</div>
+      <div class="proof-chip hi">
+        <strong>R297 / month</strong><br>
+        <span style="font-size:11px;color:var(--green3);">TrueMarketing Pro</span>
+      </div>
+    </div>
+    <a href="https://truemarketing.co.za" class="hero-cta" style="font-size:15px;padding:16px 36px;">
+      Start Protecting Your Business →
+    </a>
+  </div>
+</div>
+
+<!-- FAQ -->
+<section class="section">
+  <div class="section-eyebrow">Questions</div>
+  <h2 class="section-h2">Everything you need to know.</h2>
+
+  <div class="faq-list">
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        <span>Is this admissible at the CCMA?</span>
+        <span class="faq-arrow">▼</span>
+      </button>
+      <div class="faq-a">The blockchain timestamp proves the exact date, time and content at the moment of sealing. It is independently verifiable at whatsonchain.com by anyone — including a CCMA commissioner. The immutability of the blockchain record means the content cannot have been altered after the fact.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        <span>What documents should I seal?</span>
+        <span class="faq-arrow">▼</span>
+      </button>
+      <div class="faq-a">Written warnings, disciplinary notices, outcome letters, suspension notices, retrenchment consultation records, resignation acceptance letters, probation reviews, offer letters, and any HR communication where proof of content and timing could later become relevant.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        <span>How is this different from email?</span>
+        <span class="faq-arrow">▼</span>
+      </button>
+      <div class="faq-a">Email timestamps can be altered — by the sender, by the recipient, or by anyone with access to the mail server. A blockchain seal is cryptographically locked. The timestamp and content are permanently recorded on a public ledger that no single party controls or can modify.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        <span>Does the other party need to use TrueMarketing?</span>
+        <span class="faq-arrow">▼</span>
+      </button>
+      <div class="faq-a">No. You seal it on your side at the time of issue. The proof belongs to you. The other party does not need an account — the blockchain record is public and independently verifiable by anyone.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        <span>How quickly can I get started?</span>
+        <span class="faq-arrow">▼</span>
+      </button>
+      <div class="faq-a">Sign up, receive your account credits, and seal your first document in under five minutes. No installation, no IT department required. Works from any browser on any device.</div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<div class="final-cta">
+  <div class="final-inner">
+    <h2 class="final-h2">Stop relying on memory.<br><em>Start building proof.</em></h2>
+    <p class="final-sub">Every day without a tamper-proof record is a day your HR decisions are vulnerable. Start protecting your business today.</p>
+    <a href="https://truemarketing.co.za" class="final-btn">
+      <span>Get Started Now</span>
+      <span>→</span>
+    </a>
+    <p class="final-note">From <strong>R297/month.</strong> No contracts. Cancel anytime.</p>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-brand">© 2026 Orsolso Trader t/a <b>True</b>Marketing</div>
+  <div class="footer-links">
+    <a href="legal.html#terms">Terms of Service</a>
+    <a href="legal.html#privacy">Privacy Policy</a>
+    <a href="legal.html#popia">POPIA Compliance</a>
+    <a href="mailto:hello@truemarketing.co.za">hello@truemarketing.co.za</a>
+  </div>
+</footer>
+
+<script>
+function toggleFaq(btn){
+  const item = btn.closest('.faq-item');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+</script>
+</body>
+</html>
