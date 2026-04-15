@@ -788,6 +788,37 @@ body::before{
   transition:color .15s;display:flex;align-items:center;justify-content:center;gap:6px;
 }
 .btn-again:hover{color:var(--iv2);}
+.btn-print{
+  width:100%;padding:14px;border-radius:14px;
+  background:transparent;border:1.5px solid var(--line2);
+  font-size:14px;font-weight:600;color:var(--iv2);
+  transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.btn-print:hover{border-color:var(--iv3);color:var(--ivory);}
+
+/* ── Print: show only the certificate ─────────────────────────────────── */
+@media print{
+  html,body{overflow:visible!important;height:auto!important;background:#fff!important;}
+  body::before{display:none!important;}
+  .page{display:none!important;}
+  #pg-upgrade{display:none!important;}
+  #toast-tray{display:none!important;}
+  #pg-success{
+    display:block!important;position:static!important;
+    overflow:visible!important;background:#fff!important;
+  }
+  .suc-inner{padding:0!important;max-width:100%!important;}
+  .suc-badge,.suc-eye,.suc-title,.suc-desc,
+  .chain-bar,.suc-actions{display:none!important;}
+  .cert{
+    box-shadow:none!important;border:1px solid #ccc!important;
+    background:#fff!important;color:#111!important;
+  }
+  .cert-bar{background:linear-gradient(90deg,#1a8a53,#2dce82,#c8a84b)!important;}
+  .cert-head-title,.cert-head-sub,.ck,.cv,.cvb-url,.cvb-txid,.cvb-note{color:#111!important;}
+  .cert-verify-box{border:1px solid #ccc!important;background:#f9f9f9!important;}
+  .cvb-badge{background:#e8f5ee!important;color:#1a8a53!important;}
+}
 
 /* ═══════════════════════════════════════
    HISTORY TAB
@@ -1370,6 +1401,7 @@ body::before{
 
     <div class="suc-actions">
       <button class="btn-dl" onclick="downloadCert()">📄 Save Proof Certificate</button>
+      <button class="btn-print" onclick="printCert()">🖨️ Print Certificate</button>
       <button class="btn-woc" id="btn-woc" onclick="verifyOnChain()">⛓ Verify on Blockchain ↗</button>
       <button class="btn-again" onclick="sealAnother()">← Seal Another Message</button>
     </div>
@@ -1788,6 +1820,10 @@ function downloadCert(){
   a.download='TM-Certificate-'+Date.now()+'.txt';
   a.click();
   toast('Certificate saved','Check your downloads folder.','📄');
+}
+
+function printCert(){
+  window.print();
 }
 
 // ═══════════════════════════════
