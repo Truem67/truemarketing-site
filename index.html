@@ -796,28 +796,148 @@ body::before{
 }
 .btn-print:hover{border-color:var(--iv3);color:var(--ivory);}
 
-/* ── Print: show only the certificate ─────────────────────────────────── */
+/* ── Screen: hide print-only certificate ─────────────────────────────── */
+#print-cert{display:none;}
+
+/* ── Print: professional A4 certificate ──────────────────────────────── */
 @media print{
-  html,body{overflow:visible!important;height:auto!important;background:#fff!important;}
+  @page{size:A4 portrait;margin:14mm 18mm;}
+  html,body{
+    overflow:visible!important;height:auto!important;background:#fff!important;
+    font-family:Georgia,'Times New Roman',serif;color:#111!important;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;
+  }
   body::before{display:none!important;}
-  .page{display:none!important;}
-  #pg-upgrade{display:none!important;}
-  #toast-tray{display:none!important;}
-  #pg-success{
-    display:block!important;position:static!important;
-    overflow:visible!important;background:#fff!important;
+  .page,#pg-upgrade,#toast-tray{display:none!important;}
+
+  /* ── Root container ── */
+  #print-cert{
+    display:block!important;background:#fff;color:#111;
+    font-family:Georgia,'Times New Roman',serif;
   }
-  .suc-inner{padding:0!important;max-width:100%!important;}
-  .suc-badge,.suc-eye,.suc-title,.suc-desc,
-  .chain-bar,.suc-actions{display:none!important;}
-  .cert{
-    box-shadow:none!important;border:1px solid #ccc!important;
-    background:#fff!important;color:#111!important;
+  .pc-outer{
+    border:2px solid #1a8a53;display:flex;flex-direction:column;
+    min-height:calc(297mm - 28mm);
   }
-  .cert-bar{background:linear-gradient(90deg,#1a8a53,#2dce82,#c8a84b)!important;}
-  .cert-head-title,.cert-head-sub,.ck,.cv,.cvb-url,.cvb-txid,.cvb-note{color:#111!important;}
-  .cert-verify-box{border:1px solid #ccc!important;background:#f9f9f9!important;}
-  .cvb-badge{background:#e8f5ee!important;color:#1a8a53!important;}
+
+  /* ── Top gradient bar ── */
+  .pc-bar{height:9px;background:linear-gradient(90deg,#1a8a53,#2dce82,#c8a84b)!important;}
+
+  /* ── Letterhead ── */
+  .pc-header{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:18px 28px 15px;border-bottom:1px solid #c4e0cc;
+  }
+  .pc-logo{
+    font-family:Georgia,'Times New Roman',serif;
+    font-size:24px;font-weight:700;color:#1a8a53!important;letter-spacing:-.3px;
+  }
+  .pc-logo-tag{
+    font-family:Arial,Helvetica,sans-serif;font-size:9px;
+    color:#888!important;letter-spacing:1.4px;text-transform:uppercase;margin-top:3px;
+  }
+  .pc-seal-badge{
+    font-family:Arial,Helvetica,sans-serif;font-size:8px;font-weight:700;
+    letter-spacing:1px;text-transform:uppercase;
+    color:#fff!important;background:#1a8a53!important;
+    padding:5px 12px;border-radius:3px;display:inline-block;
+  }
+
+  /* ── Certificate title block ── */
+  .pc-title-wrap{
+    text-align:center;padding:20px 28px 17px;
+    border-bottom:1px solid #c4e0cc;background:#f6fcf8!important;
+  }
+  .pc-eyebrow{
+    font-family:Arial,Helvetica,sans-serif;font-size:9px;font-weight:700;
+    letter-spacing:2.5px;text-transform:uppercase;color:#1a8a53!important;margin-bottom:8px;
+  }
+  .pc-cert-title{
+    font-family:Georgia,'Times New Roman',serif;
+    font-size:22px;font-weight:700;color:#111!important;
+    letter-spacing:-.2px;margin-bottom:5px;
+  }
+  .pc-cert-sub{
+    font-family:Arial,Helvetica,sans-serif;font-size:10px;
+    color:#555!important;letter-spacing:.3px;
+  }
+
+  /* ── Generic section wrapper ── */
+  .pc-section{padding:15px 28px;border-bottom:1px solid #e6eeea;}
+  .pc-section-lbl{
+    font-family:Arial,Helvetica,sans-serif;font-size:9px;font-weight:700;
+    letter-spacing:1.8px;text-transform:uppercase;
+    color:#1a8a53!important;margin-bottom:11px;
+  }
+
+  /* ── Document details table ── */
+  .pc-table{width:100%;border-collapse:collapse;}
+  .pc-table tr{border-bottom:1px solid #eaefec;}
+  .pc-table tr:last-child{border:none;}
+  .pc-table td{padding:7px 0;vertical-align:top;}
+  .pk{
+    font-family:Arial,Helvetica,sans-serif;font-size:10px;font-weight:700;
+    color:#555!important;text-transform:uppercase;letter-spacing:.4px;
+    width:32%;padding-right:14px;
+  }
+  .pv{
+    font-family:Georgia,'Times New Roman',serif;
+    font-size:12px;color:#111!important;line-height:1.5;
+  }
+
+  /* ── Crypto proof section ── */
+  .pc-crypto{background:#f4fbf7!important;}
+  .pc-hash-block{margin-bottom:11px;}
+  .pc-hash-block:last-child{margin-bottom:0;}
+  .pc-hash-lbl{
+    font-family:Arial,Helvetica,sans-serif;font-size:9px;font-weight:700;
+    color:#555!important;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;
+  }
+  .pc-hash-val{
+    font-family:'Courier New',Courier,monospace;font-size:10px;
+    color:#111!important;background:#e3f3ec!important;
+    border-left:3px solid #1a8a53;padding:7px 11px;
+    border-radius:0 4px 4px 0;word-break:break-all;line-height:1.7;
+  }
+
+  /* ── Verification section ── */
+  .pc-verify-inner{display:flex;gap:18px;align-items:flex-start;}
+  .pc-verify-left{flex:1;min-width:0;}
+  .pc-verify-note{
+    font-family:Arial,Helvetica,sans-serif;font-size:10px;
+    color:#444!important;line-height:1.7;margin-bottom:11px;
+  }
+  .pc-url-lbl{
+    font-family:Arial,Helvetica,sans-serif;font-size:9px;font-weight:700;
+    text-transform:uppercase;letter-spacing:.5px;color:#888!important;margin-bottom:3px;
+  }
+  .pc-url{
+    font-family:'Courier New',Courier,monospace;font-size:10px;
+    color:#1a8a53!important;word-break:break-all;line-height:1.5;margin-bottom:9px;
+  }
+  .pc-qr-wrap{flex-shrink:0;text-align:center;}
+  .pc-qr-wrap canvas{
+    width:96px!important;height:96px!important;display:block;
+    border:1px solid #ccc;border-radius:4px;
+  }
+  .pc-qr-lbl{
+    font-family:Arial,Helvetica,sans-serif;font-size:8px;
+    color:#888!important;margin-top:4px;letter-spacing:.3px;
+  }
+
+  /* ── Footer ── */
+  .pc-footer{
+    margin-top:auto;padding:12px 28px;
+    background:#eef8f2!important;border-top:2px solid #1a8a53;text-align:center;
+  }
+  .pc-footer-main{
+    font-family:Arial,Helvetica,sans-serif;font-size:10px;font-weight:700;
+    color:#1a8a53!important;margin-bottom:4px;letter-spacing:.2px;
+  }
+  .pc-footer-sub{
+    font-family:Arial,Helvetica,sans-serif;font-size:9px;
+    color:#888!important;letter-spacing:.2px;
+  }
 }
 
 /* ═══════════════════════════════════════
@@ -1823,6 +1943,45 @@ function downloadCert(){
 }
 
 function printCert(){
+  if(!LAST){toast('Nothing to print','Complete a seal first.','⚠️');return;}
+
+  const isLive  = !LAST.txid.startsWith('demo_');
+  const verifyUrl = isLive
+    ? 'https://truemarketing.co.za/verify?txid='+LAST.txid
+    : 'Demo mode — connect server for live blockchain transactions';
+  const wocUrl  = isLive ? 'https://whatsonchain.com/tx/'+LAST.txid : '(demo seal — not on chain)';
+
+  const privLabels = {
+    plain:     'Plain Text — Full message recorded on the blockchain',
+    hash:      'Hash Only — Message is private; cryptographic proof is public',
+    encrypted: 'Encrypted — Message is encrypted on the blockchain'
+  };
+
+  // Populate fields
+  const s = id => document.getElementById(id);
+  s('pc-subj').textContent  = LAST.subj  || '—';
+  s('pc-to').textContent    = LAST.to    || '—';
+  s('pc-from').textContent  = (CU&&CU.name ? CU.name+' · ' : '')+(CU&&CU.email||'—');
+  s('pc-ts').textContent    = LAST.tsStr || '—';
+  s('pc-mode').textContent  = privLabels[LAST.mode] || LAST.mode || '—';
+  s('pc-hash').textContent  = LAST.fullHash || '—';
+  s('pc-txid').textContent  = LAST.txid     || '—';
+  s('pc-url').textContent   = verifyUrl;
+  s('pc-woc').textContent   = wocUrl;
+
+  // Render QR code into print canvas
+  const canvas = s('pc-qr-canvas');
+  if(isLive && typeof QRCode !== 'undefined'){
+    try{
+      QRCode.toCanvas(canvas, verifyUrl, {
+        width:96, margin:1,
+        color:{dark:'#1a8a53',light:'#ffffff'}
+      });
+    }catch(e){ canvas.style.display='none'; }
+  } else {
+    canvas.style.display='none';
+  }
+
   window.print();
 }
 
@@ -1950,5 +2109,84 @@ async function fetchLivePrice(){
   </a>
   <p class="upg-note" style="margin-top:20px;"><a href="mailto:hello@truemarketing.co.za" style="color:var(--iv3);text-decoration:none;">Or email hello@truemarketing.co.za</a></p>
 </div>
+
+<!-- ════════════════════════════════════════════════════════════
+     PRINT CERTIFICATE — hidden on screen, shown in @media print
+     Populated by printCert() before window.print() is called.
+════════════════════════════════════════════════════════════ -->
+<div id="print-cert">
+  <div class="pc-outer">
+
+    <!-- Green gradient bar -->
+    <div class="pc-bar"></div>
+
+    <!-- Letterhead -->
+    <div class="pc-header">
+      <div>
+        <div class="pc-logo">TrueMarketing</div>
+        <div class="pc-logo-tag">Blockchain Document Protection</div>
+      </div>
+      <div class="pc-seal-badge">&#9679; Permanently Sealed</div>
+    </div>
+
+    <!-- Certificate title -->
+    <div class="pc-title-wrap">
+      <div class="pc-eyebrow">Certificate of Digital Protection</div>
+      <div class="pc-cert-title">TrueMarketing — Certificate of Digital Protection</div>
+      <div class="pc-cert-sub">Sealed on the BSV blockchain · Immutable · Tamper-evident · CCMA-admissible</div>
+    </div>
+
+    <!-- Document details -->
+    <div class="pc-section">
+      <div class="pc-section-lbl">Document Details</div>
+      <table class="pc-table">
+        <tr><td class="pk">Document&nbsp;/&nbsp;Subject</td><td class="pv" id="pc-subj"></td></tr>
+        <tr><td class="pk">Protected&nbsp;For</td><td class="pv" id="pc-to"></td></tr>
+        <tr><td class="pk">Sealed&nbsp;By</td><td class="pv" id="pc-from"></td></tr>
+        <tr><td class="pk">Date&nbsp;&amp;&nbsp;Time</td><td class="pv" id="pc-ts"></td></tr>
+        <tr><td class="pk">Privacy&nbsp;Mode</td><td class="pv" id="pc-mode"></td></tr>
+      </table>
+    </div>
+
+    <!-- Cryptographic proof -->
+    <div class="pc-section pc-crypto">
+      <div class="pc-section-lbl">Cryptographic Proof</div>
+      <div class="pc-hash-block">
+        <div class="pc-hash-lbl">SHA-256 Digital Fingerprint (Full Hash)</div>
+        <div class="pc-hash-val" id="pc-hash"></div>
+      </div>
+      <div class="pc-hash-block">
+        <div class="pc-hash-lbl">BSV Blockchain Transaction ID</div>
+        <div class="pc-hash-val" id="pc-txid"></div>
+      </div>
+    </div>
+
+    <!-- Independent verification -->
+    <div class="pc-section">
+      <div class="pc-section-lbl">Independent Verification</div>
+      <div class="pc-verify-inner">
+        <div class="pc-verify-left">
+          <p class="pc-verify-note">This certificate can be independently verified on the BSV public blockchain. The cryptographic proof exists permanently on a decentralised public ledger and cannot be altered, deleted, or denied by any party — including TrueMarketing. Verification is performed directly against the blockchain, not TrueMarketing servers.</p>
+          <div class="pc-url-lbl">Verify this certificate at</div>
+          <div class="pc-url" id="pc-url"></div>
+          <div class="pc-url-lbl">Or directly on WhatsOnChain</div>
+          <div class="pc-url" id="pc-woc"></div>
+        </div>
+        <div class="pc-qr-wrap">
+          <canvas id="pc-qr-canvas"></canvas>
+          <div class="pc-qr-lbl">Scan to verify</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="pc-footer">
+      <div class="pc-footer-main">This certificate is self-verifying. Verify at truemarketing.co.za/verify — Electronic Communications and Transactions Act 25 of 2002</div>
+      <div class="pc-footer-sub">TrueMarketing · hello@truemarketing.co.za · truemarketing.co.za · The proof exists independently on the BSV blockchain — permanently and immutably.</div>
+    </div>
+
+  </div>
+</div>
+
 </body>
 </html>
