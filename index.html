@@ -1037,6 +1037,16 @@ body::before{
 }
 .btn-so:hover{background:rgba(224,85,85,.14);}
 
+/* Account nav hidden — sign-out lives in header */
+#nb-account{display:none!important;}
+
+/* Seal intro — product description paragraph */
+.seal-intro{
+  background:rgba(45,206,130,.04);border:1px solid rgba(45,206,130,.12);
+  border-radius:14px;padding:15px 17px;margin-bottom:14px;
+}
+.seal-intro p{font-size:13px;color:var(--iv3);line-height:1.75;margin:0;}
+
 /* ── INDEPENDENT VERIFICATION BOX ── */
 .cert-verify-box{
   margin-top:14px;padding:16px;
@@ -1152,8 +1162,8 @@ body::before{
   </div>
 
   <div class="wl-eyebrow">TrueMarketing</div>
-  <h1 class="wl-h1">Your words.<br><em>Protected forever.</em></h1>
-  <p class="wl-desc">Send, seal and prove any message — permanently recorded on the blockchain. Simpler than email. Stronger than a registered letter.</p>
+  <h1 class="wl-h1">Blockchain Document<br><em>Validation</em></h1>
+  <p class="wl-desc">Tamper-proof. Timestamped. Legally verifiable.</p>
 
   <div class="live-bar">
     <div class="live-dot"></div>
@@ -1206,9 +1216,9 @@ body::before{
   </div>
 
   <div class="trust-row">
-    <div class="trust-item"><div class="trust-ico">🔐</div><div class="trust-txt">Can't be<br>altered</div></div>
-    <div class="trust-item"><div class="trust-ico">⚡</div><div class="trust-txt">Done in<br>seconds</div></div>
-    <div class="trust-item"><div class="trust-ico">♾️</div><div class="trust-txt">Lasts<br>forever</div></div>
+    <div class="trust-item"><div class="trust-ico">🔐</div><div class="trust-txt">Tamper-<br>proof</div></div>
+    <div class="trust-item"><div class="trust-ico">⏱</div><div class="trust-txt">Instantly<br>timestamped</div></div>
+    <div class="trust-item"><div class="trust-ico">⚖️</div><div class="trust-txt">Legally<br>verifiable</div></div>
   </div>
 
   <footer class="wl-footer">
@@ -1256,22 +1266,12 @@ body::before{
 
       <div class="qa-grid">
         <button class="qa-btn big" onclick="goTab('seal')">
-          <div class="qa-big-ico">🔐</div>
+          <div class="qa-big-ico">✦</div>
           <div class="qa-big-body">
-            <div class="qa-title">Seal a Message</div>
-            <div class="qa-sub">Protect it permanently</div>
+            <div class="qa-title">Validate Document</div>
+            <div class="qa-sub">Create a permanent legal record</div>
           </div>
           <div class="qa-big-arrow">›</div>
-        </button>
-        <button class="qa-btn" onclick="goTab('history')">
-          <div class="qa-ico">📋</div>
-          <div class="qa-title">My Proofs</div>
-          <div class="qa-sub">View sealed messages</div>
-        </button>
-        <button class="qa-btn" onclick="goTab('account')">
-          <div class="qa-ico">⚙️</div>
-          <div class="qa-title">Account</div>
-          <div class="qa-sub">Settings & credits</div>
         </button>
       </div>
 
@@ -1294,8 +1294,12 @@ body::before{
     <div class="tab" id="t-seal">
       <div class="seal-wrap">
         <div class="seal-hero">
-          <div class="sh-title">Seal a Message</div>
-          <div class="sh-sub">Type your message and we create a permanent, tamper-proof record on the blockchain. It proves what was said, to whom, and exactly when.</div>
+          <div class="sh-title">Validate Document</div>
+          <div class="sh-sub">Create an immutable blockchain record — timestamped, tamper-proof, and independently verifiable by any person, including a CCMA commissioner.</div>
+        </div>
+
+        <div class="seal-intro">
+          <p>TrueMarketing creates a permanent blockchain record of your document at the exact moment of sealing. The timestamp is independently verifiable by any person — including a CCMA commissioner — and cannot be altered by any party. Admissible under ECT Act 25 of 2002.</p>
         </div>
 
         <div class="s-field">
@@ -1323,43 +1327,13 @@ body::before{
           </div>
         </div>
 
-        <div class="priv-card">
-          <div class="priv-head" onclick="togglePriv()">
-            <div class="priv-head-left">🔒 Privacy options</div>
-            <div class="priv-head-right" id="priv-head-r">Tap to expand ▾</div>
-          </div>
-          <div id="priv-opts" class="priv-opts" style="display:none">
-            <div class="priv-opt on" onclick="setPriv('plain',this)">
-              <div class="priv-radio"></div>
-              <div>
-                <div class="priv-opt-title">Public record</div>
-                <div class="priv-opt-desc">Full message visible on-chain. Best for formal notices and agreements where you want full transparency.</div>
-              </div>
-            </div>
-            <div class="priv-opt" onclick="setPriv('hash',this)">
-              <div class="priv-radio"></div>
-              <div>
-                <div class="priv-opt-title">Private proof</div>
-                <div class="priv-opt-desc">Only a digital fingerprint is stored. Nobody can read the message, but you can prove it existed unchanged.</div>
-              </div>
-            </div>
-            <div class="priv-opt" onclick="setPriv('encrypted',this)">
-              <div class="priv-radio"></div>
-              <div>
-                <div class="priv-opt-title">Encrypted</div>
-                <div class="priv-opt-desc">Message is locked. Only someone with the password can read it on-chain.</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
         <div class="cost-line">
           <span class="cl-l">Cost to seal</span>
           <span class="cl-r">1 credit · approx R0.003</span>
         </div>
 
         <button class="btn-seal" id="btn-seal" onclick="doSeal()">
-          🔐 Seal &amp; Protect Forever
+          ✦ Validate &amp; Seal Document
         </button>
       </div>
     </div>
@@ -1367,8 +1341,8 @@ body::before{
     <!-- HISTORY -->
     <div class="tab" id="t-history">
       <div class="hist-head">
-        <div class="hist-title">My Proofs</div>
-        <div class="hist-sub">Every message you've sealed on the blockchain</div>
+        <div class="hist-title">My Certificates</div>
+        <div class="hist-sub">Every document validated on the blockchain</div>
       </div>
       <div class="fpills">
         <button class="fp on" onclick="setFilter('all',this)">All</button>
@@ -1432,10 +1406,10 @@ body::before{
       <span class="nav-ico">🏠</span><span class="nav-lbl">Home</span>
     </button>
     <button class="nav-it"     id="nb-seal"    onclick="goTab('seal')">
-      <span class="nav-ico">🔐</span><span class="nav-lbl">Seal</span>
+      <span class="nav-ico">✦</span><span class="nav-lbl">Validate</span>
     </button>
     <button class="nav-it"     id="nb-history" onclick="goTab('history')">
-      <span class="nav-ico">📋</span><span class="nav-lbl">Proofs</span>
+      <span class="nav-ico">📋</span><span class="nav-lbl">Certificates</span>
     </button>
     <button class="nav-it"     id="nb-account" onclick="goTab('account')">
       <span class="nav-ico">👤</span><span class="nav-lbl">Account</span>
@@ -1520,10 +1494,10 @@ body::before{
     </div>
 
     <div class="suc-actions">
-      <button class="btn-dl" onclick="downloadCert()">📄 Save Proof Certificate</button>
+      <button class="btn-dl" onclick="downloadCert()">📄 Download Certificate</button>
       <button class="btn-print" onclick="printCert()">🖨️ Print Certificate</button>
       <button class="btn-woc" id="btn-woc" onclick="verifyOnChain()">⛓ Verify on Blockchain ↗</button>
-      <button class="btn-again" onclick="sealAnother()">← Seal Another Message</button>
+      <button class="btn-again" onclick="sealAnother()">← Validate Another Document</button>
     </div>
   </div>
 </div>
