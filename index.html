@@ -1397,9 +1397,14 @@ const API = {
 // ═══════════════════════════════
 // DEMO TRIAL CONFIG
 // ═══════════════════════════════
-const DEMO_EMAIL = 'demo@truemarketing.co.za';
+const TRIAL_EMAILS = new Set([
+  'demo@truemarketing.co.za',
+  'johan@supplycorp.co.za',
+  'shaunxve.com@gmail.com',
+  'mve@leopardcreek.co.za',
+  'warren2ve@gmail.com'
+]);
 const DEMO_LIMIT = 3;
-const DEMO_KEY   = 'tm_demo_seals';
 
 // ═══════════════════════════════
 // STATE
@@ -1409,7 +1414,11 @@ let FILTER='all', PRIV='plain', PRIV_OPEN=false;
 let BSV_USD=0.55, ZAR=18.5;
 
 const USERS = {
-  'demo@truemarketing.co.za':{pass:'demo123',name:'Demo User',addr:'1TrMktDemoAddr4a2b9d1e7c',plan:'Starter'}
+  'demo@truemarketing.co.za':    {pass:'demo123',name:'Demo User',        addr:'1TrMktDemoAddr4a2b9d1e7c',plan:'Starter'},
+  'johan@supplycorp.co.za':      {pass:'test123',name:'Johan (SupplyCorp)',addr:'1TrMktTest1Jo2b9d1e7c3f4', plan:'Starter'},
+  'shaunxve.com@gmail.com':      {pass:'test123',name:'Shaun',            addr:'1TrMktTest2Sh4c0d2e8f5', plan:'Starter'},
+  'mve@leopardcreek.co.za':      {pass:'test123',name:'MVE (Leopard Crk)',addr:'1TrMktTest3Mv6e3f9a0b6', plan:'Starter'},
+  'warren2ve@gmail.com':         {pass:'test123',name:'Warren',           addr:'1TrMktTest4Wa8f4a0c7d7', plan:'Starter'}
 };
 
 const DEMO = [
@@ -1551,9 +1560,9 @@ function set(id,val){const e=document.getElementById(id);if(e)e.textContent=val;
 // ═══════════════════════════════
 // DEMO LIMIT HELPERS
 // ═══════════════════════════════
-function isDemoAccount(){ return CU && CU.email.toLowerCase() === DEMO_EMAIL; }
-function getDemoSealsUsed(){ return parseInt(localStorage.getItem(DEMO_KEY)||'0'); }
-function setDemoSealsUsed(n){ localStorage.setItem(DEMO_KEY, String(n)); }
+function isDemoAccount(){ return CU && TRIAL_EMAILS.has(CU.email.toLowerCase()); }
+function getDemoSealsUsed(){ return parseInt(localStorage.getItem('tm_trial_'+CU.email.toLowerCase())||'0'); }
+function setDemoSealsUsed(n){ localStorage.setItem('tm_trial_'+CU.email.toLowerCase(), String(n)); }
 
 function showUpgradeScreen(){
   document.getElementById('pg-upgrade').classList.add('show');
@@ -1642,7 +1651,7 @@ async function doSeal(){
     await step(2,900);
     let txid;
     if(API.broadcast){
-      const r=await fetch(API.broadcast,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({toAddress:to,opPayload:buildOP(hash,to,subj,msg),msgHash:hash})});
+      const r=await fetch(API.broadcast,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({opPayload:buildOP(hash,to,subj,msg),msgHash:hash,sender:CU.email,recipient:to,subject:subj})});
       const d=await r.json();
       // Server blocks demo at limit
       if(d.error==='TRIAL_EXPIRED'){
@@ -1897,12 +1906,13 @@ async function fetchLivePrice(){
 <!-- TRIAL EXPIRED OVERLAY -->
 <div id="pg-upgrade">
   <div class="upg-icon">⛓</div>
-  <h2 class="upg-h">Your 3 free seals are used</h2>
-  <p class="upg-sub">You've sealed 3 documents on the blockchain. Upgrade to keep protecting your messages — from R297/month.</p>
+  <h2 class="upg-h">Your 3 free trial seals are complete</h2>
+  <p class="upg-sub">You have seen TrueMarketing work. Your documents are now permanently sealed on the BSV blockchain — tamper-proof and CCMA-ready.</p>
+  <p class="upg-note" style="margin-top:0;margin-bottom:24px;font-size:14px;color:var(--iv3);">To continue sealing HR documents subscribe from R297 per month. Cancel anytime. No lock in.</p>
   <a class="upg-btn" href="https://wa.me/27726126733" target="_blank" rel="noopener">
-    Upgrade via WhatsApp →
+    Subscribe on WhatsApp →
   </a>
-  <p class="upg-note">No contracts · Cancel anytime · hello@truemarketing.co.za</p>
+  <p class="upg-note" style="margin-top:20px;"><a href="mailto:hello@truemarketing.co.za" style="color:var(--iv3);text-decoration:none;">Or email hello@truemarketing.co.za</a></p>
 </div>
 </body>
 </html>
