@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>TrueMarketing · Seal Your Words Forever</title>
+<title>DoxSeal · Seal Your Words Forever</title>
 <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Nunito:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
@@ -1165,7 +1165,7 @@ body::before{
     <div class="sigil-core">✦</div>
   </div>
 
-  <h1 class="wl-h1">TrueMarketing</h1>
+  <h1 class="wl-h1">DoxSeal</h1>
   <div class="wl-eyebrow">Document Validation &amp; Timestamp Authority</div>
   <p class="wl-desc">Tamper-proof. Court-ready. Independently verifiable.</p>
   <p class="wl-product">Every document you validate receives a permanent cryptographic timestamp — independently verifiable by any court, tribunal or commissioner. Powered by blockchain technology. Admissible under ECT Act 25 of 2002.</p>
@@ -1227,12 +1227,12 @@ body::before{
   </div>
 
   <footer class="wl-footer">
-    <div class="wl-footer-copy">© 2026 Orsolso Trader t/a TrueMarketing</div>
+    <div class="wl-footer-copy">© 2026 Orsolso Trader t/a DoxSeal</div>
     <div class="wl-footer-links">
       <a href="legal.html#terms">Terms of Service</a>
       <a href="legal.html#privacy">Privacy Policy</a>
       <a href="legal.html#popia">POPIA Compliance</a>
-      <a href="mailto:hello@truemarketing.co.za">hello@truemarketing.co.za</a>
+      <a href="mailto:hello@doxseal.co.za">hello@doxseal.co.za</a>
     </div>
   </footer>
 </div>
@@ -1243,7 +1243,7 @@ body::before{
 <div class="page hidden" id="pg-app">
 
   <div class="app-hdr">
-    <div class="hdr-brand">True<b>Marketing</b></div>
+    <div class="hdr-brand">Dox<b>Seal</b></div>
     <div class="hdr-right">
       <div class="hdr-bal" title="Your sealing credits">
         ✦ <span id="hdr-cred">—</span>
@@ -1304,7 +1304,7 @@ body::before{
         </div>
 
         <div class="seal-intro">
-          <p>TrueMarketing creates a permanent blockchain record of your document at the exact moment of sealing. The timestamp is independently verifiable by any person — including a CCMA commissioner — and cannot be altered by any party. Admissible under ECT Act 25 of 2002.</p>
+          <p>DoxSeal creates a permanent blockchain record of your document at the exact moment of sealing. The timestamp is independently verifiable by any person — including a CCMA commissioner — and cannot be altered by any party. Admissible under ECT Act 25 of 2002.</p>
         </div>
 
         <div class="s-field">
@@ -1462,7 +1462,7 @@ body::before{
         <div class="cert-head">
           <div class="cert-head-ico">✦</div>
           <div>
-            <div class="cert-head-title">TrueMarketing Proof Certificate</div>
+            <div class="cert-head-title">DoxSeal Proof Certificate</div>
             <div class="cert-head-sub">Blockchain · Immutable · Permanent</div>
           </div>
         </div>
@@ -1481,7 +1481,7 @@ body::before{
             <div class="cvb-text">
               <div class="cvb-url-label">Verify at</div>
               <div class="cvb-url" id="cvb-url">—</div>
-              <div class="cvb-note">Queries the BSV blockchain directly — not TrueMarketing's servers. Cannot be altered by any party.</div>
+              <div class="cvb-note">Queries the BSV blockchain directly — not DoxSeal's servers. Cannot be altered by any party.</div>
               <div class="cvb-txid-row">
                 <div class="cvb-txid-label">Transaction ID</div>
                 <div class="cvb-txid" id="cvb-txid-full">—</div>
@@ -1529,7 +1529,7 @@ const API = {
 // DEMO TRIAL CONFIG
 // ═══════════════════════════════
 const TRIAL_EMAILS = new Set([
-  'demo@truemarketing.co.za',
+  'demo@doxseal.co.za',
   'johan@supplycorp.co.za',
   'shaunxve.com@gmail.com',
   'mve@leopardcreek.co.za',
@@ -1545,7 +1545,7 @@ let FILTER='all', PRIV='plain', PRIV_OPEN=false;
 let BSV_USD=0.55, ZAR=18.5;
 
 const USERS = {
-  'demo@truemarketing.co.za':    {pass:'demo123',name:'Demo User',        addr:'1TrMktDemoAddr4a2b9d1e7c',plan:'Starter'},
+  'demo@doxseal.co.za':    {pass:'demo123',name:'Demo User',        addr:'1TrMktDemoAddr4a2b9d1e7c',plan:'Starter'},
   'johan@supplycorp.co.za':      {pass:'test123',name:'Johan (SupplyCorp)',addr:'1TrMktTest1Jo2b9d1e7c3f4', plan:'Starter'},
   'shaunxve.com@gmail.com':      {pass:'test123',name:'Shaun',            addr:'1TrMktTest2Sh4c0d2e8f5', plan:'Starter'},
   'mve@leopardcreek.co.za':      {pass:'test123',name:'MVE (Leopard Crk)',addr:'1TrMktTest3Mv6e3f9a0b6', plan:'Starter'},
@@ -1559,7 +1559,7 @@ const DEMO = [
   {id:1002,dir:'sent',subj:'Sale Agreement Confirmation',to:'client@property.co.za',
    msg:'Confirmation of sale agreement for Erf 12345. Purchase price R850,000. Accepted 18 Feb 2026.',
    hash:'5c8e3f1a9d2b7e4c6a1f',txid:'5c8e3f1a9d2b7e4c6a1f8d3b7e2a9c4d',ts:'2026-02-18 11:22',verified:true,mode:'plain'},
-  {id:1003,dir:'received',subj:'Deposit Payment Confirmation',to:'demo@truemarketing.co.za',
+  {id:1003,dir:'received',subj:'Deposit Payment Confirmation',to:'demo@doxseal.co.za',
    msg:'Deposit of R75,000 received. Funds held in trust pending transfer.',
    hash:'7d4a2c8f6b1e9a3d5c7f',txid:'7d4a2c8f6b1e9a3d5c7f2b4e8a1d6c3f',ts:'2026-02-17 09:15',verified:true,mode:'plain'},
 ];
@@ -1820,7 +1820,7 @@ async function doSeal(){
     set('chain-txt',API.broadcast?'⛓ Recorded on BSV blockchain · Permanent':'🔒 Sealed locally · Connect server for on-chain');
     // Populate independent verification box
     if(isLiveTx){
-      const verifyURL = 'https://truemarketing.co.za/verify?txid='+txid;
+      const verifyURL = 'https://doxseal.co.za/verify?txid='+txid;
       document.getElementById('cert-verify-box').style.display='block';
       document.getElementById('cvb-url').textContent = verifyURL;
       document.getElementById('cvb-txid-full').textContent = txid;
@@ -1870,7 +1870,7 @@ async function sealAnother(){
 function verifyOnChain(){
   if(!LAST) return;
   if(LAST.txid&&!LAST.txid.startsWith('demo_')){
-    window.open('https://truemarketing.co.za/verify?txid='+LAST.txid,'_blank');
+    window.open('https://doxseal.co.za/verify?txid='+LAST.txid,'_blank');
   } else {
     toast('Demo mode','Connect your BSV server for live blockchain transactions.','ℹ️');
   }
@@ -1900,7 +1900,7 @@ function downloadCert(){
     'To verify this certificate is genuine, visit:',
     LAST.txid.startsWith('demo_')
       ? 'Connect server for live blockchain transactions'
-      : 'https://truemarketing.co.za/verify?txid='+LAST.txid,
+      : 'https://doxseal.co.za/verify?txid='+LAST.txid,
     '',
     'Or verify directly on WhatsOnChain:',
     LAST.txid.startsWith('demo_')
@@ -1909,7 +1909,7 @@ function downloadCert(){
     '',
     '═══════════════════════════════════════════════',
     'This certificate is self-verifying. The proof',
-    'exists independently of TrueMarketing on the',
+    'exists independently of DoxSeal on the',
     'BSV blockchain — permanently and immutably.',
     '═══════════════════════════════════════════════',
   ].join('\n');
@@ -1926,7 +1926,7 @@ function printCert(){
 
   const isLive  = !LAST.txid.startsWith('demo_');
   const verifyUrl = isLive
-    ? 'https://truemarketing.co.za/verify?txid='+LAST.txid
+    ? 'https://doxseal.co.za/verify?txid='+LAST.txid
     : 'Demo mode — connect server for live blockchain transactions';
   const wocUrl  = isLive ? 'https://whatsonchain.com/tx/'+LAST.txid : '(demo seal — not on chain)';
 
@@ -2081,12 +2081,12 @@ async function fetchLivePrice(){
 <div id="pg-upgrade">
   <div class="upg-icon">⛓</div>
   <h2 class="upg-h">Your 3 free trial seals are complete</h2>
-  <p class="upg-sub">You have seen TrueMarketing work. Your documents are now permanently sealed on the BSV blockchain — tamper-proof and CCMA-ready.</p>
+  <p class="upg-sub">You have seen DoxSeal work. Your documents are now permanently sealed on the BSV blockchain — tamper-proof and CCMA-ready.</p>
   <p class="upg-note" style="margin-top:0;margin-bottom:24px;font-size:14px;color:var(--iv3);">To continue sealing HR documents subscribe from R297 per month. Cancel anytime. No lock in.</p>
   <a class="upg-btn" href="https://wa.me/27726126733" target="_blank" rel="noopener">
     Subscribe on WhatsApp →
   </a>
-  <p class="upg-note" style="margin-top:20px;"><a href="mailto:hello@truemarketing.co.za" style="color:var(--iv3);text-decoration:none;">Or email hello@truemarketing.co.za</a></p>
+  <p class="upg-note" style="margin-top:20px;"><a href="mailto:hello@doxseal.co.za" style="color:var(--iv3);text-decoration:none;">Or email hello@doxseal.co.za</a></p>
 </div>
 
 <!-- ════════════════════════════════════════════════════════════
@@ -2102,7 +2102,7 @@ async function fetchLivePrice(){
     <!-- Letterhead -->
     <div class="pc-header">
       <div>
-        <div class="pc-logo">TrueMarketing</div>
+        <div class="pc-logo">DoxSeal</div>
         <div class="pc-logo-tag">Blockchain Document Protection</div>
       </div>
       <div class="pc-seal-badge">&#9679; Permanently Sealed</div>
@@ -2111,7 +2111,7 @@ async function fetchLivePrice(){
     <!-- Certificate title -->
     <div class="pc-title-wrap">
       <div class="pc-eyebrow">Certificate of Digital Protection</div>
-      <div class="pc-cert-title">TrueMarketing — Certificate of Digital Protection</div>
+      <div class="pc-cert-title">DoxSeal — Certificate of Digital Protection</div>
       <div class="pc-cert-sub">Sealed on the BSV blockchain · Immutable · Tamper-evident · CCMA-admissible</div>
     </div>
 
@@ -2145,7 +2145,7 @@ async function fetchLivePrice(){
       <div class="pc-section-lbl">Independent Verification</div>
       <div class="pc-verify-inner">
         <div class="pc-verify-left">
-          <p class="pc-verify-note">This certificate can be independently verified on the BSV public blockchain. The cryptographic proof exists permanently on a decentralised public ledger and cannot be altered, deleted, or denied by any party — including TrueMarketing. Verification is performed directly against the blockchain, not TrueMarketing servers.</p>
+          <p class="pc-verify-note">This certificate can be independently verified on the BSV public blockchain. The cryptographic proof exists permanently on a decentralised public ledger and cannot be altered, deleted, or denied by any party — including DoxSeal. Verification is performed directly against the blockchain, not DoxSeal servers.</p>
           <div class="pc-url-lbl">Verify this certificate at</div>
           <div class="pc-url" id="pc-url"></div>
           <div class="pc-url-lbl">Or directly on WhatsOnChain</div>
@@ -2160,8 +2160,8 @@ async function fetchLivePrice(){
 
     <!-- Footer -->
     <div class="pc-footer">
-      <div class="pc-footer-main">This certificate is self-verifying. Verify at truemarketing.co.za/verify — Electronic Communications and Transactions Act 25 of 2002</div>
-      <div class="pc-footer-sub">TrueMarketing · hello@truemarketing.co.za · truemarketing.co.za · The proof exists independently on the BSV blockchain — permanently and immutably.</div>
+      <div class="pc-footer-main">This certificate is self-verifying. Verify at doxseal.co.za/verify — Electronic Communications and Transactions Act 25 of 2002</div>
+      <div class="pc-footer-sub">DoxSeal · hello@doxseal.co.za · doxseal.co.za · The proof exists independently on the BSV blockchain — permanently and immutably.</div>
     </div>
 
   </div>

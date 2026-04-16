@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DoxSeal · Broker Email Sequence</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Nunito:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+:root{
+  --bg:       #080c09;
+  --bg2:      #0e1610;
+  --bg3:      #141f16;
+  --card:     #1a2a1c;
+  --card2:    #20321f;
+  --edge:     #283c2a;
+  --line:     rgba(100,200,120,.09);
+  --line2:    rgba(100,200,120,.16);
+  --line3:    rgba(100,200,120,.28);
+  --green:    #2dce82;
+  --green2:   #23b06d;
+  --green3:   #1a8a53;
+  --green4:   #117040;
+  --glow:     rgba(45,206,130,.14);
+  --gold:     #c8a84b;
+  --gold2:    rgba(200,168,75,.12);
+  --gold3:    rgba(200,168,75,.22);
+  --ivory:    #f2ede4;
+  --iv2:      rgba(242,237,228,.72);
+  --iv3:      rgba(242,237,228,.42);
+  --iv4:      rgba(242,237,228,.22);
+  --iv5:      rgba(242,237,228,.1);
+  --red:      #e05555;
+  --amber:    #e8a030;
+  --serif:    'Libre Baskerville', Georgia, serif;
+  --sans:     'Nunito', sans-serif;
+  --mono:     'JetBrains Mono', monospace;
+  --ease:     cubic-bezier(.4,0,.2,1);
+  --bounce:   cubic-bezier(.34,1.56,.64,1);
+}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);font-family:var(--sans);
+  color:var(--ivory);-webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+::selection{background:rgba(45,206,130,.25);}
+::-webkit-scrollbar{width:3px;}
+::-webkit-scrollbar-thumb{background:var(--line2);border-radius:3px;}
+body::before{
+  content:'';position:fixed;inset:0;z-index:9998;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23g)' opacity='1'/%3E%3C/svg%3E");
+  opacity:.028;mix-blend-mode:screen;
+}
+
+/* NAV */
+.nav{
+  position:sticky;top:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 24px;
+  background:rgba(8,12,9,.92);backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--line);
+}
+.nav-brand{font-family:var(--serif);font-size:18px;color:var(--ivory);}
+.nav-brand b{color:var(--green);}
+.nav-tag{font-size:11px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:var(--iv3);}
+
+/* HERO */
+.hero{
+  padding:72px 24px 60px;text-align:center;
+  background:
+    radial-gradient(ellipse 90% 60% at 15% -10%, rgba(45,206,130,.07) 0%, transparent 60%),
+    radial-gradient(ellipse 70% 50% at 85% 110%, rgba(200,168,75,.04) 0%, transparent 55%),
+    var(--bg);
+  border-bottom:1px solid var(--line);
+}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(45,206,130,.06);border:1px solid rgba(45,206,130,.18);
+  border-radius:30px;padding:7px 18px;
+  font-size:11px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;
+  color:var(--green2);margin-bottom:28px;
+}
+.hero-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--green);box-shadow:0 0 6px var(--green);
+  animation:flash 2s infinite;
+}
+@keyframes flash{0%,100%{opacity:1;}50%{opacity:.3;}}
+.hero-h1{
+  font-family:var(--serif);
+  font-size:clamp(24px,4.5vw,44px);
+  font-weight:700;line-height:1.1;
+  color:var(--ivory);max-width:760px;margin:0 auto 18px;
+  letter-spacing:-.3px;
+}
+.hero-h1 em{font-style:italic;color:var(--green);}
+.hero-sub{
+  font-size:15px;color:var(--iv3);line-height:1.72;font-weight:300;
+  max-width:580px;margin:0 auto 32px;
+}
+.hero-sub strong{color:var(--ivory);font-weight:600;}
+.meta-pills{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;}
+.meta-pill{
+  display:flex;align-items:center;gap:6px;
+  background:var(--card);border:1px solid var(--line);
+  border-radius:8px;padding:8px 16px;
+  font-size:12px;color:var(--iv3);font-weight:500;
+}
+.meta-pill span{color:var(--green2);font-weight:700;}
+
+/* SEQUENCE FLOW */
+.flow-bar{
+  background:var(--bg2);border-bottom:1px solid var(--line);
+  padding:20px 24px;overflow-x:auto;
+}
+.flow-inner{
+  max-width:820px;margin:0 auto;
+  display:flex;align-items:center;gap:0;justify-content:center;
+}
+.flow-step{
+  display:flex;flex-direction:column;align-items:center;gap:4px;
+  padding:0 20px;position:relative;flex-shrink:0;
+}
+.flow-step:not(:last-child)::after{
+  content:'→';position:absolute;right:-10px;top:10px;
+  font-size:14px;color:var(--iv4);
+}
+.flow-day{
+  font-size:9px;font-weight:700;letter-spacing:2px;
+  text-transform:uppercase;color:var(--green2);
+}
+.flow-num{
+  font-family:var(--serif);font-size:22px;font-weight:700;
+  color:var(--ivory);line-height:1;
+}
+
+/* MAIN CONTENT */
+.content{max-width:820px;margin:0 auto;padding:60px 24px 100px;}
+
+/* EMAIL CARD */
+.email-card{
+  background:var(--card);border:1px solid var(--line);
+  border-radius:18px;margin-bottom:24px;overflow:hidden;
+  transition:border-color .2s;
+}
+.email-card:hover{border-color:var(--line2);}
+.email-card-header{
+  display:flex;align-items:center;gap:16px;
+  padding:20px 28px 18px;
+  border-bottom:1px solid var(--line);
+  background:var(--card2);
+}
+.email-day-badge{
+  background:rgba(45,206,130,.1);border:1px solid rgba(45,206,130,.2);
+  border-radius:8px;padding:6px 14px;
+  font-size:10px;font-weight:700;letter-spacing:2px;
+  text-transform:uppercase;color:var(--green2);
+  white-space:nowrap;flex-shrink:0;
+}
+.email-day-badge.last{
+  background:rgba(200,168,75,.08);border-color:rgba(200,168,75,.2);
+  color:var(--gold);
+}
+.email-header-right{flex:1;min-width:0;}
+.email-subject{
+  font-family:var(--serif);font-size:17px;font-weight:700;
+  color:var(--ivory);line-height:1.3;
+}
+.email-meta{font-size:11px;color:var(--iv4);margin-top:4px;}
+
+/* EMAIL BODY */
+.email-body{padding:30px 28px;}
+.email-p{
+  font-size:14px;color:var(--iv2);line-height:1.82;
+  margin-bottom:16px;font-weight:400;
+}
+.email-p:last-of-type{margin-bottom:0;}
+.email-p strong{color:var(--ivory);font-weight:600;}
+.email-p em{font-style:italic;color:var(--iv2);}
+.email-sig{
+  margin-top:24px;padding-top:20px;
+  border-top:1px solid var(--line);
+  font-size:13px;color:var(--iv3);line-height:1.7;
+}
+.email-sig strong{color:var(--iv2);}
+
+/* EMAIL CTA */
+.email-cta-wrap{
+  padding:0 28px 28px;
+}
+.email-cta{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:13px 28px;border-radius:10px;
+  background:linear-gradient(140deg,var(--green3),var(--green2));
+  font-size:13px;font-weight:700;color:#fff;text-decoration:none;
+  box-shadow:0 6px 24px rgba(45,206,130,.28);
+  transition:all .2s var(--ease);
+}
+.email-cta:hover{transform:translateY(-2px);box-shadow:0 10px 32px rgba(45,206,130,.4);}
+.email-cta-note{margin-top:8px;font-size:11px;color:var(--iv4);}
+
+/* CREDENTIALS BOX */
+.creds-box{
+  background:rgba(45,206,130,.04);
+  border:1px solid rgba(45,206,130,.14);
+  border-radius:14px;padding:24px 28px;
+  margin-top:40px;
+}
+.creds-title{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--green2);margin-bottom:16px;}
+.creds-row{display:flex;flex-wrap:wrap;gap:16px;}
+.cred-item{display:flex;flex-direction:column;gap:4px;}
+.cred-label{font-size:10px;color:var(--iv4);font-weight:600;letter-spacing:.5px;text-transform:uppercase;}
+.cred-val{font-family:var(--mono);font-size:13px;color:var(--green2);background:rgba(45,206,130,.06);padding:5px 10px;border-radius:6px;}
+
+/* DIVIDER */
+.section-divider{
+  text-align:center;padding:8px 0 32px;
+  font-size:10px;font-weight:700;letter-spacing:2.5px;
+  text-transform:uppercase;color:var(--iv4);
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-brand">Dox<b>Seal</b></div>
+  <div class="nav-tag">Broker Email Sequence</div>
+</nav>
+
+<div class="hero">
+  <div class="hero-eyebrow">
+    <div class="hero-dot"></div>
+    Insurance &amp; Financial Brokers
+  </div>
+  <h1 class="hero-h1">5-Day Client Acquisition<br><em>Email Sequence</em></h1>
+  <p class="hero-sub">
+    A cold outreach sequence built around one angle:<br>
+    <strong>you can send something no other broker has ever sent.</strong>
+  </p>
+  <div class="meta-pills">
+    <div class="meta-pill">Audience: <span>Insurance &amp; financial brokers</span></div>
+    <div class="meta-pill">Emails: <span>4 (Days 1 · 2 · 4 · 5)</span></div>
+    <div class="meta-pill">Angle: <span>Client acquisition</span></div>
+    <div class="meta-pill">Landing: <span>broker-landing.html</span></div>
+  </div>
+</div>
+
+<div class="flow-bar">
+  <div class="flow-inner">
+    <div class="flow-step">
+      <div class="flow-day">Day</div>
+      <div class="flow-num">1</div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-day">Day</div>
+      <div class="flow-num">2</div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-day">Day</div>
+      <div class="flow-num">4</div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-day">Day</div>
+      <div class="flow-num">5</div>
+    </div>
+  </div>
+</div>
+
+<div class="content">
+
+  <!-- EMAIL 1 -->
+  <div class="email-card">
+    <div class="email-card-header">
+      <div class="email-day-badge">Day 1</div>
+      <div class="email-header-right">
+        <div class="email-subject">Every broker is making the same first impression. Here is how to make a different one.</div>
+        <div class="email-meta">Send immediately on Day 1 · Cold outreach</div>
+      </div>
+    </div>
+    <div class="email-body">
+      <p class="email-p">Hi [First Name],</p>
+      <p class="email-p">
+        When you reach out to a prospect for the first time, you send the same things every other broker sends.
+        A LinkedIn connection request. An email. A brochure. A quote.
+      </p>
+      <p class="email-p">
+        None of that is wrong. But none of it is memorable either.
+      </p>
+      <p class="email-p">
+        I have been using a tool that lets me send something different — a permanently sealed document with a timestamp that lives on the blockchain. The prospect can verify it themselves. It is not a PDF. It is not an email. It is an immutable record that proves I contacted them on that exact date, with that exact message.
+      </p>
+      <p class="email-p">
+        <strong>It is the kind of first impression that starts a conversation.</strong>
+      </p>
+      <p class="email-p">
+        I will show you exactly how it works tomorrow.
+      </p>
+      <div class="email-sig">
+        <strong>[Your Name]</strong><br>
+        [Your Title] · [Your Brokerage]<br>
+        [Phone] · [Email]
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider">↓ &nbsp; Day 2 follow-up &nbsp; ↓</div>
+
+  <!-- EMAIL 2 -->
+  <div class="email-card">
+    <div class="email-card-header">
+      <div class="email-day-badge">Day 2</div>
+      <div class="email-header-right">
+        <div class="email-subject">100 cold prospects. Each one receives something no other advisor has ever sent them.</div>
+        <div class="email-meta">Send Day 2 · Show the mechanism</div>
+      </div>
+    </div>
+    <div class="email-body">
+      <p class="email-p">Hi [First Name],</p>
+      <p class="email-p">
+        Yesterday I mentioned sending something different. Here is exactly what I mean.
+      </p>
+      <p class="email-p">
+        Imagine sending 100 cold prospects a personalised introduction — each one sealed permanently with a timestamp, verifiable on a public ledger. Each prospect receives a unique proof reference. They can check it. It exists forever.
+      </p>
+      <p class="email-p">
+        No other broker has ever sent them this. <strong>That alone opens doors.</strong>
+      </p>
+      <p class="email-p">
+        The tool is called DoxSeal. It costs less than R1 per send. The December 2024 campaign for one operator: 216 sends, R0.43 in total fees. Every record permanent, every client impressed.
+      </p>
+      <p class="email-p">
+        The mechanics: you type a message, click seal, and it is written permanently to the blockchain. A proof reference is generated. You share that reference with your prospect. They verify it at whatsonchain.com. The timestamp is irrefutable.
+      </p>
+      <p class="email-p">
+        <strong>No other tool in financial services does this.</strong>
+      </p>
+      <div class="email-sig">
+        <strong>[Your Name]</strong><br>
+        [Your Title] · [Your Brokerage]
+      </div>
+    </div>
+    <div class="email-cta-wrap">
+      <a href="https://doxseal.co.za/broker-landing.html" class="email-cta" target="_blank">
+        See how brokers are using it →
+      </a>
+      <div class="email-cta-note">Links to: doxseal.co.za/broker-landing.html</div>
+    </div>
+  </div>
+
+  <div class="section-divider">↓ &nbsp; Day 4 follow-up (skip Day 3) &nbsp; ↓</div>
+
+  <!-- EMAIL 3 -->
+  <div class="email-card">
+    <div class="email-card-header">
+      <div class="email-day-badge">Day 4</div>
+      <div class="email-header-right">
+        <div class="email-subject">Your existing clients trust you. Here is how to turn that trust into automatic referrals.</div>
+        <div class="email-meta">Send Day 4 · Referral angle</div>
+      </div>
+    </div>
+    <div class="email-body">
+      <p class="email-p">Hi [First Name],</p>
+      <p class="email-p">
+        Most brokers work hard for a referral. You do the work, the client is happy, and then you hope they mention you to someone.
+      </p>
+      <p class="email-p">
+        Here is a different approach. After your next policy review, seal a summary of what you covered and send the proof reference to the client. Not a PDF. Not an email summary. A permanent, verified record that proves you met, what you discussed, and when.
+      </p>
+      <p class="email-p">
+        <strong>The client did not expect it. They keep it. They show it.</strong>
+      </p>
+      <p class="email-p">
+        When their colleague asks who their broker is, they do not just say your name — they show them the proof. That is a referral with evidence attached.
+      </p>
+      <p class="email-p">
+        You can try it yourself right now, for free. Log in with the demo credentials below, type anything, and seal it. It takes 30 seconds.
+      </p>
+      <div class="email-sig">
+        <strong>[Your Name]</strong><br>
+        [Your Title] · [Your Brokerage]
+      </div>
+    </div>
+    <div class="email-cta-wrap">
+      <a href="https://doxseal.co.za/broker-landing.html" class="email-cta" target="_blank">
+        Try it free — seal your first message →
+      </a>
+      <div class="email-cta-note">Links to: doxseal.co.za/broker-landing.html</div>
+    </div>
+  </div>
+
+  <div class="section-divider">↓ &nbsp; Day 5 — final email &nbsp; ↓</div>
+
+  <!-- EMAIL 4 -->
+  <div class="email-card">
+    <div class="email-card-header">
+      <div class="email-day-badge last">Day 5 · Final</div>
+      <div class="email-header-right">
+        <div class="email-subject">Last one from me.</div>
+        <div class="email-meta">Send Day 5 · Soft close</div>
+      </div>
+    </div>
+    <div class="email-body">
+      <p class="email-p">Hi [First Name],</p>
+      <p class="email-p">
+        I will not keep following up after this.
+      </p>
+      <p class="email-p">
+        If the timing is not right, no problem at all. If it ever is, the link below will still be there.
+      </p>
+      <p class="email-p">
+        One thing I will leave you with: the brokers I know who are using this are not doing anything complicated. They seal one document after each client meeting. That is it. Over time, every client has a permanent record of every interaction. <strong>No disputes. No "I never said that." Just proof.</strong>
+      </p>
+      <p class="email-p">
+        If that is useful to you at any point, I am easy to find.
+      </p>
+      <div class="email-sig">
+        <strong>[Your Name]</strong><br>
+        [Your Title] · [Your Brokerage]<br>
+        [Phone] · [Email]
+      </div>
+    </div>
+    <div class="email-cta-wrap">
+      <a href="https://doxseal.co.za/broker-landing.html" class="email-cta" target="_blank">
+        doxseal.co.za/broker-landing.html →
+      </a>
+      <div class="email-cta-note">Links to: doxseal.co.za/broker-landing.html</div>
+    </div>
+  </div>
+
+  <!-- CREDENTIALS -->
+  <div class="creds-box">
+    <div class="creds-title">Demo Login Credentials</div>
+    <div class="creds-row">
+      <div class="cred-item">
+        <div class="cred-label">Email</div>
+        <div class="cred-val">demo@doxseal.co.za</div>
+      </div>
+      <div class="cred-item">
+        <div class="cred-label">Password</div>
+        <div class="cred-val">demo123</div>
+      </div>
+      <div class="cred-item">
+        <div class="cred-label">Landing page</div>
+        <div class="cred-val">doxseal.co.za/broker-landing.html</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
