@@ -1520,6 +1520,7 @@ body::before{
 const SERVER_URL = 'https://tm-server-production-c63f.up.railway.app';
 const API = {
   broadcast: SERVER_URL ? SERVER_URL+'/api/broadcast' : null,
+  login:     SERVER_URL ? SERVER_URL+'/api/login'     : null,
   faucet:    SERVER_URL ? SERVER_URL+'/api/faucet'    : null,
   health:    SERVER_URL ? SERVER_URL+'/api/health'    : null,
   price:     SERVER_URL ? SERVER_URL+'/api/price'     : null,
@@ -1602,19 +1603,44 @@ function authErr(m){
   e.textContent=m; e.style.display='block';
 }
 
-function doLogin(){
+async function doLogin(){
   const em=(document.getElementById('in-em').value||'').trim().toLowerCase();
   const pw=document.getElementById('in-pw').value||'';
   const btn=document.getElementById('btn-in');
   if(!em||!pw){authErr('Please enter your email and password.');return;}
   btn.disabled=true; btn.textContent='Signing in…';
-  setTimeout(()=>{
-    const u=USERS[em];
-    if(!u||u.pass!==pw){authErr('Incorrect email or password. Try the demo account.');btn.disabled=false;btn.textContent='Sign In →';return;}
-    CU={...u,email:em}; CREDS=48210; HIST=[...DEMO];
+
+  // 1. Check local demo/trial accounts first (works without server)
+  const local=USERS[em];
+  if(local && local.pass===pw){
+    CU={...local,email:em}; CREDS=48210; HIST=[...DEMO];
     btn.disabled=false; btn.textContent='Sign In →';
-    openApp();
-  }, 650);
+    openApp(); return;
+  }
+
+  // 2. Try server login for paying clients
+  if(API.login){
+    try{
+      const r=await fetch(API.login,{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({email:em,password:pw}),
+        signal:AbortSignal.timeout(8000)
+      });
+      const d=await r.json();
+      if(d.success && d.user){
+        CU={...d.user,pass:pw}; CREDS=48210; HIST=[];
+        btn.disabled=false; btn.textContent='Sign In →';
+        openApp(); return;
+      }
+      authErr(d.error||'Incorrect email or password.');
+    }catch(e){
+      authErr('Could not reach server. Check your connection.');
+    }
+  } else {
+    authErr('Incorrect email or password. Try the demo account.');
+  }
+  btn.disabled=false; btn.textContent='Sign In →';
 }
 
 function doSignup(){
@@ -2082,7 +2108,8 @@ async function fetchLivePrice(){
   <div class="upg-icon">⛓</div>
   <h2 class="upg-h">Your 3 free trial seals are complete</h2>
   <p class="upg-sub">You have seen DoxSeal work. Your documents are now permanently sealed on the BSV blockchain — tamper-proof and CCMA-ready.</p>
-  <p class="upg-note" style="margin-top:0;margin-bottom:24px;font-size:14px;color:var(--iv3);">To continue sealing HR documents subscribe from R297 per month. Cancel anytime. No lock in.</p>
+  <p class="upg-note" style="margin-top:0;margin-bottom:8px;font-size:14px;color:var(--iv3);">To continue sealing documents subscribe from R297 per month. Cancel anytime. No lock in.</p>
+  <p class="upg-note" style="margin-top:0;margin-bottom:24px;font-size:13px;color:var(--iv4);">You will receive your login credentials by email within 5 minutes of payment.</p>
   <a class="upg-btn" href="https://wa.me/27726126733" target="_blank" rel="noopener">
     Subscribe on WhatsApp →
   </a>
