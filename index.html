@@ -1822,7 +1822,8 @@ async function doSeal(){
         showUpgradeScreen();
         return;
       }
-      txid=d.txid||'demo_'+hash.slice(0,28);
+      if(!d.txid) throw new Error(d.error||'Server returned no transaction ID. Please try again.');
+      txid=d.txid;
     } else {
       await wait(450);
       txid='demo_'+hash.slice(0,32);
