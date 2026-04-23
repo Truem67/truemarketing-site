@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DoxSeal — Owner Dashboard (PRIVATE)</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Nunito:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+:root{
+  --bg:    #080c09;
+  --bg2:   #0e1610;
+  --bg3:   #141f16;
+  --card:  #1a2a1c;
+  --card2: #20321f;
+  --line:  rgba(100,200,120,.09);
+  --line2: rgba(100,200,120,.16);
+  --line3: rgba(100,200,120,.28);
+  --green: #2dce82;
+  --green2:#23b06d;
+  --green3:#1a8a53;
+  --glow:  rgba(45,206,130,.14);
+  --ivory: #f2ede4;
+  --iv2:   rgba(242,237,228,.72);
+  --iv3:   rgba(242,237,228,.42);
+  --iv4:   rgba(242,237,228,.22);
+  --iv5:   rgba(242,237,228,.1);
+  --red:   #e05555;
+  --amber: #e8a030;
+  --serif: 'Libre Baskerville', Georgia, serif;
+  --sans:  'Nunito', sans-serif;
+  --mono:  'JetBrains Mono', monospace;
+}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);font-family:var(--sans);color:var(--ivory);-webkit-font-smoothing:antialiased;min-height:100vh;}
+::selection{background:rgba(45,206,130,.25);}
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-thumb{background:var(--line2);border-radius:4px;}
+body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23g)' opacity='1'/%3E%3C/svg%3E");
+  opacity:.022;mix-blend-mode:screen;}
+
+/* ── LOGIN ── */
+#login-gate{position:fixed;inset:0;z-index:500;display:flex;align-items:center;justify-content:center;background:var(--bg);padding:24px;}
+.login-box{background:var(--card);border:1px solid var(--line2);border-radius:20px;padding:40px 36px;width:100%;max-width:400px;box-shadow:0 32px 80px rgba(0,0,0,.5);}
+.login-badge{display:inline-flex;align-items:center;gap:7px;background:rgba(224,85,85,.08);border:1px solid rgba(224,85,85,.2);border-radius:20px;padding:5px 14px;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:24px;}
+.login-title{font-family:var(--serif);font-size:26px;font-weight:700;color:var(--ivory);margin-bottom:6px;}
+.login-sub{font-size:13px;color:var(--iv3);margin-bottom:28px;line-height:1.6;}
+.form-field{margin-bottom:16px;}
+.form-label{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--iv3);display:block;margin-bottom:7px;}
+.form-input{width:100%;background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:12px 14px;font-family:var(--sans);font-size:14px;color:var(--ivory);outline:none;transition:border-color .15s;}
+.form-input:focus{border-color:var(--line2);}
+.form-input::placeholder{color:var(--iv5);}
+.login-err{font-size:12px;color:var(--red);margin-top:12px;display:none;}
+.btn-login{width:100%;background:var(--green);color:#fff;border:none;border-radius:12px;padding:14px;font-family:var(--sans);font-size:15px;font-weight:700;cursor:pointer;margin-top:8px;transition:background .15s;}
+.btn-login:hover{background:var(--green2);}
+
+/* ── SHELL ── */
+#dashboard{display:none;}
+#dashboard.show{display:block;}
+.topbar{position:sticky;top:0;z-index:100;background:rgba(8,12,9,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding:0 28px;height:56px;display:flex;align-items:center;justify-content:space-between;}
+.topbar-left{display:flex;align-items:center;gap:12px;}
+.tb-logo{font-family:var(--serif);font-size:16px;font-weight:700;color:var(--ivory);}
+.tb-badge{font-size:9px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;background:rgba(224,85,85,.1);border:1px solid rgba(224,85,85,.25);color:var(--red);border-radius:20px;padding:3px 10px;}
+.topbar-right{display:flex;align-items:center;gap:14px;}
+.refresh-dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green);animation:pulse-dot 2s infinite;}
+@keyframes pulse-dot{0%,100%{opacity:1;}50%{opacity:.4;}}
+.refresh-label{font-size:11px;color:var(--iv3);}
+.btn-so{font-size:11px;color:var(--iv3);background:none;border:none;cursor:pointer;padding:6px 10px;border-radius:8px;transition:color .15s;}
+.btn-so:hover{color:var(--ivory);}
+
+/* ── LAYOUT ── */
+.content{max-width:960px;margin:0 auto;padding:32px 20px 80px;}
+.sec{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--iv4);margin-bottom:14px;margin-top:36px;}
+.sec:first-of-type{margin-top:0;}
+
+/* ── CARDS ── */
+.grid{display:grid;gap:12px;}
+.g2{grid-template-columns:1fr 1fr;}
+.g3{grid-template-columns:1fr 1fr 1fr;}
+.g4{grid-template-columns:1fr 1fr 1fr 1fr;}
+@media(max-width:640px){.g2,.g3,.g4{grid-template-columns:1fr 1fr;}}
+@media(max-width:420px){.g2,.g3,.g4{grid-template-columns:1fr;}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 22px;}
+.card-label{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--iv4);margin-bottom:8px;}
+.card-value{font-family:var(--mono);font-size:26px;font-weight:500;color:var(--green);line-height:1;}
+.card-sub{font-size:12px;color:var(--iv3);margin-top:6px;}
+.card-value.warn{color:var(--amber);}
+.card-value.danger{color:var(--red);}
+
+/* ── STATUS ── */
+.status-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;}
+.status-item{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:10px;}
+.sdot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.sdot.ok{background:var(--green);box-shadow:0 0 6px rgba(45,206,130,.5);}
+.sdot.warn{background:var(--amber);box-shadow:0 0 6px rgba(232,160,48,.5);}
+.sdot.err{background:var(--red);box-shadow:0 0 6px rgba(224,85,85,.5);}
+.sname{font-size:11px;font-weight:700;color:var(--iv3);letter-spacing:.5px;}
+.sval{font-size:13px;font-weight:600;color:var(--ivory);margin-top:2px;}
+
+/* ── DEMO PANEL ── */
+.demo-panel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px;}
+.demo-num{font-family:var(--mono);font-size:52px;font-weight:500;color:var(--green);line-height:1;}
+.demo-meta{padding-bottom:8px;}
+.demo-lbl{font-size:11px;color:var(--iv3);}
+.demo-cap{font-size:13px;color:var(--iv4);margin-top:4px;}
+.btn-danger{display:inline-flex;align-items:center;gap:8px;background:rgba(224,85,85,.1);border:1px solid rgba(224,85,85,.25);color:var(--red);border-radius:10px;padding:10px 18px;font-size:13px;font-weight:700;cursor:pointer;transition:all .15s;}
+.btn-danger:hover{background:rgba(224,85,85,.2);}
+.reset-note{font-size:11px;color:var(--iv4);margin-top:10px;min-height:16px;}
+
+/* ── TABLE (shared) ── */
+.tbl{width:100%;border-collapse:collapse;}
+.tbl th{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--iv4);padding:14px 14px 10px;text-align:left;border-bottom:1px solid var(--line2);}
+.tbl td{padding:11px 14px;border-top:1px solid var(--line);font-size:13px;color:var(--iv2);vertical-align:middle;}
+.tbl tr:hover td{background:rgba(45,206,130,.025);}
+.tbl a{color:var(--iv3);text-decoration:none;font-family:var(--mono);font-size:11px;}
+.tbl a:hover{color:var(--green);}
+.pill{display:inline-block;border-radius:20px;padding:2px 10px;font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;}
+.pill.ok{background:rgba(45,206,130,.1);color:var(--green);}
+.pill.warn{background:rgba(232,160,48,.1);color:var(--amber);}
+.pill.err{background:rgba(224,85,85,.1);color:var(--red);}
+.pill.grey{background:rgba(242,237,228,.06);color:var(--iv3);}
+.trow-empty{text-align:center;padding:24px;color:var(--iv4);font-size:13px;}
+
+/* ── ROI TRACKER ── */
+.roi-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+@media(max-width:520px){.roi-grid{grid-template-columns:1fr;}}
+.roi-input-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 22px;}
+.roi-input-label{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--iv4);display:block;margin-bottom:8px;}
+.roi-input{width:100%;background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:10px 14px;font-family:var(--mono);font-size:20px;color:var(--green);outline:none;transition:border-color .15s;}
+.roi-input:focus{border-color:var(--line2);}
+.roi-input-hint{font-size:11px;color:var(--iv4);margin-top:6px;}
+.roi-results{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:12px;}
+@media(max-width:520px){.roi-results{grid-template-columns:1fr;}}
+.roi-result-card{background:var(--card2);border:1px solid var(--line2);border-radius:16px;padding:20px 22px;text-align:center;}
+.roi-result-label{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--iv4);margin-bottom:10px;}
+.roi-result-value{font-family:var(--mono);font-size:28px;font-weight:500;line-height:1;}
+.roi-result-value.pos{color:var(--green);}
+.roi-result-value.neg{color:var(--red);}
+.roi-result-value.neu{color:var(--ivory);}
+
+/* ── PROSPECT TABLE ── */
+.prospect-toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:10px;}
+.btn-add{display:inline-flex;align-items:center;gap:6px;background:rgba(45,206,130,.1);border:1px solid var(--line2);color:var(--green);border-radius:10px;padding:8px 16px;font-size:13px;font-weight:700;cursor:pointer;transition:all .15s;}
+.btn-add:hover{background:rgba(45,206,130,.18);}
+.prospect-status{padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;cursor:pointer;border:none;font-family:var(--sans);}
+select.prospect-status{appearance:none;-webkit-appearance:none;}
+td select{background:transparent;border:none;color:inherit;font-size:12px;font-family:var(--sans);cursor:pointer;outline:none;padding:2px 4px;}
+td input[type=text]{background:transparent;border:none;color:var(--iv2);font-size:13px;font-family:var(--sans);width:100%;outline:none;padding:2px 4px;}
+td input[type=text]:focus{border-bottom:1px solid var(--line2);}
+.btn-del{background:none;border:none;color:var(--iv4);cursor:pointer;font-size:14px;padding:4px 8px;border-radius:6px;transition:color .15s;}
+.btn-del:hover{color:var(--red);}
+.prospect-note{font-size:11px;color:var(--iv4);margin-top:8px;}
+
+/* ── QUICK LINKS ── */
+.links-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;}
+.link-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;text-decoration:none;display:block;transition:border-color .15s,background .15s;}
+.link-card:hover{border-color:var(--line2);background:var(--card2);}
+.link-card-label{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--iv4);margin-bottom:6px;}
+.link-card-name{font-size:15px;font-weight:700;color:var(--green);}
+.link-card-url{font-size:11px;color:var(--iv4);margin-top:3px;font-family:var(--mono);}
+
+/* ── MISC ── */
+.last-refresh{font-size:11px;color:var(--iv4);text-align:right;margin-top:14px;}
+.fixed-costs{font-size:12px;color:var(--iv4);margin-top:8px;}
+</style>
+</head>
+<body>
+
+<!-- ══ LOGIN ══════════════════════════════════════════════════════════════ -->
+<div id="login-gate">
+  <div class="login-box">
+    <div class="login-badge">&#x1F512; PRIVATE</div>
+    <h1 class="login-title">Owner Dashboard</h1>
+    <p class="login-sub">DoxSeal — restricted access.</p>
+
+    <div id="step-creds">
+      <div class="form-field">
+        <label class="form-label">Email</label>
+        <input class="form-input" id="lg-email" type="email" placeholder="owner@doxseal.co.za" autocomplete="username">
+      </div>
+      <div class="form-field">
+        <label class="form-label">Password</label>
+        <input class="form-input" id="lg-pass" type="password" placeholder="Password" autocomplete="current-password">
+      </div>
+      <button class="btn-login" onclick="checkCreds()">Continue</button>
+      <div class="login-err" id="err-creds">Incorrect email or password.</div>
+    </div>
+
+    <div id="step-2fa" style="display:none;">
+      <div class="form-field">
+        <label class="form-label">2FA Code</label>
+        <input class="form-input" id="lg-2fa" type="text" inputmode="numeric" placeholder="6-digit code" maxlength="6" autocomplete="one-time-code">
+      </div>
+      <button class="btn-login" onclick="check2FA()">Enter Dashboard</button>
+      <div class="login-err" id="err-2fa">Invalid code.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ DASHBOARD ══════════════════════════════════════════════════════════ -->
+<div id="dashboard">
+
+  <div class="topbar">
+    <div class="topbar-left">
+      <span class="tb-logo">DoxSeal</span>
+      <span class="tb-badge">OWNER ONLY</span>
+    </div>
+    <div class="topbar-right">
+      <div class="refresh-dot"></div>
+      <span class="refresh-label">Auto-refresh 60s</span>
+      <button class="btn-so" onclick="signOut()">Sign out</button>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- 1 ── WALLET BALANCE -->
+    <div class="sec">Wallet Balance — Live</div>
+    <div class="grid g3">
+      <div class="card">
+        <div class="card-label">Balance (sats)</div>
+        <div class="card-value" id="w-sats">—</div>
+        <div class="card-sub">Signing wallet</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Balance (BSV)</div>
+        <div class="card-value" id="w-bsv">—</div>
+        <div class="card-sub">Hot wallet float</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Faucet capacity</div>
+        <div class="card-value" id="w-faucet">—</div>
+        <div class="card-sub" id="w-utxo-sub">UTXOs: —</div>
+      </div>
+    </div>
+
+    <!-- 2 ── SERVER STATUS -->
+    <div class="sec">Server Status</div>
+    <div class="status-grid">
+      <div class="status-item">
+        <div class="sdot" id="sd-server"></div>
+        <div><div class="sname">Server</div><div class="sval" id="sv-server">—</div></div>
+      </div>
+      <div class="status-item">
+        <div class="sdot" id="sd-network"></div>
+        <div><div class="sname">Network</div><div class="sval" id="sv-network">—</div></div>
+      </div>
+      <div class="status-item">
+        <div class="sdot" id="sd-upstash"></div>
+        <div><div class="sname">Upstash (Redis)</div><div class="sval" id="sv-upstash">—</div></div>
+      </div>
+      <div class="status-item">
+        <div class="sdot" id="sd-balance"></div>
+        <div><div class="sname">Low Balance Alert</div><div class="sval" id="sv-balance">—</div></div>
+      </div>
+    </div>
+
+    <!-- 3 ── DEMO COUNTER -->
+    <div class="sec">Demo Seal Counter</div>
+    <div class="demo-panel">
+      <div style="display:flex;align-items:flex-end;gap:16px;margin-bottom:16px;">
+        <div class="demo-num" id="demo-count">—</div>
+        <div class="demo-meta">
+          <div class="demo-lbl">seals used</div>
+          <div class="demo-cap" id="demo-limit">limit: 3 per account</div>
+        </div>
+      </div>
+      <p style="font-size:13px;color:var(--iv3);margin-bottom:18px;">
+        Account: <span style="font-family:var(--mono);color:var(--iv2);">demo@doxseal.co.za</span>
+      </p>
+      <button class="btn-danger" onclick="resetDemo()">Reset Demo Counter</button>
+      <div class="reset-note" id="reset-note"></div>
+    </div>
+
+    <!-- 4 ── TRANSACTION HISTORY -->
+    <div class="sec" id="tx-heading">Recent Transactions</div>
+    <div class="card" style="padding:0;overflow:hidden;">
+      <table class="tbl" id="tx-table">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>TX ID</th>
+            <th>Block</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="tx-body">
+          <tr><td colspan="4" class="trow-empty">Loading…</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 5 ── ROI TRACKER -->
+    <div class="sec">ROI Tracker</div>
+    <div class="roi-grid">
+      <div class="roi-input-card">
+        <label class="roi-input-label">Paying clients</label>
+        <input class="roi-input" id="roi-clients" type="number" min="0" value="0" oninput="calcROI()">
+        <div class="roi-input-hint">Number of active subscribers</div>
+      </div>
+      <div class="roi-input-card">
+        <label class="roi-input-label">Avg monthly revenue per client (R)</label>
+        <input class="roi-input" id="roi-arpu" type="number" min="0" value="297" oninput="calcROI()">
+        <div class="roi-input-hint">Starter R297 · Pro R500 · Business R1 000</div>
+      </div>
+    </div>
+    <div class="fixed-costs">
+      Fixed costs: Railway R90/mo + Domain R18/mo = <strong style="color:var(--iv2);">R108/mo</strong>
+    </div>
+    <div class="roi-results">
+      <div class="roi-result-card">
+        <div class="roi-result-label">Monthly Revenue</div>
+        <div class="roi-result-value pos" id="roi-revenue">R0</div>
+      </div>
+      <div class="roi-result-card">
+        <div class="roi-result-label">Monthly Costs</div>
+        <div class="roi-result-value neu" id="roi-costs">R108</div>
+      </div>
+      <div class="roi-result-card">
+        <div class="roi-result-label">Net Profit</div>
+        <div class="roi-result-value" id="roi-profit">-R108</div>
+      </div>
+    </div>
+
+    <!-- 6 ── PROSPECT TRACKER -->
+    <div class="sec">Prospect Tracker</div>
+    <div class="prospect-toolbar">
+      <button class="btn-add" onclick="addProspect()">+ Add Prospect</button>
+      <span style="font-size:11px;color:var(--iv4);">Editable inline — saved in browser localStorage</span>
+    </div>
+    <div class="card" style="padding:0;overflow:hidden;">
+      <table class="tbl" id="prospect-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Company</th>
+            <th>Email</th>
+            <th>Status</th>
+            <th>Last contact</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="prospect-body"></tbody>
+      </table>
+    </div>
+    <div class="prospect-note">Data persists in localStorage — clears if you clear browser data.</div>
+
+    <!-- 7 ── QUICK LINKS -->
+    <div class="sec">Quick Links</div>
+    <div class="links-grid">
+      <a class="link-card" href="https://doxseal.co.za" target="_blank" rel="noopener">
+        <div class="link-card-label">User App</div>
+        <div class="link-card-name">DoxSeal</div>
+        <div class="link-card-url">doxseal.co.za</div>
+      </a>
+      <a class="link-card" href="https://railway.app/dashboard" target="_blank" rel="noopener">
+        <div class="link-card-label">Hosting</div>
+        <div class="link-card-name">Railway</div>
+        <div class="link-card-url">railway.app/dashboard</div>
+      </a>
+      <a class="link-card" href="https://console.upstash.com" target="_blank" rel="noopener">
+        <div class="link-card-label">Redis / Demo Counter</div>
+        <div class="link-card-name">Upstash</div>
+        <div class="link-card-url">console.upstash.com</div>
+      </a>
+      <a class="link-card" href="https://whatsonchain.com/address/19bUZ72SXwAdSPTGS1BekuKi55pZHCxQkr" target="_blank" rel="noopener" id="woc-link">
+        <div class="link-card-label">Blockchain Explorer</div>
+        <div class="link-card-name">WhatsOnChain</div>
+        <div class="link-card-url" id="woc-addr">19bUZ72…xQkr</div>
+      </a>
+    </div>
+
+    <div class="last-refresh" id="last-refresh">Not yet refreshed</div>
+
+  </div><!-- /content -->
+</div><!-- /dashboard -->
+
+<script>
+// ══ CONFIG ═══════════════════════════════════════════════════════════════
+const SERVER_URL   = 'https://tm-server-production-c63f.up.railway.app';
+const OWNER_SECRET = 'DoxSeal2026';
+const WOC_BASE     = 'https://api.whatsonchain.com/v1/bsv/main';
+let   WALLET_ADDR  = '19bUZ72SXwAdSPTGS1BekuKi55pZHCxQkr';
+
+// ══ CREDENTIALS ══════════════════════════════════════════════════════════
+const OWNER_EMAIL = 'owner@doxseal.co.za';
+const OWNER_PASS  = 'DoxSeal@2026!';
+const OWNER_2FA   = '123456';
+
+// ══ AUTH ═════════════════════════════════════════════════════════════════
+function checkCreds(){
+  const em = document.getElementById('lg-email').value.trim().toLowerCase();
+  const pw = document.getElementById('lg-pass').value;
+  if(em === OWNER_EMAIL && pw === OWNER_PASS){
+    document.getElementById('step-creds').style.display = 'none';
+    document.getElementById('step-2fa').style.display   = 'block';
+    document.getElementById('lg-2fa').focus();
+  } else {
+    document.getElementById('err-creds').style.display = 'block';
+  }
+}
+function check2FA(){
+  const code = document.getElementById('lg-2fa').value.trim();
+  if(code === OWNER_2FA){
+    document.getElementById('login-gate').style.display = 'none';
+    document.getElementById('dashboard').classList.add('show');
+    initProspects();
+    calcROI();
+    loadAll();
+    setInterval(loadAll, 60000);
+  } else {
+    document.getElementById('err-2fa').style.display = 'block';
+  }
+}
+function signOut(){ location.reload(); }
+
+document.addEventListener('keydown', e => {
+  if(e.key !== 'Enter') return;
+  if(document.getElementById('step-2fa').style.display === 'block') check2FA();
+  else checkCreds();
+});
+
+// ══ LIVE DATA ════════════════════════════════════════════════════════════
+async function loadAll(){
+  await Promise.allSettled([loadHealth(), loadDemoCount(), loadTxHistory()]);
+  document.getElementById('last-refresh').textContent =
+    'Last refreshed: ' + new Date().toLocaleTimeString('en-ZA');
+}
+
+// ── /api/health ──────────────────────────────────────────────────────────
+async function loadHealth(){
+  try{
+    const r = await fetch(SERVER_URL + '/api/health', {cache:'no-store'});
+    if(!r.ok) throw new Error('HTTP ' + r.status);
+    const d = await r.json();
+
+    if(d.fundingAddress){
+      WALLET_ADDR = d.fundingAddress;
+      updateWocLink();
+    }
+
+    setText('w-sats',   fmtNum(d.balanceSats));
+    setText('w-bsv',    Number(d.balanceBSV).toFixed(6));
+    setText('w-faucet', fmtNum(d.faucetCapacity) + ' users');
+    setText('w-utxo-sub','UTXOs: ' + (d.utxoCount ?? '—'));
+
+    setDot('sd-server',  d.status === 'ok' ? 'ok' : 'err');
+    setText('sv-server', d.status ?? '—');
+
+    setDot('sd-network',  (d.network||'').toLowerCase() === 'mainnet' ? 'ok' : 'warn');
+    setText('sv-network', d.network ?? '—');
+
+    setDot('sd-upstash',  d.upstash === true ? 'ok' : d.upstash === false ? 'err' : 'warn');
+    setText('sv-upstash', d.upstash === true ? 'Connected' : 'Disconnected');
+
+    setDot('sd-balance',  d.lowBalance ? 'err' : 'ok');
+    setText('sv-balance', d.lowBalance ? 'YES — top up' : 'OK');
+
+  }catch(e){
+    console.error('[health]', e);
+    ['w-sats','w-bsv','w-faucet','sv-server','sv-network','sv-upstash','sv-balance']
+      .forEach(id => setText(id,'Error'));
+    ['sd-server','sd-network','sd-upstash','sd-balance']
+      .forEach(id => setDot(id,'err'));
+  }
+}
+
+// ── POST /demo-count ─────────────────────────────────────────────────────
+async function loadDemoCount(){
+  try{
+    const r = await fetch(SERVER_URL + '/demo-count', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({email:'demo@doxseal.co.za'}),
+      cache:'no-store',
+    });
+    if(!r.ok) throw new Error('HTTP ' + r.status);
+    const d = await r.json();
+    setText('demo-count', d.count ?? '—');
+    if(d.limit != null) setText('demo-limit','limit: ' + d.limit + ' per account');
+  }catch(e){
+    console.error('[demo-count]', e);
+    setText('demo-count','Err');
+  }
+}
+
+async function resetDemo(){
+  const btn  = document.querySelector('.btn-danger');
+  const note = document.getElementById('reset-note');
+  btn.disabled = true;
+  btn.textContent = 'Resetting…';
+  note.textContent = '';
+  try{
+    const r = await fetch(SERVER_URL + '/admin/reset-demo', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({secret: OWNER_SECRET}),
+    });
+    const d = await r.json();
+    if(r.ok){
+      note.style.color = 'var(--green)';
+      note.textContent = 'Counter reset from ' + d.reset_from + ' to 0.';
+      await loadDemoCount();
+    } else {
+      note.style.color = 'var(--red)';
+      note.textContent = 'Error: ' + (d.error || r.status);
+    }
+  }catch(e){
+    note.style.color = 'var(--red)';
+    note.textContent = 'Network error: ' + e.message;
+  }finally{
+    btn.disabled = false;
+    btn.textContent = 'Reset Demo Counter';
+  }
+}
+
+// ── TX history (WoC) ─────────────────────────────────────────────────────
+async function loadTxHistory(){
+  const tbody = document.getElementById('tx-body');
+  document.getElementById('tx-heading').textContent =
+    'Recent Transactions — ' + WALLET_ADDR;
+  try{
+    const r = await fetch(
+      `${WOC_BASE}/address/${WALLET_ADDR}/history`,
+      {cache:'no-store'}
+    );
+    if(!r.ok) throw new Error('WoC HTTP ' + r.status);
+    const hist = await r.json();
+
+    if(!Array.isArray(hist) || hist.length === 0){
+      tbody.innerHTML = '<tr><td colspan="4" class="trow-empty">No transactions found.</td></tr>';
+      return;
+    }
+
+    const recent  = hist.slice(-10).reverse();
+    const details = await Promise.allSettled(recent.map(h => fetchTxMeta(h.tx_hash)));
+
+    let rows = '';
+    for(let i = 0; i < recent.length; i++){
+      const txid   = recent[i].tx_hash;
+      const height = recent[i].height;
+      const meta   = details[i].status === 'fulfilled' ? details[i].value : null;
+      const date   = meta?.time
+        ? new Date(meta.time * 1000).toLocaleDateString('en-ZA')
+        : '—';
+      const conf   = height > 0
+        ? `<span class="pill ok">confirmed</span>`
+        : `<span class="pill warn">mempool</span>`;
+      rows += `<tr>
+        <td>${date}</td>
+        <td><a href="https://whatsonchain.com/tx/${txid}" target="_blank" rel="noopener">${txid.slice(0,20)}…</a></td>
+        <td style="font-family:var(--mono);font-size:12px;color:var(--iv4);">${height > 0 ? fmtNum(height) : '—'}</td>
+        <td>${conf}</td>
+      </tr>`;
+    }
+    tbody.innerHTML = rows;
+  }catch(e){
+    console.error('[tx-history]', e);
+    tbody.innerHTML = `<tr><td colspan="4" class="trow-empty" style="color:var(--red)">Failed: ${e.message}</td></tr>`;
+  }
+}
+
+async function fetchTxMeta(txid){
+  const r = await fetch(`${WOC_BASE}/tx/hash/${txid}`, {cache:'no-store'});
+  if(!r.ok) throw new Error('HTTP ' + r.status);
+  return r.json();
+}
+
+function updateWocLink(){
+  const link = document.getElementById('woc-link');
+  const lbl  = document.getElementById('woc-addr');
+  if(link) link.href = `https://whatsonchain.com/address/${WALLET_ADDR}`;
+  if(lbl)  lbl.textContent = WALLET_ADDR.slice(0,10) + '…' + WALLET_ADDR.slice(-4);
+}
+
+// ══ ROI TRACKER ══════════════════════════════════════════════════════════
+const FIXED_COSTS = 108; // Railway R90 + domain R18
+
+function calcROI(){
+  const clients = Math.max(0, parseFloat(document.getElementById('roi-clients').value) || 0);
+  const arpu    = Math.max(0, parseFloat(document.getElementById('roi-arpu').value)    || 0);
+  const revenue = clients * arpu;
+  const profit  = revenue - FIXED_COSTS;
+
+  setText('roi-revenue', 'R' + fmtNum(Math.round(revenue)));
+  setText('roi-costs',   'R' + fmtNum(FIXED_COSTS));
+
+  const el = document.getElementById('roi-profit');
+  el.textContent = (profit >= 0 ? 'R' : '-R') + fmtNum(Math.abs(Math.round(profit)));
+  el.className = 'roi-result-value ' + (profit > 0 ? 'pos' : profit < 0 ? 'neg' : 'neu');
+}
+
+// ══ PROSPECT TRACKER ═════════════════════════════════════════════════════
+const PROSPECT_KEY = 'tm_prospects_v1';
+const STATUSES = ['Lead','Contacted','Demo sent','Interested','Client','Not interested'];
+
+let prospects = [];
+
+function initProspects(){
+  try{ prospects = JSON.parse(localStorage.getItem(PROSPECT_KEY)) || []; }
+  catch{ prospects = []; }
+  if(prospects.length === 0) prospects = getDefaultProspects();
+  renderProspects();
+}
+
+function getDefaultProspects(){
+  return [
+    {id:1,name:'',company:'',email:'',status:'Lead',last:''},
+  ];
+}
+
+function saveProspects(){
+  localStorage.setItem(PROSPECT_KEY, JSON.stringify(prospects));
+}
+
+function addProspect(){
+  const id = Date.now();
+  prospects.push({id, name:'', company:'', email:'', status:'Lead', last:''});
+  saveProspects();
+  renderProspects();
+  // Focus the new row's name field
+  setTimeout(()=>{
+    const row = document.querySelector(`tr[data-id="${id}"] .p-name`);
+    if(row) row.focus();
+  }, 50);
+}
+
+function deleteProspect(id){
+  prospects = prospects.filter(p => p.id !== id);
+  saveProspects();
+  renderProspects();
+}
+
+function updateField(id, field, value){
+  const p = prospects.find(p => p.id === id);
+  if(p){ p[field] = value; saveProspects(); }
+}
+
+function statusClass(s){
+  if(s === 'Client') return 'ok';
+  if(s === 'Interested' || s === 'Demo sent') return 'warn';
+  if(s === 'Not interested') return 'err';
+  return 'grey';
+}
+
+function renderProspects(){
+  const tbody = document.getElementById('prospect-body');
+  if(prospects.length === 0){
+    tbody.innerHTML = `<tr><td colspan="6" class="trow-empty">No prospects yet — click + Add Prospect</td></tr>`;
+    return;
+  }
+  tbody.innerHTML = prospects.map(p => `
+    <tr data-id="${p.id}">
+      <td><input type="text" class="p-name" value="${esc(p.name)}" placeholder="Full name"
+           onchange="updateField(${p.id},'name',this.value)"></td>
+      <td><input type="text" value="${esc(p.company)}" placeholder="Company"
+           onchange="updateField(${p.id},'company',this.value)"></td>
+      <td><input type="text" value="${esc(p.email)}" placeholder="email@co.za"
+           onchange="updateField(${p.id},'email',this.value)"></td>
+      <td>
+        <select onchange="updateField(${p.id},'status',this.value)">
+          ${STATUSES.map(s=>`<option${s===p.status?' selected':''}>${s}</option>`).join('')}
+        </select>
+      </td>
+      <td><input type="text" value="${esc(p.last)}" placeholder="e.g. 15 Apr"
+           onchange="updateField(${p.id},'last',this.value)"></td>
+      <td><button class="btn-del" onclick="deleteProspect(${p.id})" title="Remove">✕</button></td>
+    </tr>
+  `).join('');
+}
+
+// ══ UTILS ════════════════════════════════════════════════════════════════
+function setText(id, val){
+  const el = document.getElementById(id);
+  if(el) el.textContent = val ?? '—';
+}
+function setDot(id, state){
+  const el = document.getElementById(id);
+  if(el) el.className = 'sdot ' + state;
+}
+function fmtNum(v){
+  if(v == null || isNaN(Number(v))) return '—';
+  return Number(v).toLocaleString('en-ZA');
+}
+function esc(s){
+  return (s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
+}
+</script>
+</body>
+</html>
