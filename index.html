@@ -74,9 +74,9 @@ body::before{
   will-change:transform,opacity;
   transition:opacity .38s var(--ease), transform .38s var(--ease);
 }
-.page.hidden{opacity:0;pointer-events:none;transform:translateY(18px);}
+.page.hidden{opacity:0;pointer-events:none;transform:translateY(18px);visibility:hidden;}
 .page.leaving{opacity:0;pointer-events:none;transform:translateY(-14px);}
-.page.visible{opacity:1;pointer-events:all;transform:none;}
+.page.visible{opacity:1;pointer-events:all;transform:none;visibility:visible;}
 
 /* ═══════════════════════════════════════
    ①  WELCOME
@@ -2166,7 +2166,7 @@ async function fetchLivePrice(){
      PRINT CERTIFICATE — hidden on screen, shown in @media print
      Populated by printCert() before window.print() is called.
 ════════════════════════════════════════════════════════════ -->
-<div id="print-cert">
+<div id="print-cert" style="display:none">
   <div class="pc-outer">
 
     <!-- Green gradient bar -->
