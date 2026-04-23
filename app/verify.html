@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Verify Seal — DoxSeal Blockchain Verification</title>
+<meta name="description" content="Independently verify a DoxSeal sealed document directly on the BSV blockchain. No account required.">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Nunito:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:    #080c09;
+  --bg2:   #0e1610;
+  --bg3:   #141f16;
+  --card:  #1a2a1c;
+  --card2: #20321f;
+  --line:  rgba(100,200,120,.09);
+  --line2: rgba(100,200,120,.16);
+  --line3: rgba(100,200,120,.28);
+  --green: #2dce82;
+  --green2:#23b06d;
+  --green3:#1a8a53;
+  --red:   #e05555;
+  --amber: #e8a030;
+  --gold:  #c8a84b;
+  --ivory: #f2ede4;
+  --iv2:   rgba(242,237,228,.72);
+  --iv3:   rgba(242,237,228,.42);
+  --iv4:   rgba(242,237,228,.22);
+  --serif: 'Libre Baskerville', Georgia, serif;
+  --sans:  'Nunito', sans-serif;
+  --mono:  'JetBrains Mono', monospace;
+}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);font-family:var(--sans);
+  color:var(--ivory);-webkit-font-smoothing:antialiased;
+  min-height:100vh;
+}
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 90% 55% at 50% 0%,rgba(45,206,130,.06),transparent);
+  z-index:0;
+}
+::selection{background:rgba(45,206,130,.25);}
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-thumb{background:var(--line2);border-radius:4px;}
+
+/* ── NAV ── */
+.nav{
+  position:sticky;top:0;z-index:100;
+  background:rgba(8,12,9,.94);backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line);
+  padding:0 24px;height:56px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.nav-brand{font-family:var(--serif);font-size:17px;color:var(--ivory);text-decoration:none;}
+.nav-brand b{color:var(--green);}
+.nav-badge{
+  font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--green2);background:rgba(45,206,130,.08);
+  border:1px solid var(--line3);padding:4px 12px;border-radius:20px;
+}
+
+/* ── HERO ── */
+.hero{
+  position:relative;z-index:1;
+  max-width:700px;margin:0 auto;
+  padding:52px 24px 36px;text-align:center;
+}
+.hero-eye{
+  display:inline-block;
+  font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--green2);background:rgba(45,206,130,.08);
+  border:1px solid var(--line3);padding:5px 14px;border-radius:20px;
+  margin-bottom:18px;
+}
+.hero h1{
+  font-family:var(--serif);font-size:clamp(22px,4vw,34px);
+  font-weight:700;line-height:1.25;margin-bottom:12px;
+}
+.hero-sub{font-size:14px;color:var(--iv3);line-height:1.65;max-width:500px;margin:0 auto;}
+
+/* ── INPUT SECTION ── */
+.input-wrap{
+  position:relative;z-index:1;
+  max-width:680px;margin:0 auto;
+  padding:0 24px 48px;
+}
+.input-card{
+  background:var(--card);border:1px solid var(--line2);
+  border-radius:16px;padding:28px;
+}
+.input-label{
+  font-size:12px;font-weight:700;color:var(--iv4);
+  letter-spacing:.08em;text-transform:uppercase;
+  margin-bottom:10px;
+}
+.input-row{display:flex;gap:10px;align-items:stretch;}
+.txid-input{
+  flex:1;background:var(--bg);border:1px solid var(--line2);
+  border-radius:10px;padding:13px 16px;
+  font-family:var(--mono);font-size:13px;color:var(--ivory);
+  outline:none;transition:border-color .15s;
+  min-width:0;
+}
+.txid-input::placeholder{font-family:var(--sans);font-size:13px;color:var(--iv4);}
+.txid-input:focus{border-color:var(--green3);}
+.btn-verify{
+  background:var(--green);color:#fff;
+  font-size:14px;font-weight:700;
+  padding:13px 22px;border-radius:10px;
+  border:none;cursor:pointer;white-space:nowrap;
+  transition:all .15s;flex-shrink:0;
+}
+.btn-verify:hover{background:var(--green2);}
+.btn-verify:disabled{opacity:.5;cursor:not-allowed;}
+.input-hint{font-size:12px;color:var(--iv4);margin-top:10px;line-height:1.5;}
+.input-hint a{color:var(--iv3);text-decoration:none;}
+.input-hint a:hover{color:var(--green2);}
+
+/* ── LOADING ── */
+.loading-state{
+  position:relative;z-index:1;
+  max-width:680px;margin:0 auto;padding:0 24px 48px;
+  text-align:center;display:none;
+}
+.loading-state.show{display:block;}
+.spinner{
+  width:40px;height:40px;border-radius:50%;
+  border:3px solid var(--line2);border-top-color:var(--green);
+  animation:spin .9s linear infinite;
+  margin:0 auto 16px;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-txt{font-size:14px;color:var(--iv3);}
+.loading-sub{font-size:12px;color:var(--iv4);margin-top:6px;}
+
+/* ── RESULT SECTION ── */
+.result-wrap{
+  position:relative;z-index:1;
+  max-width:680px;margin:0 auto;
+  padding:0 24px 80px;display:none;
+}
+.result-wrap.show{display:block;}
+
+/* VERIFIED banner */
+.banner-verified{
+  background:linear-gradient(135deg,rgba(45,206,130,.12),rgba(26,138,83,.08));
+  border:2px solid rgba(45,206,130,.4);
+  border-radius:16px;padding:24px 28px;
+  display:flex;align-items:center;gap:18px;
+  margin-bottom:24px;
+}
+.banner-ico{font-size:36px;flex-shrink:0;}
+.banner-text{}
+.banner-title{
+  font-family:var(--serif);font-size:20px;font-weight:700;
+  color:var(--green);letter-spacing:.03em;line-height:1.2;
+}
+.banner-sub{font-size:13px;color:var(--iv3);margin-top:4px;line-height:1.5;}
+
+/* NOT FOUND banner */
+.banner-notfound{
+  background:rgba(224,85,85,.07);border:2px solid rgba(224,85,85,.3);
+  border-radius:16px;padding:24px 28px;
+  display:flex;align-items:center;gap:18px;
+  margin-bottom:24px;
+}
+.banner-notfound .banner-title{color:var(--red);}
+
+/* API ERROR banner */
+.banner-error{
+  background:rgba(232,160,48,.07);border:2px solid rgba(232,160,48,.3);
+  border-radius:16px;padding:24px 28px;
+  display:flex;align-items:center;gap:18px;
+  margin-bottom:24px;
+}
+.banner-error .banner-title{color:var(--amber);}
+
+/* Result detail card */
+.result-card{
+  background:var(--card);border:1px solid var(--line2);
+  border-radius:16px;overflow:hidden;margin-bottom:20px;
+}
+.rc-bar{height:3px;background:linear-gradient(90deg,var(--green3),var(--green),var(--gold));}
+.rc-body{padding:24px;}
+.rc-section{margin-bottom:20px;}
+.rc-section:last-child{margin-bottom:0;}
+.rc-section-title{
+  font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--green2);margin-bottom:10px;
+}
+.rc-row{
+  display:flex;justify-content:space-between;align-items:flex-start;
+  padding:8px 0;border-bottom:1px solid rgba(255,255,255,.04);
+  font-size:13px;gap:16px;
+}
+.rc-row:last-child{border:none;}
+.rk{color:var(--iv4);flex-shrink:0;min-width:120px;}
+.rv{color:var(--iv2);text-align:right;word-break:break-all;font-family:var(--sans);}
+.rv.mono{font-family:var(--mono);font-size:11px;color:var(--green);}
+.rc-confirm{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:12px;font-weight:700;color:var(--green);
+  background:rgba(45,206,130,.08);border:1px solid rgba(45,206,130,.2);
+  padding:4px 10px;border-radius:20px;
+}
+.rc-confirm-dot{width:6px;height:6px;background:var(--green);border-radius:50%;}
+
+/* Payload box */
+.payload-box{
+  background:var(--bg);border:1px solid var(--line);
+  border-radius:10px;padding:14px;margin-top:12px;
+  font-family:var(--mono);font-size:11px;color:var(--iv3);
+  word-break:break-all;line-height:1.7;
+}
+.payload-field{display:flex;flex-direction:column;gap:4px;margin-bottom:8px;}
+.payload-field:last-child{margin-bottom:0;}
+.pf-label{font-size:10px;color:var(--iv4);font-family:var(--sans);text-transform:uppercase;letter-spacing:.08em;}
+.pf-val{color:var(--green);}
+
+/* Independence note */
+.independence-note{
+  background:var(--bg2);border:1px solid var(--line);
+  border-left:3px solid var(--green3);
+  border-radius:10px;padding:18px 20px;
+  margin-bottom:20px;
+}
+.in-title{font-size:11px;font-weight:700;color:var(--green2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;}
+.in-text{font-size:13px;color:var(--iv3);line-height:1.7;}
+
+/* Fallback link */
+.woc-link{
+  display:flex;align-items:center;justify-content:space-between;
+  background:var(--card);border:1px solid var(--line2);
+  border-radius:12px;padding:16px 20px;
+  text-decoration:none;color:var(--iv2);
+  transition:border-color .15s;
+}
+.woc-link:hover{border-color:var(--line3);}
+.woc-left{}
+.woc-label{font-size:11px;color:var(--iv4);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px;}
+.woc-url{font-family:var(--mono);font-size:12px;color:var(--green);}
+.woc-arr{font-size:20px;color:var(--iv4);}
+
+/* FOOTER */
+.page-footer{
+  position:relative;z-index:1;
+  border-top:1px solid var(--line);
+  padding:24px;text-align:center;
+}
+.page-footer p{font-size:12px;color:var(--iv4);line-height:1.6;}
+.page-footer a{color:var(--iv3);text-decoration:none;}
+.page-footer a:hover{color:var(--green2);}
+.page-footer .sep{margin:0 8px;opacity:.4;}
+
+@media(max-width:640px){
+  .hero{padding:32px 20px 24px;}
+  .input-wrap{padding:0 16px 32px;}
+  .result-wrap{padding:0 16px 40px;}
+  .input-row{flex-direction:column;}
+  .btn-verify{width:100%;padding:14px;font-size:15px;}
+  .banner-verified,.banner-notfound,.banner-error{gap:12px;}
+  .banner-ico{font-size:28px;}
+  .rk{min-width:90px;}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="https://doxseal.co.za" class="nav-brand"><b>Dox</b>Seal</a>
+  <span class="nav-badge">Public Verification</span>
+</nav>
+
+<div class="hero">
+  <div class="hero-eye">Independent Blockchain Verification</div>
+  <h1>Verify a Sealed Document</h1>
+  <p class="hero-sub">Enter a Transaction ID from a DoxSeal certificate to verify it directly on the BSV blockchain — no account required.</p>
+</div>
+
+<div class="input-wrap">
+  <div class="input-card">
+    <div class="input-label">Transaction ID</div>
+    <div class="input-row">
+      <input class="txid-input" id="txid-input"
+        type="text"
+        placeholder="e.g. 3a7f92bc4d1e8af5d9c2e4b6f1a3d5e7..."
+        autocomplete="off" spellcheck="false"
+        onkeydown="if(event.key==='Enter')doVerify()">
+      <button class="btn-verify" id="btn-verify" onclick="doVerify()">Verify →</button>
+    </div>
+    <div class="input-hint">
+      The Transaction ID appears on every DoxSeal certificate.
+      You can also verify directly at
+      <a href="https://whatsonchain.com" target="_blank" rel="noopener">whatsonchain.com</a>
+      using the same ID.
+    </div>
+  </div>
+</div>
+
+<!-- Loading -->
+<div class="loading-state" id="loading-state">
+  <div class="spinner"></div>
+  <div class="loading-txt">Querying the BSV blockchain…</div>
+  <div class="loading-sub">Connecting directly to WhatsOnChain — this may take a moment.</div>
+</div>
+
+<!-- Result -->
+<div class="result-wrap" id="result-wrap">
+
+  <!-- ── VERIFIED ── -->
+  <div id="r-verified" style="display:none">
+    <div class="banner-verified">
+      <div class="banner-ico">✅</div>
+      <div class="banner-text">
+        <div class="banner-title">VERIFIED — BLOCKCHAIN RECORD CONFIRMED</div>
+        <div class="banner-sub" id="r-confirm-sub">Record found on the BSV blockchain with confirmations.</div>
+      </div>
+    </div>
+
+    <div class="result-card">
+      <div class="rc-bar"></div>
+      <div class="rc-body">
+
+        <div class="rc-section">
+          <div class="rc-section-title">Blockchain Record</div>
+          <div class="rc-row">
+            <span class="rk">Transaction ID</span>
+            <span class="rv mono" id="r-txid">—</span>
+          </div>
+          <div class="rc-row">
+            <span class="rk">Sealed on</span>
+            <span class="rv" id="r-date">—</span>
+          </div>
+          <div class="rc-row">
+            <span class="rk">Block number</span>
+            <span class="rv mono" id="r-block">—</span>
+          </div>
+          <div class="rc-row">
+            <span class="rk">Confirmations</span>
+            <span class="rv" id="r-confirms">—</span>
+          </div>
+        </div>
+
+        <div class="rc-section" id="r-payload-section" style="display:none">
+          <div class="rc-section-title">Sealed Content</div>
+          <div id="r-payload-fields"></div>
+        </div>
+
+        <div class="rc-section" id="r-raw-section" style="display:none">
+          <div class="rc-section-title">Raw OP_RETURN Data</div>
+          <div class="payload-box" id="r-raw-payload">—</div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="independence-note">
+      <div class="in-title">Independent Verification Statement</div>
+      <div class="in-text">This record was permanently written to the BSV blockchain on the date shown above. It cannot be altered, deleted, or backdated by any person or organisation — including DoxSeal. This verification queries the blockchain directly, not DoxSeal's servers. The record will exist on the blockchain permanently, independently of whether DoxSeal continues to operate.</div>
+    </div>
+
+    <a class="woc-link" id="r-woc-link" href="#" target="_blank" rel="noopener">
+      <div class="woc-left">
+        <div class="woc-label">Also verify at WhatsOnChain</div>
+        <div class="woc-url" id="r-woc-url">—</div>
+      </div>
+      <div class="woc-arr">↗</div>
+    </a>
+  </div>
+
+  <!-- ── NOT FOUND ── -->
+  <div id="r-notfound" style="display:none">
+    <div class="banner-notfound">
+      <div class="banner-ico">❌</div>
+      <div class="banner-text">
+        <div class="banner-title">NOT FOUND — NO BLOCKCHAIN RECORD</div>
+        <div class="banner-sub">No record exists on the BSV blockchain for this Transaction ID.</div>
+      </div>
+    </div>
+    <div class="independence-note" style="border-left-color:var(--red)">
+      <div class="in-title" style="color:var(--red)">What this means</div>
+      <div class="in-text">No transaction with this ID exists on the BSV blockchain. This may indicate:<br><br>
+        • The Transaction ID was copied incorrectly<br>
+        • The certificate has been altered or fabricated<br>
+        • The transaction was never confirmed on-chain<br><br>
+        A genuine DoxSeal certificate will always produce a verified result.
+      </div>
+    </div>
+    <a class="woc-link" id="r-woc-link-nf" href="#" target="_blank" rel="noopener">
+      <div class="woc-left">
+        <div class="woc-label">Check manually at WhatsOnChain</div>
+        <div class="woc-url" id="r-woc-url-nf">—</div>
+      </div>
+      <div class="woc-arr">↗</div>
+    </a>
+  </div>
+
+  <!-- ── API ERROR ── -->
+  <div id="r-error" style="display:none">
+    <div class="banner-error">
+      <div class="banner-ico">⚠️</div>
+      <div class="banner-text">
+        <div class="banner-title">VERIFICATION TEMPORARILY UNAVAILABLE</div>
+        <div class="banner-sub">The blockchain API could not be reached. Verify directly at WhatsOnChain below.</div>
+      </div>
+    </div>
+    <a class="woc-link" id="r-woc-link-err" href="#" target="_blank" rel="noopener">
+      <div class="woc-left">
+        <div class="woc-label">Verify directly at WhatsOnChain</div>
+        <div class="woc-url" id="r-woc-url-err">—</div>
+      </div>
+      <div class="woc-arr">↗</div>
+    </a>
+    <div class="independence-note" style="margin-top:16px">
+      <div class="in-title">Manual verification always works</div>
+      <div class="in-text">Even when this page is unavailable, the blockchain record is permanent. Any person can verify directly at whatsonchain.com by entering the Transaction ID. WhatsOnChain is an independent blockchain explorer with no connection to DoxSeal.</div>
+    </div>
+  </div>
+
+</div>
+
+<footer class="page-footer">
+  <p>
+    © 2026 Orsolso Trader t/a DoxSeal
+    <span class="sep">|</span>
+    <a href="legal.html#terms">Terms</a>
+    <span class="sep">|</span>
+    <a href="legal.html#privacy">Privacy</a>
+    <span class="sep">|</span>
+    <a href="mailto:hello@doxseal.co.za">hello@doxseal.co.za</a>
+  </p>
+</footer>
+
+<script>
+'use strict';
+
+// ── UTILITIES ──
+function hexToUtf8(hex) {
+  const bytes = new Uint8Array(hex.match(/.{1,2}/g).map(b => parseInt(b, 16)));
+  return new TextDecoder('utf-8', { fatal: true }).decode(bytes);
+}
+
+function extractOpReturn(vout) {
+  if (!vout) return null;
+  for (const out of vout) {
+    if (out.scriptPubKey?.type !== 'nulldata') continue;
+    const asm = out.scriptPubKey?.asm || '';
+    // asm is "OP_RETURN <hex>" or "0 OP_RETURN <hex>"
+    const idx = asm.indexOf('OP_RETURN');
+    if (idx === -1) continue;
+    const rest = asm.slice(idx + 9).trim(); // 9 = len('OP_RETURN')
+    const hexPart = rest.split(' ')[0];
+    if (!hexPart || hexPart.length < 2) continue;
+    try { return hexToUtf8(hexPart); } catch(e) {}
+    // If UTF-8 decode fails, return raw hex
+    return hexPart;
+  }
+  return null;
+}
+
+function parseTMPayload(raw) {
+  if (!raw) return null;
+  if (!raw.startsWith('TM|')) {
+    // Legacy plain-text payload (no prefix)
+    return { type: 'plain-legacy', message: raw };
+  }
+  const parts = raw.split('|');
+  // TM|MSG|PROOF|hash|date  or  TM|PROOF|hash|date
+  if (parts[1] === 'MSG' && parts[2] === 'PROOF') {
+    return { type: 'proof', hash: parts[3], date: parts[4] };
+  }
+  if (parts[1] === 'PROOF') {
+    return { type: 'proof', hash: parts[2], date: parts[3] };
+  }
+  // TM|MSG|ENC|base64  or  TM|ENC|base64
+  if (parts[1] === 'MSG' && parts[2] === 'ENC') {
+    return { type: 'encrypted', encoded: parts[3] };
+  }
+  if (parts[1] === 'ENC') {
+    return { type: 'encrypted', encoded: parts[2] };
+  }
+  // TM|MSG|hash|date|message (plain with prefix)
+  if (parts[1] === 'MSG' && parts.length >= 4) {
+    return { type: 'plain', hash: parts[2], date: parts[3], message: parts.slice(4).join('|') };
+  }
+  // TM|WELCOME|email|date|... (faucet/welcome)
+  if (parts[1] === 'WELCOME') {
+    return { type: 'welcome', email: parts[2], date: parts[3], extra: parts.slice(4).join('|') };
+  }
+  // TM|hash|date (default minimal)
+  if (parts.length >= 3) {
+    return { type: 'minimal', hash: parts[1], date: parts[2] };
+  }
+  return { type: 'unknown', raw };
+}
+
+function formatDate(blocktime) {
+  if (!blocktime) return 'Unconfirmed (mempool)';
+  const d = new Date(blocktime * 1000);
+  return d.toLocaleString('en-ZA', {
+    weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
+    hour: '2-digit', minute: '2-digit', second: '2-digit',
+    timeZone: 'Africa/Johannesburg', timeZoneName: 'short'
+  });
+}
+
+function formatConfirmations(n) {
+  if (!n || n === 0) return 'Unconfirmed';
+  if (n >= 6) return n.toLocaleString() + ' confirmations ✓';
+  return n + ' confirmation' + (n===1?'':'s') + ' (still confirming)';
+}
+
+function set(id, html) {
+  const el = document.getElementById(id);
+  if (el) el.innerHTML = html;
+}
+
+function setText(id, txt) {
+  const el = document.getElementById(id);
+  if (el) el.textContent = txt;
+}
+
+function showOnly(id) {
+  ['r-verified','r-notfound','r-error'].forEach(x => {
+    document.getElementById(x).style.display = x === id ? 'block' : 'none';
+  });
+}
+
+// ── MAIN VERIFY ──
+async function doVerify() {
+  const input = document.getElementById('txid-input');
+  const txid  = (input.value || '').trim().toLowerCase().replace(/\s+/g,'');
+
+  if (!txid) { input.focus(); return; }
+
+  // Validate hex format (64 hex chars)
+  if (!/^[0-9a-f]{64}$/.test(txid)) {
+    alert('That doesn\'t look like a valid Transaction ID.\n\nA Transaction ID is exactly 64 hexadecimal characters (0-9, a-f).');
+    input.focus();
+    return;
+  }
+
+  document.getElementById('btn-verify').disabled = true;
+  document.getElementById('result-wrap').classList.remove('show');
+  document.getElementById('loading-state').classList.add('show');
+
+  try {
+    const url = `https://api.whatsonchain.com/v1/bsv/main/tx/${txid}`;
+    const res = await fetch(url, {
+      signal: AbortSignal.timeout(12000),
+      headers: { 'Accept': 'application/json' }
+    });
+
+    document.getElementById('loading-state').classList.remove('show');
+    document.getElementById('result-wrap').classList.add('show');
+
+    if (res.status === 404 || res.status === 400) {
+      showNotFound(txid);
+    } else if (!res.ok) {
+      showApiError(txid);
+    } else {
+      const tx = await res.json();
+      showVerified(txid, tx);
+    }
+  } catch(e) {
+    document.getElementById('loading-state').classList.remove('show');
+    document.getElementById('result-wrap').classList.add('show');
+    showApiError(txid);
+  } finally {
+    document.getElementById('btn-verify').disabled = false;
+  }
+}
+
+function showVerified(txid, tx) {
+  const wocUrl = `https://whatsonchain.com/tx/${txid}`;
+  const confirms = tx.confirmations || 0;
+
+  // Banner sub-text
+  setText('r-confirm-sub',
+    `${confirms.toLocaleString()} confirmation${confirms===1?'':'s'} on the BSV blockchain — sealed ${formatDate(tx.blocktime)}`
+  );
+
+  // Record fields
+  set('r-txid', `<span style="font-size:10px;font-family:var(--mono);color:var(--green)">${txid}</span>`);
+  setText('r-date', formatDate(tx.blocktime));
+  setText('r-block', tx.blockheight ? '#' + tx.blockheight.toLocaleString() : 'Mempool (unconfirmed)');
+  set('r-confirms', `<span class="rc-confirm"><span class="rc-confirm-dot"></span>${formatConfirmations(confirms)}</span>`);
+
+  // Extract & parse OP_RETURN payload
+  const rawPayload = extractOpReturn(tx.vout);
+  const parsed = parseTMPayload(rawPayload);
+
+  if (parsed) {
+    document.getElementById('r-payload-section').style.display = 'block';
+    const fields = buildPayloadFields(parsed, rawPayload);
+    document.getElementById('r-payload-fields').innerHTML = fields;
+  }
+
+  if (rawPayload) {
+    document.getElementById('r-raw-section').style.display = 'block';
+    setText('r-raw-payload', rawPayload);
+  }
+
+  // WoC link
+  const wocEl = document.getElementById('r-woc-link');
+  wocEl.href = wocUrl;
+  setText('r-woc-url', wocUrl);
+
+  showOnly('r-verified');
+}
+
+function buildPayloadFields(parsed, raw) {
+  let html = '';
+  const row = (label, val, mono) =>
+    `<div class="payload-field"><span class="pf-label">${label}</span><span class="pf-val" ${mono?'':'style="font-family:var(--sans);color:var(--iv2)"'}>${escHtml(val||'—')}</span></div>`;
+
+  if (parsed.type === 'proof') {
+    html += row('Type', 'Hash proof — document fingerprint only (content private)', false);
+    if (parsed.hash) html += row('Document fingerprint (SHA-256)', parsed.hash, true);
+    if (parsed.date) html += row('Recorded date', parsed.date, false);
+  } else if (parsed.type === 'plain') {
+    html += row('Type', 'Sealed message with fingerprint', false);
+    if (parsed.hash) html += row('Document fingerprint (SHA-256)', parsed.hash, true);
+    if (parsed.date) html += row('Recorded date', parsed.date, false);
+    if (parsed.message) html += row('Sealed message', parsed.message, false);
+  } else if (parsed.type === 'plain-legacy') {
+    html += row('Type', 'Sealed message', false);
+    html += row('Content', parsed.message, false);
+  } else if (parsed.type === 'encrypted') {
+    html += row('Type', 'Encrypted — content is private', false);
+    html += row('Note', 'The message content is encrypted. Only the sender can decrypt it.', false);
+  } else if (parsed.type === 'minimal') {
+    html += row('Type', 'Proof of existence', false);
+    if (parsed.hash) html += row('Reference hash', parsed.hash, true);
+    if (parsed.date) html += row('Recorded date', parsed.date, false);
+  } else if (parsed.type === 'welcome') {
+    html += row('Type', 'Account creation record', false);
+    if (parsed.date) html += row('Date', parsed.date, false);
+  } else {
+    html += row('Raw payload', raw || '—', true);
+  }
+  return html;
+}
+
+function escHtml(str) {
+  return String(str)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;');
+}
+
+function showNotFound(txid) {
+  const wocUrl = `https://whatsonchain.com/tx/${txid}`;
+  const el = document.getElementById('r-woc-link-nf');
+  el.href = wocUrl;
+  setText('r-woc-url-nf', wocUrl);
+  showOnly('r-notfound');
+}
+
+function showApiError(txid) {
+  const wocUrl = `https://whatsonchain.com/tx/${txid}`;
+  const el = document.getElementById('r-woc-link-err');
+  el.href = wocUrl;
+  setText('r-woc-url-err', wocUrl);
+  showOnly('r-error');
+}
+
+// ── AUTO-VERIFY FROM URL PARAM ──
+(function() {
+  const params = new URLSearchParams(window.location.search);
+  const txid = params.get('txid') || params.get('tx') || '';
+  if (txid) {
+    document.getElementById('txid-input').value = txid;
+    // Small delay so page renders first
+    setTimeout(doVerify, 400);
+  }
+})();
+</script>
+
+</body>
+</html>
