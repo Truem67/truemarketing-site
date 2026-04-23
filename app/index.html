@@ -920,8 +920,8 @@ body::before{
     color:#1a8a53!important;word-break:break-all;line-height:1.5;margin-bottom:9px;
   }
   .pc-qr-wrap{flex-shrink:0;text-align:center;}
-  .pc-qr-wrap canvas{
-    width:96px!important;height:96px!important;display:block;
+  .pc-qr-wrap img{
+    width:150px!important;height:150px!important;display:block;
     border:1px solid #ccc;border-radius:4px;
   }
   .pc-qr-lbl{
@@ -1079,8 +1079,8 @@ body::before{
   word-break:break-all;line-height:1.5;margin-bottom:8px;
 }
 .cvb-note{font-size:11px;color:var(--iv3);line-height:1.55;}
-.cvb-qr{flex-shrink:0;width:72px;height:72px;border-radius:8px;overflow:hidden;background:var(--card);}
-.cvb-qr canvas{width:72px!important;height:72px!important;}
+.cvb-qr{flex-shrink:0;width:150px;height:150px;border-radius:8px;overflow:hidden;background:var(--card);}
+.cvb-qr img{width:150px!important;height:150px!important;display:block;}
 .cvb-txid-row{margin-top:8px;}
 .cvb-txid-label{font-size:10px;color:var(--iv4);text-transform:uppercase;letter-spacing:.08em;margin-bottom:3px;}
 .cvb-txid{font-family:var(--mono);font-size:9px;color:var(--green);word-break:break-all;line-height:1.6;}
@@ -1851,21 +1851,13 @@ async function doSeal(){
     set('chain-txt',API.broadcast?'⛓ Recorded on BSV blockchain · Permanent':'🔒 Sealed locally · Connect server for on-chain');
     // Populate independent verification box
     if(isLiveTx){
-      const verifyURL = 'https://doxseal.co.za/verify?txid='+txid;
+      const verifyURL = 'https://doxseal.co.za/verify.html?txid='+txid;
       document.getElementById('cert-verify-box').style.display='block';
       document.getElementById('cvb-url').textContent = verifyURL;
       document.getElementById('cvb-txid-full').textContent = txid;
-      // Generate QR code pointing to our verify page
+      // QR code via qrserver.com — reliable in all browsers and print/PDF
       const qrContainer = document.getElementById('cvb-qr');
-      qrContainer.innerHTML='';
-      if(typeof QRCode !== 'undefined'){
-        QRCode.toCanvas(document.createElement('canvas'), verifyURL, {
-          width:72, margin:1,
-          color:{ dark:'#2dce82', light:'#141f16' }
-        }, function(err, canvas){
-          if(!err){ canvas.style.cssText='width:72px;height:72px;border-radius:6px;'; qrContainer.appendChild(canvas); }
-        });
-      }
+      qrContainer.innerHTML='<img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data='+encodeURIComponent(verifyURL)+'" alt="QR Code" style="width:150px;height:150px;border-radius:6px;">';
     } else {
       document.getElementById('cert-verify-box').style.display='none';
     }
@@ -1909,47 +1901,102 @@ function verifyOnChain(){
 
 function downloadCert(){
   if(!LAST) return;
-  const txt=[
-    '═══════════════════════════════════════════════',
-    '   DOXSEAL — CERTIFICATE OF PROTECTION',
-    '═══════════════════════════════════════════════',
-    '',
-    'Subject:           '+LAST.subj,
-    'Protected for:     '+LAST.to,
-    'Date & time:       '+LAST.tsStr,
-    'Privacy mode:      '+LAST.mode,
-    '',
-    '───────────────────────────────────────────────',
-    'DIGITAL FINGERPRINT (SHA-256)',
-    LAST.fullHash,
-    '',
-    'TRANSACTION ID',
-    LAST.txid,
-    '',
-    '───────────────────────────────────────────────',
-    'INDEPENDENT VERIFICATION',
-    'To verify this certificate is genuine, visit:',
-    LAST.txid.startsWith('demo_')
-      ? 'Connect server for live blockchain transactions'
-      : 'https://doxseal.co.za/verify?txid='+LAST.txid,
-    '',
-    'Or verify directly on WhatsOnChain:',
-    LAST.txid.startsWith('demo_')
-      ? ''
-      : 'https://whatsonchain.com/tx/'+LAST.txid,
-    '',
-    '═══════════════════════════════════════════════',
-    'This certificate is self-verifying. The proof',
-    'exists independently of DoxSeal on the',
-    'BSV blockchain — permanently and immutably.',
-    '═══════════════════════════════════════════════',
-  ].join('\n');
-  const blob=new Blob([txt],{type:'text/plain'});
-  const a=document.createElement('a');
-  a.href=URL.createObjectURL(blob);
-  a.download='TM-Certificate-'+Date.now()+'.txt';
-  a.click();
-  toast('Certificate saved','Check your downloads folder.','📄');
+  const isLive  = !LAST.txid.startsWith('demo_');
+  const verifyUrl = isLive ? 'https://doxseal.co.za/verify.html?txid='+LAST.txid : null;
+  const qrSrc     = verifyUrl ? 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data='+encodeURIComponent(verifyUrl) : null;
+  const sealedBy  = (CU&&CU.name ? CU.name+' · ' : '')+(CU&&CU.email||'—');
+  const h = s => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+  const html = `<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8">
+<title>DoxSeal Certificate — ${h(LAST.subj)}</title>
+<style>
+@page{size:A4 portrait;margin:14mm 18mm;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:Georgia,'Times New Roman',serif;color:#111;background:#fff;padding:0 20px 20px;}
+.bar{height:9px;background:linear-gradient(90deg,#1a8a53,#2dce82,#c8a84b);margin:0 -20px;}
+.header{display:flex;justify-content:space-between;align-items:center;padding:18px 0 15px;border-bottom:2px solid #1a8a53;}
+.logo{font-size:24px;font-weight:700;color:#1a8a53;}
+.logo-tag{font-size:11px;color:#555;margin-top:2px;font-family:Arial,sans-serif;}
+.badge{background:#1a8a53;color:#fff;font-size:10px;padding:6px 12px;border-radius:4px;font-family:Arial,sans-serif;}
+.title-wrap{text-align:center;padding:16px 0 14px;border-bottom:1px solid #c4e0cc;}
+.eyebrow{font-size:9px;letter-spacing:2px;color:#888;text-transform:uppercase;font-family:Arial,sans-serif;margin-bottom:6px;}
+.cert-title{font-size:20px;color:#1a8a53;font-weight:700;}
+.cert-sub{font-size:11px;color:#555;margin-top:5px;font-family:Arial,sans-serif;}
+.section{padding:14px 0;border-bottom:1px solid #e0ede5;}
+.section-lbl{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#888;margin-bottom:10px;font-family:Arial,sans-serif;}
+table{width:100%;border-collapse:collapse;}
+td{padding:4px 0;font-size:12px;vertical-align:top;}
+td:first-child{color:#555;width:36%;font-size:11px;font-family:Arial,sans-serif;}
+.hash-block{margin-bottom:8px;}
+.hash-lbl{font-size:9px;color:#555;margin-bottom:3px;font-family:Arial,sans-serif;}
+.hash-val{font-family:'Courier New',Courier,monospace;font-size:10px;color:#1a8a53;word-break:break-all;background:#f0f7f3;padding:6px;border-radius:3px;border:1px solid #c4e0cc;}
+.verify-inner{display:flex;gap:20px;align-items:flex-start;}
+.verify-left{flex:1;min-width:0;}
+.verify-note{font-size:10px;color:#555;line-height:1.6;margin-bottom:12px;font-family:Arial,sans-serif;}
+.url-lbl{font-size:9px;color:#888;text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;font-family:Arial,sans-serif;}
+.url{font-family:'Courier New',Courier,monospace;font-size:10px;color:#1a8a53;word-break:break-all;margin-bottom:10px;}
+.qr-wrap{flex-shrink:0;text-align:center;}
+.qr-wrap img{width:150px;height:150px;border:1px solid #ccc;border-radius:4px;display:block;}
+.qr-lbl{font-size:8px;color:#888;margin-top:4px;font-family:Arial,sans-serif;}
+.footer{padding:12px 0;border-top:2px solid #1a8a53;text-align:center;margin-top:20px;background:#eef8f2;}
+.footer-main{font-size:10px;color:#333;font-family:Arial,sans-serif;}
+.footer-sub{font-size:9px;color:#888;margin-top:3px;font-family:Arial,sans-serif;}
+</style>
+</head><body>
+<div class="bar"></div>
+<div class="header">
+  <div><div class="logo">DoxSeal</div><div class="logo-tag">Blockchain Document Protection</div></div>
+  <div class="badge">&#9679; Permanently Sealed</div>
+</div>
+<div class="title-wrap">
+  <div class="eyebrow">Certificate of Digital Protection</div>
+  <div class="cert-title">DoxSeal — Certificate of Digital Protection</div>
+  <div class="cert-sub">Sealed on the BSV blockchain · Immutable · Tamper-evident · CCMA-admissible</div>
+</div>
+<div class="section">
+  <div class="section-lbl">Document Details</div>
+  <table>
+    <tr><td>Document / Subject</td><td>${h(LAST.subj)}</td></tr>
+    <tr><td>Protected For</td><td>${h(LAST.to)}</td></tr>
+    <tr><td>Sealed By</td><td>${h(sealedBy)}</td></tr>
+    <tr><td>Date &amp; Time</td><td>${h(LAST.tsStr)}</td></tr>
+    <tr><td>Privacy Mode</td><td>${h(LAST.mode)}</td></tr>
+  </table>
+</div>
+<div class="section">
+  <div class="section-lbl">Cryptographic Proof</div>
+  <div class="hash-block"><div class="hash-lbl">SHA-256 Digital Fingerprint (Full Hash)</div><div class="hash-val">${h(LAST.fullHash)}</div></div>
+  <div class="hash-block"><div class="hash-lbl">BSV Blockchain Transaction ID</div><div class="hash-val">${h(LAST.txid)}</div></div>
+</div>
+<div class="section">
+  <div class="section-lbl">Independent Verification</div>
+  <div class="verify-inner">
+    <div class="verify-left">
+      <p class="verify-note">This certificate can be independently verified on the BSV public blockchain. The proof exists permanently on a decentralised public ledger and cannot be altered, deleted, or denied by any party — including DoxSeal.</p>
+      <div class="url-lbl">Verify this certificate at</div>
+      <div class="url">${verifyUrl ? h(verifyUrl) : 'Connect server for live blockchain transactions'}</div>
+      <div class="url-lbl">Or directly on WhatsOnChain</div>
+      <div class="url">${isLive ? 'https://whatsonchain.com/tx/'+h(LAST.txid) : '(demo seal — not on chain)'}</div>
+    </div>
+    ${qrSrc ? '<div class="qr-wrap"><img id="cert-qr" src="'+qrSrc+'" alt="Scan to verify"><div class="qr-lbl">Scan to verify</div></div>' : ''}
+  </div>
+</div>
+<div class="footer">
+  <div class="footer-main">This certificate is self-verifying. Verify at doxseal.co.za/verify.html — Electronic Communications and Transactions Act 25 of 2002</div>
+  <div class="footer-sub">DoxSeal · hello@doxseal.co.za · doxseal.co.za · The proof exists independently on the BSV blockchain — permanently and immutably.</div>
+</div>
+<script>
+${qrSrc ? "var q=document.getElementById('cert-qr');q.onload=function(){window.print();};q.onerror=function(){window.print();};" : 'window.onload=function(){window.print();};'}
+</script>
+</body></html>`;
+
+  const win = window.open('','_blank');
+  if(!win){ toast('Popup blocked','Allow popups for this site to download the certificate.','⚠️'); return; }
+  win.document.write(html);
+  win.document.close();
+  toast('Certificate ready','Choose "Save as PDF" in the print dialog.','📄');
 }
 
 function printCert(){
@@ -1957,7 +2004,7 @@ function printCert(){
 
   const isLive  = !LAST.txid.startsWith('demo_');
   const verifyUrl = isLive
-    ? 'https://doxseal.co.za/verify?txid='+LAST.txid
+    ? 'https://doxseal.co.za/verify.html?txid='+LAST.txid
     : 'Demo mode — connect server for live blockchain transactions';
   const wocUrl  = isLive ? 'https://whatsonchain.com/tx/'+LAST.txid : '(demo seal — not on chain)';
 
@@ -1979,17 +2026,11 @@ function printCert(){
   s('pc-url').textContent   = verifyUrl;
   s('pc-woc').textContent   = wocUrl;
 
-  // Render QR code into print canvas
-  const canvas = s('pc-qr-canvas');
-  if(isLive && typeof QRCode !== 'undefined'){
-    try{
-      QRCode.toCanvas(canvas, verifyUrl, {
-        width:96, margin:1,
-        color:{dark:'#1a8a53',light:'#ffffff'}
-      });
-    }catch(e){ canvas.style.display='none'; }
-  } else {
-    canvas.style.display='none';
+  // QR code via qrserver.com — renders reliably in print and PDF export
+  const qrImg = s('pc-qr-img');
+  if(isLive){
+    qrImg.src = 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data='+encodeURIComponent(verifyUrl);
+    qrImg.style.display = 'block';
   }
 
   window.print();
@@ -2184,7 +2225,7 @@ async function fetchLivePrice(){
           <div class="pc-url" id="pc-woc"></div>
         </div>
         <div class="pc-qr-wrap">
-          <canvas id="pc-qr-canvas"></canvas>
+          <img id="pc-qr-img" src="" alt="QR Code" style="display:none">
           <div class="pc-qr-lbl">Scan to verify</div>
         </div>
       </div>
