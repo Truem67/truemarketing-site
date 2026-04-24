@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- DoxSeal verify v2026.04.24b -->
+<!-- DoxSeal verify v2026.04.24c -->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -219,7 +219,7 @@ body::before{
 .payload-field{display:flex;flex-direction:column;gap:4px;margin-bottom:8px;}
 .payload-field:last-child{margin-bottom:0;}
 .pf-label{font-size:10px;color:var(--iv4);font-family:var(--sans);text-transform:uppercase;letter-spacing:.08em;}
-.pf-val{color:var(--green);word-break:break-word;overflow-wrap:break-word;white-space:pre-wrap;}
+.pf-val{color:var(--green);word-break:break-word;overflow-wrap:break-word;white-space:pre-wrap;overflow:visible;max-height:none;max-width:100%;}
 
 /* Independence note */
 .independence-note{
@@ -352,7 +352,7 @@ body::before{
 
         <div class="rc-section" id="r-raw-section" style="display:none">
           <div class="rc-section-title">Raw OP_RETURN Data</div>
-          <div class="payload-box" id="r-raw-payload">—</div>
+          <div class="payload-box" id="r-raw-payload" style="word-break:break-word;overflow-wrap:break-word;white-space:pre-wrap;overflow:visible;max-height:none;max-width:100%;">—</div>
         </div>
 
       </div>
@@ -616,7 +616,7 @@ function showVerified(txid, tx) {
 function buildPayloadFields(parsed, raw) {
   let html = '';
   const row = (label, val, mono) =>
-    `<div class="payload-field"><span class="pf-label">${label}</span><span class="pf-val" ${mono?'':'style="font-family:var(--sans);color:var(--iv2)"'}>${escHtml(val||'—')}</span></div>`;
+    `<div class="payload-field"><span class="pf-label">${label}</span><span class="pf-val" style="${mono?'':'font-family:var(--sans);color:var(--iv2);'}word-break:break-word;overflow-wrap:break-word;white-space:pre-wrap;overflow:visible;max-height:none;max-width:100%;">${escHtml(val||'—')}</span></div>`;
 
   if (parsed.type === 'proof') {
     html += row('Type', 'Hash proof — document fingerprint only (content private)', false);
