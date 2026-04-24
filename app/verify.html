@@ -181,7 +181,7 @@ body::before{
 /* Result detail card */
 .result-card{
   background:var(--card);border:1px solid var(--line2);
-  border-radius:16px;overflow:hidden;margin-bottom:20px;
+  border-radius:16px;overflow:visible;margin-bottom:20px;
 }
 .rc-bar{height:3px;background:linear-gradient(90deg,var(--green3),var(--green),var(--gold));}
 .rc-body{padding:24px;}
@@ -218,7 +218,7 @@ body::before{
 .payload-field{display:flex;flex-direction:column;gap:4px;margin-bottom:8px;}
 .payload-field:last-child{margin-bottom:0;}
 .pf-label{font-size:10px;color:var(--iv4);font-family:var(--sans);text-transform:uppercase;letter-spacing:.08em;}
-.pf-val{color:var(--green);}
+.pf-val{color:var(--green);word-break:break-word;overflow-wrap:break-word;white-space:pre-wrap;}
 
 /* Independence note */
 .independence-note{
