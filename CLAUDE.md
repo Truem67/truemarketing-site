@@ -110,7 +110,7 @@ const SERVER_URL = 'https://your-server.up.railway.app';
 
 ## Demo Credentials (for testing)
 - User: demo@truemarketing.co.za / demo123
-- Owner: owner@truemarketing.co.za / DoxSeal@2026! / 2FA: 123456
+- Owner: owner@truemarketing.co.za / DoxSeal2026Owner / 2FA: 123456
 
 ## Common Tasks for Claude Code
 - "Update SERVER_URL in both HTML files to [URL]"
