@@ -453,7 +453,7 @@ function extractOpReturn(vout) {
     const idx = asm.indexOf('OP_RETURN');
     if (idx === -1) continue;
     const rest = asm.slice(idx + 9).trim(); // 9 = len('OP_RETURN')
-    const hexPart = rest.split(' ')[0];
+    const hexPart = rest.split(' ').join('');
     if (!hexPart || hexPart.length < 2) continue;
     try { return hexToUtf8(hexPart); } catch(e) {}
     // If UTF-8 decode fails, return raw hex
