@@ -755,6 +755,9 @@ body::before{
 .cv.m{font-family:var(--mono);font-size:10px;color:var(--green);}
 .cert-row-hero{background:rgba(45,206,130,.07);border-radius:8px;padding:12px 8px;margin:0 -8px 6px;border-bottom:2px solid rgba(45,206,130,.18) !important;}
 .cv-hero{font-size:16px !important;font-weight:700;color:var(--ivory) !important;}
+.cert-row-msg{display:block;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.04);}
+.ck-msg{display:block;color:var(--iv4);font-size:12px;margin-bottom:5px;}
+.cv-msg{display:block;color:var(--iv2);font-size:11px;line-height:1.7;word-break:break-word;overflow-wrap:break-word;white-space:pre-wrap;text-align:left;}
 
 /* Blockchain confirmed */
 .chain-bar{
@@ -1474,6 +1477,7 @@ body::before{
         </div>
         <div class="cert-row cert-row-hero"><span class="ck">Protected for</span><span class="cv cv-hero" id="cv-to">—</span></div>
         <div class="cert-row"><span class="ck">Subject</span><span class="cv" id="cv-subj">—</span></div>
+        <div class="cert-row-msg" id="cv-msg-row" style="display:none"><span class="ck-msg">Sealed message</span><span class="cv-msg" id="cv-msg"></span></div>
         <div class="cert-row"><span class="ck">Date &amp; time</span><span class="cv" id="cv-ts">—</span></div>
         <div class="cert-row"><span class="ck">Digital fingerprint</span><span class="cv m" id="cv-hash">—</span></div>
         <div class="cert-row"><span class="ck">Transaction ID</span><span class="cv m" id="cv-txid">—</span></div>
@@ -1848,6 +1852,8 @@ async function doSeal(){
     set('cv-subj',subj);
     set('cv-to',to);
     set('cv-ts',tsStr);
+    if(msg){set('cv-msg',msg);document.getElementById('cv-msg-row').style.display='block';}
+    else{document.getElementById('cv-msg-row').style.display='none';}
     set('cv-hash',hash.slice(0,22)+'…');
     const isLiveTx = !txid.startsWith('demo_');
     set('cv-txid', isLiveTx ? txid.slice(0,28)+'…' : 'Demo — connect server for live TX');
@@ -1936,6 +1942,8 @@ td:first-child{color:#555;width:36%;font-size:11px;font-family:Arial,sans-serif;
 .hero-row td{padding:10px 0 12px;}
 .hero-row td:first-child{font-size:12px;color:#555;font-family:Arial,sans-serif;}
 .hero-val{font-size:17px !important;font-weight:700;color:#111;}
+.msg-row td:first-child{vertical-align:top;padding-top:6px;}
+.msg-val{white-space:pre-wrap;word-break:break-word;overflow-wrap:break-word;line-height:1.7;font-size:12px;}
 .hash-lbl{font-size:9px;color:#555;margin-bottom:3px;font-family:Arial,sans-serif;}
 .hash-val{font-family:'Courier New',Courier,monospace;font-size:10px;color:#1a8a53;word-break:break-all;background:#f0f7f3;padding:6px;border-radius:3px;border:1px solid #c4e0cc;}
 .verify-inner{display:flex;gap:20px;align-items:flex-start;}
@@ -1966,6 +1974,7 @@ td:first-child{color:#555;width:36%;font-size:11px;font-family:Arial,sans-serif;
   <table>
     <tr class="hero-row"><td>Protected For</td><td class="hero-val">${h(LAST.to)}</td></tr>
     <tr><td>Document / Subject</td><td>${h(LAST.subj)}</td></tr>
+    ${LAST.msg ? `<tr class="msg-row"><td>Sealed Message</td><td class="msg-val">${h(LAST.msg)}</td></tr>` : ''}
     <tr><td>Sealed By</td><td>${h(sealedBy)}</td></tr>
     <tr><td>Date &amp; Time</td><td>${h(LAST.tsStr)}</td></tr>
     <tr><td>Privacy Mode</td><td>${h(LAST.mode)}</td></tr>
