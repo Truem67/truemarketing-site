@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- DoxSeal verify v2026.04.24c -->
+<!-- DoxSeal verify v2026.04.25a -->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -447,11 +447,11 @@ function hexToUtf8(hex) {
 function extractOpReturn(vout) {
   if (!vout) return null;
   for (const out of vout) {
-    if (out.scriptPubKey?.type !== 'nulldata') continue;
     const asm = out.scriptPubKey?.asm || '';
-    // asm is "OP_RETURN <hex>" or "0 OP_RETURN <hex>"
+    // Accept nulldata OR nonstandard — buildSafeDataOut produces OP_0 OP_RETURN
+    // which WhatsOnChain classifies as 'nonstandard', not 'nulldata'
+    if (!asm.includes('OP_RETURN')) continue;
     const idx = asm.indexOf('OP_RETURN');
-    if (idx === -1) continue;
     const rest = asm.slice(idx + 9).trim(); // 9 = len('OP_RETURN')
     const hexPart = rest.split(' ').join('');
     if (!hexPart || hexPart.length < 2) continue;
