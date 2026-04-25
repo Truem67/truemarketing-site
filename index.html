@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- DoxSeal app v2026.04.24b -->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -2136,7 +2137,7 @@ function buildOP(hash,to,subj,msg){
   const d=new Date().toISOString().slice(0,10);
   if(PRIV==='plain')     return 'TM|MSG|'+hash.slice(0,20)+'|'+d+'|'+msg.slice(0,500);
   if(PRIV==='hash')      return 'TM|PROOF|'+hash.slice(0,20)+'|'+d;
-  if(PRIV==='encrypted') return 'TM|ENC|'+btoa(unescape(encodeURIComponent(msg.slice(0,50))));
+  if(PRIV==='encrypted') return 'TM|ENC|'+btoa(unescape(encodeURIComponent(msg.slice(0,80))));
   return 'TM|MSG|'+hash.slice(0,20)+'|'+d;
 }
 
