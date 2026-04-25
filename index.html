@@ -753,6 +753,8 @@ body::before{
 .ck{color:var(--iv4);flex-shrink:0;margin-right:10px;}
 .cv{color:var(--iv2);text-align:right;word-break:break-all;font-size:11px;}
 .cv.m{font-family:var(--mono);font-size:10px;color:var(--green);}
+.cert-row-hero{background:rgba(45,206,130,.07);border-radius:8px;padding:12px 8px;margin:0 -8px 6px;border-bottom:2px solid rgba(45,206,130,.18) !important;}
+.cv-hero{font-size:16px !important;font-weight:700;color:var(--ivory) !important;}
 
 /* Blockchain confirmed */
 .chain-bar{
@@ -1470,8 +1472,8 @@ body::before{
             <div class="cert-head-sub">Blockchain · Immutable · Permanent</div>
           </div>
         </div>
+        <div class="cert-row cert-row-hero"><span class="ck">Protected for</span><span class="cv cv-hero" id="cv-to">—</span></div>
         <div class="cert-row"><span class="ck">Subject</span><span class="cv" id="cv-subj">—</span></div>
-        <div class="cert-row"><span class="ck">Protected for</span><span class="cv" id="cv-to">—</span></div>
         <div class="cert-row"><span class="ck">Date &amp; time</span><span class="cv" id="cv-ts">—</span></div>
         <div class="cert-row"><span class="ck">Digital fingerprint</span><span class="cv m" id="cv-hash">—</span></div>
         <div class="cert-row"><span class="ck">Transaction ID</span><span class="cv m" id="cv-txid">—</span></div>
@@ -1931,6 +1933,9 @@ table{width:100%;border-collapse:collapse;}
 td{padding:4px 0;font-size:12px;vertical-align:top;}
 td:first-child{color:#555;width:36%;font-size:11px;font-family:Arial,sans-serif;}
 .hash-block{margin-bottom:8px;}
+.hero-row td{padding:10px 0 12px;}
+.hero-row td:first-child{font-size:12px;color:#555;font-family:Arial,sans-serif;}
+.hero-val{font-size:17px !important;font-weight:700;color:#111;}
 .hash-lbl{font-size:9px;color:#555;margin-bottom:3px;font-family:Arial,sans-serif;}
 .hash-val{font-family:'Courier New',Courier,monospace;font-size:10px;color:#1a8a53;word-break:break-all;background:#f0f7f3;padding:6px;border-radius:3px;border:1px solid #c4e0cc;}
 .verify-inner{display:flex;gap:20px;align-items:flex-start;}
@@ -1959,8 +1964,8 @@ td:first-child{color:#555;width:36%;font-size:11px;font-family:Arial,sans-serif;
 <div class="section">
   <div class="section-lbl">Document Details</div>
   <table>
+    <tr class="hero-row"><td>Protected For</td><td class="hero-val">${h(LAST.to)}</td></tr>
     <tr><td>Document / Subject</td><td>${h(LAST.subj)}</td></tr>
-    <tr><td>Protected For</td><td>${h(LAST.to)}</td></tr>
     <tr><td>Sealed By</td><td>${h(sealedBy)}</td></tr>
     <tr><td>Date &amp; Time</td><td>${h(LAST.tsStr)}</td></tr>
     <tr><td>Privacy Mode</td><td>${h(LAST.mode)}</td></tr>
