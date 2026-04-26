@@ -1975,7 +1975,6 @@ td:first-child{color:#555;width:36%;font-size:11px;font-family:Arial,sans-serif;
   <table>
     <tr class="hero-row"><td>Protected For</td><td class="hero-val">${h(LAST.to)}</td></tr>
     <tr><td>Document / Subject</td><td>${h(LAST.subj)}</td></tr>
-    ${LAST.msg ? `<tr class="msg-row"><td>Sealed Message</td><td class="msg-val">${h(LAST.msg)}</td></tr>` : ''}
     <tr><td>Sealed By</td><td>${h(sealedBy)}</td></tr>
     <tr><td>Date &amp; Time</td><td>${h(LAST.tsStr)}</td></tr>
     <tr><td>Privacy Mode</td><td>${h(LAST.mode)}</td></tr>
@@ -1996,7 +1995,7 @@ td:first-child{color:#555;width:36%;font-size:11px;font-family:Arial,sans-serif;
       <div class="url-lbl">Or directly on WhatsOnChain</div>
       <div class="url">${isLive ? 'https://whatsonchain.com/tx/'+h(LAST.txid) : '(demo seal — not on chain)'}</div>
     </div>
-    ${qrSrc ? '<div class="qr-wrap"><img id="cert-qr" src="'+qrSrc+'" alt="Scan to verify"><div class="qr-lbl">Scan to verify</div></div>' : ''}
+    ${qrSrc ? '<div class="qr-wrap"><img id="cert-qr" src="'+qrSrc+'" alt="Scan to verify"><div class="qr-lbl">Scan to read the sealed message and verify on the blockchain</div></div>' : ''}
   </div>
 </div>
 <div class="footer">
@@ -2242,7 +2241,7 @@ async function fetchLivePrice(){
         </div>
         <div class="pc-qr-wrap">
           <img id="pc-qr-img" src="" alt="QR Code" style="display:none">
-          <div class="pc-qr-lbl">Scan to verify</div>
+          <div class="pc-qr-lbl">Scan to read the sealed message and verify on the blockchain</div>
         </div>
       </div>
     </div>
