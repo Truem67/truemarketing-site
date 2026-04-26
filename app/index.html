@@ -2041,14 +2041,16 @@ function printCert(){
   s('pc-url').textContent   = verifyUrl;
   s('pc-woc').textContent   = wocUrl;
 
-  // QR code via qrserver.com — renders reliably in print and PDF export
+  // QR code — set onload BEFORE src so the handler is always attached
   const qrImg = s('pc-qr-img');
   if(isLive){
-    qrImg.src = 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data='+encodeURIComponent(verifyUrl);
     qrImg.style.display = 'block';
+    qrImg.onload  = function(){ setTimeout(function(){ window.print(); }, 500); };
+    qrImg.onerror = function(){ window.print(); };
+    qrImg.src = 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data='+encodeURIComponent(verifyUrl);
+  } else {
+    window.print();
   }
-
-  window.print();
 }
 
 // ═══════════════════════════════
