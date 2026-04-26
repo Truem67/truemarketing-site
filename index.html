@@ -894,6 +894,7 @@ body::before{
     font-family:Georgia,'Times New Roman',serif;
     font-size:12px;color:#111!important;line-height:1.5;
   }
+  .pv-hero{font-size:17px!important;font-weight:700;color:#111!important;}
 
   /* ── Crypto proof section ── */
   .pc-crypto{background:#f4fbf7!important;}
@@ -2207,8 +2208,8 @@ async function fetchLivePrice(){
     <div class="pc-section">
       <div class="pc-section-lbl">Document Details</div>
       <table class="pc-table">
+        <tr><td class="pk">Protected&nbsp;For</td><td class="pv pv-hero" id="pc-to"></td></tr>
         <tr><td class="pk">Document&nbsp;/&nbsp;Subject</td><td class="pv" id="pc-subj"></td></tr>
-        <tr><td class="pk">Protected&nbsp;For</td><td class="pv" id="pc-to"></td></tr>
         <tr><td class="pk">Sealed&nbsp;By</td><td class="pv" id="pc-from"></td></tr>
         <tr><td class="pk">Date&nbsp;&amp;&nbsp;Time</td><td class="pv" id="pc-ts"></td></tr>
         <tr><td class="pk">Privacy&nbsp;Mode</td><td class="pv" id="pc-mode"></td></tr>
