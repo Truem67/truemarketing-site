@@ -932,8 +932,8 @@ body::before{
     border:1px solid #ccc;border-radius:4px;
   }
   .pc-qr-lbl{
-    font-family:Arial,Helvetica,sans-serif;font-size:8px;
-    color:#888!important;margin-top:4px;letter-spacing:.3px;
+    font-family:Arial,Helvetica,sans-serif;font-size:11px;font-weight:600;
+    color:#333!important;margin-top:10px;line-height:1.55;max-width:160px;text-align:center;
   }
 
   /* ── Footer ── */
@@ -1954,7 +1954,7 @@ td:first-child{color:#555;width:36%;font-size:11px;font-family:Arial,sans-serif;
 .url{font-family:'Courier New',Courier,monospace;font-size:10px;color:#1a8a53;word-break:break-all;margin-bottom:10px;}
 .qr-wrap{flex-shrink:0;text-align:center;}
 .qr-wrap img{width:150px;height:150px;border:1px solid #ccc;border-radius:4px;display:block;}
-.qr-lbl{font-size:8px;color:#888;margin-top:4px;font-family:Arial,sans-serif;}
+.qr-lbl{font-size:11px;color:#333;font-weight:600;margin-top:10px;font-family:Arial,sans-serif;line-height:1.55;max-width:160px;text-align:center;}
 .footer{padding:12px 0;border-top:2px solid #1a8a53;text-align:center;margin-top:20px;background:#eef8f2;}
 .footer-main{font-size:10px;color:#333;font-family:Arial,sans-serif;}
 .footer-sub{font-size:9px;color:#888;margin-top:3px;font-family:Arial,sans-serif;}
@@ -1995,7 +1995,7 @@ td:first-child{color:#555;width:36%;font-size:11px;font-family:Arial,sans-serif;
       <div class="url-lbl">Or directly on WhatsOnChain</div>
       <div class="url">${isLive ? 'https://whatsonchain.com/tx/'+h(LAST.txid) : '(demo seal — not on chain)'}</div>
     </div>
-    ${qrSrc ? '<div class="qr-wrap"><img id="cert-qr" src="'+qrSrc+'" alt="Scan to verify"><div class="qr-lbl">Scan to read the sealed message and verify on the blockchain</div></div>' : ''}
+    ${qrSrc ? '<div class="qr-wrap"><img id="cert-qr" src="'+qrSrc+'" alt="Scan to verify"><div class="qr-lbl">📱 Scan this QR code with your phone camera to read your personal sealed message and verify this certificate on the blockchain</div></div>' : ''}
   </div>
 </div>
 <div class="footer">
@@ -2241,7 +2241,7 @@ async function fetchLivePrice(){
         </div>
         <div class="pc-qr-wrap">
           <img id="pc-qr-img" src="" alt="QR Code" style="display:none">
-          <div class="pc-qr-lbl">Scan to read the sealed message and verify on the blockchain</div>
+          <div class="pc-qr-lbl">📱 Scan this QR code with your phone camera to read your personal sealed message and verify this certificate on the blockchain</div>
         </div>
       </div>
     </div>
