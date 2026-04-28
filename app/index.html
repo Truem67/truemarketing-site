@@ -1062,8 +1062,15 @@ body::before{
 .wa-saved{font-size:12px;color:var(--green);margin-top:6px;display:none;}
 .wa-saved.show{display:block;}
 
-/* Account nav hidden — sign-out lives in header */
-#nb-account{display:none!important;}
+/* Account field card */
+.acc-field-card{
+  background:var(--card);border:1px solid var(--line);
+  border-radius:16px;padding:20px;margin-bottom:14px;
+}
+.acc-field-title{
+  font-size:11px;font-weight:700;color:var(--iv4);
+  letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px;
+}
 
 /* Seal intro — product description paragraph */
 .seal-intro{
@@ -1412,6 +1419,8 @@ body::before{
     <!-- ACCOUNT -->
     <div class="tab" id="t-account">
       <div class="acc-wrap">
+
+        <!-- Profile header: avatar + name + email -->
         <div class="acc-profile">
           <div class="acc-cover"></div>
           <div class="acc-av-wrap"><div class="acc-av" id="acc-av">?</div></div>
@@ -1422,42 +1431,14 @@ body::before{
           </div>
         </div>
 
-        <div class="acc-list">
-          <div class="acc-row">
-            <div class="ar-l">
-              <span class="ar-ico">✦</span>
-              <div><div class="ar-title">Available Credits</div><div class="ar-sub">Each seal uses 1 credit</div></div>
-            </div>
-            <div class="ar-val" id="acc-cred">—</div>
-          </div>
-          <div class="acc-row">
-            <div class="ar-l">
-              <span class="ar-ico">🔐</span>
-              <div><div class="ar-title">Messages Sealed</div><div class="ar-sub">Total on blockchain</div></div>
-            </div>
-            <div class="ar-r" id="acc-sealed">0</div>
-          </div>
-          <div class="acc-row tap" onclick="showAddr()">
-            <div class="ar-l">
-              <span class="ar-ico">⛓</span>
-              <div><div class="ar-title">Blockchain Address</div><div class="ar-sub" id="acc-addr">Tap to view</div></div>
-            </div>
-            <span class="ar-arr">›</span>
-          </div>
-        </div>
-
-        <div class="wa-settings">
-          <div class="wa-settings-label">Your WhatsApp number (with country code)</div>
+        <!-- WhatsApp field -->
+        <div class="acc-field-card">
+          <div class="acc-field-title">WhatsApp number (with country code)</div>
           <div class="wa-settings-row">
             <input class="wa-input" id="wa-input" type="tel" placeholder="+27 82 123 4567" autocomplete="tel">
             <button class="wa-save-btn" onclick="saveWhatsApp()">Save</button>
           </div>
           <div class="wa-saved" id="wa-saved">Saved ✓</div>
-        </div>
-
-        <div class="acc-note">
-          <div class="an-t">Running low on credits?</div>
-          <div class="an-s">Each seal costs approximately R0.003. Your 50,000 free credits cover hundreds of messages. Contact <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="caa2afa6a6a58abeb8bfafa7abb8a1afbea3a4ade4a9a5e4b0ab">[email&#160;protected]</a> to top up or upgrade your plan.</div>
         </div>
 
         <button class="btn-so" onclick="doSignOut()">Sign Out</button>
