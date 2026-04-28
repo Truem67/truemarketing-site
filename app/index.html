@@ -1879,8 +1879,8 @@ function showExamples(){
 }
 
 async function doSeal(){
-  // Demo limit gate — checked against server (Upstash) before anything else
-  if(!(await checkDemoLimit())) return;
+  // Demo limit already checked by goTab('seal') — no second server call needed
+  if(isDemoAccount() && getDemoSealsUsed() >= DEMO_LIMIT){ showUpgradeScreen(); return; }
 
   const to   =(document.getElementById('sf-to').value||'').trim();
   const subj =(document.getElementById('sf-subj').value||'').trim();
@@ -1898,6 +1898,7 @@ async function doSeal(){
     let txid;
     if(API.broadcast){
       const r=await fetch(API.broadcast,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({opPayload:buildOP(hash,to,subj,msg),msgHash:hash,sender:CU.email,recipient:to,subject:subj})});
+      if(r.status===429) throw new Error('Too many seals in a short time — please wait a minute and try again.');
       const d=await r.json();
       // Server blocks demo at limit
       if(d.error==='TRIAL_EXPIRED'){
