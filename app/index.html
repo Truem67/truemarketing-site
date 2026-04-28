@@ -1139,6 +1139,33 @@ body::before{
 /* ═══════════════════════════════════════
    TOASTS
 ═══════════════════════════════════════ */
+/* ────────────────────────────
+   CERT VIEW MODAL
+──────────────────────────── */
+#cert-modal{
+  position:fixed;inset:0;z-index:9999;
+  background:rgba(0,0,0,.93);
+  display:flex;flex-direction:column;
+  opacity:0;pointer-events:none;
+  transition:opacity .22s var(--ease);
+}
+#cert-modal.open{opacity:1;pointer-events:all;}
+#cert-modal-close{
+  position:absolute;top:12px;right:14px;
+  font-size:22px;line-height:1;color:var(--ivory);
+  background:rgba(255,255,255,.13);
+  border:1px solid rgba(255,255,255,.18);
+  border-radius:50%;width:40px;height:40px;
+  cursor:pointer;z-index:2;
+  display:flex;align-items:center;justify-content:center;
+  transition:background .15s;
+}
+#cert-modal-close:hover{background:rgba(255,255,255,.24);}
+#cert-modal iframe{
+  flex:1;width:100%;border:none;
+  background:#fff;
+}
+
 .toast-tray{
   position:fixed;bottom:78px;left:0;right:0;
   z-index:9000;padding:0 16px;
@@ -1921,14 +1948,7 @@ function verifyOnChain(){
   }
 }
 
-function downloadCertById(id){
-  const m=HIST.find(c=>c.id===id);
-  if(m) downloadCert(m);
-}
-
-function downloadCert(m){
-  const cert = m || LAST;
-  if(!cert) return;
+function buildCertHtml(cert){
   const isLive  = !cert.txid.startsWith('demo_');
   const verifyUrl = isLive ? 'https://doxseal.co.za/verify.html?txid='+cert.txid : null;
   const qrSrc     = verifyUrl ? 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data='+encodeURIComponent(verifyUrl) : null;
@@ -2021,7 +2041,18 @@ td:first-child{color:#555;width:36%;font-size:11px;font-family:Arial,sans-serif;
   <div class="footer-sub">DoxSeal · hello@doxseal.co.za · doxseal.co.za · The proof exists independently on the BSV blockchain — permanently and immutably.</div>
 </div>
 </body></html>`;
+  return html;
+}
 
+function downloadCertById(id){
+  const m=HIST.find(c=>c.id===id);
+  if(m) downloadCert(m);
+}
+
+function downloadCert(m){
+  const cert = m || LAST;
+  if(!cert) return;
+  const html = buildCertHtml(cert);
   const blob = new Blob([html], {type: 'text/html'});
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
@@ -2030,6 +2061,19 @@ td:first-child{color:#555;width:36%;font-size:11px;font-family:Arial,sans-serif;
   link.click();
   URL.revokeObjectURL(url);
   toast('Certificate downloaded','Saved to your downloads folder.','📄');
+}
+
+function viewCertById(id){
+  const m=HIST.find(c=>c.id===id);
+  if(!m){toast('Not found','Certificate not found.','⚠️');return;}
+  const frame=document.getElementById('cert-modal-frame');
+  frame.srcdoc=buildCertHtml(m);
+  document.getElementById('cert-modal').classList.add('open');
+}
+
+function closeCertModal(){
+  document.getElementById('cert-modal').classList.remove('open');
+  setTimeout(()=>{document.getElementById('cert-modal-frame').srcdoc='';},250);
 }
 
 function printCert(){
@@ -2125,6 +2169,7 @@ function proofHTML(m, compact){
       <div class="pd-row"><span class="pd-k">Transaction ID</span><span class="pd-v m">${m.txid&&!m.txid.startsWith('demo_')?m.txid.slice(0,20)+'…':'(demo)'}</span></div>
       <div class="pd-row"><span class="pd-k">Fingerprint</span><span class="pd-v m">${m.hash||''}…</span></div>
       <div class="pd-btns">
+        <button class="pd-btn" onclick="event.stopPropagation();viewCertById(${m.id})">👁 View</button>
         <button class="pd-btn" onclick="event.stopPropagation();${m.txid&&!m.txid.startsWith('demo_')?"window.open('https://doxseal.co.za/verify.html?txid="+m.txid+"','_blank')":"alert('Demo seal — connect server for live verification.')"}">⛓ Verify ↗</button>
         <button class="pd-btn" onclick="event.stopPropagation();downloadCertById(${m.id})">📄 Download</button>
       </div>
@@ -2186,7 +2231,17 @@ async function fetchLivePrice(){
     if(d.rate>0){BSV_USD=parseFloat(d.rate);renderUI();}
   }catch(e){}
 }
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'&&document.getElementById('cert-modal').classList.contains('open')) closeCertModal();
+});
 </script>
+
+<!-- CERT VIEW MODAL -->
+<div id="cert-modal">
+  <button id="cert-modal-close" onclick="closeCertModal()" title="Close">×</button>
+  <iframe id="cert-modal-frame" title="Certificate" sandbox="allow-same-origin"></iframe>
+</div>
 
 <!-- TRIAL EXPIRED OVERLAY -->
 <div id="pg-upgrade">
