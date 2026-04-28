@@ -1049,6 +1049,18 @@ body::before{
 }
 .btn-so:hover{background:rgba(224,85,85,.14);}
 
+/* WhatsApp settings field */
+.wa-settings{padding:16px 0 4px;}
+.wa-settings-label{font-size:11px;font-weight:700;color:var(--iv4);letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px;}
+.wa-settings-row{display:flex;gap:8px;}
+.wa-input{flex:1;background:var(--bg2);border:1px solid var(--line2);border-radius:8px;padding:10px 12px;font-family:var(--sans);font-size:14px;color:var(--ivory);outline:none;transition:border-color .15s;}
+.wa-input::placeholder{color:var(--iv4);}
+.wa-input:focus{border-color:var(--green3);}
+.wa-save-btn{background:var(--green);color:#fff;font-size:13px;font-weight:700;padding:10px 16px;border-radius:8px;border:none;cursor:pointer;white-space:nowrap;transition:all .15s;}
+.wa-save-btn:hover{background:var(--green2);}
+.wa-saved{font-size:12px;color:var(--green);margin-top:6px;display:none;}
+.wa-saved.show{display:block;}
+
 /* Account nav hidden — sign-out lives in header */
 #nb-account{display:none!important;}
 
@@ -1433,6 +1445,15 @@ body::before{
           </div>
         </div>
 
+        <div class="wa-settings">
+          <div class="wa-settings-label">Your WhatsApp number (with country code)</div>
+          <div class="wa-settings-row">
+            <input class="wa-input" id="wa-input" type="tel" placeholder="+27 82 123 4567" autocomplete="tel">
+            <button class="wa-save-btn" onclick="saveWhatsApp()">Save</button>
+          </div>
+          <div class="wa-saved" id="wa-saved">Saved ✓</div>
+        </div>
+
         <div class="acc-note">
           <div class="an-t">Running low on credits?</div>
           <div class="an-s">Each seal costs approximately R0.003. Your 50,000 free credits cover hundreds of messages. Contact <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="caa2afa6a6a58abeb8bfafa7abb8a1afbea3a4ade4a9a5e4b0ab">[email&#160;protected]</a> to top up or upgrade your plan.</div>
@@ -1711,6 +1732,20 @@ function doSignup(){
   }, 900);
 }
 
+function loadWhatsApp(email){
+  return localStorage.getItem('tm_wa_'+email.toLowerCase()) || '';
+}
+
+function saveWhatsApp(){
+  if(!CU) return;
+  const val=(document.getElementById('wa-input').value||'').trim();
+  localStorage.setItem('tm_wa_'+CU.email.toLowerCase(), val);
+  CU.whatsapp=val;
+  const msg=document.getElementById('wa-saved');
+  msg.classList.add('show');
+  setTimeout(()=>msg.classList.remove('show'), 2000);
+}
+
 function doSignOut(){
   CU=null; HIST=[]; LAST=null;
   showPage('pg-welcome');
@@ -1754,6 +1789,11 @@ function renderUI(){
   set('acc-em', CU.email);
   set('acc-cred', cStr);
   set('acc-sealed', sealed);
+  // WhatsApp
+  const waStored = loadWhatsApp(CU.email);
+  CU.whatsapp = waStored;
+  const waEl = document.getElementById('wa-input');
+  if (waEl) waEl.value = waStored;
   set('acc-addr', CU.addr?CU.addr.slice(0,22)+'…':'—');
   if(CU.plan) document.getElementById('acc-plan').innerHTML='✦ '+CU.plan;
 
@@ -1884,7 +1924,8 @@ async function doSeal(){
     const now=new Date();
     const tsStr=now.toLocaleString('en-ZA',{day:'numeric',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit'});
     const sealedBy=(CU&&CU.name?CU.name+' · ':'')+((CU&&CU.email)||'—');
-    LAST={id:Date.now(),dir:'sent',subj,to,msg,hash:hash.slice(0,20),fullHash:hash,txid,ts:now.toISOString().slice(0,16).replace('T',' '),tsStr,verified:!!API.broadcast,mode:PRIV,sealedBy};
+    const wa=(CU&&CU.whatsapp||'').replace(/\D/g,'');
+    LAST={id:Date.now(),dir:'sent',subj,to,msg,hash:hash.slice(0,20),fullHash:hash,txid,ts:now.toISOString().slice(0,16).replace('T',' '),tsStr,verified:!!API.broadcast,mode:PRIV,sealedBy,senderName:CU&&CU.name||'',senderEmail:CU&&CU.email||'',wa};
     HIST.unshift(LAST);
     saveCerts(CU.email, HIST);
     // Populate success
@@ -1900,7 +1941,7 @@ async function doSeal(){
     set('chain-txt',API.broadcast?'⛓ Recorded on BSV blockchain · Permanent':'🔒 Sealed locally · Connect server for on-chain');
     // Populate independent verification box
     if(isLiveTx){
-      const verifyURL = 'https://doxseal.co.za/verify.html?txid='+txid;
+      const verifyURL = buildVerifyURL(txid, LAST);
       document.getElementById('cert-verify-box').style.display='block';
       document.getElementById('cvb-url').textContent = verifyURL;
       document.getElementById('cvb-txid-full').textContent = txid;
@@ -1948,9 +1989,20 @@ function verifyOnChain(){
   }
 }
 
+function buildVerifyURL(txid, cert){
+  let url = 'https://doxseal.co.za/verify.html?txid='+txid;
+  const name  = (cert&&cert.senderName) || (CU&&CU.name) || '';
+  const email = (cert&&cert.senderEmail) || (CU&&CU.email) || '';
+  const wa    = ((cert&&cert.wa) || (CU&&CU.whatsapp) || '').replace(/\D/g,'');
+  if(name)  url += '&from='+encodeURIComponent(name);
+  if(email) url += '&se='+encodeURIComponent(email);
+  if(wa)    url += '&wa='+wa;
+  return url;
+}
+
 function buildCertHtml(cert){
   const isLive  = !cert.txid.startsWith('demo_');
-  const verifyUrl = isLive ? 'https://doxseal.co.za/verify.html?txid='+cert.txid : null;
+  const verifyUrl = isLive ? buildVerifyURL(cert.txid, cert) : null;
   const qrSrc     = verifyUrl ? 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data='+encodeURIComponent(verifyUrl) : null;
   const sealedBy  = cert.sealedBy || ((CU&&CU.name ? CU.name+' · ' : '')+(CU&&CU.email||'—'));
   const h = s => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
@@ -2081,7 +2133,7 @@ function printCert(){
 
   const isLive  = !LAST.txid.startsWith('demo_');
   const verifyUrl = isLive
-    ? 'https://doxseal.co.za/verify.html?txid='+LAST.txid
+    ? buildVerifyURL(LAST.txid, LAST)
     : 'Demo mode — connect server for live blockchain transactions';
   const wocUrl  = isLive ? 'https://whatsonchain.com/tx/'+LAST.txid : '(demo seal — not on chain)';
 

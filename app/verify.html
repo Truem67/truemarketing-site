@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- DoxSeal verify v2026.04.28a -->
+<!-- DoxSeal verify v2026.04.28b -->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -7,6 +7,7 @@
 <title>Verify Document — DoxSeal</title>
 <meta name="description" content="Confirm a DoxSeal sealed document is genuine and unaltered. No account required.">
 <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Nunito:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 :root{
@@ -24,6 +25,8 @@
   --red:   #e05555;
   --amber: #e8a030;
   --gold:  #c8a84b;
+  --wa:    #25d366;
+  --wa2:   #128c7e;
   --ivory: #f2ede4;
   --iv2:   rgba(242,237,228,.72);
   --iv3:   rgba(242,237,228,.42);
@@ -82,7 +85,6 @@ body::before{
 }
 .hero-sub{font-size:14px;color:var(--iv3);line-height:1.65;max-width:500px;margin:0 auto;}
 
-/* hide hero + input when auto-verifying from URL param */
 body.auto-verify-mode .hero,
 body.auto-verify-mode .input-wrap{display:none;}
 
@@ -136,7 +138,6 @@ body.auto-verify-mode .input-wrap{display:none;}
 }
 .result-wrap.show{display:block;}
 
-/* "Check another" link shown only in auto-verify mode */
 .check-another{
   display:none;font-size:12px;color:var(--iv4);
   cursor:pointer;text-decoration:underline;margin-bottom:20px;
@@ -244,8 +245,21 @@ body.auto-verify-mode .check-another{display:inline-block;}
 .woc-url{font-family:var(--mono);font-size:12px;color:var(--green);}
 .woc-arr{font-size:20px;color:var(--iv4);}
 
-/* ── REPLY ── */
-.reply-wrap{margin-top:24px;}
+/* ── REPLY SECTION ── */
+.reply-wrap{margin-top:24px;display:flex;flex-direction:column;gap:10px;}
+
+/* WhatsApp button */
+.btn-wa{
+  display:none;align-items:center;justify-content:center;gap:10px;
+  background:var(--wa);color:#fff;
+  font-size:14px;font-weight:700;
+  padding:13px 22px;border-radius:10px;
+  text-decoration:none;transition:background .15s;
+}
+.btn-wa:hover{background:var(--wa2);}
+.btn-wa.visible{display:flex;}
+
+/* Email reply button */
 .btn-reply{
   width:100%;background:transparent;border:1px solid var(--line3);
   color:var(--iv2);font-size:14px;font-weight:600;
@@ -254,9 +268,11 @@ body.auto-verify-mode .check-another{display:inline-block;}
   display:flex;align-items:center;gap:10px;
 }
 .btn-reply:hover{background:var(--card);border-color:var(--green3);}
+
+/* Reply form */
 .reply-form-wrap{
   background:var(--card);border:1px solid var(--line2);
-  border-radius:16px;padding:24px;margin-top:12px;
+  border-radius:16px;padding:24px;
   display:none;
 }
 .reply-form-wrap.show{display:block;}
@@ -281,11 +297,17 @@ body.auto-verify-mode .check-another{display:inline-block;}
   border:none;cursor:pointer;transition:all .15s;
 }
 .btn-send-reply:hover{background:var(--green2);}
+.btn-send-reply:disabled{opacity:.5;cursor:not-allowed;}
 .reply-sent{
   display:none;text-align:center;padding:16px 0 4px;
   font-size:14px;color:var(--green);font-weight:600;
 }
 .reply-sent.show{display:block;}
+.reply-err{
+  display:none;text-align:center;padding:10px 0 4px;
+  font-size:13px;color:var(--amber);
+}
+.reply-err.show{display:block;}
 
 /* FOOTER */
 .page-footer{
@@ -399,14 +421,23 @@ body.auto-verify-mode .check-another{display:inline-block;}
       <div class="woc-arr">↗</div>
     </a>
 
-    <!-- Reply -->
-    <div class="reply-wrap">
+    <!-- Reply buttons -->
+    <div class="reply-wrap" id="reply-wrap">
+
+      <!-- WhatsApp — shown only when wa param is present -->
+      <a class="btn-wa" id="btn-wa" href="#" target="_blank" rel="noopener">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        <span id="wa-btn-label">Reply via WhatsApp</span>
+      </a>
+
+      <!-- Email reply -->
       <button class="btn-reply" id="btn-reply" onclick="toggleReplyForm()">
         <span>✉</span>
-        <span id="reply-btn-label">Reply to Sender</span>
+        <span id="reply-btn-label">Reply by Email</span>
       </button>
+
       <div class="reply-form-wrap" id="reply-form-wrap">
-        <div class="reply-form-title">Send a reply</div>
+        <div class="reply-form-title">Send a reply by email</div>
         <div class="reply-field">
           <label for="reply-name">Your name</label>
           <input type="text" id="reply-name" placeholder="Jane Smith" autocomplete="name">
@@ -421,6 +452,7 @@ body.auto-verify-mode .check-another{display:inline-block;}
         </div>
         <button class="btn-send-reply" id="btn-send-reply" onclick="submitReply()">Send reply</button>
         <div class="reply-sent" id="reply-sent">Your reply has been sent ✓</div>
+        <div class="reply-err" id="reply-err">Could not send — please try again.</div>
       </div>
     </div>
   </div>
@@ -490,6 +522,18 @@ body.auto-verify-mode .check-another{display:inline-block;}
 
 <script>
 'use strict';
+
+// ── EmailJS ──
+(function(){
+  if(window.emailjs) emailjs.init('dZxhfP43Zx8S_cV3u');
+})();
+
+// ── URL PARAMS ──
+const _params     = new URLSearchParams(window.location.search);
+const _senderName = _params.get('from')  || '';
+const _senderEmail= _params.get('se')    || '';
+const _senderWa   = _params.get('wa')    || '';
+let   _currentTxid= '';
 
 // ── UTILITIES ──
 function hexToUtf8(hex) {
@@ -596,6 +640,7 @@ async function doVerify() {
     return;
   }
 
+  _currentTxid = txid;
   document.getElementById('result-wrap').classList.remove('show');
   document.getElementById('loading-state').classList.add('show');
 
@@ -629,7 +674,9 @@ function showVerified(txid, tx) {
   const confirms = tx.confirmations || 0;
   const sealDate = formatDate(tx.blocktime);
 
-  setText('r-confirm-sub', `This document is genuine and unaltered. Sealed on ${sealDate}.`);
+  // Banner
+  const byLine = _senderName ? ` by ${_senderName}` : '';
+  setText('r-confirm-sub', `This document is genuine and unaltered. Sealed on ${sealDate}${byLine}.`);
 
   set('r-txid', `<span style="font-size:10px;font-family:var(--mono);color:var(--green)">${txid}</span>`);
   setText('r-date', sealDate);
@@ -639,12 +686,9 @@ function showVerified(txid, tx) {
   const rawPayload = extractOpReturn(tx.vout);
   const parsed = parseTMPayload(rawPayload);
 
-  let senderName = '';
   if (parsed) {
     document.getElementById('r-payload-section').style.display = 'block';
-    const { html, sender } = buildPayloadFields(parsed, rawPayload);
-    document.getElementById('r-payload-fields').innerHTML = html;
-    senderName = sender;
+    document.getElementById('r-payload-fields').innerHTML = buildPayloadFields(parsed, rawPayload);
   }
 
   if (rawPayload) {
@@ -652,18 +696,28 @@ function showVerified(txid, tx) {
     setText('r-raw-payload', rawPayload);
   }
 
-  const wocEl = document.getElementById('r-woc-link');
-  wocEl.href = wocUrl;
+  document.getElementById('r-woc-link').href = wocUrl;
   setText('r-woc-url', wocUrl);
 
-  setText('reply-btn-label', senderName ? `Reply to ${senderName}` : 'Reply to Sender');
+  // WhatsApp button
+  if (_senderWa) {
+    const greeting  = _senderName ? `Hi ${_senderName}` : 'Hi';
+    const shortRef  = txid.slice(0, 16) + '…';
+    const waText    = encodeURIComponent(`${greeting}, I received your sealed document (Ref: ${shortRef}) and would like to respond.`);
+    const waBtn     = document.getElementById('btn-wa');
+    waBtn.href      = `https://wa.me/${_senderWa}?text=${waText}`;
+    waBtn.classList.add('visible');
+    setText('wa-btn-label', _senderName ? `Reply to ${_senderName} via WhatsApp` : 'Reply via WhatsApp');
+  }
+
+  // Email reply button label
+  setText('reply-btn-label', _senderName ? `Reply to ${_senderName} by Email` : 'Reply by Email');
 
   showOnly('r-verified');
 }
 
 function buildPayloadFields(parsed, raw) {
   let html = '';
-  let sender = '';
   const row = (label, val, mono) =>
     `<div class="payload-field"><span class="pf-label">${label}</span><span class="pf-val" style="${mono?'':'font-family:var(--sans);color:var(--iv2);'}word-break:break-word;overflow-wrap:break-word;white-space:pre-wrap;overflow:visible;max-height:none;max-width:100%;">${escHtml(val||'—')}</span></div>`;
 
@@ -675,11 +729,7 @@ function buildPayloadFields(parsed, raw) {
     html += row('Type', 'Sealed message with fingerprint', false);
     if (parsed.hash) html += row('Digital fingerprint', parsed.hash, true);
     if (parsed.date) html += row('Recorded date', parsed.date, false);
-    if (parsed.message) {
-      html += row('Sealed message', parsed.message, false);
-      const fromMatch = parsed.message.match(/^(?:from|sender)[:\s]+(.+?)[\n,]/i);
-      if (fromMatch) sender = fromMatch[1].trim();
-    }
+    if (parsed.message) html += row('Sealed message', parsed.message, false);
   } else if (parsed.type === 'plain-legacy') {
     html += row('Type', 'Sealed message', false);
     html += row('Content', parsed.message, false);
@@ -696,7 +746,7 @@ function buildPayloadFields(parsed, raw) {
   } else {
     html += row('Raw data', raw || '—', true);
   }
-  return { html, sender };
+  return html;
 }
 
 function escHtml(str) {
@@ -707,16 +757,14 @@ function escHtml(str) {
 
 function showNotFound(txid) {
   const wocUrl = `https://whatsonchain.com/tx/${txid}`;
-  const el = document.getElementById('r-woc-link-nf');
-  el.href = wocUrl;
+  document.getElementById('r-woc-link-nf').href = wocUrl;
   setText('r-woc-url-nf', wocUrl);
   showOnly('r-notfound');
 }
 
 function showApiError(txid) {
   const wocUrl = `https://whatsonchain.com/tx/${txid}`;
-  const el = document.getElementById('r-woc-link-err');
-  el.href = wocUrl;
+  document.getElementById('r-woc-link-err').href = wocUrl;
   setText('r-woc-url-err', wocUrl);
   showOnly('r-error');
 }
@@ -726,7 +774,7 @@ function toggleReplyForm() {
   document.getElementById('reply-form-wrap').classList.toggle('show');
 }
 
-function submitReply() {
+async function submitReply() {
   const name  = document.getElementById('reply-name').value.trim();
   const email = document.getElementById('reply-email').value.trim();
   const msg   = document.getElementById('reply-msg').value.trim();
@@ -734,14 +782,36 @@ function submitReply() {
     alert('Please fill in all fields before sending.');
     return;
   }
-  document.getElementById('btn-send-reply').style.display = 'none';
-  document.getElementById('reply-sent').classList.add('show');
+
+  const sendBtn = document.getElementById('btn-send-reply');
+  const sentEl  = document.getElementById('reply-sent');
+  const errEl   = document.getElementById('reply-err');
+  sendBtn.disabled = true;
+  sendBtn.textContent = 'Sending…';
+  errEl.classList.remove('show');
+
+  try {
+    await emailjs.send('lpjet5m', 'g89h26g', {
+      from_name:  name,
+      from_email: email,
+      reply_to:   email,
+      to_name:    _senderName || 'Sender',
+      to_email:   _senderEmail || 'hello@doxseal.co.za',
+      message:    msg,
+      txid:       _currentTxid
+    });
+    sendBtn.style.display = 'none';
+    sentEl.classList.add('show');
+  } catch(e) {
+    sendBtn.disabled = false;
+    sendBtn.textContent = 'Send reply';
+    errEl.classList.add('show');
+  }
 }
 
 // ── AUTO-VERIFY FROM URL PARAM ──
 (function() {
-  const params = new URLSearchParams(window.location.search);
-  const txid = params.get('txid') || params.get('tx') || '';
+  const txid = _params.get('txid') || _params.get('tx') || '';
   if (txid) {
     document.getElementById('txid-input').value = txid;
     document.body.classList.add('auto-verify-mode');
