@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<!-- DoxSeal verify v2026.04.25a -->
+<!-- DoxSeal verify v2026.04.28a -->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Verify Document — DoxSeal Blockchain Verification</title>
-<meta name="description" content="Independently verify a DoxSeal sealed document directly on the BSV blockchain. No account required.">
+<title>Verify Document — DoxSeal</title>
+<meta name="description" content="Confirm a DoxSeal sealed document is genuine and unaltered. No account required.">
 <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Nunito:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
@@ -82,6 +82,10 @@ body::before{
 }
 .hero-sub{font-size:14px;color:var(--iv3);line-height:1.65;max-width:500px;margin:0 auto;}
 
+/* hide hero + input when auto-verifying from URL param */
+body.auto-verify-mode .hero,
+body.auto-verify-mode .input-wrap{display:none;}
+
 /* ── INPUT SECTION ── */
 .input-wrap{
   position:relative;z-index:1;
@@ -97,33 +101,20 @@ body::before{
   letter-spacing:.08em;text-transform:uppercase;
   margin-bottom:10px;
 }
-.input-row{display:flex;gap:10px;align-items:stretch;}
 .txid-input{
-  flex:1;background:var(--bg);border:1px solid var(--line2);
+  width:100%;background:var(--bg);border:1px solid var(--line2);
   border-radius:10px;padding:13px 16px;
   font-family:var(--mono);font-size:13px;color:var(--ivory);
   outline:none;transition:border-color .15s;
-  min-width:0;
 }
 .txid-input::placeholder{font-family:var(--sans);font-size:13px;color:var(--iv4);}
 .txid-input:focus{border-color:var(--green3);}
-.btn-verify{
-  background:var(--green);color:#fff;
-  font-size:14px;font-weight:700;
-  padding:13px 22px;border-radius:10px;
-  border:none;cursor:pointer;white-space:nowrap;
-  transition:all .15s;flex-shrink:0;
-}
-.btn-verify:hover{background:var(--green2);}
-.btn-verify:disabled{opacity:.5;cursor:not-allowed;}
 .input-hint{font-size:12px;color:var(--iv4);margin-top:10px;line-height:1.5;}
-.input-hint a{color:var(--iv3);text-decoration:none;}
-.input-hint a:hover{color:var(--green2);}
 
 /* ── LOADING ── */
 .loading-state{
   position:relative;z-index:1;
-  max-width:680px;margin:0 auto;padding:0 24px 48px;
+  max-width:680px;margin:0 auto;padding:48px 24px;
   text-align:center;display:none;
 }
 .loading-state.show{display:block;}
@@ -141,9 +132,17 @@ body::before{
 .result-wrap{
   position:relative;z-index:1;
   max-width:680px;margin:0 auto;
-  padding:0 24px 80px;display:none;
+  padding:32px 24px 80px;display:none;
 }
 .result-wrap.show{display:block;}
+
+/* "Check another" link shown only in auto-verify mode */
+.check-another{
+  display:none;font-size:12px;color:var(--iv4);
+  cursor:pointer;text-decoration:underline;margin-bottom:20px;
+}
+.check-another:hover{color:var(--green2);}
+body.auto-verify-mode .check-another{display:inline-block;}
 
 /* VERIFIED banner */
 .banner-verified{
@@ -245,6 +244,49 @@ body::before{
 .woc-url{font-family:var(--mono);font-size:12px;color:var(--green);}
 .woc-arr{font-size:20px;color:var(--iv4);}
 
+/* ── REPLY ── */
+.reply-wrap{margin-top:24px;}
+.btn-reply{
+  width:100%;background:transparent;border:1px solid var(--line3);
+  color:var(--iv2);font-size:14px;font-weight:600;
+  padding:12px 22px;border-radius:10px;cursor:pointer;
+  transition:all .15s;text-align:left;
+  display:flex;align-items:center;gap:10px;
+}
+.btn-reply:hover{background:var(--card);border-color:var(--green3);}
+.reply-form-wrap{
+  background:var(--card);border:1px solid var(--line2);
+  border-radius:16px;padding:24px;margin-top:12px;
+  display:none;
+}
+.reply-form-wrap.show{display:block;}
+.reply-form-title{font-family:var(--serif);font-size:16px;margin-bottom:18px;color:var(--ivory);}
+.reply-field{margin-bottom:14px;}
+.reply-field label{
+  display:block;font-size:11px;font-weight:700;color:var(--iv4);
+  letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px;
+}
+.reply-field input,.reply-field textarea{
+  width:100%;background:var(--bg);border:1px solid var(--line2);
+  border-radius:8px;padding:11px 14px;
+  font-family:var(--sans);font-size:13px;color:var(--ivory);
+  outline:none;transition:border-color .15s;resize:vertical;
+}
+.reply-field input:focus,.reply-field textarea:focus{border-color:var(--green3);}
+.reply-field textarea{min-height:100px;}
+.btn-send-reply{
+  background:var(--green);color:#fff;
+  font-size:14px;font-weight:700;
+  padding:12px 24px;border-radius:10px;
+  border:none;cursor:pointer;transition:all .15s;
+}
+.btn-send-reply:hover{background:var(--green2);}
+.reply-sent{
+  display:none;text-align:center;padding:16px 0 4px;
+  font-size:14px;color:var(--green);font-weight:600;
+}
+.reply-sent.show{display:block;}
+
 /* FOOTER */
 .page-footer{
   position:relative;z-index:1;
@@ -259,9 +301,7 @@ body::before{
 @media(max-width:640px){
   .hero{padding:32px 20px 24px;}
   .input-wrap{padding:0 16px 32px;}
-  .result-wrap{padding:0 16px 40px;}
-  .input-row{flex-direction:column;}
-  .btn-verify{width:100%;padding:14px;font-size:15px;}
+  .result-wrap{padding:24px 16px 40px;}
   .banner-verified,.banner-notfound,.banner-error{gap:12px;}
   .banner-ico{font-size:28px;}
   .rk{min-width:90px;}
@@ -276,48 +316,41 @@ body::before{
 </nav>
 
 <div class="hero">
-  <div class="hero-eye">Independent Blockchain Verification</div>
+  <div class="hero-eye">Document Verification</div>
   <h1>Verify a Sealed Document</h1>
-  <p class="hero-sub">Enter a Transaction ID from a DoxSeal certificate to verify it directly on the BSV blockchain — no account required.</p>
+  <p class="hero-sub">Enter a Proof Reference from a DoxSeal certificate to confirm it is genuine and unaltered — no account required.</p>
 </div>
 
 <div class="input-wrap">
   <div class="input-card">
-    <div class="input-label">Transaction ID</div>
-    <div class="input-row">
-      <input class="txid-input" id="txid-input"
-        type="text"
-        placeholder="e.g. 3a7f92bc4d1e8af5d9c2e4b6f1a3d5e7..."
-        autocomplete="off" spellcheck="false"
-        onkeydown="if(event.key==='Enter')doVerify()">
-      <button class="btn-verify" id="btn-verify" onclick="doVerify()">Verify →</button>
-    </div>
-    <div class="input-hint">
-      The Transaction ID appears on every DoxSeal certificate.
-      You can also verify directly at
-      <a href="https://whatsonchain.com" target="_blank" rel="noopener">whatsonchain.com</a>
-      using the same ID.
-    </div>
+    <div class="input-label">Proof Reference</div>
+    <input class="txid-input" id="txid-input"
+      type="text"
+      placeholder="e.g. 3a7f92bc4d1e8af5d9c2e4b6f1a3d5e7..."
+      autocomplete="off" spellcheck="false"
+      onkeydown="if(event.key==='Enter')doVerify()">
+    <div class="input-hint">The Proof Reference appears on every DoxSeal certificate. Press Enter to verify.</div>
   </div>
 </div>
 
 <!-- Loading -->
 <div class="loading-state" id="loading-state">
   <div class="spinner"></div>
-  <div class="loading-txt">Querying the BSV blockchain…</div>
-  <div class="loading-sub">Connecting directly to WhatsOnChain — this may take a moment.</div>
+  <div class="loading-txt">Verifying your document…</div>
+  <div class="loading-sub">This may take a moment.</div>
 </div>
 
 <!-- Result -->
 <div class="result-wrap" id="result-wrap">
+  <span class="check-another" onclick="showInputAgain()">← Check another document</span>
 
   <!-- ── VERIFIED ── -->
   <div id="r-verified" style="display:none">
     <div class="banner-verified">
       <div class="banner-ico">✅</div>
       <div class="banner-text">
-        <div class="banner-title">VERIFIED — BLOCKCHAIN RECORD CONFIRMED</div>
-        <div class="banner-sub" id="r-confirm-sub">Record found on the BSV blockchain with confirmations.</div>
+        <div class="banner-title">Document Verified ✓</div>
+        <div class="banner-sub" id="r-confirm-sub">This document is genuine and unaltered.</div>
       </div>
     </div>
 
@@ -326,9 +359,9 @@ body::before{
       <div class="rc-body">
 
         <div class="rc-section">
-          <div class="rc-section-title">Blockchain Record</div>
+          <div class="rc-section-title">Document Record</div>
           <div class="rc-row">
-            <span class="rk">Transaction ID</span>
+            <span class="rk">Proof reference</span>
             <span class="rv mono" id="r-txid">—</span>
           </div>
           <div class="rc-row">
@@ -336,7 +369,7 @@ body::before{
             <span class="rv" id="r-date">—</span>
           </div>
           <div class="rc-row">
-            <span class="rk">Block number</span>
+            <span class="rk">Record number</span>
             <span class="rv mono" id="r-block">—</span>
           </div>
           <div class="rc-row">
@@ -351,25 +384,45 @@ body::before{
         </div>
 
         <div class="rc-section" id="r-raw-section" style="display:none">
-          <div class="rc-section-title">Raw OP_RETURN Data</div>
+          <div class="rc-section-title">Raw Sealed Data</div>
           <div class="payload-box" id="r-raw-payload" style="word-break:break-word;overflow-wrap:break-word;white-space:pre-wrap;overflow:visible;max-height:none;max-width:100%;">—</div>
         </div>
 
       </div>
     </div>
 
-    <div class="independence-note">
-      <div class="in-title">Independent Verification Statement</div>
-      <div class="in-text">This record was permanently written to the BSV blockchain on the date shown above. It cannot be altered, deleted, or backdated by any person or organisation — including DoxSeal. This verification queries the blockchain directly, not DoxSeal's servers. The record will exist on the blockchain permanently, independently of whether DoxSeal continues to operate.</div>
-    </div>
-
     <a class="woc-link" id="r-woc-link" href="#" target="_blank" rel="noopener">
       <div class="woc-left">
-        <div class="woc-label">Also verify at WhatsOnChain</div>
+        <div class="woc-label">Verify independently at WhatsOnChain</div>
         <div class="woc-url" id="r-woc-url">—</div>
       </div>
       <div class="woc-arr">↗</div>
     </a>
+
+    <!-- Reply -->
+    <div class="reply-wrap">
+      <button class="btn-reply" id="btn-reply" onclick="toggleReplyForm()">
+        <span>✉</span>
+        <span id="reply-btn-label">Reply to Sender</span>
+      </button>
+      <div class="reply-form-wrap" id="reply-form-wrap">
+        <div class="reply-form-title">Send a reply</div>
+        <div class="reply-field">
+          <label for="reply-name">Your name</label>
+          <input type="text" id="reply-name" placeholder="Jane Smith" autocomplete="name">
+        </div>
+        <div class="reply-field">
+          <label for="reply-email">Your email</label>
+          <input type="email" id="reply-email" placeholder="jane@example.com" autocomplete="email">
+        </div>
+        <div class="reply-field">
+          <label for="reply-msg">Message</label>
+          <textarea id="reply-msg" placeholder="Your reply…"></textarea>
+        </div>
+        <button class="btn-send-reply" id="btn-send-reply" onclick="submitReply()">Send reply</button>
+        <div class="reply-sent" id="reply-sent">Your reply has been sent ✓</div>
+      </div>
+    </div>
   </div>
 
   <!-- ── NOT FOUND ── -->
@@ -377,22 +430,22 @@ body::before{
     <div class="banner-notfound">
       <div class="banner-ico">❌</div>
       <div class="banner-text">
-        <div class="banner-title">NOT FOUND — NO BLOCKCHAIN RECORD</div>
-        <div class="banner-sub">No record exists on the BSV blockchain for this Transaction ID.</div>
+        <div class="banner-title">Document Not Found</div>
+        <div class="banner-sub">No verified record exists for this Proof Reference.</div>
       </div>
     </div>
     <div class="independence-note" style="border-left-color:var(--red)">
       <div class="in-title" style="color:var(--red)">What this means</div>
-      <div class="in-text">No transaction with this ID exists on the BSV blockchain. This may indicate:<br><br>
-        • The Transaction ID was copied incorrectly<br>
+      <div class="in-text">No permanent record was found for this ID. This may indicate:<br><br>
+        • The Proof Reference was copied incorrectly<br>
         • The certificate has been altered or fabricated<br>
-        • The transaction was never confirmed on-chain<br><br>
+        • The document was never confirmed in the permanent record<br><br>
         A genuine DoxSeal certificate will always produce a verified result.
       </div>
     </div>
     <a class="woc-link" id="r-woc-link-nf" href="#" target="_blank" rel="noopener">
       <div class="woc-left">
-        <div class="woc-label">Check manually at WhatsOnChain</div>
+        <div class="woc-label">Check independently at WhatsOnChain</div>
         <div class="woc-url" id="r-woc-url-nf">—</div>
       </div>
       <div class="woc-arr">↗</div>
@@ -404,20 +457,20 @@ body::before{
     <div class="banner-error">
       <div class="banner-ico">⚠️</div>
       <div class="banner-text">
-        <div class="banner-title">VERIFICATION TEMPORARILY UNAVAILABLE</div>
-        <div class="banner-sub">The blockchain API could not be reached. Verify directly at WhatsOnChain below.</div>
+        <div class="banner-title">Verification Temporarily Unavailable</div>
+        <div class="banner-sub">The verification service could not be reached. Use the link below to verify independently.</div>
       </div>
     </div>
     <a class="woc-link" id="r-woc-link-err" href="#" target="_blank" rel="noopener">
       <div class="woc-left">
-        <div class="woc-label">Verify directly at WhatsOnChain</div>
+        <div class="woc-label">Verify independently at WhatsOnChain</div>
         <div class="woc-url" id="r-woc-url-err">—</div>
       </div>
       <div class="woc-arr">↗</div>
     </a>
     <div class="independence-note" style="margin-top:16px">
       <div class="in-title">Manual verification always works</div>
-      <div class="in-text">Even when this page is unavailable, the blockchain record is permanent. Any person can verify directly at whatsonchain.com by entering the Transaction ID. WhatsOnChain is an independent blockchain explorer with no connection to DoxSeal.</div>
+      <div class="in-text">Even when this page is temporarily unavailable, the sealed record remains permanent. Use the link above and enter the Proof Reference to verify directly.</div>
     </div>
   </div>
 
@@ -452,11 +505,10 @@ function extractOpReturn(vout) {
     // which WhatsOnChain classifies as 'nonstandard', not 'nulldata'
     if (!asm.includes('OP_RETURN')) continue;
     const idx = asm.indexOf('OP_RETURN');
-    const rest = asm.slice(idx + 9).trim(); // 9 = len('OP_RETURN')
+    const rest = asm.slice(idx + 9).trim();
     const hexPart = rest.split(' ').join('');
     if (!hexPart || hexPart.length < 2) continue;
     try { return hexToUtf8(hexPart); } catch(e) {}
-    // If UTF-8 decode fails, return raw hex
     return hexPart;
   }
   return null;
@@ -465,33 +517,27 @@ function extractOpReturn(vout) {
 function parseTMPayload(raw) {
   if (!raw) return null;
   if (!raw.startsWith('TM|')) {
-    // Legacy plain-text payload (no prefix)
     return { type: 'plain-legacy', message: raw };
   }
   const parts = raw.split('|');
-  // TM|MSG|PROOF|hash|date  or  TM|PROOF|hash|date
   if (parts[1] === 'MSG' && parts[2] === 'PROOF') {
     return { type: 'proof', hash: parts[3], date: parts[4] };
   }
   if (parts[1] === 'PROOF') {
     return { type: 'proof', hash: parts[2], date: parts[3] };
   }
-  // TM|MSG|ENC|base64  or  TM|ENC|base64
   if (parts[1] === 'MSG' && parts[2] === 'ENC') {
     return { type: 'encrypted', encoded: parts[3] };
   }
   if (parts[1] === 'ENC') {
     return { type: 'encrypted', encoded: parts[2] };
   }
-  // TM|MSG|hash|date|message (plain with prefix)
   if (parts[1] === 'MSG' && parts.length >= 4) {
     return { type: 'plain', hash: parts[2], date: parts[3], message: parts.slice(4).join('|') };
   }
-  // TM|WELCOME|email|date|... (faucet/welcome)
   if (parts[1] === 'WELCOME') {
     return { type: 'welcome', email: parts[2], date: parts[3], extra: parts.slice(4).join('|') };
   }
-  // TM|hash|date (default minimal)
   if (parts.length >= 3) {
     return { type: 'minimal', hash: parts[1], date: parts[2] };
   }
@@ -530,6 +576,13 @@ function showOnly(id) {
   });
 }
 
+function showInputAgain() {
+  document.body.classList.remove('auto-verify-mode');
+  document.getElementById('result-wrap').classList.remove('show');
+  document.getElementById('txid-input').value = '';
+  document.getElementById('txid-input').focus();
+}
+
 // ── MAIN VERIFY ──
 async function doVerify() {
   const input = document.getElementById('txid-input');
@@ -537,14 +590,12 @@ async function doVerify() {
 
   if (!txid) { input.focus(); return; }
 
-  // Validate hex format (64 hex chars)
   if (!/^[0-9a-f]{64}$/.test(txid)) {
-    alert('That doesn\'t look like a valid Transaction ID.\n\nA Transaction ID is exactly 64 hexadecimal characters (0-9, a-f).');
+    alert('That doesn\'t look like a valid Proof Reference.\n\nA Proof Reference is exactly 64 hexadecimal characters (0-9, a-f).');
     input.focus();
     return;
   }
 
-  document.getElementById('btn-verify').disabled = true;
   document.getElementById('result-wrap').classList.remove('show');
   document.getElementById('loading-state').classList.add('show');
 
@@ -570,34 +621,30 @@ async function doVerify() {
     document.getElementById('loading-state').classList.remove('show');
     document.getElementById('result-wrap').classList.add('show');
     showApiError(txid);
-  } finally {
-    document.getElementById('btn-verify').disabled = false;
   }
 }
 
 function showVerified(txid, tx) {
-  const wocUrl = `https://whatsonchain.com/tx/${txid}`;
+  const wocUrl  = `https://whatsonchain.com/tx/${txid}`;
   const confirms = tx.confirmations || 0;
+  const sealDate = formatDate(tx.blocktime);
 
-  // Banner sub-text
-  setText('r-confirm-sub',
-    `${confirms.toLocaleString()} confirmation${confirms===1?'':'s'} on the BSV blockchain — sealed ${formatDate(tx.blocktime)}`
-  );
+  setText('r-confirm-sub', `This document is genuine and unaltered. Sealed on ${sealDate}.`);
 
-  // Record fields
   set('r-txid', `<span style="font-size:10px;font-family:var(--mono);color:var(--green)">${txid}</span>`);
-  setText('r-date', formatDate(tx.blocktime));
+  setText('r-date', sealDate);
   setText('r-block', tx.blockheight ? '#' + tx.blockheight.toLocaleString() : 'Mempool (unconfirmed)');
   set('r-confirms', `<span class="rc-confirm"><span class="rc-confirm-dot"></span>${formatConfirmations(confirms)}</span>`);
 
-  // Extract & parse OP_RETURN payload
   const rawPayload = extractOpReturn(tx.vout);
   const parsed = parseTMPayload(rawPayload);
 
+  let senderName = '';
   if (parsed) {
     document.getElementById('r-payload-section').style.display = 'block';
-    const fields = buildPayloadFields(parsed, rawPayload);
-    document.getElementById('r-payload-fields').innerHTML = fields;
+    const { html, sender } = buildPayloadFields(parsed, rawPayload);
+    document.getElementById('r-payload-fields').innerHTML = html;
+    senderName = sender;
   }
 
   if (rawPayload) {
@@ -605,28 +652,34 @@ function showVerified(txid, tx) {
     setText('r-raw-payload', rawPayload);
   }
 
-  // WoC link
   const wocEl = document.getElementById('r-woc-link');
   wocEl.href = wocUrl;
   setText('r-woc-url', wocUrl);
+
+  setText('reply-btn-label', senderName ? `Reply to ${senderName}` : 'Reply to Sender');
 
   showOnly('r-verified');
 }
 
 function buildPayloadFields(parsed, raw) {
   let html = '';
+  let sender = '';
   const row = (label, val, mono) =>
     `<div class="payload-field"><span class="pf-label">${label}</span><span class="pf-val" style="${mono?'':'font-family:var(--sans);color:var(--iv2);'}word-break:break-word;overflow-wrap:break-word;white-space:pre-wrap;overflow:visible;max-height:none;max-width:100%;">${escHtml(val||'—')}</span></div>`;
 
   if (parsed.type === 'proof') {
-    html += row('Type', 'Hash proof — document fingerprint only (content private)', false);
-    if (parsed.hash) html += row('Document fingerprint (SHA-256)', parsed.hash, true);
+    html += row('Type', 'Document fingerprint only (content private)', false);
+    if (parsed.hash) html += row('Digital fingerprint', parsed.hash, true);
     if (parsed.date) html += row('Recorded date', parsed.date, false);
   } else if (parsed.type === 'plain') {
     html += row('Type', 'Sealed message with fingerprint', false);
-    if (parsed.hash) html += row('Document fingerprint (SHA-256)', parsed.hash, true);
+    if (parsed.hash) html += row('Digital fingerprint', parsed.hash, true);
     if (parsed.date) html += row('Recorded date', parsed.date, false);
-    if (parsed.message) html += row('Sealed message', parsed.message, false);
+    if (parsed.message) {
+      html += row('Sealed message', parsed.message, false);
+      const fromMatch = parsed.message.match(/^(?:from|sender)[:\s]+(.+?)[\n,]/i);
+      if (fromMatch) sender = fromMatch[1].trim();
+    }
   } else if (parsed.type === 'plain-legacy') {
     html += row('Type', 'Sealed message', false);
     html += row('Content', parsed.message, false);
@@ -635,15 +688,15 @@ function buildPayloadFields(parsed, raw) {
     html += row('Note', 'The message content is encrypted. Only the sender can decrypt it.', false);
   } else if (parsed.type === 'minimal') {
     html += row('Type', 'Proof of existence', false);
-    if (parsed.hash) html += row('Reference hash', parsed.hash, true);
+    if (parsed.hash) html += row('Digital fingerprint', parsed.hash, true);
     if (parsed.date) html += row('Recorded date', parsed.date, false);
   } else if (parsed.type === 'welcome') {
     html += row('Type', 'Account creation record', false);
     if (parsed.date) html += row('Date', parsed.date, false);
   } else {
-    html += row('Raw payload', raw || '—', true);
+    html += row('Raw data', raw || '—', true);
   }
-  return html;
+  return { html, sender };
 }
 
 function escHtml(str) {
@@ -668,13 +721,30 @@ function showApiError(txid) {
   showOnly('r-error');
 }
 
+// ── REPLY FORM ──
+function toggleReplyForm() {
+  document.getElementById('reply-form-wrap').classList.toggle('show');
+}
+
+function submitReply() {
+  const name  = document.getElementById('reply-name').value.trim();
+  const email = document.getElementById('reply-email').value.trim();
+  const msg   = document.getElementById('reply-msg').value.trim();
+  if (!name || !email || !msg) {
+    alert('Please fill in all fields before sending.');
+    return;
+  }
+  document.getElementById('btn-send-reply').style.display = 'none';
+  document.getElementById('reply-sent').classList.add('show');
+}
+
 // ── AUTO-VERIFY FROM URL PARAM ──
 (function() {
   const params = new URLSearchParams(window.location.search);
   const txid = params.get('txid') || params.get('tx') || '';
   if (txid) {
     document.getElementById('txid-input').value = txid;
-    // Small delay so page renders first
+    document.body.classList.add('auto-verify-mode');
     setTimeout(doVerify, 400);
   }
 })();
