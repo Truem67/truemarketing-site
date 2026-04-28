@@ -799,6 +799,7 @@ body::before{
   transition:color .15s;display:flex;align-items:center;justify-content:center;gap:6px;
 }
 .btn-again:hover{color:var(--iv2);}
+.btn-again:disabled{opacity:.5;cursor:not-allowed;color:var(--iv4);font-family:var(--mono);font-size:12px;}
 .btn-print{
   width:100%;padding:14px;border-radius:14px;
   background:transparent;border:1.5px solid var(--line2);
@@ -1954,6 +1955,7 @@ async function doSeal(){
     }
     renderUI();
     showPage('pg-success');
+    startSealCooldown();
   } catch(err){
     document.getElementById('btn-seal').disabled=false;
     showPage('pg-app');
@@ -1971,12 +1973,35 @@ async function step(n,ms){
   await wait(ms);
 }
 
+let _cooldownTimer = null;
+
+function startSealCooldown() {
+  const btnAgain = document.getElementById('btn-again');
+  const btnSeal  = document.getElementById('btn-seal');
+  if (_cooldownTimer) clearInterval(_cooldownTimer);
+  let secs = 10;
+  btnAgain.disabled = true;
+  btnSeal.disabled  = true;
+  btnAgain.textContent = `Next seal available in ${secs}s…`;
+  _cooldownTimer = setInterval(() => {
+    secs--;
+    if (secs <= 0) {
+      clearInterval(_cooldownTimer);
+      _cooldownTimer = null;
+      btnAgain.disabled = false;
+      btnAgain.textContent = '← Validate Another Document';
+      btnSeal.disabled = false;
+    } else {
+      btnAgain.textContent = `Next seal available in ${secs}s…`;
+    }
+  }, 1000);
+}
+
 async function sealAnother(){
   document.getElementById('sf-to').value='';
   document.getElementById('sf-subj').value='';
   document.getElementById('sf-msg').value='';
   document.getElementById('sf-cc').textContent='0 / 500';
-  document.getElementById('btn-seal').disabled=false;
   showPage('pg-app');
   await goTab('seal'); // goTab checks demo limit — shows upgrade if at limit
 }
