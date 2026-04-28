@@ -471,8 +471,9 @@ body::before{
 .pd-k{color:var(--iv4);flex-shrink:0;margin-right:10px;}
 .pd-v{color:var(--iv2);text-align:right;word-break:break-all;max-width:62%;}
 .pd-v.m{font-family:var(--mono);font-size:10px;color:var(--green);}
+.pd-btns{display:flex;gap:8px;margin-top:11px;}
 .pd-btn{
-  width:100%;margin-top:11px;padding:10px;border-radius:9px;
+  flex:1;padding:10px;border-radius:9px;
   background:rgba(45,206,130,.06);border:1px solid rgba(45,206,130,.16);
   color:var(--green2);font-size:12px;font-weight:600;
   display:flex;align-items:center;justify-content:center;gap:6px;
@@ -1424,7 +1425,7 @@ body::before{
       <span class="nav-ico">✦</span><span class="nav-lbl">Validate</span>
     </button>
     <button class="nav-it"     id="nb-history" onclick="goTab('history')">
-      <span class="nav-ico">📋</span><span class="nav-lbl">Certificates</span>
+      <span class="nav-ico">📋</span><span class="nav-lbl">My Certs</span>
     </button>
     <button class="nav-it"     id="nb-account" onclick="goTab('account')">
       <span class="nav-ico">👤</span><span class="nav-lbl">Account</span>
@@ -1554,6 +1555,15 @@ const DEMO_LIMIT = 3;
 // ═══════════════════════════════
 let CU=null, CREDS=0, HIST=[], LAST=null;
 let FILTER='all', PRIV='plain', PRIV_OPEN=false;
+
+function loadCerts(email){
+  try{ return JSON.parse(localStorage.getItem('tm_certs_'+email.toLowerCase())||'[]'); }
+  catch(e){ return []; }
+}
+function saveCerts(email, arr){
+  try{ localStorage.setItem('tm_certs_'+email.toLowerCase(), JSON.stringify(arr.filter(m=>!m.demoSeed))); }
+  catch(e){}
+}
 let BSV_USD=0.55, ZAR=18.5;
 
 const USERS = {
@@ -1566,13 +1576,13 @@ const USERS = {
 };
 
 const DEMO = [
-  {id:1001,dir:'sent',subj:'Letter of Demand — Invoice #2024-118',to:'advocate@law.co.za',
+  {id:1001,demoSeed:true,dir:'sent',subj:'Letter of Demand — Invoice #2024-118',to:'advocate@law.co.za',
    msg:'Formal demand for payment of invoice #2024-118. Amount: R28,000. Payment required within 10 business days.',
    hash:'3a7f92bc4d1e8af5d9c2',txid:'3a7f92bc4d1e8af5d9c2e4b6f1a3d5e7',ts:'2026-02-19 14:32',verified:true,mode:'plain'},
-  {id:1002,dir:'sent',subj:'Sale Agreement Confirmation',to:'client@property.co.za',
+  {id:1002,demoSeed:true,dir:'sent',subj:'Sale Agreement Confirmation',to:'client@property.co.za',
    msg:'Confirmation of sale agreement for Erf 12345. Purchase price R850,000. Accepted 18 Feb 2026.',
    hash:'5c8e3f1a9d2b7e4c6a1f',txid:'5c8e3f1a9d2b7e4c6a1f8d3b7e2a9c4d',ts:'2026-02-18 11:22',verified:true,mode:'plain'},
-  {id:1003,dir:'received',subj:'Deposit Payment Confirmation',to:'demo@doxseal.co.za',
+  {id:1003,demoSeed:true,dir:'received',subj:'Deposit Payment Confirmation',to:'demo@doxseal.co.za',
    msg:'Deposit of R75,000 received. Funds held in trust pending transfer.',
    hash:'7d4a2c8f6b1e9a3d5c7f',txid:'7d4a2c8f6b1e9a3d5c7f2b4e8a1d6c3f',ts:'2026-02-17 09:15',verified:true,mode:'plain'},
 ];
@@ -1625,7 +1635,7 @@ async function doLogin(){
   // 1. Check local demo/trial accounts first (works without server)
   const local=USERS[em];
   if(local && local.pass===pw){
-    CU={...local,email:em}; CREDS=48210; HIST=[...DEMO];
+    CU={...local,email:em}; CREDS=48210; HIST=[...loadCerts(em),...DEMO];
     btn.disabled=false; btn.textContent='Sign In →';
     openApp(); return;
   }
@@ -1641,7 +1651,7 @@ async function doLogin(){
       });
       const d=await r.json();
       if(d.success && d.user){
-        CU={...d.user,pass:pw}; CREDS=48210; HIST=[];
+        CU={...d.user,pass:pw}; CREDS=48210; HIST=loadCerts(d.user.email||em);
         btn.disabled=false; btn.textContent='Sign In →';
         openApp(); return;
       }
@@ -1667,7 +1677,7 @@ function doSignup(){
   setTimeout(()=>{
     const addr='1TM'+Math.random().toString(36).slice(2,8).toUpperCase()+Date.now().toString(36).toUpperCase().slice(-5);
     CU={name:nm,email:em,pass:pw,addr,plan:'Starter'};
-    USERS[em]=CU; CREDS=50000; HIST=[];
+    USERS[em]=CU; CREDS=50000; HIST=loadCerts(em);
     btn.disabled=false; btn.textContent='✦ Create Free Account';
     openApp();
     setTimeout(()=>toast('🎁 50,000 free credits added!','Go ahead — seal your first message. It takes under 10 seconds.','✦'),700);
@@ -1846,8 +1856,10 @@ async function doSeal(){
     }
     const now=new Date();
     const tsStr=now.toLocaleString('en-ZA',{day:'numeric',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit'});
-    LAST={id:Date.now(),dir:'sent',subj,to,msg,hash:hash.slice(0,20),fullHash:hash,txid,ts:now.toISOString().slice(0,16).replace('T',' '),tsStr,verified:!!API.broadcast,mode:PRIV};
+    const sealedBy=(CU&&CU.name?CU.name+' · ':'')+((CU&&CU.email)||'—');
+    LAST={id:Date.now(),dir:'sent',subj,to,msg,hash:hash.slice(0,20),fullHash:hash,txid,ts:now.toISOString().slice(0,16).replace('T',' '),tsStr,verified:!!API.broadcast,mode:PRIV,sealedBy};
     HIST.unshift(LAST);
+    saveCerts(CU.email, HIST);
     // Populate success
     set('suc-desc','"'+subj+'" has been permanently sealed. Your certificate is below.');
     set('cv-subj',subj);
@@ -1909,18 +1921,24 @@ function verifyOnChain(){
   }
 }
 
-function downloadCert(){
-  if(!LAST) return;
-  const isLive  = !LAST.txid.startsWith('demo_');
-  const verifyUrl = isLive ? 'https://doxseal.co.za/verify.html?txid='+LAST.txid : null;
+function downloadCertById(id){
+  const m=HIST.find(c=>c.id===id);
+  if(m) downloadCert(m);
+}
+
+function downloadCert(m){
+  const cert = m || LAST;
+  if(!cert) return;
+  const isLive  = !cert.txid.startsWith('demo_');
+  const verifyUrl = isLive ? 'https://doxseal.co.za/verify.html?txid='+cert.txid : null;
   const qrSrc     = verifyUrl ? 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data='+encodeURIComponent(verifyUrl) : null;
-  const sealedBy  = (CU&&CU.name ? CU.name+' · ' : '')+(CU&&CU.email||'—');
+  const sealedBy  = cert.sealedBy || ((CU&&CU.name ? CU.name+' · ' : '')+(CU&&CU.email||'—'));
   const h = s => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 
   const html = `<!DOCTYPE html>
 <html lang="en"><head>
 <meta charset="UTF-8">
-<title>DoxSeal Certificate — ${h(LAST.subj)}</title>
+<title>DoxSeal Certificate — ${h(cert.subj)}</title>
 <style>
 @page{size:A4 portrait;margin:14mm 18mm;}
 *{box-sizing:border-box;margin:0;padding:0;}
@@ -1973,17 +1991,17 @@ td:first-child{color:#555;width:36%;font-size:11px;font-family:Arial,sans-serif;
 <div class="section">
   <div class="section-lbl">Document Details</div>
   <table>
-    <tr class="hero-row"><td>Protected For</td><td class="hero-val">${h(LAST.to)}</td></tr>
-    <tr><td>Document / Subject</td><td>${h(LAST.subj)}</td></tr>
+    <tr class="hero-row"><td>Protected For</td><td class="hero-val">${h(cert.to)}</td></tr>
+    <tr><td>Document / Subject</td><td>${h(cert.subj)}</td></tr>
     <tr><td>Sealed By</td><td>${h(sealedBy)}</td></tr>
-    <tr><td>Date &amp; Time</td><td>${h(LAST.tsStr)}</td></tr>
-    <tr><td>Privacy Mode</td><td>${h(LAST.mode)}</td></tr>
+    <tr><td>Date &amp; Time</td><td>${h(cert.tsStr)}</td></tr>
+    <tr><td>Privacy Mode</td><td>${h(cert.mode)}</td></tr>
   </table>
 </div>
 <div class="section">
   <div class="section-lbl">Cryptographic Proof</div>
-  <div class="hash-block"><div class="hash-lbl">SHA-256 Digital Fingerprint (Full Hash)</div><div class="hash-val">${h(LAST.fullHash)}</div></div>
-  <div class="hash-block"><div class="hash-lbl">BSV Blockchain Transaction ID</div><div class="hash-val">${h(LAST.txid)}</div></div>
+  <div class="hash-block"><div class="hash-lbl">SHA-256 Digital Fingerprint (Full Hash)</div><div class="hash-val">${h(cert.fullHash)}</div></div>
+  <div class="hash-block"><div class="hash-lbl">BSV Blockchain Transaction ID</div><div class="hash-val">${h(cert.txid)}</div></div>
 </div>
 <div class="section">
   <div class="section-lbl">Independent Verification</div>
@@ -1993,7 +2011,7 @@ td:first-child{color:#555;width:36%;font-size:11px;font-family:Arial,sans-serif;
       <div class="url-lbl">Verify this certificate at</div>
       <div class="url">${verifyUrl ? h(verifyUrl) : 'Connect server for live blockchain transactions'}</div>
       <div class="url-lbl">Or directly on WhatsOnChain</div>
-      <div class="url">${isLive ? 'https://whatsonchain.com/tx/'+h(LAST.txid) : '(demo seal — not on chain)'}</div>
+      <div class="url">${isLive ? 'https://whatsonchain.com/tx/'+h(cert.txid) : '(demo seal — not on chain)'}</div>
     </div>
     ${qrSrc ? '<div class="qr-wrap"><img id="cert-qr" src="'+qrSrc+'" alt="Scan to verify"><div class="qr-lbl">📱 Scan this QR code with your phone camera to read your personal sealed message and verify this certificate on the blockchain</div></div>' : ''}
   </div>
@@ -2102,10 +2120,14 @@ function proofHTML(m, compact){
       </div>
     </div>
     ${!compact?`<div class="pc-detail" id="pd-${m.id}">
-      <div class="pd-row"><span class="pd-k">Message</span><span class="pd-v">${(m.msg||'').slice(0,100)}${(m.msg||'').length>100?'…':''}</span></div>
-      <div class="pd-row"><span class="pd-k">Fingerprint</span><span class="pd-v m">${m.hash}…</span></div>
-      <div class="pd-row"><span class="pd-k">Sealed</span><span class="pd-v">${m.ts}</span></div>
-      <button class="pd-btn" onclick="event.stopPropagation();openWoc('${m.txid}')">⛓ Verify on blockchain ↗</button>
+      ${m.msg?`<div class="pd-row"><span class="pd-k">Message</span><span class="pd-v">${(m.msg||'').slice(0,100)}${(m.msg||'').length>100?'…':''}</span></div>`:''}
+      <div class="pd-row"><span class="pd-k">Date sealed</span><span class="pd-v">${m.ts||'—'}</span></div>
+      <div class="pd-row"><span class="pd-k">Transaction ID</span><span class="pd-v m">${m.txid&&!m.txid.startsWith('demo_')?m.txid.slice(0,20)+'…':'(demo)'}</span></div>
+      <div class="pd-row"><span class="pd-k">Fingerprint</span><span class="pd-v m">${m.hash||''}…</span></div>
+      <div class="pd-btns">
+        <button class="pd-btn" onclick="event.stopPropagation();${m.txid&&!m.txid.startsWith('demo_')?"window.open('https://doxseal.co.za/verify.html?txid="+m.txid+"','_blank')":"alert('Demo seal — connect server for live verification.')"}">⛓ Verify ↗</button>
+        <button class="pd-btn" onclick="event.stopPropagation();downloadCertById(${m.id})">📄 Download</button>
+      </div>
     </div>`:''}
   </div>`;
 }
