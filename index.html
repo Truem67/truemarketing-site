@@ -2002,16 +2002,16 @@ td:first-child{color:#555;width:36%;font-size:11px;font-family:Arial,sans-serif;
   <div class="footer-main">This certificate is self-verifying. Verify at doxseal.co.za/verify.html — Electronic Communications and Transactions Act 25 of 2002</div>
   <div class="footer-sub">DoxSeal · hello@doxseal.co.za · doxseal.co.za · The proof exists independently on the BSV blockchain — permanently and immutably.</div>
 </div>
-${'<script>'}
-${qrSrc ? "var q=document.getElementById('cert-qr');q.onload=function(){window.print();};q.onerror=function(){window.print();};" : 'window.onload=function(){window.print();};'}
-${'<' + '/script>'}
 </body></html>`;
 
-  const win = window.open('','_blank');
-  if(!win){ toast('Popup blocked','Allow popups for this site to download the certificate.','⚠️'); return; }
-  win.document.write(html);
-  win.document.close();
-  toast('Certificate ready','Choose "Save as PDF" in the print dialog.','📄');
+  const blob = new Blob([html], {type: 'text/html'});
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.download = 'DoxSeal-Certificate.html';
+  link.href = url;
+  link.click();
+  URL.revokeObjectURL(url);
+  toast('Certificate downloaded','Saved to your downloads folder.','📄');
 }
 
 function printCert(){
