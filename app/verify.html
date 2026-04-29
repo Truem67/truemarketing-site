@@ -532,6 +532,7 @@ body.auto-verify-mode .check-another{display:inline-block;}
 const _params     = new URLSearchParams(window.location.search);
 const _senderName = _params.get('from')  || '';
 const _senderEmail= _params.get('se')    || '';
+const _senderCo   = _params.get('co')    || '';
 const _senderWa   = _params.get('wa')    || '';
 let   _currentTxid= '';
 
@@ -675,7 +676,10 @@ function showVerified(txid, tx) {
   const sealDate = formatDate(tx.blocktime);
 
   // Banner
-  const byLine = _senderName ? ` by ${_senderName}` : '';
+  const senderDisplay = _senderName
+    ? (_senderCo ? `${_senderName} · ${_senderCo}` : _senderName)
+    : (_senderCo || '');
+  const byLine = senderDisplay ? ` by ${senderDisplay}` : '';
   setText('r-confirm-sub', `This document is genuine and unaltered. Sealed on ${sealDate}${byLine}.`);
 
   set('r-txid', `<span style="font-size:10px;font-family:var(--mono);color:var(--green)">${txid}</span>`);
@@ -707,11 +711,11 @@ function showVerified(txid, tx) {
     const waBtn     = document.getElementById('btn-wa');
     waBtn.href      = `https://wa.me/${_senderWa}?text=${waText}`;
     waBtn.classList.add('visible');
-    setText('wa-btn-label', _senderName ? `Reply to ${_senderName} via WhatsApp` : 'Reply via WhatsApp');
+    setText('wa-btn-label', senderDisplay ? `Reply to ${senderDisplay} via WhatsApp` : 'Reply via WhatsApp');
   }
 
   // Email reply button label
-  setText('reply-btn-label', _senderName ? `Reply to ${_senderName} by Email` : 'Reply by Email');
+  setText('reply-btn-label', senderDisplay ? `Reply to ${senderDisplay} by Email` : 'Reply by Email');
 
   showOnly('r-verified');
 }

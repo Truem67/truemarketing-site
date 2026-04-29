@@ -298,8 +298,8 @@ body::before{
 
 /* Bottom nav */
 .app-nav{
-  position:absolute;bottom:0;left:0;right:0;
-  display:flex;background:rgba(10,16,11,.96);
+  display:flex;flex-shrink:0;
+  background:rgba(10,16,11,.96);
   border-top:1px solid var(--line);
   backdrop-filter:blur(20px);
   z-index:20;
@@ -1434,6 +1434,16 @@ body::before{
           </div>
         </div>
 
+        <!-- Company name field -->
+        <div class="acc-field-card">
+          <div class="acc-field-title">Company or Practice Name</div>
+          <div class="wa-settings-row">
+            <input class="wa-input" id="co-input" type="text" placeholder="e.g. ABC Financial Services" autocomplete="organization">
+            <button class="wa-save-btn" onclick="saveCompany()">Save</button>
+          </div>
+          <div class="wa-saved" id="co-saved">Saved ✓</div>
+        </div>
+
         <!-- WhatsApp field -->
         <div class="acc-field-card">
           <div class="acc-field-title">WhatsApp number (with country code)</div>
@@ -1717,6 +1727,20 @@ function doSignup(){
   }, 900);
 }
 
+function loadCompany(email){
+  return localStorage.getItem('tm_company_'+email.toLowerCase()) || '';
+}
+
+function saveCompany(){
+  if(!CU) return;
+  const val=(document.getElementById('co-input').value||'').trim();
+  localStorage.setItem('tm_company_'+CU.email.toLowerCase(), val);
+  CU.company=val;
+  const msg=document.getElementById('co-saved');
+  msg.classList.add('show');
+  setTimeout(()=>msg.classList.remove('show'), 2000);
+}
+
 function loadWhatsApp(email){
   return localStorage.getItem('tm_wa_'+email.toLowerCase()) || '';
 }
@@ -1743,7 +1767,6 @@ function doSignOut(){
 // ═══════════════════════════════
 function openApp(){
   showPage('pg-app');
-  document.getElementById('nb-account').style.setProperty('display','flex','important');
   goTab('home');
   renderUI();
   if(SERVER_URL) fetchLivePrice();
@@ -1775,6 +1798,11 @@ function renderUI(){
   set('acc-em', CU.email);
   set('acc-cred', cStr);
   set('acc-sealed', sealed);
+  // Company
+  const coStored = loadCompany(CU.email);
+  CU.company = coStored;
+  const coEl = document.getElementById('co-input');
+  if (coEl) coEl.value = coStored;
   // WhatsApp
   const waStored = loadWhatsApp(CU.email);
   CU.whatsapp = waStored;
@@ -1910,9 +1938,10 @@ async function doSeal(){
     }
     const now=new Date();
     const tsStr=now.toLocaleString('en-ZA',{day:'numeric',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit'});
+    const company=(CU&&CU.company)||'';
     const sealedBy=(CU&&CU.name?CU.name+' · ':'')+((CU&&CU.email)||'—');
     const wa=(CU&&CU.whatsapp||'').replace(/\D/g,'');
-    LAST={id:Date.now(),dir:'sent',subj,to,msg,hash:hash.slice(0,20),fullHash:hash,txid,ts:now.toISOString().slice(0,16).replace('T',' '),tsStr,verified:!!API.broadcast,mode:PRIV,sealedBy,senderName:CU&&CU.name||'',senderEmail:CU&&CU.email||'',wa};
+    LAST={id:Date.now(),dir:'sent',subj,to,msg,hash:hash.slice(0,20),fullHash:hash,txid,ts:now.toISOString().slice(0,16).replace('T',' '),tsStr,verified:!!API.broadcast,mode:PRIV,sealedBy,senderName:CU&&CU.name||'',senderEmail:CU&&CU.email||'',company,wa};
     HIST.unshift(LAST);
     saveCerts(CU.email, HIST);
     // Populate success
@@ -2002,12 +2031,14 @@ function verifyOnChain(){
 
 function buildVerifyURL(txid, cert){
   let url = 'https://doxseal.co.za/verify.html?txid='+txid;
-  const name  = (cert&&cert.senderName) || (CU&&CU.name) || '';
-  const email = (cert&&cert.senderEmail) || (CU&&CU.email) || '';
-  const wa    = ((cert&&cert.wa) || (CU&&CU.whatsapp) || '').replace(/\D/g,'');
-  if(name)  url += '&from='+encodeURIComponent(name);
-  if(email) url += '&se='+encodeURIComponent(email);
-  if(wa)    url += '&wa='+wa;
+  const name    = (cert&&cert.senderName) || (CU&&CU.name) || '';
+  const email   = (cert&&cert.senderEmail) || (CU&&CU.email) || '';
+  const company = (cert&&cert.company) || (CU&&CU.company) || '';
+  const wa      = ((cert&&cert.wa) || (CU&&CU.whatsapp) || '').replace(/\D/g,'');
+  if(name)    url += '&from='+encodeURIComponent(name);
+  if(email)   url += '&se='+encodeURIComponent(email);
+  if(company) url += '&co='+encodeURIComponent(company);
+  if(wa)      url += '&wa='+wa;
   return url;
 }
 
@@ -2016,6 +2047,7 @@ function buildCertHtml(cert){
   const verifyUrl = isLive ? buildVerifyURL(cert.txid, cert) : null;
   const qrSrc     = verifyUrl ? 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data='+encodeURIComponent(verifyUrl) : null;
   const sealedBy  = cert.sealedBy || ((CU&&CU.name ? CU.name+' · ' : '')+(CU&&CU.email||'—'));
+  const company   = cert.company || (CU&&CU.company) || '';
   const h = s => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 
   const html = `<!DOCTYPE html>
@@ -2077,6 +2109,7 @@ td:first-child{color:#555;width:36%;font-size:11px;font-family:Arial,sans-serif;
     <tr class="hero-row"><td>Protected For</td><td class="hero-val">${h(cert.to)}</td></tr>
     <tr><td>Document / Subject</td><td>${h(cert.subj)}</td></tr>
     <tr><td>Sealed By</td><td>${h(sealedBy)}</td></tr>
+    ${company ? `<tr><td>Company / Practice</td><td>${h(company)}</td></tr>` : ''}
     <tr><td>Date &amp; Time</td><td>${h(cert.tsStr)}</td></tr>
     <tr><td>Privacy Mode</td><td>${h(cert.mode)}</td></tr>
   </table>
