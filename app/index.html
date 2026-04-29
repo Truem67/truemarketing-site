@@ -307,12 +307,12 @@ body::before{
 
 /* Bottom nav */
 .app-nav{
-  position:absolute;bottom:0;left:0;right:0;width:100%;
-  display:flex;overflow:hidden;
+  position:fixed;bottom:0;left:0;right:0;width:100%;
+  display:flex;
   background:rgba(10,16,11,.96);
   border-top:1px solid var(--line);
   backdrop-filter:blur(20px);
-  z-index:20;
+  z-index:30;
   box-sizing:border-box;
   padding-bottom:env(safe-area-inset-bottom,0);
 }
@@ -330,8 +330,6 @@ body::before{
 .tab{display:none;animation:tabIn .3s var(--ease);}
 .tab.on{display:block;}
 
-/* Ensure all nav buttons stay visible — do not hide any with display:none */
-.app-nav .nav-it{display:flex!important;}
 @keyframes tabIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
 
 /* ─── Section labels ─── */
@@ -1484,21 +1482,24 @@ body::before{
 
   </div><!-- app-body -->
 
-  <nav class="app-nav">
-    <button class="nav-it on" id="nb-home"    onclick="goTab('home')">
-      <span class="nav-ico">🏠</span><span class="nav-lbl">Home</span>
-    </button>
-    <button class="nav-it"     id="nb-seal"    onclick="goTab('seal')">
-      <span class="nav-ico">✦</span><span class="nav-lbl">Validate</span>
-    </button>
-    <button class="nav-it"     id="nb-history" onclick="goTab('history')">
-      <span class="nav-ico">📋</span><span class="nav-lbl">My Certs</span>
-    </button>
-    <button class="nav-it" id="nb-account" onclick="goTab('account')" style="display:flex!important;flex:1;min-width:0">
-      <span class="nav-ico">👤</span><span class="nav-lbl">Account</span>
-    </button>
-  </nav>
+
 </div>
+
+<!-- Bottom nav — fixed at body level, visible only when pg-app is active -->
+<nav class="app-nav" id="app-nav" style="display:none">
+  <button class="nav-it on" id="nb-home" onclick="goTab('home')">
+    <span class="nav-ico">🏠</span><span class="nav-lbl">Home</span>
+  </button>
+  <button class="nav-it" id="nb-seal" onclick="goTab('seal')">
+    <span class="nav-ico">✦</span><span class="nav-lbl">Validate</span>
+  </button>
+  <button class="nav-it" id="nb-history" onclick="goTab('history')">
+    <span class="nav-ico">📋</span><span class="nav-lbl">My Certs</span>
+  </button>
+  <button class="nav-it" id="nb-account" onclick="goTab('account')">
+    <span class="nav-ico">👤</span><span class="nav-lbl">Account</span>
+  </button>
+</nav>
 
 <!-- ═══════════════════════════════════
      SEALING CEREMONY
@@ -1663,6 +1664,8 @@ function showPage(id) {
   if (curPage===id) return;
   const prev = document.getElementById(curPage);
   const next = document.getElementById(id);
+  const appNav = document.getElementById('app-nav');
+  if(appNav) appNav.style.display = (id === 'pg-app') ? 'flex' : 'none';
   prev.classList.add('leaving');
   setTimeout(()=>{
     prev.classList.remove('visible','leaving');
@@ -1788,6 +1791,7 @@ function togglePass(id, btn){
 
 function doSignOut(){
   CU=null; HIST=[]; LAST=null;
+  localStorage.removeItem('tm_session');
   showPage('pg-welcome');
   document.getElementById('in-em').value='';
   document.getElementById('in-pw').value='';
@@ -1797,8 +1801,8 @@ function doSignOut(){
 // APP
 // ═══════════════════════════════
 function openApp(){
+  saveSession();
   renderUI();
-  document.getElementById('nb-account').style.setProperty('display','flex','important');
   showPage('pg-app');
   setTimeout(() => goTab('home'), 340);
   if(SERVER_URL) fetchLivePrice();
@@ -2365,9 +2369,43 @@ async function fetchLivePrice(){
   }catch(e){}
 }
 
+// ═══════════════════════════════
+// SESSION PERSISTENCE
+// ═══════════════════════════════
+function saveSession(){
+  if(!CU) return;
+  try{
+    localStorage.setItem('tm_session', JSON.stringify({
+      cu:{email:CU.email,name:CU.name,plan:CU.plan,addr:CU.addr||'',pass:CU.pass||''},
+      creds:CREDS
+    }));
+  }catch(e){}
+}
+
+function restoreSession(){
+  try{
+    const raw = localStorage.getItem('tm_session');
+    if(!raw) return false;
+    const s = JSON.parse(raw);
+    if(!s||!s.cu||!s.cu.email) return false;
+    const em = s.cu.email.toLowerCase();
+    CU = {...s.cu, email:em,
+      company: loadCompany(em),
+      whatsapp: loadWhatsApp(em)
+    };
+    if(!USERS[em]) USERS[em] = CU;
+    CREDS = (typeof s.creds === 'number' && s.creds > 0) ? s.creds : 50000;
+    HIST = loadCerts(em);
+    if(TRIAL_EMAILS.has(em)) HIST = [...HIST, ...DEMO];
+    return true;
+  }catch(e){ return false; }
+}
+
 document.addEventListener('keydown',e=>{
   if(e.key==='Escape'&&document.getElementById('cert-modal').classList.contains('open')) closeCertModal();
 });
+
+if(restoreSession()) openApp();
 </script>
 
 <!-- CERT VIEW MODAL -->
