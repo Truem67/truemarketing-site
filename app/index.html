@@ -215,6 +215,15 @@ body::before{
   box-shadow:0 0 0 3px rgba(45,206,130,.08);
 }
 .af-input::placeholder{color:var(--iv4);}
+.af-pw-wrap{position:relative;}
+.af-pw-wrap .af-input{padding-right:46px;}
+.af-pw-toggle{
+  position:absolute;right:12px;top:50%;transform:translateY(-50%);
+  background:none;border:none;cursor:pointer;padding:4px 6px;
+  color:var(--iv4);font-size:15px;line-height:1;
+  transition:color .15s;
+}
+.af-pw-toggle:hover{color:var(--ivory);}
 
 .btn-go{
   width:100%;padding:13px;border-radius:13px;
@@ -1138,6 +1147,13 @@ body::before{
 }
 .upg-btn:hover{background:var(--green2);transform:translateY(-1px);}
 .upg-note{font-size:12px;color:var(--iv4);margin-top:16px;}
+.upg-back{
+  margin-top:14px;background:none;border:none;
+  color:var(--iv4);font-size:13px;cursor:pointer;
+  text-decoration:underline;text-underline-offset:3px;
+  transition:color .15s;
+}
+.upg-back:hover{color:var(--iv3);}
 
 /* ── WELCOME FOOTER ── */
 .wl-footer{
@@ -1253,8 +1269,11 @@ body::before{
     </div>
     <div class="af-row">
       <div class="af-label">Password</div>
-      <input class="af-input" type="password" id="in-pw" placeholder="••••••••"
-        autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()">
+      <div class="af-pw-wrap">
+        <input class="af-input" type="password" id="in-pw" placeholder="••••••••"
+          autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()">
+        <button class="af-pw-toggle" type="button" onclick="togglePass('in-pw',this)" aria-label="Show password">👁</button>
+      </div>
     </div>
     <button class="btn-go" id="btn-in" onclick="doLogin()">Sign In →</button>
     <p class="auth-note">Demo: <strong>demo@doxseal.co.za</strong> / demo123</p>
@@ -1275,7 +1294,10 @@ body::before{
     </div>
     <div class="af-row">
       <div class="af-label">Choose a password</div>
-      <input class="af-input" type="password" id="up-pw" placeholder="Min. 8 characters" autocomplete="new-password">
+      <div class="af-pw-wrap">
+        <input class="af-input" type="password" id="up-pw" placeholder="Min. 8 characters" autocomplete="new-password">
+        <button class="af-pw-toggle" type="button" onclick="togglePass('up-pw',this)" aria-label="Show password">👁</button>
+      </div>
     </div>
     <button class="btn-go" id="btn-up" onclick="doSignup()">✦ Create Free Account</button>
     <p class="auth-note">You receive <strong>50,000 free credits</strong> instantly — no card required.<br>Every message protected by the BSV blockchain.</p>
@@ -1755,6 +1777,13 @@ function saveWhatsApp(){
   setTimeout(()=>msg.classList.remove('show'), 2000);
 }
 
+function togglePass(id, btn){
+  const inp = document.getElementById(id);
+  const showing = inp.type === 'text';
+  inp.type = showing ? 'password' : 'text';
+  btn.style.opacity = showing ? '0.5' : '1';
+}
+
 function doSignOut(){
   CU=null; HIST=[]; LAST=null;
   showPage('pg-welcome');
@@ -1826,6 +1855,11 @@ function setDemoSealsUsed(n){ localStorage.setItem('tm_trial_'+CU.email.toLowerC
 
 function showUpgradeScreen(){
   document.getElementById('pg-upgrade').classList.add('show');
+}
+
+function dismissUpgrade(){
+  document.getElementById('pg-upgrade').classList.remove('show');
+  goTab('history');
 }
 
 async function checkDemoLimit(){
@@ -2341,14 +2375,14 @@ document.addEventListener('keydown',e=>{
 
 <!-- TRIAL EXPIRED OVERLAY -->
 <div id="pg-upgrade">
-  <div class="upg-icon">⛓</div>
-  <h2 class="upg-h">Your 3 free trial seals are complete</h2>
-  <p class="upg-sub">You have seen DoxSeal work. Your documents are now permanently sealed on the BSV blockchain — tamper-proof and CCMA-ready.</p>
-  <p class="upg-note" style="margin-top:0;margin-bottom:8px;font-size:14px;color:var(--iv3);">To continue sealing documents subscribe from R297 per month. Cancel anytime. No lock in.</p>
-  <p class="upg-note" style="margin-top:0;margin-bottom:24px;font-size:13px;color:var(--iv4);">You will receive your login credentials by email within 5 minutes of payment.</p>
+  <div class="upg-icon">✦</div>
+  <h2 class="upg-h">You have used your 3 free seals</h2>
+  <p class="upg-sub">Upgrade to continue sealing documents. Your existing account and certificate history are preserved — no new password needed.</p>
+  <p class="upg-note" style="margin-top:0;margin-bottom:24px;font-size:14px;color:var(--iv3);">From R297/month · Cancel anytime · No lock-in</p>
   <a class="upg-btn" href="https://doxseal.co.za/subscribe.html" target="_blank" rel="noopener">
-    Subscribe Now →
+    Upgrade My Account →
   </a>
+  <button class="upg-back" onclick="dismissUpgrade()">← Back to my certificates</button>
   <p class="upg-note" style="margin-top:16px;"><a href="https://wa.me/27726126733" target="_blank" rel="noopener" style="color:var(--iv3);text-decoration:none;font-size:13px;">Questions? WhatsApp us</a></p>
 </div>
 
