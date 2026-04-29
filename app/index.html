@@ -249,6 +249,18 @@ body::before{
 }
 .auth-note strong{color:var(--green);}
 
+/* Forgot password */
+.fp-link{font-size:12px;color:var(--iv4);text-align:center;margin-top:10px;}
+.fp-link a{color:var(--iv3);text-decoration:none;border-bottom:1px dotted var(--iv4);}
+.fp-link a:hover{color:var(--ivory);}
+#fp-panel{margin-top:12px;border-top:1px solid var(--line2);padding-top:14px;}
+#fp-panel .btn-go{font-size:14px;padding:11px;}
+.fp-result{
+  margin-top:12px;padding:12px 14px;border-radius:10px;font-size:13px;line-height:1.6;
+  background:rgba(45,206,130,.08);border:1px solid rgba(45,206,130,.2);color:var(--ivory);
+}
+.fp-result.err{background:rgba(255,80,80,.07);border-color:rgba(255,80,80,.2);color:var(--iv3);}
+
 /* Trust badges */
 .trust-row{
   display:flex;justify-content:center;gap:20px;
@@ -1277,6 +1289,16 @@ body::before{
     </div>
     <button class="btn-go" id="btn-in" onclick="doLogin()">Sign In →</button>
     <p class="auth-note">Demo: <strong>demo@doxseal.co.za</strong> / demo123</p>
+    <p class="fp-link"><a href="#" onclick="showForgotPass();return false;">Forgot password?</a></p>
+    <!-- Forgot password panel -->
+    <div id="fp-panel" style="display:none">
+      <div class="af-row" style="margin-bottom:10px">
+        <div class="af-label">Enter your email address</div>
+        <input class="af-input" type="email" id="fp-em" placeholder="you@yourwork.com" autocomplete="email">
+      </div>
+      <button class="btn-go" onclick="lookupPass()">Find my password</button>
+      <div id="fp-result" style="display:none" class="fp-result"></div>
+    </div>
     <p class="auth-note" style="margin-top:10px;border-top:1px solid var(--line2);padding-top:10px;">
       New to DoxSeal? <a href="https://doxseal.co.za/trial" style="color:var(--green);font-weight:600;text-decoration:none;">Start your free trial →</a>
     </p>
@@ -1748,6 +1770,7 @@ function doSignup(){
     const addr='1TM'+Math.random().toString(36).slice(2,8).toUpperCase()+Date.now().toString(36).toUpperCase().slice(-5);
     CU={name:nm,email:em,pass:pw,addr,plan:'Starter'};
     USERS[em]=CU; CREDS=50000; HIST=loadCerts(em);
+    localStorage.setItem('tm_creds_'+em, JSON.stringify({name:nm,pass:pw}));
     btn.disabled=false; btn.textContent='✦ Create Free Account';
     openApp();
     setTimeout(()=>toast('🎁 50,000 free credits added!','Go ahead — seal your first message. It takes under 10 seconds.','✦'),700);
@@ -1788,6 +1811,52 @@ function togglePass(id, btn){
   const showing = inp.type === 'text';
   inp.type = showing ? 'password' : 'text';
   btn.style.opacity = showing ? '0.5' : '1';
+}
+
+function showForgotPass(){
+  const panel=document.getElementById('fp-panel');
+  if(!panel) return;
+  const open=panel.style.display==='none';
+  panel.style.display=open?'block':'none';
+  if(open){
+    const res=document.getElementById('fp-result');
+    if(res){res.style.display='none';res.textContent='';}
+  }
+}
+
+function lookupPass(){
+  const emEl=document.getElementById('fp-em');
+  const resEl=document.getElementById('fp-result');
+  if(!emEl||!resEl) return;
+  const em=(emEl.value||'').trim().toLowerCase();
+  if(!em){
+    resEl.className='fp-result err'; resEl.textContent='Please enter your email address.'; resEl.style.display='block'; return;
+  }
+  // Check persistent credentials store
+  try{
+    const raw=localStorage.getItem('tm_creds_'+em);
+    if(raw){
+      const d=JSON.parse(raw);
+      if(d&&d.pass){
+        resEl.className='fp-result';
+        resEl.innerHTML='Your password is: <strong style="color:var(--green);letter-spacing:.03em">'+d.pass+'</strong>';
+        resEl.style.display='block'; return;
+      }
+    }
+  }catch(e){}
+  // Fall back to current session if email matches
+  try{
+    const raw=localStorage.getItem('tm_session');
+    if(raw){
+      const s=JSON.parse(raw);
+      if(s&&s.cu&&s.cu.email===em&&s.cu.pass){
+        resEl.className='fp-result';
+        resEl.innerHTML='Your password is: <strong style="color:var(--green);letter-spacing:.03em">'+s.cu.pass+'</strong>';
+        resEl.style.display='block'; return;
+      }
+    }
+  }catch(e){}
+  resEl.className='fp-result err'; resEl.textContent='No account found for that email address.'; resEl.style.display='block';
 }
 
 function doSignOut(){
