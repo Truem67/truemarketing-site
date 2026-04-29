@@ -1392,6 +1392,23 @@ body::before{
         </div>
       </div>
 
+      <!-- Settings fields — always visible on Home -->
+      <div style="margin:0 16px 16px;padding:16px;background:var(--card);border:1px solid var(--line);border-radius:12px;">
+        <div style="font-size:11px;font-weight:700;color:var(--iv3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px;">Your Profile</div>
+        <label style="display:block;font-size:12px;color:var(--iv3);margin-bottom:4px;">Company or Practice Name</label>
+        <input id="co-input" type="text" placeholder="e.g. ABC Financial Services" autocomplete="organization"
+          style="display:block;width:100%;box-sizing:border-box;padding:10px 12px;font-size:14px;border-radius:8px;border:1px solid var(--line2);background:var(--bg2);color:var(--ivory);font-family:var(--sans);outline:none;margin-bottom:8px;">
+        <button onclick="saveCompany()"
+          style="width:100%;padding:10px;background:var(--green);color:#fff;font-size:13px;font-weight:700;border:none;border-radius:8px;cursor:pointer;margin-bottom:14px;">Save Company Name</button>
+        <div id="co-saved" class="wa-saved">Saved ✓</div>
+        <label style="display:block;font-size:12px;color:var(--iv3);margin-bottom:4px;">WhatsApp Number (with country code)</label>
+        <input id="wa-input" type="tel" placeholder="+27 82 123 4567" autocomplete="tel"
+          style="display:block;width:100%;box-sizing:border-box;padding:10px 12px;font-size:14px;border-radius:8px;border:1px solid var(--line2);background:var(--bg2);color:var(--ivory);font-family:var(--sans);outline:none;margin-bottom:8px;">
+        <button onclick="saveWhatsApp()"
+          style="width:100%;padding:10px;background:var(--green);color:#fff;font-size:13px;font-weight:700;border:none;border-radius:8px;cursor:pointer;">Save WhatsApp Number</button>
+        <div id="wa-saved" class="wa-saved">Saved ✓</div>
+      </div>
+
       <div class="qa-grid">
         <button class="qa-btn big" onclick="goTab('seal')">
           <div class="qa-big-ico">✦</div>
@@ -1483,38 +1500,17 @@ body::before{
 
     <!-- ACCOUNT -->
     <div class="tab" id="t-account">
-      <p style="color:red;font-size:20px;padding:16px;">ACCOUNT SCREEN LOADED</p>
-      <div style="padding:0 20px 24px;display:flex;flex-direction:column;gap:20px;">
+      <div style="padding:24px 20px;display:flex;flex-direction:column;gap:20px;">
 
         <div style="font-size:13px;color:var(--iv3);">
           Signed in as <strong id="acc-em" style="color:var(--ivory);">—</strong>
-        </div>
-
-        <!-- Company -->
-        <div>
-          <label style="display:block;font-size:12px;font-weight:700;color:var(--iv3);margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em;">Company or Practice Name</label>
-          <input id="co-input" type="text" placeholder="e.g. ABC Financial Services" autocomplete="organization"
-            style="display:block;width:100%;box-sizing:border-box;padding:12px;font-size:15px;border-radius:8px;border:1px solid var(--line2);background:var(--bg2);color:var(--ivory);font-family:var(--sans);outline:none;margin-bottom:8px;">
-          <button onclick="saveCompany()"
-            style="width:100%;padding:12px;background:var(--green);color:#fff;font-size:14px;font-weight:700;border:none;border-radius:8px;cursor:pointer;">Save Company Name</button>
-          <div id="co-saved" class="wa-saved">Saved ✓</div>
-        </div>
-
-        <!-- WhatsApp -->
-        <div>
-          <label style="display:block;font-size:12px;font-weight:700;color:var(--iv3);margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em;">WhatsApp Number (+27...)</label>
-          <input id="wa-input" type="tel" placeholder="+27 82 123 4567" autocomplete="tel"
-            style="display:block;width:100%;box-sizing:border-box;padding:12px;font-size:15px;border-radius:8px;border:1px solid var(--line2);background:var(--bg2);color:var(--ivory);font-family:var(--sans);outline:none;margin-bottom:8px;">
-          <button onclick="saveWhatsApp()"
-            style="width:100%;padding:12px;background:var(--green);color:#fff;font-size:14px;font-weight:700;border:none;border-radius:8px;cursor:pointer;">Save WhatsApp Number</button>
-          <div id="wa-saved" class="wa-saved">Saved ✓</div>
         </div>
 
         <!-- Sign out -->
         <button onclick="doSignOut()"
           style="width:100%;padding:13px;border-radius:12px;background:rgba(224,85,85,.08);border:1px solid rgba(224,85,85,.18);color:var(--red);font-size:14px;font-weight:700;cursor:pointer;">Sign Out</button>
 
-        <!-- Keep hidden elements renderUI needs -->
+        <!-- Hidden elements renderUI needs -->
         <span id="acc-nm" style="display:none"></span>
         <span id="acc-av" style="display:none"></span>
         <span id="acc-plan" style="display:none"></span>
