@@ -1683,11 +1683,11 @@ function showPage(id) {
 // AUTH
 // ═══════════════════════════════
 function authTab(t) {
-  document.getElementById('f-in').style.display = t==='in'?'flex':'none';
-  document.getElementById('f-up').style.display = t==='up'?'flex':'none';
-  document.getElementById('at-in').classList.toggle('on', t==='in');
-  document.getElementById('at-up').classList.toggle('on', t==='up');
-  document.getElementById('auth-err').style.display='none';
+  const fin=document.getElementById('f-in');   if(fin)  fin.style.display  = t==='in'?'flex':'none';
+  const fup=document.getElementById('f-up');   if(fup)  fup.style.display  = t==='up'?'flex':'none';
+  const ain=document.getElementById('at-in');  if(ain)  ain.classList.toggle('on', t==='in');
+  const aup=document.getElementById('at-up');  if(aup)  aup.classList.toggle('on', t==='up');
+  const err=document.getElementById('auth-err'); if(err) err.style.display='none';
 }
 
 function authErr(m){
@@ -1760,12 +1760,12 @@ function loadCompany(email){
 
 function saveCompany(){
   if(!CU) return;
-  const val=(document.getElementById('co-input').value||'').trim();
+  const inp=document.getElementById('co-input');
+  const val=(inp?inp.value:'').trim();
   localStorage.setItem('tm_company_'+CU.email.toLowerCase(), val);
   CU.company=val;
   const msg=document.getElementById('co-saved');
-  msg.classList.add('show');
-  setTimeout(()=>msg.classList.remove('show'), 2000);
+  if(msg){msg.classList.add('show');setTimeout(()=>msg.classList.remove('show'),2000);}
 }
 
 function loadWhatsApp(email){
@@ -1774,16 +1774,17 @@ function loadWhatsApp(email){
 
 function saveWhatsApp(){
   if(!CU) return;
-  const val=(document.getElementById('wa-input').value||'').trim();
+  const inp=document.getElementById('wa-input');
+  const val=(inp?inp.value:'').trim();
   localStorage.setItem('tm_wa_'+CU.email.toLowerCase(), val);
   CU.whatsapp=val;
   const msg=document.getElementById('wa-saved');
-  msg.classList.add('show');
-  setTimeout(()=>msg.classList.remove('show'), 2000);
+  if(msg){msg.classList.add('show');setTimeout(()=>msg.classList.remove('show'),2000);}
 }
 
 function togglePass(id, btn){
   const inp = document.getElementById(id);
+  if(!inp) return;
   const showing = inp.type === 'text';
   inp.type = showing ? 'password' : 'text';
   btn.style.opacity = showing ? '0.5' : '1';
@@ -1793,8 +1794,8 @@ function doSignOut(){
   CU=null; HIST=[]; LAST=null;
   localStorage.removeItem('tm_session');
   showPage('pg-welcome');
-  document.getElementById('in-em').value='';
-  document.getElementById('in-pw').value='';
+  const emEl=document.getElementById('in-em'); if(emEl) emEl.value='';
+  const pwEl=document.getElementById('in-pw'); if(pwEl) pwEl.value='';
 }
 
 // ═══════════════════════════════
@@ -1905,8 +1906,8 @@ const TABS=['home','seal','history','account'];
 async function goTab(tab){
   if(tab==='seal' && !(await checkDemoLimit())) return;
   TABS.forEach(t=>{
-    document.getElementById('t-'+t).classList.toggle('on',t===tab);
-    document.getElementById('nb-'+t).classList.toggle('on',t===tab);
+    const tb=document.getElementById('t-'+t);  if(tb) tb.classList.toggle('on',t===tab);
+    const nb=document.getElementById('nb-'+t); if(nb) nb.classList.toggle('on',t===tab);
   });
   if(tab==='history') renderHistory();
 }
