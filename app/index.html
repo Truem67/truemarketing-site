@@ -307,15 +307,17 @@ body::before{
 
 /* Bottom nav */
 .app-nav{
-  display:flex;flex-shrink:0;
+  position:absolute;bottom:0;left:0;right:0;width:100%;
+  display:flex;overflow:hidden;
   background:rgba(10,16,11,.96);
   border-top:1px solid var(--line);
   backdrop-filter:blur(20px);
   z-index:20;
+  box-sizing:border-box;
   padding-bottom:env(safe-area-inset-bottom,0);
 }
 .nav-it{
-  flex:1;display:flex;flex-direction:column;align-items:center;
+  flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;
   padding:9px 4px 7px;gap:3px;
   transition:all .15s;
 }
@@ -1492,7 +1494,7 @@ body::before{
     <button class="nav-it"     id="nb-history" onclick="goTab('history')">
       <span class="nav-ico">📋</span><span class="nav-lbl">My Certs</span>
     </button>
-    <button class="nav-it"     id="nb-account" onclick="goTab('account')">
+    <button class="nav-it" id="nb-account" onclick="goTab('account')" style="display:flex!important;flex:1;min-width:0">
       <span class="nav-ico">👤</span><span class="nav-lbl">Account</span>
     </button>
   </nav>
@@ -1796,10 +1798,8 @@ function doSignOut(){
 // ═══════════════════════════════
 function openApp(){
   renderUI();
+  document.getElementById('nb-account').style.setProperty('display','flex','important');
   showPage('pg-app');
-  // goTab runs after showPage's 320ms transition so the nav is in a
-  // rendered, visible flex column when classes are toggled (fixes
-  // blank nav on first sign-up in some browsers).
   setTimeout(() => goTab('home'), 340);
   if(SERVER_URL) fetchLivePrice();
 }
