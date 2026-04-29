@@ -313,6 +313,7 @@ body::before{
 /* Scrollable body */
 .app-body{
   flex:1;overflow-y:auto;overflow-x:hidden;
+  -webkit-overflow-scrolling:touch;
   padding-bottom:72px;
 }
 .app-body::-webkit-scrollbar{width:2px;}
@@ -1099,6 +1100,18 @@ body::before{
 .acc-field-title{
   font-size:11px;font-weight:700;color:var(--iv4);
   letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px;
+}
+/* Compact Account layout on small phones so fields are visible without scrolling */
+@media(max-width:480px){
+  .acc-wrap{padding:12px;}
+  .acc-cover{height:36px;}
+  .acc-av{width:44px;height:44px;font-size:18px;top:-22px;}
+  .acc-info{padding:28px 16px 12px;}
+  .acc-nm{font-size:17px;}
+  .acc-field-card{padding:14px;margin-bottom:10px;}
+  .acc-field-title{margin-bottom:10px;}
+  .acc-profile{margin-bottom:10px;}
+  .btn-so{padding:11px;}
 }
 
 /* Seal intro — product description paragraph */
