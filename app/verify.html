@@ -302,11 +302,7 @@ body.auto-verify-mode .check-another{display:inline-block;}
   font-size:14px;color:var(--green);font-weight:600;
 }
 .reply-sent.show{display:block;}
-.reply-err{
-  display:none;text-align:center;padding:10px 0 4px;
-  font-size:13px;color:var(--amber);
-}
-.reply-err.show{display:block;}
+
 
 /* FOOTER */
 .page-footer{
@@ -450,8 +446,7 @@ body.auto-verify-mode .check-another{display:inline-block;}
           <textarea id="reply-msg" placeholder="Your reply…"></textarea>
         </div>
         <button class="btn-send-reply" id="btn-send-reply" onclick="submitReply()">Send reply</button>
-        <div class="reply-sent" id="reply-sent">Your reply has been sent ✓</div>
-        <div class="reply-err" id="reply-err">Could not send — please try again.</div>
+        <div class="reply-sent" id="reply-sent">Gmail opened in a new tab — your reply is pre-filled and ready to send ✓</div>
       </div>
     </div>
   </div>
@@ -521,9 +516,6 @@ body.auto-verify-mode .check-another{display:inline-block;}
 
 <script>
 'use strict';
-
-// ── Web3Forms ──
-const W3F_KEY = 'PASTE_YOUR_WEB3FORMS_KEY_HERE';
 
 // ── URL PARAMS ──
 const _params     = new URLSearchParams(window.location.search);
@@ -775,7 +767,7 @@ function toggleReplyForm() {
   document.getElementById('reply-form-wrap').classList.toggle('show');
 }
 
-async function submitReply() {
+function submitReply() {
   const name  = document.getElementById('reply-name').value.trim();
   const email = document.getElementById('reply-email').value.trim();
   const msg   = document.getElementById('reply-msg').value.trim();
@@ -784,46 +776,18 @@ async function submitReply() {
     return;
   }
 
-  const sendBtn = document.getElementById('btn-send-reply');
-  const sentEl  = document.getElementById('reply-sent');
-  const errEl   = document.getElementById('reply-err');
-  sendBtn.disabled = true;
-  sendBtn.textContent = 'Sending…';
-  errEl.classList.remove('show');
+  const toEmail  = _senderEmail || 'hello@doxseal.co.za';
+  const ref      = _currentTxid ? _currentTxid.slice(0, 8) : '';
+  const subject  = encodeURIComponent(`Reply to sealed document (Ref: ${ref})`);
+  const body     = encodeURIComponent(
+    `From: ${name} (${email})\n\n${msg}\n\nDocument Ref: ${_currentTxid}`
+  );
+  const gmailUrl = `https://mail.google.com/mail/?view=cm&to=${encodeURIComponent(toEmail)}&su=${subject}&body=${body}`;
 
-  const toEmail = _senderEmail || 'hello@doxseal.co.za';
+  window.open(gmailUrl, '_blank');
 
-  const payload = {
-    access_key: W3F_KEY,
-    from_name:  name,
-    email:      email,
-    subject:    `Reply to sealed document — ref ${_currentTxid}`,
-    message:    `From: ${name} <${email}>\nTo: ${toEmail}\n\n${msg}\n\nProof ref: ${_currentTxid}`
-  };
-
-  console.log('[Web3Forms] Sending to:', toEmail);
-  console.log('[Web3Forms] Payload:', JSON.stringify(payload, null, 2));
-
-  try {
-    const res  = await fetch('https://api.web3forms.com/submit', {
-      method:  'POST',
-      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body:    JSON.stringify(payload)
-    });
-    const data = await res.json();
-    console.log('[Web3Forms] Response:', data);
-    if (data.success) {
-      sendBtn.style.display = 'none';
-      sentEl.classList.add('show');
-    } else {
-      throw new Error(data.message || 'Web3Forms error');
-    }
-  } catch(e) {
-    console.log('[Web3Forms] FAILED:', e.message || e);
-    sendBtn.disabled = false;
-    sendBtn.textContent = 'Send reply';
-    errEl.classList.add('show');
-  }
+  document.getElementById('btn-send-reply').style.display = 'none';
+  document.getElementById('reply-sent').classList.add('show');
 }
 
 // ── AUTO-VERIFY FROM URL PARAM ──
