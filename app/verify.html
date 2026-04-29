@@ -7,7 +7,6 @@
 <title>Verify Document — DoxSeal</title>
 <meta name="description" content="Confirm a DoxSeal sealed document is genuine and unaltered. No account required.">
 <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Nunito:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 :root{
@@ -523,10 +522,8 @@ body.auto-verify-mode .check-another{display:inline-block;}
 <script>
 'use strict';
 
-// ── EmailJS ──
-(function(){
-  if(window.emailjs) emailjs.init('dZxhfP43Zx8S_cV3u');
-})();
+// ── Web3Forms ──
+const W3F_KEY = 'PASTE_YOUR_WEB3FORMS_KEY_HERE';
 
 // ── URL PARAMS ──
 const _params     = new URLSearchParams(window.location.search);
@@ -796,30 +793,33 @@ async function submitReply() {
 
   const toEmail = _senderEmail || 'hello@doxseal.co.za';
 
-  const params = {
+  const payload = {
+    access_key: W3F_KEY,
     from_name:  name,
-    from_email: email,
-    reply_to:   email,
-    to_name:    _senderName || 'Sender',
-    to_email:   toEmail,
-    message:    msg,
-    txid:       _currentTxid
+    email:      email,
+    subject:    `Reply to sealed document — ref ${_currentTxid}`,
+    message:    `From: ${name} <${email}>\nTo: ${toEmail}\n\n${msg}\n\nProof ref: ${_currentTxid}`
   };
 
-  console.log('[EmailJS] Initialising with public key: dZxhfP43Zx8S_cV3u');
-  emailjs.init('dZxhfP43Zx8S_cV3u');
-
-  console.log('[EmailJS] Sending — service: service_lpjet5m  template: template_g89h26g');
-  console.log('[EmailJS] Parameters:', JSON.stringify(params, null, 2));
+  console.log('[Web3Forms] Sending to:', toEmail);
+  console.log('[Web3Forms] Payload:', JSON.stringify(payload, null, 2));
 
   try {
-    const response = await emailjs.send('service_lpjet5m', 'template_g89h26g', params);
-    console.log('[EmailJS] SUCCESS — status:', response.status, '| text:', response.text);
-    sendBtn.style.display = 'none';
-    sentEl.classList.add('show');
+    const res  = await fetch('https://api.web3forms.com/submit', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body:    JSON.stringify(payload)
+    });
+    const data = await res.json();
+    console.log('[Web3Forms] Response:', data);
+    if (data.success) {
+      sendBtn.style.display = 'none';
+      sentEl.classList.add('show');
+    } else {
+      throw new Error(data.message || 'Web3Forms error');
+    }
   } catch(e) {
-    console.log('[EmailJS] FAILED — status:', e.status, '| text:', e.text);
-    console.log('[EmailJS] Full error:', e);
+    console.log('[Web3Forms] FAILED:', e.message || e);
     sendBtn.disabled = false;
     sendBtn.textContent = 'Send reply';
     errEl.classList.add('show');
