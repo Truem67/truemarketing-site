@@ -1795,9 +1795,12 @@ function doSignOut(){
 // APP
 // ═══════════════════════════════
 function openApp(){
-  showPage('pg-app');
-  goTab('home');
   renderUI();
+  showPage('pg-app');
+  // goTab runs after showPage's 320ms transition so the nav is in a
+  // rendered, visible flex column when classes are toggled (fixes
+  // blank nav on first sign-up in some browsers).
+  setTimeout(() => goTab('home'), 340);
   if(SERVER_URL) fetchLivePrice();
 }
 
