@@ -452,7 +452,7 @@ body.auto-verify-mode .check-another{display:inline-block;}
         </div>
         <button class="btn-send-reply" id="btn-send-reply" onclick="submitReply()">Send reply</button>
         <div class="reply-sent" id="reply-sent">Your reply has been sent ✓</div>
-        <div class="reply-err" id="reply-err">Could not send — please try again.</div>
+        <div class="reply-err" id="reply-err">Could not send — opening your email app as fallback.</div>
       </div>
     </div>
   </div>
@@ -794,22 +794,28 @@ async function submitReply() {
   sendBtn.textContent = 'Sending…';
   errEl.classList.remove('show');
 
+  const toEmail = _senderEmail || 'hello@doxseal.co.za';
+  const subject = encodeURIComponent(`Reply to sealed message ${_currentTxid}`);
+  const body    = encodeURIComponent(`From: ${name} <${email}>\n\n${msg}\n\n---\nProof ref: ${_currentTxid}`);
+  const mailtoUrl = `mailto:${toEmail}?subject=${subject}&body=${body}`;
+
   try {
     await emailjs.send('service_lpjet5m', 'template_g89h26g', {
       from_name:  name,
       from_email: email,
       reply_to:   email,
       to_name:    _senderName || 'Sender',
-      to_email:   _senderEmail || 'hello@doxseal.co.za',
+      to_email:   toEmail,
       message:    msg,
       txid:       _currentTxid
     });
     sendBtn.style.display = 'none';
     sentEl.classList.add('show');
   } catch(e) {
+    // EmailJS failed — open mailto: so the reply still reaches the sender
+    window.location.href = mailtoUrl;
     sendBtn.disabled = false;
     sendBtn.textContent = 'Send reply';
-    errEl.classList.add('show');
   }
 }
 
