@@ -706,7 +706,7 @@ function showVerified(txid, tx) {
   // WhatsApp button
   if (_senderWa) {
     const greeting  = _senderName ? `Hi ${_senderName}` : 'Hi';
-    const shortRef  = txid.slice(0, 16) + '…';
+    const shortRef  = txid.slice(0, 8);
     const waText    = encodeURIComponent(`${greeting}, I received your sealed document (Ref: ${shortRef}) and would like to respond.`);
     const waBtn     = document.getElementById('btn-wa');
     waBtn.href      = `https://wa.me/${_senderWa}?text=${waText}`;
