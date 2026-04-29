@@ -337,6 +337,11 @@ body::before{
 .nav-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--iv4);transition:color .15s;}
 .nav-it.on .nav-lbl{color:var(--green);}
 .nav-it.on .nav-ico{transform:scale(1.18);}
+@media(max-width:360px){
+  .nav-it{padding:8px 1px 6px;}
+  .nav-ico{font-size:17px;}
+  .nav-lbl{font-size:8px;letter-spacing:0;}
+}
 
 /* Tabs */
 .tab{display:none;animation:tabIn .3s var(--ease);}
@@ -1518,7 +1523,7 @@ body::before{
   <button class="nav-it" id="nb-history" onclick="goTab('history')">
     <span class="nav-ico">📋</span><span class="nav-lbl">My Certs</span>
   </button>
-  <button class="nav-it" id="nb-account" onclick="goTab('account')">
+  <button class="nav-it" id="nb-account" onclick="goTab('account')" style="display:flex!important">
     <span class="nav-ico">👤</span><span class="nav-lbl">Account</span>
   </button>
 </nav>
