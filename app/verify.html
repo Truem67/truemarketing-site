@@ -308,12 +308,6 @@ body.auto-verify-mode .check-another{display:inline-block;}
   font-size:13px;color:var(--amber);
 }
 .reply-err.show{display:block;}
-.btn-mailto{
-  display:none;margin:10px auto 0;padding:10px 20px;
-  background:var(--amber);color:#fff;border:none;border-radius:8px;
-  font-size:14px;font-weight:600;cursor:pointer;width:100%;
-}
-.btn-mailto.show{display:block;}
 
 /* FOOTER */
 .page-footer{
@@ -458,8 +452,7 @@ body.auto-verify-mode .check-another{display:inline-block;}
         </div>
         <button class="btn-send-reply" id="btn-send-reply" onclick="submitReply()">Send reply</button>
         <div class="reply-sent" id="reply-sent">Your reply has been sent ✓</div>
-        <div class="reply-err" id="reply-err">Could not send via EmailJS — use the button below to reply.</div>
-        <button class="btn-mailto" id="btn-mailto" onclick="openMailto()">Open Email App to Reply</button>
+        <div class="reply-err" id="reply-err">Could not send — please try again.</div>
       </div>
     </div>
   </div>
@@ -542,7 +535,6 @@ const _senderEmail= _params.get('se')    || '';
 const _senderCo   = _params.get('co')    || '';
 const _senderWa   = _params.get('wa')    || '';
 let   _currentTxid= '';
-let   _mailtoUrl  = '';
 
 // ── UTILITIES ──
 function hexToUtf8(hex) {
@@ -803,34 +795,35 @@ async function submitReply() {
   errEl.classList.remove('show');
 
   const toEmail = _senderEmail || 'hello@doxseal.co.za';
-  const subject = encodeURIComponent(`Reply to sealed message ${_currentTxid}`);
-  const body    = encodeURIComponent(`From: ${name} <${email}>\n\n${msg}\n\n---\nProof ref: ${_currentTxid}`);
-  _mailtoUrl = `mailto:${toEmail}?subject=${subject}&body=${body}`;
+
+  const params = {
+    from_name:  name,
+    from_email: email,
+    reply_to:   email,
+    to_name:    _senderName || 'Sender',
+    to_email:   toEmail,
+    message:    msg,
+    txid:       _currentTxid
+  };
+
+  console.log('[EmailJS] Initialising with public key: dZxhfP43Zx8S_cV3u');
+  emailjs.init('dZxhfP43Zx8S_cV3u');
+
+  console.log('[EmailJS] Sending — service: service_lpjet5m  template: template_g89h26g');
+  console.log('[EmailJS] Parameters:', JSON.stringify(params, null, 2));
 
   try {
-    await emailjs.send('service_lpjet5m', 'template_g89h26g', {
-      from_name:  name,
-      from_email: email,
-      reply_to:   email,
-      to_name:    _senderName || 'Sender',
-      to_email:   toEmail,
-      message:    msg,
-      txid:       _currentTxid
-    });
+    const response = await emailjs.send('service_lpjet5m', 'template_g89h26g', params);
+    console.log('[EmailJS] SUCCESS — status:', response.status, '| text:', response.text);
     sendBtn.style.display = 'none';
     sentEl.classList.add('show');
   } catch(e) {
+    console.log('[EmailJS] FAILED — status:', e.status, '| text:', e.text);
+    console.log('[EmailJS] Full error:', e);
     sendBtn.disabled = false;
     sendBtn.textContent = 'Send reply';
     errEl.classList.add('show');
-    document.getElementById('btn-mailto').classList.add('show');
-    // attempt automatic open — may be suppressed by browser after async await
-    try { window.open(_mailtoUrl, '_blank'); } catch(_) {}
   }
-}
-
-function openMailto() {
-  if (_mailtoUrl) window.open(_mailtoUrl, '_blank');
 }
 
 // ── AUTO-VERIFY FROM URL PARAM ──
