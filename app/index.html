@@ -318,6 +318,9 @@ body::before{
 /* Tabs */
 .tab{display:none;animation:tabIn .3s var(--ease);}
 .tab.on{display:block;}
+
+/* Ensure all nav buttons stay visible — do not hide any with display:none */
+.app-nav .nav-it{display:flex!important;}
 @keyframes tabIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
 
 /* ─── Section labels ─── */
@@ -1740,6 +1743,7 @@ function doSignOut(){
 // ═══════════════════════════════
 function openApp(){
   showPage('pg-app');
+  document.getElementById('nb-account').style.setProperty('display','flex','important');
   goTab('home');
   renderUI();
   if(SERVER_URL) fetchLivePrice();
