@@ -306,12 +306,17 @@ body::before{
   padding-bottom:env(safe-area-inset-bottom,0);
 }
 .nav-it{
-  flex:1;display:flex;flex-direction:column;align-items:center;
-  padding:9px 4px 7px;gap:3px;
+  flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;
+  padding:9px 2px 7px;gap:3px;
   transition:all .15s;
 }
 .nav-ico{font-size:19px;line-height:1;transition:transform .2s var(--bounce);}
-.nav-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--iv4);transition:color .15s;}
+.nav-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--iv4);transition:color .15s;white-space:nowrap;}
+@media(max-width:360px){
+  .nav-it{padding:8px 1px 6px;}
+  .nav-ico{font-size:17px;}
+  .nav-lbl{font-size:8px;letter-spacing:0;}
+}
 .nav-it.on .nav-lbl{color:var(--green);}
 .nav-it.on .nav-ico{transform:scale(1.18);}
 
@@ -1049,8 +1054,6 @@ body::before{
 }
 .btn-so:hover{background:rgba(224,85,85,.14);}
 
-/* Account nav hidden — sign-out lives in header */
-#nb-account{display:none!important;}
 
 /* Seal intro — product description paragraph */
 .seal-intro{
