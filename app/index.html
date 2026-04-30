@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- DoxSeal app v2026.04.24b -->
+<!-- DoxSeal app v2026.04.30 -->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -305,11 +305,11 @@ body::before{
   letter-spacing:.2px;
 }
 .hdr-out{
-  font-size:11px;color:var(--iv3);
-  padding:5px 10px;border:1px solid var(--line);
-  border-radius:8px;transition:all .15s;
+  font-size:11px;color:var(--red);
+  padding:5px 10px;border:1px solid rgba(224,85,85,.3);
+  border-radius:8px;transition:all .15s;background:rgba(224,85,85,.07);
 }
-.hdr-out:hover{color:var(--red);border-color:rgba(224,85,85,.3);}
+.hdr-out:hover{background:rgba(224,85,85,.18);}
 
 /* Scrollable body */
 .app-body{
@@ -2565,12 +2565,11 @@ document.addEventListener('keydown',e=>{
   if(e.key==='Escape'&&document.getElementById('cert-modal').classList.contains('open')) closeCertModal();
 });
 
-// Defer auto-login by one frame so the login screen paints first
-requestAnimationFrame(function(){
-  requestAnimationFrame(function(){
-    if(restoreSession()) openApp();
-  });
-});
+// Show login screen for 300ms before attempting session restore.
+// Without this delay the transition fires before the user can see the login screen.
+setTimeout(function(){
+  if(restoreSession()) openApp();
+}, 300);
 </script>
 
 <!-- CERT VIEW MODAL -->
