@@ -1381,8 +1381,13 @@ body::before{
     <!-- HOME -->
     <div class="tab on" id="t-home">
       <div class="home-hero">
-        <div class="home-greet" id="h-greet">Good morning</div>
-        <div class="home-name" id="h-name">Welcome back <em>—</em></div>
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;">
+          <div>
+            <div class="home-greet" id="h-greet">Good morning</div>
+            <div class="home-name" id="h-name">Welcome back <em>—</em></div>
+          </div>
+          <button onclick="doSignOut()" style="background:rgba(224,85,85,.10);border:1px solid rgba(224,85,85,.25);color:#e05555;font-size:11px;font-weight:700;cursor:pointer;padding:4px 10px;margin-top:2px;border-radius:6px;font-family:var(--sans);letter-spacing:.03em;">Sign out</button>
+        </div>
         <div class="cred-pod">
           <div class="cp-inner">
             <div class="cp-lbl">Available Credits</div>
@@ -2525,10 +2530,13 @@ function saveSession(){
   try{
     localStorage.setItem('tm_session', JSON.stringify({
       cu:{email:CU.email,name:CU.name,plan:CU.plan,addr:CU.addr||'',pass:CU.pass||''},
-      creds:CREDS
+      creds:CREDS,
+      ts: Date.now()
     }));
   }catch(e){}
 }
+
+const SESSION_TTL = 7 * 24 * 60 * 60 * 1000; // 7 days
 
 function restoreSession(){
   try{
@@ -2536,6 +2544,10 @@ function restoreSession(){
     if(!raw) return false;
     const s = JSON.parse(raw);
     if(!s||!s.cu||!s.cu.email) return false;
+    if(!s.ts || (Date.now() - s.ts) > SESSION_TTL){
+      localStorage.removeItem('tm_session');
+      return false;
+    }
     const em = s.cu.email.toLowerCase();
     CU = {...s.cu, email:em,
       company: loadCompany(em),
@@ -2553,7 +2565,12 @@ document.addEventListener('keydown',e=>{
   if(e.key==='Escape'&&document.getElementById('cert-modal').classList.contains('open')) closeCertModal();
 });
 
-if(restoreSession()) openApp();
+// Defer auto-login by one frame so the login screen paints first
+requestAnimationFrame(function(){
+  requestAnimationFrame(function(){
+    if(restoreSession()) openApp();
+  });
+});
 </script>
 
 <!-- CERT VIEW MODAL -->
