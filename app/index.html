@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- DoxSeal app v2026.04.30 -->
+<!-- DoxSeal app v2026.04.30b -->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -1668,7 +1668,6 @@ const API = {
 // DEMO TRIAL CONFIG
 // ═══════════════════════════════
 const TRIAL_EMAILS = new Set([
-  'demo@doxseal.co.za',
   'johan@supplycorp.co.za',
   'shaunxve.com@gmail.com',
   'mve@leopardcreek.co.za',
@@ -2556,7 +2555,7 @@ function restoreSession(){
     if(!USERS[em]) USERS[em] = CU;
     CREDS = (typeof s.creds === 'number' && s.creds > 0) ? s.creds : 50000;
     HIST = loadCerts(em);
-    if(TRIAL_EMAILS.has(em)) HIST = [...HIST, ...DEMO];
+    if(TRIAL_EMAILS.has(em) || em === 'demo@doxseal.co.za') HIST = [...HIST, ...DEMO];
     return true;
   }catch(e){ return false; }
 }
