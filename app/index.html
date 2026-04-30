@@ -1465,7 +1465,7 @@ body::before{
             oninput="onMsgType()"></textarea>
           <div class="s-field-foot">
             <span style="color:var(--iv4)">Write naturally — plain language works best</span>
-            <span id="sf-cc">0 / 500</span>
+            <span id="sf-cc">0 / 460</span>
           </div>
         </div>
 
@@ -1598,8 +1598,10 @@ body::before{
         </div>
         <div class="cert-row cert-row-hero"><span class="ck">Protected for</span><span class="cv cv-hero" id="cv-to">—</span></div>
         <div class="cert-row"><span class="ck">Subject</span><span class="cv" id="cv-subj">—</span></div>
+        <div class="cert-row"><span class="ck">Sealed by</span><span class="cv" id="cv-from">—</span></div>
         <div class="cert-row-msg" id="cv-msg-row" style="display:none"><span class="ck-msg">Sealed message</span><span class="cv-msg" id="cv-msg"></span></div>
         <div class="cert-row"><span class="ck">Date &amp; time</span><span class="cv" id="cv-ts">—</span></div>
+        <div class="cert-row"><span class="ck">Privacy mode</span><span class="cv" id="cv-mode">—</span></div>
         <div class="cert-row"><span class="ck">Digital fingerprint</span><span class="cv m" id="cv-hash">—</span></div>
         <div class="cert-row"><span class="ck">Transaction ID</span><span class="cv m" id="cv-txid">—</span></div>
 
@@ -1685,12 +1687,10 @@ function saveCerts(email, arr){
 }
 let BSV_USD=0.55, ZAR=18.5;
 
-const OWNER_EMAIL = 'owner@doxseal.com';
-const OWNER_PASS  = 'Owner123';
+const OWNER_EMAIL = 'owner@doxseal.co.za';
+const OWNER_PASS  = 'owner123';
 
 const USERS = {
-  [OWNER_EMAIL]:                  {pass:OWNER_PASS, name:'Owner', addr:'1TrMktOwnerAddr0x1y2z3', plan:'Business'},
-  'owner@doxseal.co.za':         {pass:'owner123',name:'Owner',            addr:'1TrMktOwnerAddr0x1y2z3', plan:'Business'},
   'demo@doxseal.co.za':          {pass:'demo123', name:'Demo User',        addr:'1TrMktDemoAddr4a2b9d1e7c',plan:'Starter'},
   'johan@supplycorp.co.za':      {pass:'test123', name:'Johan (SupplyCorp)',addr:'1TrMktTest1Jo2b9d1e7c3f4', plan:'Starter'},
   'shaunxve.com@gmail.com':      {pass:'test123', name:'Shaun',            addr:'1TrMktTest2Sh4c0d2e8f5', plan:'Starter'},
@@ -2054,9 +2054,10 @@ function accSaveWhatsApp(){
 // SEAL
 // ═══════════════════════════════
 function onMsgType(){
+  const limit=PRIV==='encrypted'?80:460;
   const v=document.getElementById('sf-msg').value;
-  if(v.length>500) document.getElementById('sf-msg').value=v.slice(0,500);
-  document.getElementById('sf-cc').textContent=Math.min(v.length,500)+' / 500';
+  if(v.length>limit) document.getElementById('sf-msg').value=v.slice(0,limit);
+  document.getElementById('sf-cc').textContent=Math.min(v.length,limit)+' / '+limit;
 }
 
 function togglePriv(){
@@ -2069,6 +2070,7 @@ function setPriv(mode,el){
   PRIV=mode;
   document.querySelectorAll('.priv-opt').forEach(o=>o.classList.remove('on'));
   el.classList.add('on');
+  onMsgType();
 }
 
 function showExamples(){
@@ -2131,7 +2133,10 @@ async function doSeal(){
     set('suc-desc','"'+subj+'" has been permanently sealed. Your certificate is below.');
     set('cv-subj',subj);
     set('cv-to',to);
+    set('cv-from',sealedBy);
     set('cv-ts',tsStr);
+    const _privLabels={plain:'Plain Text',hash:'Hash Only (Private)',encrypted:'Encrypted'};
+    set('cv-mode',_privLabels[PRIV]||PRIV);
     if(msg){set('cv-msg',msg);document.getElementById('cv-msg-row').style.display='block';}
     else{document.getElementById('cv-msg-row').style.display='none';}
     set('cv-hash',hash.slice(0,22)+'…');
@@ -2198,7 +2203,8 @@ async function sealAnother(){
   document.getElementById('sf-to').value='';
   document.getElementById('sf-subj').value='';
   document.getElementById('sf-msg').value='';
-  document.getElementById('sf-cc').textContent='0 / 500';
+  PRIV='plain';
+  document.getElementById('sf-cc').textContent='0 / 460';
   showPage('pg-app');
   await goTab('seal'); // goTab checks demo limit — shows upgrade if at limit
 }
@@ -2567,6 +2573,7 @@ if(restoreSession()) openApp();
   </a>
   <button class="upg-back" onclick="dismissUpgrade()">← Back to my certificates</button>
   <p class="upg-note" style="margin-top:16px;"><a href="https://wa.me/27726126733" target="_blank" rel="noopener" style="color:var(--iv3);text-decoration:none;font-size:13px;">Questions? WhatsApp us</a></p>
+  <p class="upg-note" style="margin-top:8px;"><a href="mailto:hello@doxseal.co.za" style="color:var(--iv3);text-decoration:none;font-size:13px;">Or email hello@doxseal.co.za</a></p>
 </div>
 
 <!-- ════════════════════════════════════════════════════════════
