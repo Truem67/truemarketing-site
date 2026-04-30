@@ -1685,7 +1685,11 @@ function saveCerts(email, arr){
 }
 let BSV_USD=0.55, ZAR=18.5;
 
+const OWNER_EMAIL = 'owner@doxseal.com';
+const OWNER_PASS  = 'Owner123';
+
 const USERS = {
+  [OWNER_EMAIL]:                  {pass:OWNER_PASS, name:'Owner', addr:'1TrMktOwnerAddr0x1y2z3', plan:'Business'},
   'owner@doxseal.co.za':         {pass:'owner123',name:'Owner',            addr:'1TrMktOwnerAddr0x1y2z3', plan:'Business'},
   'demo@doxseal.co.za':          {pass:'demo123', name:'Demo User',        addr:'1TrMktDemoAddr4a2b9d1e7c',plan:'Starter'},
   'johan@supplycorp.co.za':      {pass:'test123', name:'Johan (SupplyCorp)',addr:'1TrMktTest1Jo2b9d1e7c3f4', plan:'Starter'},
@@ -1752,6 +1756,12 @@ async function doLogin(){
   const btn=document.getElementById('btn-in');
   if(!em||!pw){authErr('Please enter your email and password.');return;}
   btn.disabled=true; btn.textContent='Signing in…';
+
+  // 0. Hardcoded owner account — always works, redirects to dashboard
+  if(em===OWNER_EMAIL && pw===OWNER_PASS){
+    window.location.href='/owner/dashboard.html';
+    return;
+  }
 
   // 1. Check local demo/trial accounts first (works without server)
   const local=USERS[em];
