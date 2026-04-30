@@ -248,63 +248,18 @@ body.auto-verify-mode .check-another{display:inline-block;}
 .woc-arr{font-size:20px;color:var(--iv4);}
 
 /* ── REPLY SECTION ── */
-.reply-wrap{margin-top:24px;display:flex;flex-direction:column;gap:10px;}
+.reply-wrap{margin-top:24px;}
 
 /* WhatsApp button */
 .btn-wa{
   display:none;align-items:center;justify-content:center;gap:10px;
   background:var(--wa);color:#fff;
-  font-size:14px;font-weight:700;
-  padding:13px 22px;border-radius:10px;
-  text-decoration:none;transition:background .15s;
+  font-size:15px;font-weight:700;
+  padding:15px 22px;border-radius:10px;
+  text-decoration:none;transition:background .15s;width:100%;box-sizing:border-box;
 }
 .btn-wa:hover{background:var(--wa2);}
 .btn-wa.visible{display:flex;}
-
-/* Email reply button */
-.btn-reply{
-  width:100%;background:transparent;border:1px solid var(--line3);
-  color:var(--iv2);font-size:14px;font-weight:600;
-  padding:12px 22px;border-radius:10px;cursor:pointer;
-  transition:all .15s;text-align:left;
-  display:flex;align-items:center;gap:10px;
-}
-.btn-reply:hover{background:var(--card);border-color:var(--green3);}
-
-/* Reply form */
-.reply-form-wrap{
-  background:var(--card);border:1px solid var(--line2);
-  border-radius:16px;padding:24px;
-  display:none;
-}
-.reply-form-wrap.show{display:block;}
-.reply-form-title{font-family:var(--serif);font-size:16px;margin-bottom:18px;color:var(--ivory);}
-.reply-field{margin-bottom:14px;}
-.reply-field label{
-  display:block;font-size:11px;font-weight:700;color:var(--iv4);
-  letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px;
-}
-.reply-field input,.reply-field textarea{
-  width:100%;background:var(--bg);border:1px solid var(--line2);
-  border-radius:8px;padding:11px 14px;
-  font-family:var(--sans);font-size:13px;color:var(--ivory);
-  outline:none;transition:border-color .15s;resize:vertical;
-}
-.reply-field input:focus,.reply-field textarea:focus{border-color:var(--green3);}
-.reply-field textarea{min-height:100px;}
-.btn-send-reply{
-  background:var(--green);color:#fff;
-  font-size:14px;font-weight:700;
-  padding:12px 24px;border-radius:10px;
-  border:none;cursor:pointer;transition:all .15s;
-}
-.btn-send-reply:hover{background:var(--green2);}
-.btn-send-reply:disabled{opacity:.5;cursor:not-allowed;}
-.reply-sent{
-  display:none;text-align:center;padding:16px 0 4px;
-  font-size:14px;color:var(--green);font-weight:600;
-}
-.reply-sent.show{display:block;}
 
 
 /* FOOTER */
@@ -379,78 +334,34 @@ body.auto-verify-mode .check-another{display:inline-block;}
       <div class="rc-body">
 
         <div class="rc-section">
-          <div class="rc-section-title">Document Record</div>
           <div class="rc-row">
-            <span class="rk">Proof reference</span>
-            <span class="rv mono" id="r-txid">—</span>
+            <span class="rk">Sealed by</span>
+            <span class="rv" id="r-sealed-by">—</span>
           </div>
           <div class="rc-row">
-            <span class="rk">Sealed on</span>
+            <span class="rk">Date sealed</span>
             <span class="rv" id="r-date">—</span>
           </div>
           <div class="rc-row">
-            <span class="rk">Record number</span>
-            <span class="rv mono" id="r-block">—</span>
-          </div>
-          <div class="rc-row">
-            <span class="rk">Confirmations</span>
-            <span class="rv" id="r-confirms">—</span>
+            <span class="rk">Reference</span>
+            <span class="rv mono" id="r-shortref">—</span>
           </div>
         </div>
 
-        <div class="rc-section" id="r-payload-section" style="display:none">
-          <div class="rc-section-title">Sealed Content</div>
-          <div id="r-payload-fields"></div>
-        </div>
-
-        <div class="rc-section" id="r-raw-section" style="display:none">
-          <div class="rc-section-title">Raw Sealed Data</div>
-          <div class="payload-box" id="r-raw-payload" style="word-break:break-word;overflow-wrap:break-word;white-space:pre-wrap;overflow:visible;max-height:none;max-width:100%;">—</div>
+        <div class="rc-section" id="r-msg-section" style="display:none">
+          <div class="rc-section-title">Document Content</div>
+          <div class="payload-box" id="r-msg-content" style="word-break:break-word;white-space:pre-wrap;">—</div>
         </div>
 
       </div>
     </div>
 
-    <a class="woc-link" id="r-woc-link" href="#" target="_blank" rel="noopener">
-      <div class="woc-left">
-        <div class="woc-label">Verify independently at WhatsOnChain</div>
-        <div class="woc-url" id="r-woc-url">—</div>
-      </div>
-      <div class="woc-arr">↗</div>
-    </a>
-
-    <!-- Reply buttons -->
+    <!-- WhatsApp reply -->
     <div class="reply-wrap" id="reply-wrap">
-
-      <!-- WhatsApp — shown only when wa param is present -->
       <a class="btn-wa" id="btn-wa" href="#" target="_blank" rel="noopener">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
         <span id="wa-btn-label">Reply via WhatsApp</span>
       </a>
-
-      <!-- Email reply -->
-      <button class="btn-reply" id="btn-reply" onclick="toggleReplyForm()">
-        <span>✉</span>
-        <span id="reply-btn-label">Reply by Email</span>
-      </button>
-
-      <div class="reply-form-wrap" id="reply-form-wrap">
-        <div class="reply-form-title">Send a reply by email</div>
-        <div class="reply-field">
-          <label for="reply-name">Your name</label>
-          <input type="text" id="reply-name" placeholder="Jane Smith" autocomplete="name">
-        </div>
-        <div class="reply-field">
-          <label for="reply-email">Your email</label>
-          <input type="email" id="reply-email" placeholder="jane@example.com" autocomplete="email">
-        </div>
-        <div class="reply-field">
-          <label for="reply-msg">Message</label>
-          <textarea id="reply-msg" placeholder="Your reply…"></textarea>
-        </div>
-        <button class="btn-send-reply" id="btn-send-reply" onclick="submitReply()">Send reply</button>
-        <div class="reply-sent" id="reply-sent">Gmail opened in a new tab — your reply is pre-filled and ready to send ✓</div>
-      </div>
     </div>
   </div>
 
@@ -663,51 +574,40 @@ async function doVerify() {
 }
 
 function showVerified(txid, tx) {
-  const wocUrl  = `https://whatsonchain.com/tx/${txid}`;
-  const confirms = tx.confirmations || 0;
   const sealDate = formatDate(tx.blocktime);
+  const shortRef = txid.slice(0, 8).toUpperCase();
 
-  // Banner
   const senderDisplay = _senderName
     ? (_senderCo ? `${_senderName} · ${_senderCo}` : _senderName)
     : (_senderCo || '');
+
+  // Banner
   const byLine = senderDisplay ? ` by ${senderDisplay}` : '';
   setText('r-confirm-sub', `This document is genuine and unaltered. Sealed on ${sealDate}${byLine}.`);
 
-  set('r-txid', `<span style="font-size:10px;font-family:var(--mono);color:var(--green)">${txid}</span>`);
+  // Result card rows
+  setText('r-sealed-by', senderDisplay || '—');
   setText('r-date', sealDate);
-  setText('r-block', tx.blockheight ? '#' + tx.blockheight.toLocaleString() : 'Mempool (unconfirmed)');
-  set('r-confirms', `<span class="rc-confirm"><span class="rc-confirm-dot"></span>${formatConfirmations(confirms)}</span>`);
+  setText('r-shortref', shortRef);
 
+  // Message content
   const rawPayload = extractOpReturn(tx.vout);
   const parsed = parseTMPayload(rawPayload);
-
-  if (parsed) {
-    document.getElementById('r-payload-section').style.display = 'block';
-    document.getElementById('r-payload-fields').innerHTML = buildPayloadFields(parsed, rawPayload);
+  const message = parsed?.message || (parsed?.type === 'plain-legacy' ? parsed?.message : null);
+  if (message) {
+    document.getElementById('r-msg-section').style.display = 'block';
+    setText('r-msg-content', message);
   }
-
-  if (rawPayload) {
-    document.getElementById('r-raw-section').style.display = 'block';
-    setText('r-raw-payload', rawPayload);
-  }
-
-  document.getElementById('r-woc-link').href = wocUrl;
-  setText('r-woc-url', wocUrl);
 
   // WhatsApp button
   if (_senderWa) {
-    const greeting  = _senderName ? `Hi ${_senderName}` : 'Hi';
-    const shortRef  = txid.slice(0, 8);
-    const waText    = encodeURIComponent(`${greeting}, I received your sealed document (Ref: ${shortRef}) and would like to respond.`);
-    const waBtn     = document.getElementById('btn-wa');
-    waBtn.href      = `https://wa.me/${_senderWa}?text=${waText}`;
+    const greeting = _senderName ? `Hi ${_senderName}` : 'Hi';
+    const waText   = encodeURIComponent(`${greeting}, I received your sealed document (Ref: ${shortRef}) and would like to respond.`);
+    const waBtn    = document.getElementById('btn-wa');
+    waBtn.href     = `https://wa.me/${_senderWa}?text=${waText}`;
     waBtn.classList.add('visible');
     setText('wa-btn-label', senderDisplay ? `Reply to ${senderDisplay} via WhatsApp` : 'Reply via WhatsApp');
   }
-
-  // Email reply button label
-  setText('reply-btn-label', senderDisplay ? `Reply to ${senderDisplay} by Email` : 'Reply by Email');
 
   showOnly('r-verified');
 }
@@ -763,34 +663,6 @@ function showApiError(txid) {
   document.getElementById('r-woc-link-err').href = wocUrl;
   setText('r-woc-url-err', wocUrl);
   showOnly('r-error');
-}
-
-// ── REPLY FORM ──
-function toggleReplyForm() {
-  document.getElementById('reply-form-wrap').classList.toggle('show');
-}
-
-function submitReply() {
-  const name  = document.getElementById('reply-name').value.trim();
-  const email = document.getElementById('reply-email').value.trim();
-  const msg   = document.getElementById('reply-msg').value.trim();
-  if (!name || !email || !msg) {
-    alert('Please fill in all fields before sending.');
-    return;
-  }
-
-  const toEmail  = _senderEmail || 'hello@doxseal.co.za';
-  const ref      = _currentTxid ? _currentTxid.slice(0, 8) : '';
-  const subject  = encodeURIComponent(`Reply to sealed document (Ref: ${ref})`);
-  const body     = encodeURIComponent(
-    `From: ${name} (${email})\n\n${msg}\n\nDocument Ref: ${_currentTxid}`
-  );
-  const gmailUrl = `https://mail.google.com/mail/?view=cm&to=${encodeURIComponent(toEmail)}&su=${subject}&body=${body}`;
-
-  window.open(gmailUrl, '_blank');
-
-  document.getElementById('btn-send-reply').style.display = 'none';
-  document.getElementById('reply-sent').classList.add('show');
 }
 
 // ── AUTO-VERIFY FROM URL PARAM ──
