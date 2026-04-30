@@ -145,7 +145,8 @@ body::before{
   max-width:340px;margin-left:auto;margin-right:auto;
 }
 .wl-product{
-  display:none;
+  font-size:12px;color:var(--iv4);line-height:1.6;
+  text-align:center;max-width:320px;margin:0 auto 10px;
 }
 
 /* Live ticker */
@@ -1340,7 +1341,7 @@ body::before{
       </div>
     </div>
     <button class="btn-go" id="btn-up" onclick="doSignup()">✦ Create Free Account</button>
-    <p class="auth-note">You receive <strong>50,000 free credits</strong> instantly — no card required.<br>Every message protected by the BSV blockchain.</p>
+    <p class="auth-note">You receive <strong>50,000 free credits</strong> instantly — no card required.<br>Every document permanently protected and verifiable.</p>
   </div>
 
   <div class="trust-row">
@@ -1440,11 +1441,7 @@ body::before{
       <div class="seal-wrap">
         <div class="seal-hero">
           <div class="sh-title">Validate Document</div>
-          <div class="sh-sub">Create an immutable blockchain record — timestamped, tamper-proof, and independently verifiable by any person, including a CCMA commissioner.</div>
-        </div>
-
-        <div class="seal-intro">
-          <p>DoxSeal creates a permanent blockchain record of your document at the exact moment of sealing. The timestamp is independently verifiable by any person — including a CCMA commissioner — and cannot be altered by any party. Admissible under ECT Act 25 of 2002.</p>
+          <div class="sh-sub">Create a permanent, tamper-proof record — timestamped and independently verifiable by any party.</div>
         </div>
 
         <div class="s-field">
@@ -1487,7 +1484,7 @@ body::before{
     <div class="tab" id="t-history">
       <div class="hist-head">
         <div class="hist-title">My Certificates</div>
-        <div class="hist-sub">Every document validated on the blockchain</div>
+        <div class="hist-sub">Every document you have validated and sealed</div>
       </div>
       <div class="fpills">
         <button class="fp on" onclick="setFilter('all',this)">All</button>
@@ -1500,15 +1497,28 @@ body::before{
 
     <!-- ACCOUNT -->
     <div class="tab" id="t-account">
-      <div style="padding:24px 20px;display:flex;flex-direction:column;gap:20px;">
+      <div style="padding:20px 16px;">
 
-        <div style="font-size:13px;color:var(--iv3);">
+        <div style="font-size:13px;color:var(--iv3);margin-bottom:20px;">
           Signed in as <strong id="acc-em" style="color:var(--ivory);">—</strong>
         </div>
 
-        <!-- Sign out -->
+        <label style="display:block;font-size:12px;font-weight:700;color:var(--iv3);margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em;">Company or Practice Name</label>
+        <input id="acc-co-input" type="text" placeholder="e.g. ABC Financial Services" autocomplete="organization"
+          style="display:block;width:100%;box-sizing:border-box;padding:12px;font-size:15px;border-radius:8px;border:1px solid rgba(100,200,120,.16);background:var(--bg2);color:var(--ivory);font-family:var(--sans);outline:none;margin-bottom:8px;">
+        <button onclick="accSaveCompany()"
+          style="display:block;width:100%;padding:12px;background:#2dce82;color:#fff;font-size:14px;font-weight:700;border:none;border-radius:8px;cursor:pointer;margin-bottom:6px;">Save Company Name</button>
+        <div id="acc-co-saved" style="display:none;font-size:12px;color:#2dce82;margin-bottom:18px;">Saved ✓</div>
+
+        <label style="display:block;font-size:12px;font-weight:700;color:var(--iv3);margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em;">WhatsApp Number (+27...)</label>
+        <input id="acc-wa-input" type="tel" placeholder="+27 82 123 4567" autocomplete="tel"
+          style="display:block;width:100%;box-sizing:border-box;padding:12px;font-size:15px;border-radius:8px;border:1px solid rgba(100,200,120,.16);background:var(--bg2);color:var(--ivory);font-family:var(--sans);outline:none;margin-bottom:8px;">
+        <button onclick="accSaveWhatsApp()"
+          style="display:block;width:100%;padding:12px;background:#2dce82;color:#fff;font-size:14px;font-weight:700;border:none;border-radius:8px;cursor:pointer;margin-bottom:6px;">Save WhatsApp Number</button>
+        <div id="acc-wa-saved" style="display:none;font-size:12px;color:#2dce82;margin-bottom:24px;">Saved ✓</div>
+
         <button onclick="doSignOut()"
-          style="width:100%;padding:13px;border-radius:12px;background:rgba(224,85,85,.08);border:1px solid rgba(224,85,85,.18);color:var(--red);font-size:14px;font-weight:700;cursor:pointer;">Sign Out</button>
+          style="display:block;width:100%;padding:13px;border-radius:12px;background:rgba(224,85,85,.08);border:1px solid rgba(224,85,85,.18);color:#e05555;font-size:14px;font-weight:700;cursor:pointer;">Sign Out</button>
 
         <!-- Hidden elements renderUI needs -->
         <span id="acc-nm" style="display:none"></span>
@@ -1555,9 +1565,9 @@ body::before{
   <div class="sealing-t">Sealing your message…</div>
   <div class="sealing-s">This takes just a moment</div>
   <div class="seal-steps">
-    <div class="ss on" id="ss1"><div class="ss-dot"></div><span>Creating digital fingerprint</span></div>
-    <div class="ss" id="ss2"><div class="ss-dot"></div><span>Writing to blockchain</span></div>
-    <div class="ss" id="ss3"><div class="ss-dot"></div><span>Confirming permanent record</span></div>
+    <div class="ss on" id="ss1"><div class="ss-dot"></div><span>Preparing your document</span></div>
+    <div class="ss" id="ss2"><div class="ss-dot"></div><span>Creating permanent record</span></div>
+    <div class="ss" id="ss3"><div class="ss-dot"></div><span>Seal confirmed</span></div>
   </div>
 </div>
 
@@ -1573,8 +1583,8 @@ body::before{
     </div>
 
     <div class="suc-eye">Certificate of Protection</div>
-    <div class="suc-title">Sealed Forever</div>
-    <div class="suc-desc" id="suc-desc">Your message has been permanently sealed onto the blockchain — it cannot be altered, deleted or denied.</div>
+    <div class="suc-title">Document Sealed ✓</div>
+    <div class="suc-desc" id="suc-desc">Your document has been permanently recorded and time-stamped — it cannot be altered, deleted or denied.</div>
 
     <div class="cert">
       <div class="cert-bar"></div>
@@ -1583,7 +1593,7 @@ body::before{
           <div class="cert-head-ico">✦</div>
           <div>
             <div class="cert-head-title">DoxSeal Proof Certificate</div>
-            <div class="cert-head-sub">Blockchain · Immutable · Permanent</div>
+            <div class="cert-head-sub">Permanent · Tamper-proof · Independently verifiable</div>
           </div>
         </div>
         <div class="cert-row cert-row-hero"><span class="ck">Protected for</span><span class="cv cv-hero" id="cv-to">—</span></div>
@@ -1602,7 +1612,7 @@ body::before{
             <div class="cvb-text">
               <div class="cvb-url-label">Verify at</div>
               <div class="cvb-url" id="cvb-url">—</div>
-              <div class="cvb-note">Queries the BSV blockchain directly — not DoxSeal's servers. Cannot be altered by any party.</div>
+              <div class="cvb-note">Verified independently — not through DoxSeal's servers. Cannot be altered by any party.</div>
               <div class="cvb-txid-row">
                 <div class="cvb-txid-label">Transaction ID</div>
                 <div class="cvb-txid" id="cvb-txid-full">—</div>
@@ -1616,13 +1626,13 @@ body::before{
 
     <div class="chain-bar">
       <div class="chain-led"></div>
-      <div class="chain-txt" id="chain-txt">Recorded on BSV blockchain · Permanent record</div>
+      <div class="chain-txt" id="chain-txt">Permanently sealed · Independently verifiable</div>
     </div>
 
     <div class="suc-actions">
       <button class="btn-dl" onclick="downloadCert()">📄 Download Certificate</button>
       <button class="btn-print" onclick="printCert()">🖨️ Print Certificate</button>
-      <button class="btn-woc" id="btn-woc" onclick="verifyOnChain()">⛓ Verify on Blockchain ↗</button>
+      <button class="btn-woc" id="btn-woc" onclick="verifyOnChain()">🔗 Verify Document ↗</button>
       <button class="btn-again" onclick="sealAnother()">← Validate Another Document</button>
     </div>
   </div>
@@ -1991,13 +2001,43 @@ async function checkDemoLimit(){
 // TABS
 // ═══════════════════════════════
 const TABS=['home','seal','history','account'];
-async function goTab(tab){
-  if(tab==='seal' && !(await checkDemoLimit())) return;
+function switchTab(tab){
   TABS.forEach(t=>{
     const tb=document.getElementById('t-'+t);  if(tb) tb.classList.toggle('on',t===tab);
     const nb=document.getElementById('nb-'+t); if(nb) nb.classList.toggle('on',t===tab);
   });
   if(tab==='history') renderHistory();
+  if(tab==='account') loadAccTabFields();
+}
+function goTab(tab){
+  if(tab==='seal'){ checkDemoLimit().then(ok=>{ if(ok) switchTab('seal'); }); return; }
+  switchTab(tab);
+}
+function loadAccTabFields(){
+  if(!CU) return;
+  const co=localStorage.getItem('tm_company_'+CU.email.toLowerCase())||'';
+  const wa=localStorage.getItem('tm_wa_'+CU.email.toLowerCase())||'';
+  const ci=document.getElementById('acc-co-input'); if(ci) ci.value=co;
+  const wi=document.getElementById('acc-wa-input'); if(wi) wi.value=wa;
+}
+function accSaveCompany(){
+  if(!CU) return;
+  const val=(document.getElementById('acc-co-input').value||'').trim();
+  localStorage.setItem('tm_company_'+CU.email.toLowerCase(), val);
+  CU.company=val;
+  // sync to Home tab field too
+  const h=document.getElementById('co-input'); if(h) h.value=val;
+  const s=document.getElementById('acc-co-saved');
+  s.style.display='block'; setTimeout(()=>s.style.display='none',2000);
+}
+function accSaveWhatsApp(){
+  if(!CU) return;
+  const val=(document.getElementById('acc-wa-input').value||'').trim();
+  localStorage.setItem('tm_wa_'+CU.email.toLowerCase(), val);
+  CU.whatsapp=val;
+  const h=document.getElementById('wa-input'); if(h) h.value=val;
+  const s=document.getElementById('acc-wa-saved');
+  s.style.display='block'; setTimeout(()=>s.style.display='none',2000);
 }
 
 // ═══════════════════════════════
