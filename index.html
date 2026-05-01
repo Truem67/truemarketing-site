@@ -1,9 +1,12 @@
 <!DOCTYPE html>
-<!-- DoxSeal app v2026.04.24b -->
+<!-- DoxSeal app v2026.04.30d -->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <title>DoxSeal · Seal Your Words Forever</title>
 <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Nunito:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -305,11 +308,11 @@ body::before{
   letter-spacing:.2px;
 }
 .hdr-out{
-  font-size:11px;color:var(--iv3);
-  padding:5px 10px;border:1px solid var(--line);
-  border-radius:8px;transition:all .15s;
+  font-size:11px;color:var(--red);
+  padding:5px 10px;border:1px solid rgba(224,85,85,.3);
+  border-radius:8px;transition:all .15s;background:rgba(224,85,85,.07);
 }
-.hdr-out:hover{color:var(--red);border-color:rgba(224,85,85,.3);}
+.hdr-out:hover{background:rgba(224,85,85,.18);}
 
 /* Scrollable body */
 .app-body{
@@ -1640,7 +1643,7 @@ body::before{
       <button class="btn-dl" onclick="downloadCert()">📄 Download Certificate</button>
       <button class="btn-print" onclick="printCert()">🖨️ Print Certificate</button>
       <button class="btn-woc" id="btn-woc" onclick="verifyOnChain()">🔗 Verify Document ↗</button>
-      <button class="btn-again" onclick="sealAnother()">← Validate Another Document</button>
+      <button class="btn-again" id="btn-again" onclick="sealAnother()">← Validate Another Document</button>
     </div>
   </div>
 </div>
@@ -1668,7 +1671,6 @@ const API = {
 // DEMO TRIAL CONFIG
 // ═══════════════════════════════
 const TRIAL_EMAILS = new Set([
-  'demo@doxseal.co.za',
   'johan@supplycorp.co.za',
   'shaunxve.com@gmail.com',
   'mve@leopardcreek.co.za',
@@ -1694,6 +1696,8 @@ let BSV_USD=0.55, ZAR=18.5;
 
 const OWNER_EMAIL = 'owner@doxseal.co.za';
 const OWNER_PASS  = 'owner123';
+// Accounts that never hit a seal limit or upgrade screen
+const UNLIMITED_ACCOUNTS = new Set(['owner@doxseal.co.za', 'demo@doxseal.co.za']);
 
 const USERS = {
   'demo@doxseal.co.za':          {pass:'demo123', name:'Demo User',        addr:'1TrMktDemoAddr4a2b9d1e7c',plan:'Starter'},
@@ -1973,7 +1977,7 @@ function setHTML(id,val){const e=document.getElementById(id);if(e&&val!==null)e.
 // ═══════════════════════════════
 // DEMO LIMIT HELPERS
 // ═══════════════════════════════
-function isDemoAccount(){ return CU && TRIAL_EMAILS.has(CU.email.toLowerCase()); }
+function isDemoAccount(){ return CU && TRIAL_EMAILS.has(CU.email.toLowerCase()) && !UNLIMITED_ACCOUNTS.has(CU.email.toLowerCase()); }
 function getDemoSealsUsed(){ return parseInt(localStorage.getItem('tm_trial_'+CU.email.toLowerCase())||'0'); }
 function setDemoSealsUsed(n){ localStorage.setItem('tm_trial_'+CU.email.toLowerCase(), String(n)); }
 
@@ -2556,7 +2560,7 @@ function restoreSession(){
     if(!USERS[em]) USERS[em] = CU;
     CREDS = (typeof s.creds === 'number' && s.creds > 0) ? s.creds : 50000;
     HIST = loadCerts(em);
-    if(TRIAL_EMAILS.has(em)) HIST = [...HIST, ...DEMO];
+    if(TRIAL_EMAILS.has(em) || em === 'demo@doxseal.co.za') HIST = [...HIST, ...DEMO];
     return true;
   }catch(e){ return false; }
 }
@@ -2565,12 +2569,11 @@ document.addEventListener('keydown',e=>{
   if(e.key==='Escape'&&document.getElementById('cert-modal').classList.contains('open')) closeCertModal();
 });
 
-// Defer auto-login by one frame so the login screen paints first
-requestAnimationFrame(function(){
-  requestAnimationFrame(function(){
-    if(restoreSession()) openApp();
-  });
-});
+// Show login screen for 300ms before attempting session restore.
+// Without this delay the transition fires before the user can see the login screen.
+setTimeout(function(){
+  if(restoreSession()) openApp();
+}, 300);
 </script>
 
 <!-- CERT VIEW MODAL -->
