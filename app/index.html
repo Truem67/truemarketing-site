@@ -1696,6 +1696,8 @@ let BSV_USD=0.55, ZAR=18.5;
 
 const OWNER_EMAIL = 'owner@doxseal.co.za';
 const OWNER_PASS  = 'owner123';
+// Accounts that never hit a seal limit or upgrade screen
+const UNLIMITED_ACCOUNTS = new Set(['owner@doxseal.co.za', 'demo@doxseal.co.za']);
 
 const USERS = {
   'demo@doxseal.co.za':          {pass:'demo123', name:'Demo User',        addr:'1TrMktDemoAddr4a2b9d1e7c',plan:'Starter'},
@@ -1975,7 +1977,7 @@ function setHTML(id,val){const e=document.getElementById(id);if(e&&val!==null)e.
 // ═══════════════════════════════
 // DEMO LIMIT HELPERS
 // ═══════════════════════════════
-function isDemoAccount(){ return CU && TRIAL_EMAILS.has(CU.email.toLowerCase()); }
+function isDemoAccount(){ return CU && TRIAL_EMAILS.has(CU.email.toLowerCase()) && !UNLIMITED_ACCOUNTS.has(CU.email.toLowerCase()); }
 function getDemoSealsUsed(){ return parseInt(localStorage.getItem('tm_trial_'+CU.email.toLowerCase())||'0'); }
 function setDemoSealsUsed(n){ localStorage.setItem('tm_trial_'+CU.email.toLowerCase(), String(n)); }
 
