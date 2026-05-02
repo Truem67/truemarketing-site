@@ -1697,14 +1697,15 @@ let BSV_USD=0.55, ZAR=18.5;
 const OWNER_EMAIL = 'owner@doxseal.co.za';
 const OWNER_PASS  = 'owner123';
 // Accounts that never hit a seal limit or upgrade screen
-const UNLIMITED_ACCOUNTS = new Set(['owner@doxseal.co.za', 'demo@doxseal.co.za']);
+const UNLIMITED_ACCOUNTS = new Set(['owner@doxseal.co.za', 'demo@doxseal.co.za', 'louwrens@optimumgroup.co.za']);
 
 const USERS = {
   'demo@doxseal.co.za':          {pass:'demo123', name:'Demo User',        addr:'1TrMktDemoAddr4a2b9d1e7c',plan:'Starter'},
   'johan@supplycorp.co.za':      {pass:'test123', name:'Johan (SupplyCorp)',addr:'1TrMktTest1Jo2b9d1e7c3f4', plan:'Starter'},
   'shaunxve.com@gmail.com':      {pass:'test123', name:'Shaun',            addr:'1TrMktTest2Sh4c0d2e8f5', plan:'Starter'},
   'mve@leopardcreek.co.za':      {pass:'test123', name:'MVE (Leopard Crk)',addr:'1TrMktTest3Mv6e3f9a0b6', plan:'Starter'},
-  'warren2ve@gmail.com':         {pass:'test123', name:'Warren',           addr:'1TrMktTest4Wa8f4a0c7d7', plan:'Starter'}
+  'warren2ve@gmail.com':         {pass:'test123',       name:'Warren',           addr:'1TrMktTest4Wa8f4a0c7d7', plan:'Starter'},
+  'louwrens@optimumgroup.co.za': {pass:'Optimum2026',   name:'Louwrens (Optimum)',addr:'1TrMktVIPLo8f2c9d5e1a7b', plan:'Business'}
 };
 
 const DEMO = [
@@ -1977,9 +1978,21 @@ function setHTML(id,val){const e=document.getElementById(id);if(e&&val!==null)e.
 // ═══════════════════════════════
 // DEMO LIMIT HELPERS
 // ═══════════════════════════════
-function isDemoAccount(){ return CU && TRIAL_EMAILS.has(CU.email.toLowerCase()) && !UNLIMITED_ACCOUNTS.has(CU.email.toLowerCase()); }
-function getDemoSealsUsed(){ return parseInt(localStorage.getItem('tm_trial_'+CU.email.toLowerCase())||'0'); }
-function setDemoSealsUsed(n){ localStorage.setItem('tm_trial_'+CU.email.toLowerCase(), String(n)); }
+function isDemoAccount(){
+  if(!CU) return false;
+  const em = CU.email.toLowerCase();
+  if(UNLIMITED_ACCOUNTS.has(em)) return false;
+  if(TRIAL_EMAILS.has(em)) return true;
+  return CU.account_type === 'trial';
+}
+function getDemoSealsUsed(){
+  if(CU && CU.account_type === 'trial' && !TRIAL_EMAILS.has(CU.email.toLowerCase())) return CU.seals_used || 0;
+  return parseInt(localStorage.getItem('tm_trial_'+CU.email.toLowerCase())||'0');
+}
+function setDemoSealsUsed(n){
+  if(CU && CU.account_type === 'trial' && !TRIAL_EMAILS.has(CU.email.toLowerCase())){ CU.seals_used = n; return; }
+  localStorage.setItem('tm_trial_'+CU.email.toLowerCase(), String(n));
+}
 
 function showUpgradeScreen(){
   document.getElementById('pg-upgrade').classList.add('show');
@@ -2003,8 +2016,9 @@ async function checkDemoLimit(){
     });
     const d = await r.json();
     console.log('[TM] demo-count →', d);
-    if(d.count >= DEMO_LIMIT){
-      setDemoSealsUsed(DEMO_LIMIT); // sync localStorage
+    const serverLimit = d.limit ?? DEMO_LIMIT;
+    setDemoSealsUsed(d.count || 0); // sync local state with authoritative server count
+    if(d.count >= serverLimit){
       showUpgradeScreen();
       return false;
     }
