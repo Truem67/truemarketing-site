@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DoxSeal · Legal</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Nunito:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:       #080c09;
+  --bg2:      #0e1610;
+  --bg3:      #141f16;
+  --card:     #1a2a1c;
+  --card2:    #20321f;
+  --edge:     #283c2a;
+  --line:     rgba(100,200,120,.09);
+  --line2:    rgba(100,200,120,.16);
+  --line3:    rgba(100,200,120,.28);
+  --green:    #2dce82;
+  --green2:   #23b06d;
+  --green3:   #1a8a53;
+  --green4:   #117040;
+  --glow:     rgba(45,206,130,.14);
+  --gold:     #c8a84b;
+  --ivory:    #f2ede4;
+  --iv2:      rgba(242,237,228,.72);
+  --iv3:      rgba(242,237,228,.42);
+  --iv4:      rgba(242,237,228,.22);
+  --iv5:      rgba(242,237,228,.1);
+  --serif:    'Libre Baskerville', Georgia, serif;
+  --sans:     'Nunito', sans-serif;
+}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);
+  font-family:var(--sans);
+  color:var(--ivory);
+  -webkit-font-smoothing:antialiased;
+  min-height:100vh;
+}
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 80% 50% at 50% -10%,rgba(45,206,130,.07),transparent);
+  z-index:0;
+}
+::selection{background:rgba(45,206,130,.25);}
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-thumb{background:var(--line2);border-radius:4px;}
+
+/* ── NAV ── */
+.nav{
+  position:sticky;top:0;z-index:100;
+  background:rgba(8,12,9,.92);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);
+  padding:0 24px;
+  display:flex;align-items:center;justify-content:space-between;
+  height:56px;
+}
+.nav-brand{
+  font-family:var(--serif);font-size:17px;color:var(--ivory);
+  text-decoration:none;
+}
+.nav-brand b{color:var(--green);}
+.nav-print{
+  font-size:13px;font-weight:600;color:var(--green);
+  background:transparent;border:1px solid var(--line3);
+  padding:10px 16px;border-radius:6px;cursor:pointer;
+  transition:all .15s;min-height:44px;
+}
+.nav-print:hover{background:var(--card);border-color:var(--green2);}
+
+/* ── HERO ── */
+.hero{
+  position:relative;z-index:1;
+  padding:56px 24px 40px;
+  text-align:center;
+  max-width:760px;margin:0 auto;
+}
+.hero-label{
+  display:inline-block;
+  font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--green2);
+  background:rgba(45,206,130,.08);
+  border:1px solid var(--line3);
+  padding:5px 14px;border-radius:20px;
+  margin-bottom:20px;
+}
+.hero h1{
+  font-family:var(--serif);font-size:clamp(24px,4vw,36px);
+  font-weight:700;color:var(--ivory);line-height:1.25;
+  margin-bottom:14px;
+}
+.hero-sub{
+  font-size:14px;color:var(--iv3);line-height:1.6;
+}
+.hero-sub a{color:var(--green2);text-decoration:none;}
+.hero-sub a:hover{text-decoration:underline;}
+
+/* ── TABS ── */
+.tabs-wrap{
+  position:relative;z-index:1;
+  max-width:860px;margin:0 auto;
+  padding:0 24px 80px;
+}
+.tab-nav{
+  display:flex;flex-wrap:wrap;gap:6px;
+  margin-bottom:28px;
+  border-bottom:1px solid var(--line);
+  padding-bottom:0;
+}
+.tab-btn{
+  font-family:var(--sans);font-size:13px;font-weight:600;
+  color:var(--iv3);background:transparent;
+  border:none;border-bottom:2px solid transparent;
+  padding:10px 18px 12px;cursor:pointer;
+  transition:all .15s;
+  margin-bottom:-1px;
+}
+.tab-btn:hover{color:var(--ivory);}
+.tab-btn.active{
+  color:var(--green);
+  border-bottom-color:var(--green);
+}
+
+/* ── CONTENT PANEL ── */
+.tab-panel{display:none;}
+.tab-panel.active{display:block;}
+
+.legal-card{
+  background:var(--card);
+  border:1px solid var(--line2);
+  border-radius:12px;
+  padding:36px 40px;
+}
+
+.legal-updated{
+  font-size:11px;color:var(--iv4);
+  letter-spacing:.08em;text-transform:uppercase;
+  margin-bottom:28px;
+}
+
+.legal-section{margin-bottom:32px;}
+.legal-section:last-child{margin-bottom:0;}
+
+.legal-h2{
+  font-family:var(--serif);font-size:18px;font-weight:700;
+  color:var(--ivory);margin-bottom:10px;
+  padding-bottom:8px;border-bottom:1px solid var(--line);
+}
+.legal-h3{
+  font-size:14px;font-weight:700;color:var(--green2);
+  margin-bottom:6px;margin-top:16px;
+}
+.legal-p{
+  font-size:14px;color:var(--iv2);line-height:1.75;
+  margin-bottom:10px;
+}
+.legal-p:last-child{margin-bottom:0;}
+.legal-p a{color:var(--green2);text-decoration:none;}
+.legal-p a:hover{text-decoration:underline;}
+
+.legal-list{
+  font-size:14px;color:var(--iv2);line-height:1.75;
+  padding-left:20px;margin-bottom:10px;
+}
+.legal-list li{margin-bottom:4px;}
+
+.legal-highlight{
+  background:var(--card2);
+  border:1px solid var(--line2);
+  border-left:3px solid var(--green3);
+  border-radius:8px;padding:16px 20px;
+  margin:16px 0;
+}
+.legal-highlight p{
+  font-size:13px;color:var(--iv2);line-height:1.6;margin:0;
+}
+.legal-highlight strong{color:var(--ivory);}
+
+/* ── PAGE FOOTER ── */
+.legal-footer{
+  position:relative;z-index:1;
+  border-top:1px solid var(--line);
+  padding:24px;
+  text-align:center;
+}
+.legal-footer p{
+  font-size:12px;color:var(--iv4);line-height:1.6;
+}
+.legal-footer a{color:var(--iv3);text-decoration:none;}
+.legal-footer a:hover{color:var(--green2);}
+.legal-footer .sep{margin:0 8px;opacity:.4;}
+
+/* ── PRINT ── */
+@media print{
+  .nav,.tab-nav,.legal-footer{display:none!important;}
+  body{background:#fff;color:#1a1a1a;}
+  .hero{padding:24px 0 16px;}
+  .hero h1,.legal-h2{color:#1a1a1a;}
+  .legal-card{border:1px solid #ddd;border-radius:0;padding:24px;}
+  .legal-p,.legal-list,.legal-h3{color:#333;}
+  .legal-highlight{background:#f8f8f8;border-color:#ddd;}
+  .tab-panel{display:block!important;}
+  .tab-panel + .tab-panel{page-break-before:always;}
+}
+
+/* ── RESPONSIVE ── */
+@media(max-width:640px){
+  .hero{padding:32px 20px 24px;}
+  .hero h1{font-size:clamp(20px,5vw,28px);}
+  .legal-card{padding:20px 16px;}
+  .tab-btn{font-size:12px;padding:10px 12px;min-height:44px;}
+  .legal-h2{font-size:16px;}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="https://doxseal.co.za" class="nav-brand"><b>Dox</b>Seal</a>
+  <button class="nav-print" onclick="window.print()">Print / Save PDF</button>
+</nav>
+
+<div class="hero">
+  <div class="hero-label">Legal &amp; Compliance</div>
+  <h1>Terms, Privacy &amp; POPIA</h1>
+  <p class="hero-sub">
+    Orsolso Trader t/a DoxSeal &nbsp;·&nbsp;
+    <a href="mailto:hello@doxseal.co.za">hello@doxseal.co.za</a><br>
+    Governing law: Republic of South Africa
+  </p>
+</div>
+
+<div class="tabs-wrap">
+  <div class="tab-nav">
+    <button class="tab-btn active" data-tab="terms" onclick="showTab('terms',this)">Terms of Service</button>
+    <button class="tab-btn" data-tab="privacy" onclick="showTab('privacy',this)">Privacy Policy</button>
+    <button class="tab-btn" data-tab="popia" onclick="showTab('popia',this)">POPIA Compliance</button>
+    <button class="tab-btn" data-tab="subscription" onclick="showTab('subscription',this)">Subscription Terms</button>
+  </div>
+
+  <!-- ── TERMS OF SERVICE ── -->
+  <div class="tab-panel active" id="tab-terms">
+    <div class="legal-card">
+      <div class="legal-updated">Last updated: April 2026</div>
+
+      <div class="legal-section">
+        <h2 class="legal-h2">1. Parties &amp; Agreement</h2>
+        <p class="legal-p">These Terms of Service ("Terms") constitute a binding agreement between <strong>Orsolso Trader t/a DoxSeal</strong> ("DoxSeal", "we", "us") and you ("User", "you"), governing your access to and use of the DoxSeal platform at <a href="https://doxseal.co.za">doxseal.co.za</a>.</p>
+        <p class="legal-p">By creating an account or using the Service you confirm that you have read, understood, and agree to be bound by these Terms. If you do not agree, do not use the Service.</p>
+      </div>
+
+      <div class="legal-section">
+        <h2 class="legal-h2">2. Description of Service</h2>
+        <p class="legal-p">DoxSeal provides a digital timestamping and document authentication service. When you "seal" a document or message, DoxSeal:</p>
+        <ul class="legal-list">
+          <li>Computes a SHA-256 cryptographic hash of your content on your device;</li>
+          <li>Records that hash in an OP_RETURN transaction on the BSV blockchain;</li>
+          <li>Issues a verifiable Proof Certificate containing the transaction ID.</li>
+        </ul>
+        <div class="legal-highlight">
+          <p><strong>Important:</strong> DoxSeal provides timestamping and proof-of-existence only. We do not provide legal advice, and nothing on this platform constitutes legal advice. Admissibility of blockchain evidence in any legal proceeding — including CCMA arbitrations — depends on facts, context, and applicable law. We make no guarantee of admissibility.</p>
+        </div>
+      </div>
+
+      <div class="legal-section">
+        <h2 class="legal-h2">3. Your Documents Stay on Your Device</h2>
+        <p class="legal-p">Your original documents, messages, and files <strong>never leave your device</strong>. DoxSeal transmits only a cryptographic hash (digital fingerprint) to our signing server. We cannot reconstruct your original content from the hash, and we do not store your documents on our servers.</p>
+      </div>
+
+      <div class="legal-section">
+        <h2 class="legal-h2">4. User Obligations</h2>
+        <ul class="legal-list">
+          <li>Provide accurate information when registering;</li>
+          <li>Use the Service only for lawful purposes;</li>
+          <li>Not seal content that infringes third-party rights, is defamatory, or violates applicable law;</li>
+          <li>Keep your account credentials confidential;</li>
+          <li>Notify us immediately of any unauthorised use of your account.</li>
+        </ul>
+      </div>
+
+      <div class="legal-section">
+        <h2 class="legal-h2">5. Blockchain Immutability</h2>
+        <p class="legal-p">Transactions broadcast to the BSV blockchain are permanent and irreversible. Once a seal is confirmed on-chain, DoxSeal cannot delete, alter, or retract it. You are responsible for ensuring you have the right to seal the content you submit.</p>
+      </div>
+
+      <div class="legal-section">
+        <h2 class="legal-h2">6. Limitation of Liability</h2>
+        <p class="legal-p">To the maximum extent permitted by South African law, DoxSeal's total liability to you for any claim arising from or related to these Terms or the Service is limited to <strong>the total subscription fees you paid in the calendar month in which the claim arose</strong>.</p>
+        <p class="legal-p">DoxSeal shall not be liable for loss of profits, loss of data, indirect, special, or consequential damages of any kind, even if advised of the possibility of such damages.</p>
+      </div>
+
+      <div class="legal-section">
+        <h2 class="legal-h2">7. Intellectual Property</h2>
+        <p class="legal-p">DoxSeal and its logos, UI, and technology are the intellectual property of Orsolso Trader. You retain all rights in the content you seal. By using the Service you grant DoxSeal no rights over your content beyond what is necessary to operate the Service.</p>
+      </div>
+
+      <div class="legal-section">
+        <h2 class="legal-h2">8. Electronic Transactions Act (ECT Act 25 of 2002)</h2>
+        <p class="legal-p">These Terms are concluded electronically and are valid and enforceable under the Electronic Communications and Transactions Act 25 of 2002. By clicking "I agree" or by using the Service, you provide a valid electronic signature confirming your acceptance.</p>
+      </div>
+
+      <div class="legal-section">
+        <h2 class="legal-h2">9. Governing Law &amp; Disputes</h2>
+        <p class="legal-p">These Terms are governed by the laws of the Republic of South Africa. Any dispute shall be subject to the non-exclusive jurisdiction of the South African courts. We encourage you to contact us at <a href="mailto:hello@doxseal.co.za">hello@doxseal.co.za</a> before initiating formal proceedings.</p>
+      </div>
+
+      <div class="legal-section">
+        <h2 class="legal-h2">10. Changes to These Terms</h2>
+        <p class="legal-p">We may update these Terms from time to time. We will notify registered users by email at least 14 days before material changes take effect. Continued use of the Service after that date constitutes acceptance of the updated Terms.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PRIVACY POLICY ── -->
+  <div class="tab-panel" id="tab-privacy">
+    <div class="legal-card">
+      <div class="legal-updated">Last updated: May 2026</div>
+
+      <div class="legal-highlight" style="margin-bottom:28px;">
+        <p><strong>Explicit Consent:</strong> By creating an account or subscribing to DoxSeal you explicitly consent to the collection and processing of your email address and usage data as described in this Privacy Policy. You may withdraw consent at any time by emailing <a href="mailto:johan@doxseal.co.za">johan@doxseal.co.za</a>.</p>
+      </div>
+
+      <div class="legal-section">
+        <h2 class="legal-h2">1. Who We Are</h2>
+        <p class="legal-p">This Privacy Policy describes how <strong>Orsolso Trader t/a DoxSeal</strong> collects, uses, and protects your personal information. We are the Responsible Party as defined in the Protection of Personal Information Act 4 of 2013 (POPIA).</p>
+        <p class="legal-p">Contact: <a href="mailto:hello@doxseal.co.za">hello@doxseal.co.za</a></p>
+      </div>
+
+      <div class="legal-section">
+        <h2 class="legal-h2">2. What We Collect</h2>
+        <h3 class="legal-h3">Information you provide</h3>
+        <ul class="legal-list">
+          <li>Name and email address (registration)</li>
+          <li>Billing details (processed via third-party payment provider)</li>
+          <li>Support correspondence</li>
+        </ul>
+        <h3 class="legal-h3">Information we do NOT collect</h3>
+        <ul class="legal-list">
+          <li>Your original documents or message content — these never leave your device</li>
+          <li>Sensitive personal information as defined by POPIA</li>
+        </ul>
+        <h3 class="legal-h3">Technical information</h3>
+        <ul class="legal-list">
+          <li>IP address (for security and fraud prevention)</li>
+          <li>Browser type and device type</li>
+          <li>Usage logs (seal counts, API calls)</li>
+        </ul>
+      </div>
+
+      <div class="legal-section">
+        <h2 class="legal-h2">3. How We Use Your Information</h2>
+        <ul class="legal-list">
+          <li>To provide and operate the Service</li>
+          <li>To send account notifications and receipts</li>
+          <li>To prevent fraud and abuse</li>
+          <li>To comply with legal obligations</li>
+          <li>To improve the Service (aggregated, anonymised analytics only)</li>
+        </ul>
+        <p class="legal-p">We do not sell, rent, or trade your personal information to third parties.</p>
+      </div>
+
+      <div class="legal-section">
+        <h2 class="legal-h2">4. Blockchain Data</h2>
+        <p class="legal-p">Cryptographic hashes recorded on the BSV blockchain are public and permanent. A hash is a one-way mathematical fingerprint of your content — it cannot be reversed to reveal your original document. No personal information is recorded on the blockchain.</p>
+      </div>
+
+      <div class="legal-section">
+        <h2 class="legal-h2">5. Third-Party Services</h2>
+        <ul class="legal-list">
+          <li><strong>Railway</strong> — server hosting (USA)</li>
+          <li><strong>Netlify</strong> — web hosting (USA)</li>
+          <li><strong>WhatsOnChain</strong> — blockchain verification API</li>
+          <li><strong>Upstash</strong> — serverless data storage</li>
+        </ul>
+        <p class="legal-p">Each provider has its own privacy policy. We enter into data processing agreements with providers where required by POPIA.</p>
+      </div>
+
+      <div class="legal-section">
+        <h2 class="legal-h2">6. Data Retention</h2>
+        <ul class="legal-list">
+          <li>Account data: retained for the duration of your subscription + 3 years</li>
+          <li>Seal logs (transaction IDs only): retained indefinitely for audit purposes</li>
+          <li>Support emails: retained for 2 years</li>
+        </ul>
+        <p class="legal-p">On account deletion, we delete all personal information except what we are legally required to retain.</p>
+      </div>
+
+      <div class="legal-section">
+        <h2 class="legal-h2">7. Your Rights</h2>
+        <p class="legal-p">Under POPIA you have the right to:</p>
+        <ul class="legal-list">
+          <li>Request access to the personal information we hold about you</li>
+          <li>Request correction of inaccurate information</li>
+          <li>Request deletion of your personal information</li>
+          <li>Object to processing of your information</li>
+          <li>Lodge a complaint with the Information Regulator of South Africa</li>
+        </ul>
+        <p class="legal-p">To exercise any right, email <a href="mailto:hello@doxseal.co.za">hello@doxseal.co.za</a>. We will respond within 30 days.</p>
+      </div>
+
+      <div class="legal-section">
+        <h2 class="legal-h2">8. Security</h2>
+        <p class="legal-p">We implement appropriate technical and organisational measures to protect your personal information, including HTTPS encryption in transit, environment-variable secret management, and access controls. No system is perfectly secure; we will notify you promptly in the event of a data breach affecting your information.</p>
+      </div>
+
+      <div class="legal-section">
+        <h2 class="legal-h2">9. Cookies</h2>
+        <p class="legal-p">The DoxSeal app uses browser <code>localStorage</code> — not cookies — to store your session and preferences locally on your device. No third-party tracking cookies are used.</p>
+      </div>
+
+      <div class="legal-section">
+        <h2 class="legal-h2">10. Security Breach Notification</h2>
+        <p class="legal-p">In the event of a security breach affecting your personal information, DoxSeal will notify affected users within <strong>72 hours</strong> and report the incident to the Information Regulator of South Africa via <a href="https://inforegulator.org.za" target="_blank" rel="noopener">inforegulator.org.za</a> as required by POPIA.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── POPIA COMPLIANCE ── -->
+  <div class="tab-panel" id="tab-popia">
+    <div class="legal-card">
+      <div class="legal-updated">Last updated: April 2026</div>
+
+      <div class="legal-section">
+        <h2 class="legal-h2">POPIA Compliance Statement</h2>
+        <p class="legal-p">Orsolso Trader t/a DoxSeal is committed to processing personal information in accordance with the <strong>Protection of Personal Information Act 4 of 2013 (POPIA)</strong>, which became enforceable on 1 July 2021.</p>
+      </div>
+
+      <div class="legal-section">
+        <h2 class="legal-h2">Responsible Party</h2>
+        <p class="legal-p">
+          <strong>Orsolso Trader t/a DoxSeal</strong><br>
+          Republic of South Africa<br>
+          Email: <a href="mailto:hello@doxseal.co.za">hello@doxseal.co.za</a>
+        </p>
+      </div>
+
+      <div class="legal-section">
+        <h2 class="legal-h2">Eight Conditions for Lawful Processing</h2>
+
+        <h3 class="legal-h3">1. Accountability</h3>
+        <p class="legal-p">DoxSeal takes full responsibility for ensuring personal information in our possession is processed in accordance with POPIA. Our operator (sole trader) is the designated Information Officer.</p>
+
+        <h3 class="legal-h3">2. Processing Limitation</h3>
+        <p class="legal-p">We collect only the personal information necessary to provide the Service (name, email address, payment reference). Your original documents are processed entirely on your device and are never transmitted to us.</p>
+
+        <h3 class="legal-h3">3. Purpose Specification</h3>
+        <p class="legal-p">Personal information is collected for the specific, explicitly defined purpose of providing the DoxSeal timestamping service, billing, and support. We will not process your information for any other purpose without your explicit consent.</p>
+
+        <h3 class="legal-h3">4. Further Processing Limitation</h3>
+        <p class="legal-p">We do not further process personal information in a way that is incompatible with the purpose for which it was collected. We do not sell or share personal information with third parties for marketing purposes.</p>
+
+        <h3 class="legal-h3">5. Information Quality</h3>
+        <p class="legal-p">We take reasonable steps to ensure that personal information we hold is complete, accurate, not misleading, and updated where necessary. You may request correction of your information at any time.</p>
+
+        <h3 class="legal-h3">6. Openness</h3>
+        <p class="legal-p">This Privacy Policy and POPIA Compliance Statement constitute our notification to data subjects about the personal information we hold and how we process it.</p>
+
+        <h3 class="legal-h3">7. Security Safeguards</h3>
+        <p class="legal-p">We maintain reasonable technical and organisational security measures to protect personal information from loss, damage, unauthorised destruction, or unlawful access or processing. In the event of a breach likely to result in harm, we will notify the Information Regulator and affected data subjects promptly.</p>
+
+        <h3 class="legal-h3">8. Data Subject Participation</h3>
+        <p class="legal-p">Data subjects have the right to request access to, correction of, or deletion of their personal information. Contact <a href="mailto:hello@doxseal.co.za">hello@doxseal.co.za</a>. We will respond within 30 days.</p>
+      </div>
+
+      <div class="legal-section">
+        <h2 class="legal-h2">Privacy by Design</h2>
+        <div class="legal-highlight">
+          <p>DoxSeal is built privacy-first. <strong>Your documents never leave your device.</strong> Only a SHA-256 hash (cryptographic fingerprint) is transmitted to our server and recorded on the blockchain. The hash cannot be reversed to reveal your original content. No sensitive personal information is ever stored on our servers or on the blockchain.</p>
+        </div>
+      </div>
+
+      <div class="legal-section">
+        <h2 class="legal-h2">Information Regulator</h2>
+        <p class="legal-p">You have the right to lodge a complaint with the Information Regulator of South Africa if you believe your personal information has been processed in violation of POPIA.</p>
+        <p class="legal-p">
+          Information Regulator (South Africa)<br>
+          Website: <a href="https://inforegulator.org.za" target="_blank" rel="noopener">inforegulator.org.za</a><br>
+          Email: <a href="mailto:inforeg@justice.gov.za">inforeg@justice.gov.za</a>
+        </p>
+      </div>
+
+      <div class="legal-section">
+        <h2 class="legal-h2">ECT Act Compliance</h2>
+        <p class="legal-p">DoxSeal complies with the <strong>Electronic Communications and Transactions Act 25 of 2002 (ECT Act)</strong>. All agreements concluded electronically via our platform are valid and enforceable. Users may access, store, and reproduce these Terms at any time.</p>
+      </div>
+
+      <div class="legal-section">
+        <h2 class="legal-h2">Information Officer</h2>
+        <p class="legal-p">
+          <strong>Johan</strong> — owner of Orsolso Trader t/a DoxSeal<br>
+          Registered Information Officer with the Information Regulator of South Africa<br>
+          Contact: <a href="mailto:johan@doxseal.co.za">johan@doxseal.co.za</a>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SUBSCRIPTION TERMS ── -->
+  <div class="tab-panel" id="tab-subscription">
+    <div class="legal-card">
+      <div class="legal-updated">Last updated: April 2026</div>
+
+      <div class="legal-section">
+        <h2 class="legal-h2">1. Subscription Plans</h2>
+        <ul class="legal-list">
+          <li><strong>Starter</strong> — R297/month · 50 seals per month · Cancel anytime — no contracts</li>
+          <li><strong>Pro</strong> — R497/month · 200 seals per month · Cancel anytime — no contracts</li>
+          <li><strong>Business</strong> — R997/month · 500 seals per month · Cancel anytime — no contracts</li>
+        </ul>
+        <p class="legal-p">All prices are in South African Rand (ZAR) and are exclusive of VAT where applicable. Plans and pricing are subject to change with 30 days' notice to existing subscribers.</p>
+        <div class="legal-highlight">
+          <p>Subscriptions are governed by the <strong>Consumer Protection Act 68 of 2008</strong>. You may cancel at any time by emailing <a href="mailto:johan@doxseal.co.za">johan@doxseal.co.za</a>.</p>
+        </div>
+      </div>
+
+      <div class="legal-section">
+        <h2 class="legal-h2">2. Free Trial</h2>
+        <p class="legal-p">New users may seal up to <strong>3 documents</strong> free of charge during the trial period. No payment information is required to start a trial. At the end of the trial, a subscription is required to continue sealing.</p>
+      </div>
+
+      <div class="legal-section">
+        <h2 class="legal-h2">3. Billing &amp; Payment</h2>
+        <p class="legal-p">Subscriptions are billed monthly in advance. Payment is due on the same day each month from the date of first payment. If payment fails, access to the Service will be suspended until payment is received.</p>
+        <p class="legal-p">To arrange payment or discuss billing, contact <a href="mailto:hello@doxseal.co.za">hello@doxseal.co.za</a>.</p>
+      </div>
+
+      <div class="legal-section">
+        <h2 class="legal-h2">4. Cancellation</h2>
+        <p class="legal-p">You may cancel your subscription at any time. There are no lock-in periods, no cancellation fees, and no minimum commitment. Your access continues until the end of the current billing period.</p>
+        <p class="legal-p">To cancel, email <a href="mailto:hello@doxseal.co.za">hello@doxseal.co.za</a> with the subject line "Cancel Subscription".</p>
+      </div>
+
+      <div class="legal-section">
+        <h2 class="legal-h2">5. Refund Policy</h2>
+        <div class="legal-highlight">
+          <p><strong>No refunds on used seals.</strong> Because each seal involves an irreversible blockchain transaction with real transaction costs, we cannot refund fees for seals that have already been broadcast to the blockchain.</p>
+        </div>
+        <p class="legal-p">If you cancel before using any seals in a billing period, contact us at <a href="mailto:hello@doxseal.co.za">hello@doxseal.co.za</a> within 48 hours and we will review your request on a case-by-case basis.</p>
+      </div>
+
+      <div class="legal-section">
+        <h2 class="legal-h2">6. Unused Seals</h2>
+        <p class="legal-p">Unused seals do not roll over to the following month. Each billing period's allocation expires at the end of that billing period.</p>
+      </div>
+
+      <div class="legal-section">
+        <h2 class="legal-h2">7. Fair Use</h2>
+        <p class="legal-p">Plans are intended for reasonable business use. We reserve the right to suspend accounts exhibiting automated abuse or usage inconsistent with the intended purpose of the plan.</p>
+      </div>
+
+      <div class="legal-section">
+        <h2 class="legal-h2">8. Service Availability</h2>
+        <p class="legal-p">We aim to maintain high availability but do not guarantee uninterrupted access. Scheduled maintenance will be communicated in advance. We are not liable for downtime caused by third-party services (blockchain network, hosting providers).</p>
+      </div>
+
+      <div class="legal-section">
+        <h2 class="legal-h2">9. Account Termination by Us</h2>
+        <p class="legal-p">DoxSeal reserves the right to suspend or terminate accounts that violate these Terms, engage in fraudulent activity, or are used for unlawful purposes. We will provide notice unless immediate termination is required for legal or security reasons.</p>
+      </div>
+
+      <div class="legal-section">
+        <h2 class="legal-h2">10. Contact</h2>
+        <p class="legal-p">
+          Orsolso Trader t/a DoxSeal &nbsp;·&nbsp; Republic of South Africa<br>
+          <a href="mailto:hello@doxseal.co.za">hello@doxseal.co.za</a> &nbsp;·&nbsp;
+          <a href="https://doxseal.co.za">doxseal.co.za</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="legal-footer">
+  <p>
+    © 2026 Orsolso Trader t/a DoxSeal
+    <span class="sep">|</span>
+    <a href="mailto:hello@doxseal.co.za">hello@doxseal.co.za</a>
+    <span class="sep">|</span>
+    Governing law: Republic of South Africa
+  </p>
+</footer>
+
+<script>
+function showTab(id, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  btn.classList.add('active');
+  window.location.hash = id;
+}
+(function(){
+  const hash = window.location.hash.replace('#','');
+  const valid = ['terms','privacy','popia','subscription'];
+  if(hash && valid.includes(hash)){
+    const btn = document.querySelector('[data-tab="'+hash+'"]');
+    if(btn) showTab(hash, btn);
+  }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Free Trial — DoxSeal Document Validation</title>
+<meta name="description" content="Start your free DoxSeal trial. 3 free document seals — no card needed. Tamper-proof blockchain timestamps for HR, legal and property professionals.">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Nunito:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+:root{
+  --bg:       #080c09;
+  --bg2:      #0e1610;
+  --bg3:      #141f16;
+  --card:     #1a2a1c;
+  --card2:    #20321f;
+  --edge:     #283c2a;
+  --line:     rgba(100,200,120,.09);
+  --line2:    rgba(100,200,120,.16);
+  --line3:    rgba(100,200,120,.28);
+  --green:    #2dce82;
+  --green2:   #23b06d;
+  --green3:   #1a8a53;
+  --green4:   #117040;
+  --gold:     #c8a84b;
+  --ivory:    #f2ede4;
+  --iv2:      rgba(242,237,228,.72);
+  --iv3:      rgba(242,237,228,.42);
+  --iv4:      rgba(242,237,228,.22);
+  --iv5:      rgba(242,237,228,.1);
+  --red:      #e05555;
+  --serif:    'Libre Baskerville', Georgia, serif;
+  --sans:     'Nunito', sans-serif;
+  --ease:     cubic-bezier(.4,0,.2,1);
+}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);font-family:var(--sans);
+  color:var(--ivory);-webkit-font-smoothing:antialiased;
+  min-height:100vh;display:flex;flex-direction:column;
+  align-items:center;justify-content:flex-start;
+  overflow-x:hidden;
+}
+body::before{
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 80% 50% at 20% -10%,rgba(45,206,130,.07),transparent 60%),
+    radial-gradient(ellipse 60% 40% at 80% 110%,rgba(26,138,83,.05),transparent 55%);
+}
+::selection{background:rgba(45,206,130,.25);}
+
+/* ── Layout ── */
+.wrap{
+  position:relative;z-index:1;
+  width:100%;max-width:460px;
+  padding:48px 24px 64px;
+}
+
+/* ── Brand bar ── */
+.brand{
+  text-align:center;margin-bottom:36px;
+}
+.brand-logo{
+  font-family:var(--serif);font-size:22px;font-weight:700;
+  color:var(--ivory);letter-spacing:.02em;text-decoration:none;
+}
+.brand-logo span{color:var(--green);}
+
+/* ── Card ── */
+.card{
+  background:var(--card);
+  border:1px solid var(--line2);
+  border-radius:16px;
+  padding:36px 32px;
+}
+@media(max-width:480px){
+  .card{padding:28px 20px;border-radius:12px;}
+}
+
+/* ── Steps ── */
+.step{display:none;}
+.step.active{display:block;}
+
+/* ── Headings ── */
+.step-h{
+  font-family:var(--serif);font-size:22px;font-weight:700;
+  color:var(--ivory);margin-bottom:6px;line-height:1.3;
+}
+.step-sub{
+  font-size:14px;color:var(--iv3);margin-bottom:28px;line-height:1.5;
+}
+
+/* ── Form fields ── */
+.field{margin-bottom:18px;}
+.field label{
+  display:block;font-size:12px;font-weight:600;
+  color:var(--iv3);text-transform:uppercase;letter-spacing:.06em;
+  margin-bottom:6px;
+}
+.field input{
+  width:100%;background:var(--bg2);
+  border:1px solid var(--line2);border-radius:8px;
+  color:var(--ivory);font-family:var(--sans);font-size:15px;
+  padding:13px 14px;outline:none;
+  transition:border-color .2s var(--ease);
+}
+.field input:focus{border-color:var(--green3);}
+.field input::placeholder{color:var(--iv4);}
+.field input.err{border-color:var(--red);}
+
+/* ── Error message ── */
+.err-msg{
+  display:none;font-size:13px;color:var(--red);
+  background:rgba(224,85,85,.08);border:1px solid rgba(224,85,85,.2);
+  border-radius:8px;padding:10px 14px;margin-bottom:18px;line-height:1.5;
+}
+.err-msg.show{display:block;}
+
+/* ── Primary button ── */
+.btn-primary{
+  width:100%;padding:15px;border:none;border-radius:10px;
+  background:linear-gradient(135deg,var(--green2),var(--green3));
+  color:#fff;font-family:var(--sans);font-size:16px;font-weight:700;
+  cursor:pointer;letter-spacing:.02em;
+  transition:opacity .2s var(--ease),transform .15s var(--ease);
+  margin-top:8px;
+}
+.btn-primary:hover{opacity:.9;}
+.btn-primary:active{transform:scale(.98);}
+.btn-primary:disabled{opacity:.5;cursor:default;}
+
+/* ── Code input (big digits) ── */
+.code-input{
+  width:100%;background:var(--bg2);
+  border:1px solid var(--line2);border-radius:8px;
+  color:var(--ivory);font-family:var(--sans);font-size:28px;
+  font-weight:700;letter-spacing:.25em;text-align:center;
+  padding:16px 14px;outline:none;
+  transition:border-color .2s var(--ease);
+}
+.code-input:focus{border-color:var(--green3);}
+.code-to{
+  font-size:13px;color:var(--iv3);margin-bottom:20px;line-height:1.5;
+}
+.code-to strong{color:var(--iv2);}
+
+/* ── Resend link ── */
+.resend-wrap{text-align:center;margin-top:16px;}
+.resend-wrap a{
+  font-size:13px;color:var(--iv3);text-decoration:none;cursor:pointer;
+  transition:color .2s;
+}
+.resend-wrap a:hover{color:var(--green);}
+
+/* ── Success screen ── */
+.success-icon{
+  text-align:center;font-size:48px;margin-bottom:16px;
+}
+.success-h{
+  font-family:var(--serif);font-size:22px;font-weight:700;
+  color:var(--green);margin-bottom:10px;text-align:center;
+}
+.success-body{
+  font-size:15px;color:var(--iv2);line-height:1.7;text-align:center;
+  margin-bottom:28px;
+}
+.success-body strong{color:var(--ivory);}
+.login-btn{
+  display:block;width:100%;padding:15px;border-radius:10px;
+  background:linear-gradient(135deg,var(--green2),var(--green3));
+  color:#fff;font-family:var(--sans);font-size:16px;font-weight:700;
+  text-align:center;text-decoration:none;letter-spacing:.02em;
+  transition:opacity .2s var(--ease);
+}
+.login-btn:hover{opacity:.9;}
+
+/* ── Footer note ── */
+.foot-note{
+  text-align:center;font-size:12px;color:var(--iv4);
+  margin-top:20px;line-height:1.6;
+}
+.foot-note a{color:var(--iv3);text-decoration:none;}
+.foot-note a:hover{color:var(--green);}
+
+/* ── Trust indicators ── */
+.trust{
+  display:flex;flex-wrap:wrap;gap:8px;justify-content:center;
+  margin-top:28px;
+}
+.trust-item{
+  font-size:11px;color:var(--iv4);
+  display:flex;align-items:center;gap:4px;
+}
+.trust-item::before{content:'✓';color:var(--green3);}
+
+/* ── Consent checkbox ── */
+.consent-row{
+  display:flex;align-items:flex-start;gap:10px;
+  margin-bottom:16px;
+  padding:14px;
+  background:rgba(45,206,130,.04);
+  border:1px solid var(--line2);
+  border-radius:8px;
+}
+.consent-row input[type=checkbox]{
+  margin-top:2px;flex-shrink:0;
+  width:17px;height:17px;
+  accent-color:var(--green2);cursor:pointer;
+}
+.consent-row label{
+  font-size:13px;color:var(--iv3);line-height:1.55;cursor:pointer;
+}
+.consent-row label a{color:var(--green2);text-decoration:none;}
+.consent-row label a:hover{text-decoration:underline;}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- Brand -->
+  <div class="brand">
+    <a class="brand-logo" href="https://doxseal.co.za"><span>Dox</span>Seal</a>
+  </div>
+
+  <div class="card">
+
+    <!-- ══ STEP 1: Signup form ══ -->
+    <div class="step active" id="step-1">
+      <h1 class="step-h">Start your free trial</h1>
+      <p class="step-sub">3 free document seals — no card needed</p>
+
+      <div class="err-msg" id="err-1"></div>
+
+      <div class="field">
+        <label for="f-name">First name</label>
+        <input type="text" id="f-name" placeholder="Jane" autocomplete="given-name"
+          onkeydown="if(event.key==='Enter')requestCode()">
+      </div>
+
+      <div class="field">
+        <label for="f-email">Work email</label>
+        <input type="email" id="f-email" placeholder="jane@yourcompany.co.za" autocomplete="email"
+          onkeydown="if(event.key==='Enter')requestCode()">
+      </div>
+
+      <div class="field">
+        <label for="f-company">Company name <span style="font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></label>
+        <input type="text" id="f-company" placeholder="Acme Pty Ltd" autocomplete="organization"
+          onkeydown="if(event.key==='Enter')requestCode()">
+      </div>
+
+      <div class="consent-row">
+        <input type="checkbox" id="chk-consent">
+        <label for="chk-consent">I agree to the <a href="https://doxseal.co.za/legal.html#terms" target="_blank" rel="noopener">Terms of Service</a> and <a href="https://doxseal.co.za/legal.html#privacy" target="_blank" rel="noopener">Privacy Policy</a> at doxseal.co.za/legal.html</label>
+      </div>
+
+      <button class="btn-primary" id="btn-request" onclick="requestCode()">
+        Send Verification Code →
+      </button>
+
+      <div class="foot-note" style="margin-top:16px;">
+        Already have an account? <a href="https://doxseal.co.za">Sign in</a>
+      </div>
+    </div>
+
+    <!-- ══ STEP 2: Code verification ══ -->
+    <div class="step" id="step-2">
+      <h2 class="step-h">Check your email</h2>
+      <p class="code-to" id="code-to">Enter the 6-digit code sent to <strong id="code-email-display"></strong></p>
+
+      <div class="err-msg" id="err-2"></div>
+
+      <div class="field">
+        <label for="f-code">Verification code</label>
+        <input class="code-input" type="text" id="f-code" placeholder="000000"
+          maxlength="6" inputmode="numeric" autocomplete="one-time-code"
+          onkeydown="if(event.key==='Enter')verifyCode()">
+      </div>
+
+      <button class="btn-primary" id="btn-verify" onclick="verifyCode()">
+        Verify &amp; Create Account →
+      </button>
+
+      <div class="resend-wrap">
+        <a onclick="resendCode()">Resend code</a>
+      </div>
+    </div>
+
+    <!-- ══ STEP 3: Success ══ -->
+    <div class="step" id="step-3">
+      <div class="success-icon">✅</div>
+      <h2 class="success-h">Your account is ready</h2>
+      <p class="success-body">
+        Check your email for login details.<br>
+        <strong>Takes 2 minutes to arrive.</strong><br><br>
+        Login at <a href="https://doxseal.co.za" style="color:var(--green);text-decoration:none;font-weight:600;">doxseal.co.za</a>
+      </p>
+      <a class="login-btn" href="https://doxseal.co.za">Go to Login →</a>
+      <div class="foot-note">
+        Need help? <a href="https://wa.me/27726126733" target="_blank" rel="noopener">WhatsApp us</a>
+        or <a href="mailto:hello@doxseal.co.za">email hello@doxseal.co.za</a>
+      </div>
+    </div>
+
+  </div><!-- /card -->
+
+  <div class="trust">
+    <span class="trust-item">No credit card</span>
+    <span class="trust-item">3 free seals</span>
+    <span class="trust-item">Instant setup</span>
+    <span class="trust-item">Cancel anytime</span>
+  </div>
+
+</div><!-- /wrap -->
+
+<script>
+const SERVER = 'https://tm-server-production-c63f.up.railway.app';
+
+let currentEmail = '';
+let currentName  = '';
+
+function showErr(id, msg) {
+  const el = document.getElementById(id);
+  el.textContent = msg;
+  el.classList.add('show');
+}
+function clearErr(id) {
+  const el = document.getElementById(id);
+  el.textContent = '';
+  el.classList.remove('show');
+}
+
+function showStep(n) {
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  document.getElementById('step-' + n).classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+async function requestCode() {
+  clearErr('err-1');
+
+  const name    = (document.getElementById('f-name').value  || '').trim();
+  const email   = (document.getElementById('f-email').value || '').trim();
+  const company = (document.getElementById('f-company').value || '').trim();
+
+  if (!name) { showErr('err-1', 'Please enter your first name.'); document.getElementById('f-name').focus(); return; }
+  if (!email || !email.includes('@') || !email.includes('.')) {
+    showErr('err-1', 'Please enter a valid email address.');
+    document.getElementById('f-email').focus();
+    return;
+  }
+  if (!document.getElementById('chk-consent').checked) {
+    showErr('err-1', 'Please agree to the Terms of Service and Privacy Policy to continue.');
+    return;
+  }
+
+  const btn = document.getElementById('btn-request');
+  btn.disabled = true;
+  btn.textContent = 'Sending…';
+
+  try {
+    const r = await fetch(SERVER + '/api/trial/request', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ name, email, company }),
+      signal:  AbortSignal.timeout(10000)
+    });
+    const d = await r.json();
+
+    if (d.success) {
+      currentEmail = email;
+      currentName  = name;
+      document.getElementById('code-email-display').textContent = email;
+      showStep(2);
+      setTimeout(() => document.getElementById('f-code').focus(), 300);
+    } else {
+      showErr('err-1', d.error || 'Something went wrong. Please try again.');
+    }
+  } catch (e) {
+    showErr('err-1', 'Could not reach server. Check your connection and try again.');
+  }
+
+  btn.disabled = false;
+  btn.textContent = 'Send Verification Code →';
+}
+
+async function verifyCode() {
+  clearErr('err-2');
+
+  const code = (document.getElementById('f-code').value || '').trim().replace(/\s/g, '');
+
+  if (!code || code.length < 6) {
+    showErr('err-2', 'Please enter the 6-digit code from your email.');
+    document.getElementById('f-code').focus();
+    return;
+  }
+
+  const btn = document.getElementById('btn-verify');
+  btn.disabled = true;
+  btn.textContent = 'Creating account…';
+
+  try {
+    const r = await fetch(SERVER + '/api/trial/verify', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ email: currentEmail, code }),
+      signal:  AbortSignal.timeout(12000)
+    });
+    const d = await r.json();
+
+    if (d.success) {
+      showStep(3);
+    } else {
+      showErr('err-2', d.error || 'Verification failed. Please try again.');
+    }
+  } catch (e) {
+    showErr('err-2', 'Could not reach server. Check your connection and try again.');
+  }
+
+  btn.disabled = false;
+  btn.textContent = 'Verify & Create Account →';
+}
+
+async function resendCode() {
+  clearErr('err-2');
+  if (!currentEmail || !currentName) { showStep(1); return; }
+
+  const company = (document.getElementById('f-company')?.value || '').trim();
+
+  try {
+    const r = await fetch(SERVER + '/api/trial/request', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ name: currentName, email: currentEmail, company }),
+      signal:  AbortSignal.timeout(10000)
+    });
+    const d = await r.json();
+    if (d.success) {
+      showErr('err-2', 'New code sent — check your inbox.');
+      document.getElementById('err-2').style.background = 'rgba(45,206,130,.08)';
+      document.getElementById('err-2').style.borderColor = 'rgba(45,206,130,.2)';
+      document.getElementById('err-2').style.color = 'var(--green)';
+    } else {
+      showErr('err-2', d.error || 'Could not resend. Please try again.');
+    }
+  } catch (e) {
+    showErr('err-2', 'Could not reach server. Try again.');
+  }
+}
+
+// Auto-format code input: digits only
+document.getElementById('f-code').addEventListener('input', function() {
+  this.value = this.value.replace(/\D/g, '').slice(0, 6);
+});
+</script>
+</body>
+</html>
