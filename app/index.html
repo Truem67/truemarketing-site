@@ -2552,7 +2552,8 @@ function saveSession(){
   if(!CU) return;
   try{
     localStorage.setItem('tm_session', JSON.stringify({
-      cu:{email:CU.email,name:CU.name,plan:CU.plan,addr:CU.addr||'',pass:CU.pass||''},
+      cu:{email:CU.email,name:CU.name,plan:CU.plan,addr:CU.addr||'',pass:CU.pass||'',
+          account_type:CU.account_type||'',seals_used:CU.seals_used||0,seals_limit:CU.seals_limit||0},
       creds:CREDS,
       ts: Date.now()
     }));
@@ -2574,7 +2575,10 @@ function restoreSession(){
     const em = s.cu.email.toLowerCase();
     CU = {...s.cu, email:em,
       company: loadCompany(em),
-      whatsapp: loadWhatsApp(em)
+      whatsapp: loadWhatsApp(em),
+      account_type: s.cu.account_type || '',
+      seals_used:   s.cu.seals_used   || 0,
+      seals_limit:  s.cu.seals_limit  || 0
     };
     if(!USERS[em]) USERS[em] = CU;
     CREDS = (typeof s.creds === 'number' && s.creds > 0) ? s.creds : 50000;
