@@ -192,6 +192,26 @@ body::before{
   display:flex;align-items:center;gap:4px;
 }
 .trust-item::before{content:'✓';color:var(--green3);}
+
+/* ── Consent checkbox ── */
+.consent-row{
+  display:flex;align-items:flex-start;gap:10px;
+  margin-bottom:16px;
+  padding:14px;
+  background:rgba(45,206,130,.04);
+  border:1px solid var(--line2);
+  border-radius:8px;
+}
+.consent-row input[type=checkbox]{
+  margin-top:2px;flex-shrink:0;
+  width:17px;height:17px;
+  accent-color:var(--green2);cursor:pointer;
+}
+.consent-row label{
+  font-size:13px;color:var(--iv3);line-height:1.55;cursor:pointer;
+}
+.consent-row label a{color:var(--green2);text-decoration:none;}
+.consent-row label a:hover{text-decoration:underline;}
 </style>
 </head>
 <body>
@@ -228,6 +248,11 @@ body::before{
         <label for="f-company">Company name <span style="font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></label>
         <input type="text" id="f-company" placeholder="Acme Pty Ltd" autocomplete="organization"
           onkeydown="if(event.key==='Enter')requestCode()">
+      </div>
+
+      <div class="consent-row">
+        <input type="checkbox" id="chk-consent">
+        <label for="chk-consent">I agree to the <a href="https://doxseal.co.za/legal.html#terms" target="_blank" rel="noopener">Terms of Service</a> and <a href="https://doxseal.co.za/legal.html#privacy" target="_blank" rel="noopener">Privacy Policy</a> at doxseal.co.za/legal.html</label>
       </div>
 
       <button class="btn-primary" id="btn-request" onclick="requestCode()">
@@ -323,6 +348,10 @@ async function requestCode() {
   if (!email || !email.includes('@') || !email.includes('.')) {
     showErr('err-1', 'Please enter a valid email address.');
     document.getElementById('f-email').focus();
+    return;
+  }
+  if (!document.getElementById('chk-consent').checked) {
+    showErr('err-1', 'Please agree to the Terms of Service and Privacy Policy to continue.');
     return;
   }
 
