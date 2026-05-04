@@ -183,17 +183,18 @@ td input[type=text]:focus{border-bottom:1px solid var(--line2);}
         <label class="form-label">Password</label>
         <input class="form-input" id="lg-pass" type="password" placeholder="Password" autocomplete="current-password">
       </div>
-      <button class="btn-login" onclick="checkCreds()">Continue</button>
-      <div class="login-err" id="err-creds">Incorrect email or password.</div>
+      <button class="btn-login" id="btn-creds" onclick="checkCreds()">Continue</button>
+      <div class="login-err" id="err-creds"></div>
     </div>
 
     <div id="step-2fa" style="display:none;">
+      <p id="code-sent-msg" style="font-size:13px;color:var(--green);margin-bottom:16px;display:none;">Code sent to your email ✓</p>
       <div class="form-field">
         <label class="form-label">2FA Code</label>
         <input class="form-input" id="lg-2fa" type="text" inputmode="numeric" placeholder="6-digit code" maxlength="6" autocomplete="one-time-code">
       </div>
-      <button class="btn-login" onclick="check2FA()">Enter Dashboard</button>
-      <div class="login-err" id="err-2fa">Invalid code.</div>
+      <button class="btn-login" id="btn-2fa" onclick="check2FA()">Enter Dashboard</button>
+      <div class="login-err" id="err-2fa"></div>
     </div>
   </div>
 </div>
@@ -414,36 +415,77 @@ const OWNER_SECRET = 'DoxSeal2026';
 const WOC_BASE     = 'https://api.whatsonchain.com/v1/bsv/main';
 let   WALLET_ADDR  = '19bUZ72SXwAdSPTGS1BekuKi55pZHCxQkr';
 
-// ══ CREDENTIALS ══════════════════════════════════════════════════════════
-const OWNER_EMAIL = 'owner@doxseal.co.za';
-const OWNER_PASS  = 'owner123';
-const OWNER_2FA   = '123456';
-
 // ══ AUTH ═════════════════════════════════════════════════════════════════
-function checkCreds(){
-  const em = document.getElementById('lg-email').value.trim().toLowerCase();
-  const pw = document.getElementById('lg-pass').value;
-  if(em === OWNER_EMAIL && pw === OWNER_PASS){
-    document.getElementById('step-creds').style.display = 'none';
-    document.getElementById('step-2fa').style.display   = 'block';
-    document.getElementById('lg-2fa').focus();
-  } else {
-    document.getElementById('err-creds').style.display = 'block';
+async function checkCreds(){
+  const em  = document.getElementById('lg-email').value.trim().toLowerCase();
+  const pw  = document.getElementById('lg-pass').value;
+  const btn = document.getElementById('btn-creds');
+  const err = document.getElementById('err-creds');
+
+  btn.disabled    = true;
+  btn.textContent = 'Sending code…';
+  err.style.display = 'none';
+
+  try {
+    const r = await fetch(SERVER_URL + '/api/owner/request-code', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ email: em, password: pw })
+    });
+    const d = await r.json();
+    if(r.ok){
+      document.getElementById('step-creds').style.display    = 'none';
+      document.getElementById('step-2fa').style.display      = 'block';
+      document.getElementById('code-sent-msg').style.display = 'block';
+      document.getElementById('lg-2fa').focus();
+    } else {
+      err.textContent   = d.error || 'Invalid credentials.';
+      err.style.display = 'block';
+    }
+  } catch(e) {
+    err.textContent   = 'Network error: ' + e.message;
+    err.style.display = 'block';
+  } finally {
+    btn.disabled    = false;
+    btn.textContent = 'Continue';
   }
 }
-function check2FA(){
+
+async function check2FA(){
   const code = document.getElementById('lg-2fa').value.trim();
-  if(code === OWNER_2FA){
-    document.getElementById('login-gate').style.display = 'none';
-    document.getElementById('dashboard').classList.add('show');
-    initProspects();
-    calcROI();
-    loadAll();
-    setInterval(loadAll, 60000);
-  } else {
-    document.getElementById('err-2fa').style.display = 'block';
+  const btn  = document.getElementById('btn-2fa');
+  const err  = document.getElementById('err-2fa');
+
+  btn.disabled    = true;
+  btn.textContent = 'Verifying…';
+  err.style.display = 'none';
+
+  try {
+    const r = await fetch(SERVER_URL + '/api/owner/verify-code', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ code })
+    });
+    const d = await r.json();
+    if(r.ok){
+      document.getElementById('login-gate').style.display = 'none';
+      document.getElementById('dashboard').classList.add('show');
+      initProspects();
+      calcROI();
+      loadAll();
+      setInterval(loadAll, 60000);
+      return;
+    }
+    err.textContent   = d.error || 'Invalid code.';
+    err.style.display = 'block';
+  } catch(e) {
+    err.textContent   = 'Network error: ' + e.message;
+    err.style.display = 'block';
   }
+  btn.disabled    = false;
+  btn.textContent = 'Enter Dashboard';
 }
+
 function signOut(){ location.reload(); }
 
 function ownerSaveCompany(){
