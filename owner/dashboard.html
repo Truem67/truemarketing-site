@@ -290,11 +290,21 @@ td input[type=text]:focus{border-bottom:1px solid var(--line2);}
       <p style="font-size:13px;color:var(--iv3);margin-bottom:18px;">
         Account: <span style="font-family:var(--mono);color:var(--iv2);">demo@doxseal.co.za</span>
       </p>
-      <button class="btn-danger" onclick="resetDemo()">Reset Demo Counter</button>
+      <button class="btn-danger" id="btn-reset-demo" onclick="resetDemo()">Reset Demo Counter</button>
       <div class="reset-note" id="reset-note"></div>
     </div>
 
-    <!-- 4 ── TRANSACTION HISTORY -->
+    <!-- 4 ── ADMIN TOOLS -->
+    <div class="sec">Admin Tools</div>
+    <div class="demo-panel">
+      <p style="font-size:13px;color:var(--iv3);margin-bottom:18px;">
+        Use <b>Clear UTXO Lock</b> when seals fail with &ldquo;All UTXOs pending confirmation&rdquo;.
+      </p>
+      <button class="btn-danger" id="btn-clear-lock" onclick="clearUtxoLock()">Clear UTXO Lock</button>
+      <div class="reset-note" id="lock-note"></div>
+    </div>
+
+    <!-- 5 ── TRANSACTION HISTORY -->
     <div class="sec" id="tx-heading">Recent Transactions</div>
     <div class="card" style="padding:0;overflow:hidden;">
       <table class="tbl" id="tx-table">
@@ -526,7 +536,7 @@ async function loadDemoCount(){
 }
 
 async function resetDemo(){
-  const btn  = document.querySelector('.btn-danger');
+  const btn  = document.getElementById('btn-reset-demo');
   const note = document.getElementById('reset-note');
   btn.disabled = true;
   btn.textContent = 'Resetting…';
@@ -534,8 +544,8 @@ async function resetDemo(){
   try{
     const r = await fetch(SERVER_URL + '/admin/reset-demo', {
       method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({secret: OWNER_SECRET}),
+      headers:{'Content-Type':'application/json', 'x-owner-secret': OWNER_SECRET},
+      body: JSON.stringify({}),
     });
     const d = await r.json();
     if(r.ok){
@@ -552,6 +562,35 @@ async function resetDemo(){
   }finally{
     btn.disabled = false;
     btn.textContent = 'Reset Demo Counter';
+  }
+}
+
+async function clearUtxoLock(){
+  const btn  = document.getElementById('btn-clear-lock');
+  const note = document.getElementById('lock-note');
+  btn.disabled = true;
+  btn.textContent = 'Clearing…';
+  note.textContent = '';
+  try{
+    const r = await fetch(SERVER_URL + '/admin/clear-utxo-lock', {
+      method:'POST',
+      headers:{'Content-Type':'application/json', 'x-owner-secret': OWNER_SECRET},
+      body: JSON.stringify({}),
+    });
+    const d = await r.json();
+    if(r.ok){
+      note.style.color = 'var(--green)';
+      note.textContent = 'Cleared ' + d.cleared + ' locked UTXO(s).';
+    } else {
+      note.style.color = 'var(--red)';
+      note.textContent = 'Error: ' + (d.error || r.status);
+    }
+  }catch(e){
+    note.style.color = 'var(--red)';
+    note.textContent = 'Network error: ' + e.message;
+  }finally{
+    btn.disabled = false;
+    btn.textContent = 'Clear UTXO Lock';
   }
 }
 
