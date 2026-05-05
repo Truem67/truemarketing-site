@@ -2009,21 +2009,21 @@ function renderUI(){
   if(!CU) return;
   const sealed   = HIST.filter(m=>m.dir==='sent').length;
   const verified = HIST.filter(m=>m.verified).length;
-  const cStr     = CREDS.toLocaleString();
-  const zarStr   = 'R'+((CREDS/1e8)*BSV_USD*ZAR).toFixed(2);
+  const sealsLeft = Math.floor(CREDS/200);
+  const cStr     = sealsLeft.toLocaleString();
   const hr       = new Date().getHours();
   const greet    = hr<12?'Good morning':hr<17?'Good afternoon':'Good evening';
   const fn       = (CU.name||'').split(' ')[0];
 
   // Header
-  set('hdr-cred', cStr);
+  set('hdr-cred', cStr+' seals');
   // Home
   set('h-greet', greet);
   setHTML('h-name', fn+' <em>—</em>');
   set('cp-val', cStr);
-  set('cp-sub', '≈ '+zarStr+' remaining value');
+  set('cp-sub', sealsLeft === 1 ? '1 seal remaining' : sealsLeft+' seals remaining');
   const fillEl = document.getElementById('cp-fill');
-  if(fillEl) fillEl.style.width = Math.min(100,(CREDS/50000)*100)+'%';
+  if(fillEl) fillEl.style.width = Math.min(100,(sealsLeft/250)*100)+'%';
   set('st-sealed', sealed);
   set('st-verified', verified);
   // Account
@@ -2305,7 +2305,7 @@ async function doSeal(){
     set('cv-hash', isFileSeal ? hash : hash.slice(0,22)+'…');
     const isLiveTx = !txid.startsWith('demo_');
     set('cv-txid', isLiveTx ? txid.slice(0,28)+'…' : 'Demo — connect server for live TX');
-    set('chain-txt',API.broadcast?'⛓ Recorded on BSV blockchain · Permanent':'🔒 Sealed locally · Connect server for on-chain');
+    set('chain-txt',API.broadcast?'⛓ Recorded permanently · Tamper-proof':'🔒 Sealed locally · Connect server for live sealing');
     // Populate independent verification box
     if(isLiveTx){
       const verifyURL = buildVerifyURL(txid, LAST);
@@ -2378,7 +2378,7 @@ function verifyOnChain(){
   if(LAST.txid&&!LAST.txid.startsWith('demo_')){
     window.open('https://doxseal.co.za/verify?txid='+LAST.txid,'_blank');
   } else {
-    toast('Demo mode','Connect your BSV server for live blockchain transactions.','ℹ️');
+    toast('Demo mode','Connect server to enable live permanent sealing.','ℹ️');
   }
 }
 
@@ -2455,7 +2455,7 @@ td:first-child{color:#555;width:36%;font-size:11px;font-family:Arial,sans-serif;
 <div class="title-wrap">
   <div class="eyebrow">Certificate of Digital Protection</div>
   <div class="cert-title">DoxSeal — Certificate of Digital Protection</div>
-  <div class="cert-sub">Sealed on the BSV blockchain · Immutable · Tamper-evident · Independently verifiable</div>
+  <div class="cert-sub">Permanently sealed · Immutable · Tamper-evident · Independently verifiable</div>
 </div>
 <div class="section">
   <div class="section-lbl">Document Details</div>
@@ -2473,24 +2473,24 @@ td:first-child{color:#555;width:36%;font-size:11px;font-family:Arial,sans-serif;
 <div class="section">
   <div class="section-lbl">Cryptographic Proof</div>
   <div class="hash-block"><div class="hash-lbl">SHA-256 Digital Fingerprint (Full Hash)</div><div class="hash-val">${h(cert.fullHash)}</div></div>
-  <div class="hash-block"><div class="hash-lbl">BSV Blockchain Transaction ID</div><div class="hash-val">${h(cert.txid)}</div></div>
+  <div class="hash-block"><div class="hash-lbl">Permanent Seal Reference (Transaction ID)</div><div class="hash-val">${h(cert.txid)}</div></div>
 </div>
 <div class="section">
   <div class="section-lbl">Independent Verification</div>
   <div class="verify-inner">
     <div class="verify-left">
-      <p class="verify-note">This certificate can be independently verified on the BSV public blockchain. The proof exists permanently on a decentralised public ledger and cannot be altered, deleted, or denied by any party — including DoxSeal.</p>
+      <p class="verify-note">This certificate can be independently verified on a permanent public ledger. The proof cannot be altered, deleted, or denied by any party — including DoxSeal.</p>
       <div class="url-lbl">Verify this certificate at</div>
-      <div class="url">${verifyUrl ? h(verifyUrl) : 'Connect server for live blockchain transactions'}</div>
+      <div class="url">${verifyUrl ? h(verifyUrl) : 'Connect server for live sealing'}</div>
       <div class="url-lbl">Or directly on WhatsOnChain</div>
       <div class="url">${isLive ? 'https://whatsonchain.com/tx/'+h(cert.txid) : '(demo seal — not on chain)'}</div>
     </div>
-    ${qrSrc ? '<div class="qr-wrap"><img id="cert-qr" src="'+qrSrc+'" alt="Scan to verify"><div class="qr-lbl">📱 Scan this QR code with your phone camera to read your personal sealed message and verify this certificate on the blockchain</div></div>' : ''}
+    ${qrSrc ? '<div class="qr-wrap"><img id="cert-qr" src="'+qrSrc+'" alt="Scan to verify"><div class="qr-lbl">📱 Scan this QR code with your phone camera to read your personal sealed message and verify this certificate online</div></div>' : ''}
   </div>
 </div>
 <div class="footer">
   <div class="footer-main">This certificate is self-verifying. Verify at doxseal.co.za/verify.html — Electronic Communications and Transactions Act 25 of 2002</div>
-  <div class="footer-sub">DoxSeal · hello@doxseal.co.za · doxseal.co.za · The proof exists independently on the BSV blockchain — permanently and immutably.</div>
+  <div class="footer-sub">DoxSeal · hello@doxseal.co.za · doxseal.co.za · The proof exists independently and permanently — tamper-proof and immutable.</div>
 </div>
 </body></html>`;
   return html;
@@ -2534,13 +2534,13 @@ function printCert(){
   const isLive  = !LAST.txid.startsWith('demo_');
   const verifyUrl = isLive
     ? buildVerifyURL(LAST.txid, LAST)
-    : 'Demo mode — connect server for live blockchain transactions';
+    : 'Demo mode — connect server for live sealing';
   const wocUrl  = isLive ? 'https://whatsonchain.com/tx/'+LAST.txid : '(demo seal — not on chain)';
 
   const privLabels = {
-    plain:     'Plain Text — Full message recorded on the blockchain',
+    plain:     'Plain Text — Full message recorded permanently',
     hash:      'Hash Only — Message is private; cryptographic proof is public',
-    encrypted: 'Encrypted — Message is encrypted on the blockchain'
+    encrypted: 'Encrypted — Message is encrypted and recorded permanently'
   };
 
   // Populate fields
@@ -2583,7 +2583,7 @@ function renderHistory(){
   if(!list) return;
   const items=FILTER==='all'?HIST:FILTER==='sent'?HIST.filter(m=>m.dir==='sent'):FILTER==='received'?HIST.filter(m=>m.dir==='received'):HIST.filter(m=>m.verified);
   if(!items.length){
-    list.innerHTML=`<div class="empty-st"><div class="empty-ico">📋</div><div class="empty-t">No proofs yet</div><div class="empty-s">Your sealed messages appear here — each one permanently recorded on the blockchain.</div></div>`;
+    list.innerHTML=`<div class="empty-st"><div class="empty-ico">📋</div><div class="empty-t">No proofs yet</div><div class="empty-s">Your sealed documents appear here — each one permanently protected and independently verifiable.</div></div>`;
     return;
   }
   list.innerHTML=items.map(m=>proofHTML(m)).join('');
@@ -2637,16 +2637,12 @@ function toggleDetail(id){
 
 function openWoc(txid){
   if(txid&&!txid.startsWith('demo_')){window.open('https://whatsonchain.com/tx/'+txid,'_blank');}
-  else{toast('Demo mode','Connect your BSV server for live blockchain verification.','ℹ️');}
+  else{toast('Demo mode','Connect server to enable live verification.','ℹ️');}
 }
 
 // ═══════════════════════════════
 // ACCOUNT
 // ═══════════════════════════════
-function showAddr(){
-  toast('Your blockchain address',CU&&CU.addr?CU.addr:'Not set','⛓');
-}
-
 // ═══════════════════════════════
 // TOAST
 // ═══════════════════════════════
@@ -2784,7 +2780,7 @@ setTimeout(function(){
     <div class="pc-title-wrap">
       <div class="pc-eyebrow">Certificate of Digital Protection</div>
       <div class="pc-cert-title">DoxSeal — Certificate of Digital Protection</div>
-      <div class="pc-cert-sub">Sealed on the BSV blockchain · Immutable · Tamper-evident · Independently verifiable</div>
+      <div class="pc-cert-sub">Permanently sealed · Immutable · Tamper-evident · Independently verifiable</div>
     </div>
 
     <!-- Document details -->
@@ -2807,7 +2803,7 @@ setTimeout(function(){
         <div class="pc-hash-val" id="pc-hash"></div>
       </div>
       <div class="pc-hash-block">
-        <div class="pc-hash-lbl">BSV Blockchain Transaction ID</div>
+        <div class="pc-hash-lbl">Permanent Seal Reference (Transaction ID)</div>
         <div class="pc-hash-val" id="pc-txid"></div>
       </div>
     </div>
@@ -2817,7 +2813,7 @@ setTimeout(function(){
       <div class="pc-section-lbl">Independent Verification</div>
       <div class="pc-verify-inner">
         <div class="pc-verify-left">
-          <p class="pc-verify-note">This certificate can be independently verified on the BSV public blockchain. The cryptographic proof exists permanently on a decentralised public ledger and cannot be altered, deleted, or denied by any party — including DoxSeal. Verification is performed directly against the blockchain, not DoxSeal servers.</p>
+          <p class="pc-verify-note">This certificate can be independently verified on a permanent public ledger. The cryptographic proof cannot be altered, deleted, or denied by any party — including DoxSeal. Verification is performed directly against the permanent record, not DoxSeal servers.</p>
           <div class="pc-url-lbl">Verify this certificate at</div>
           <div class="pc-url" id="pc-url"></div>
           <div class="pc-url-lbl">Or directly on WhatsOnChain</div>
@@ -2825,7 +2821,7 @@ setTimeout(function(){
         </div>
         <div class="pc-qr-wrap">
           <img id="pc-qr-img" src="" alt="QR Code" style="display:none">
-          <div class="pc-qr-lbl">📱 Scan this QR code with your phone camera to read your personal sealed message and verify this certificate on the blockchain</div>
+          <div class="pc-qr-lbl">📱 Scan this QR code with your phone camera to read your personal sealed message and verify this certificate online</div>
         </div>
       </div>
     </div>
@@ -2833,7 +2829,7 @@ setTimeout(function(){
     <!-- Footer -->
     <div class="pc-footer">
       <div class="pc-footer-main">This certificate is self-verifying. Verify at doxseal.co.za/verify — Electronic Communications and Transactions Act 25 of 2002</div>
-      <div class="pc-footer-sub">DoxSeal · hello@doxseal.co.za · doxseal.co.za · The proof exists independently on the BSV blockchain — permanently and immutably.</div>
+      <div class="pc-footer-sub">DoxSeal · hello@doxseal.co.za · doxseal.co.za · The proof exists independently and permanently — tamper-proof and immutable.</div>
     </div>
 
   </div>
