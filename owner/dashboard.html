@@ -3,809 +3,889 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>DoxSeal — Owner Dashboard (PRIVATE)</title>
-<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Nunito:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<title>DoxSeal — Command Centre</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+*{box-sizing:border-box;margin:0;padding:0;}
 :root{
-  --bg:    #080c09;
-  --bg2:   #0e1610;
-  --bg3:   #141f16;
-  --card:  #1a2a1c;
-  --card2: #20321f;
-  --line:  rgba(100,200,120,.09);
-  --line2: rgba(100,200,120,.16);
-  --line3: rgba(100,200,120,.28);
-  --green: #2dce82;
-  --green2:#23b06d;
-  --green3:#1a8a53;
-  --glow:  rgba(45,206,130,.14);
-  --ivory: #f2ede4;
-  --iv2:   rgba(242,237,228,.72);
-  --iv3:   rgba(242,237,228,.42);
-  --iv4:   rgba(242,237,228,.22);
-  --iv5:   rgba(242,237,228,.1);
-  --red:   #e05555;
-  --amber: #e8a030;
-  --serif: 'Libre Baskerville', Georgia, serif;
-  --sans:  'Nunito', sans-serif;
-  --mono:  'JetBrains Mono', monospace;
+  --bg:     #0f1117;
+  --bg2:    #161922;
+  --bg3:    #1c2030;
+  --card:   #161922;
+  --border: rgba(255,255,255,.07);
+  --border2:rgba(0,212,170,.2);
+  --teal:   #00d4aa;
+  --teal2:  #00b891;
+  --teal3:  rgba(0,212,170,.12);
+  --teal4:  rgba(0,212,170,.06);
+  --white:  #e8eaf0;
+  --dim:    rgba(232,234,240,.5);
+  --dim2:   rgba(232,234,240,.25);
+  --dim3:   rgba(232,234,240,.1);
+  --green:  #22c55e;
+  --amber:  #f59e0b;
+  --red:    #ef4444;
+  --blue:   #3b82f6;
+  --mono:   'JetBrains Mono', monospace;
+  --sans:   'Inter', sans-serif;
 }
 html{scroll-behavior:smooth;}
-body{background:var(--bg);font-family:var(--sans);color:var(--ivory);-webkit-font-smoothing:antialiased;min-height:100vh;}
-::selection{background:rgba(45,206,130,.25);}
-::-webkit-scrollbar{width:4px;}
-::-webkit-scrollbar-thumb{background:var(--line2);border-radius:4px;}
-body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23g)' opacity='1'/%3E%3C/svg%3E");
-  opacity:.022;mix-blend-mode:screen;}
+body{background:var(--bg);font-family:var(--sans);color:var(--white);-webkit-font-smoothing:antialiased;min-height:100vh;}
+::selection{background:rgba(0,212,170,.25);}
+::-webkit-scrollbar{width:5px;height:5px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:4px;}
 
-/* ── LOGIN ── */
-#login-gate{position:fixed;inset:0;z-index:500;display:flex;align-items:center;justify-content:center;background:var(--bg);padding:24px;}
-.login-box{background:var(--card);border:1px solid var(--line2);border-radius:20px;padding:40px 36px;width:100%;max-width:400px;box-shadow:0 32px 80px rgba(0,0,0,.5);}
-.login-badge{display:inline-flex;align-items:center;gap:7px;background:rgba(224,85,85,.08);border:1px solid rgba(224,85,85,.2);border-radius:20px;padding:5px 14px;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:24px;}
-.login-title{font-family:var(--serif);font-size:26px;font-weight:700;color:var(--ivory);margin-bottom:6px;}
-.login-sub{font-size:13px;color:var(--iv3);margin-bottom:28px;line-height:1.6;}
-.form-field{margin-bottom:16px;}
-.form-label{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--iv3);display:block;margin-bottom:7px;}
-.form-input{width:100%;background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:12px 14px;font-family:var(--sans);font-size:14px;color:var(--ivory);outline:none;transition:border-color .15s;}
-.form-input:focus{border-color:var(--line2);}
-.form-input::placeholder{color:var(--iv5);}
-.login-err{font-size:12px;color:var(--red);margin-top:12px;display:none;}
-.btn-login{width:100%;background:var(--green);color:#fff;border:none;border-radius:12px;padding:14px;font-family:var(--sans);font-size:15px;font-weight:700;cursor:pointer;margin-top:8px;transition:background .15s;}
-.btn-login:hover{background:var(--green2);}
+/* ═══════════════════════════════ LOGIN ═══════════════════════════════ */
+#login-overlay{
+  position:fixed;inset:0;z-index:900;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--bg);padding:20px;
+}
+.login-wrap{width:100%;max-width:400px;}
+.login-logo{display:flex;align-items:center;gap:10px;margin-bottom:32px;}
+.login-logo-mark{width:36px;height:36px;background:var(--teal);border-radius:10px;display:flex;align-items:center;justify-content:center;}
+.login-logo-mark svg{width:20px;height:20px;fill:#0f1117;}
+.login-logo-text{font-size:18px;font-weight:700;letter-spacing:-.3px;}
+.login-logo-sub{font-size:11px;color:var(--dim2);font-weight:500;letter-spacing:.5px;}
+.login-card{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:32px;}
+.login-title{font-size:20px;font-weight:700;margin-bottom:4px;}
+.login-sub{font-size:13px;color:var(--dim2);margin-bottom:24px;}
+.field{margin-bottom:14px;}
+.field label{display:block;font-size:11px;font-weight:600;color:var(--dim2);letter-spacing:.8px;text-transform:uppercase;margin-bottom:6px;}
+.field input{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:11px 13px;font-family:var(--sans);font-size:14px;color:var(--white);outline:none;transition:border-color .15s;}
+.field input:focus{border-color:var(--border2);}
+.field input::placeholder{color:var(--dim3);}
+.login-err{font-size:12px;color:var(--red);margin-top:10px;display:none;}
+.login-msg{font-size:12px;color:var(--teal);margin-top:10px;display:none;}
+.btn-primary{width:100%;background:var(--teal);color:#0f1117;border:none;border-radius:10px;padding:13px;font-family:var(--sans);font-size:14px;font-weight:700;cursor:pointer;margin-top:6px;transition:background .15s;}
+.btn-primary:hover{background:var(--teal2);}
+.btn-primary:disabled{opacity:.5;cursor:not-allowed;}
+#step-2fa{display:none;}
+#code-hint{font-size:12px;color:var(--teal);margin-top:8px;display:none;}
 
-/* ── SHELL ── */
-#dashboard{display:none;}
-#dashboard.show{display:block;}
-.topbar{position:sticky;top:0;z-index:100;background:rgba(8,12,9,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding:0 28px;height:56px;display:flex;align-items:center;justify-content:space-between;}
-.topbar-left{display:flex;align-items:center;gap:12px;}
-.tb-logo{font-family:var(--serif);font-size:16px;font-weight:700;color:var(--ivory);}
-.tb-badge{font-size:9px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;background:rgba(224,85,85,.1);border:1px solid rgba(224,85,85,.25);color:var(--red);border-radius:20px;padding:3px 10px;}
-.topbar-right{display:flex;align-items:center;gap:14px;}
-.refresh-dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green);animation:pulse-dot 2s infinite;}
-@keyframes pulse-dot{0%,100%{opacity:1;}50%{opacity:.4;}}
-.refresh-label{font-size:11px;color:var(--iv3);}
-.btn-so{font-size:11px;color:var(--iv3);background:none;border:none;cursor:pointer;padding:6px 10px;border-radius:8px;transition:color .15s;}
-.btn-so:hover{color:var(--ivory);}
+/* ═══════════════════════════════ SHELL ═══════════════════════════════ */
+#app{display:none;}
+#app.show{display:block;}
 
-/* ── LAYOUT ── */
-.content{max-width:960px;margin:0 auto;padding:32px 20px 80px;}
-.sec{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--iv4);margin-bottom:14px;margin-top:36px;}
-.sec:first-of-type{margin-top:0;}
+/* ── Header ── */
+.header{
+  position:sticky;top:0;z-index:100;
+  background:rgba(15,17,23,.92);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  padding:0 24px;height:58px;
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+}
+.header-left{display:flex;align-items:center;gap:12px;flex-shrink:0;}
+.h-logo-mark{width:30px;height:30px;background:var(--teal);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.h-logo-mark svg{width:16px;height:16px;fill:#0f1117;}
+.h-title{font-size:15px;font-weight:700;letter-spacing:-.2px;}
+.h-sub{font-size:10px;color:var(--dim2);font-weight:500;letter-spacing:.6px;text-transform:uppercase;}
+.header-center{display:flex;align-items:center;gap:20px;flex:1;justify-content:center;}
+.h-stat{text-align:center;}
+.h-stat-val{font-family:var(--mono);font-size:14px;font-weight:500;}
+.h-stat-lbl{font-size:9px;color:var(--dim2);text-transform:uppercase;letter-spacing:.8px;margin-top:1px;}
+.header-right{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.h-time{font-family:var(--mono);font-size:12px;color:var(--dim2);}
+.h-status{display:flex;align-items:center;gap:6px;font-size:11px;}
+.status-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.status-dot.green{background:var(--green);box-shadow:0 0 8px var(--green);}
+.status-dot.amber{background:var(--amber);box-shadow:0 0 8px var(--amber);}
+.status-dot.red{background:var(--red);box-shadow:0 0 8px var(--red);}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.status-dot.pulse{animation:pulse 2s infinite;}
+.btn-signout{font-size:11px;color:var(--dim2);background:none;border:1px solid var(--border);padding:5px 12px;border-radius:6px;cursor:pointer;font-family:var(--sans);transition:all .15s;}
+.btn-signout:hover{color:var(--white);border-color:rgba(255,255,255,.2);}
 
-/* ── CARDS ── */
-.grid{display:grid;gap:12px;}
-.g2{grid-template-columns:1fr 1fr;}
-.g3{grid-template-columns:1fr 1fr 1fr;}
-.g4{grid-template-columns:1fr 1fr 1fr 1fr;}
-@media(max-width:640px){.g2,.g3,.g4{grid-template-columns:1fr 1fr;}}
-@media(max-width:420px){.g2,.g3,.g4{grid-template-columns:1fr;}}
-.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 22px;}
-.card-label{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--iv4);margin-bottom:8px;}
-.card-value{font-family:var(--mono);font-size:26px;font-weight:500;color:var(--green);line-height:1;}
-.card-sub{font-size:12px;color:var(--iv3);margin-top:6px;}
-.card-value.warn{color:var(--amber);}
-.card-value.danger{color:var(--red);}
+/* ── Layout ── */
+.main{max-width:1280px;margin:0 auto;padding:28px 20px 80px;}
+.section-label{font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--dim2);margin-bottom:12px;margin-top:32px;display:flex;align-items:center;gap:8px;}
+.section-label:first-child{margin-top:0;}
+.section-label::after{content:'';flex:1;height:1px;background:var(--border);}
 
-/* ── STATUS ── */
-.status-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;}
-.status-item{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:10px;}
-.sdot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
-.sdot.ok{background:var(--green);box-shadow:0 0 6px rgba(45,206,130,.5);}
-.sdot.warn{background:var(--amber);box-shadow:0 0 6px rgba(232,160,48,.5);}
-.sdot.err{background:var(--red);box-shadow:0 0 6px rgba(224,85,85,.5);}
-.sname{font-size:11px;font-weight:700;color:var(--iv3);letter-spacing:.5px;}
-.sval{font-size:13px;font-weight:600;color:var(--ivory);margin-top:2px;}
+/* ── Overview cards ── */
+.cards-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+@media(max-width:768px){.cards-row{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:420px){.cards-row{grid-template-columns:1fr 1fr;}}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;}
+.card-val{font-family:var(--mono);font-size:28px;font-weight:500;color:var(--teal);line-height:1;}
+.card-lbl{font-size:12px;color:var(--dim2);margin-top:6px;}
+.card-sub{font-size:11px;color:var(--dim3);margin-top:3px;}
 
-/* ── DEMO PANEL ── */
-.demo-panel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px;}
-.demo-num{font-family:var(--mono);font-size:52px;font-weight:500;color:var(--green);line-height:1;}
-.demo-meta{padding-bottom:8px;}
-.demo-lbl{font-size:11px;color:var(--iv3);}
-.demo-cap{font-size:13px;color:var(--iv4);margin-top:4px;}
-.btn-danger{display:inline-flex;align-items:center;gap:8px;background:rgba(224,85,85,.1);border:1px solid rgba(224,85,85,.25);color:var(--red);border-radius:10px;padding:10px 18px;font-size:13px;font-weight:700;cursor:pointer;transition:all .15s;}
-.btn-danger:hover{background:rgba(224,85,85,.2);}
-.reset-note{font-size:11px;color:var(--iv4);margin-top:10px;min-height:16px;}
+/* ── Two-col split ── */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+@media(max-width:900px){.split{grid-template-columns:1fr;}}
 
-/* ── TABLE (shared) ── */
-.tbl{width:100%;border-collapse:collapse;}
-.tbl th{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--iv4);padding:14px 14px 10px;text-align:left;border-bottom:1px solid var(--line2);}
-.tbl td{padding:11px 14px;border-top:1px solid var(--line);font-size:13px;color:var(--iv2);vertical-align:middle;}
-.tbl tr:hover td{background:rgba(45,206,130,.025);}
-.tbl a{color:var(--iv3);text-decoration:none;font-family:var(--mono);font-size:11px;}
-.tbl a:hover{color:var(--green);}
-.pill{display:inline-block;border-radius:20px;padding:2px 10px;font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;}
-.pill.ok{background:rgba(45,206,130,.1);color:var(--green);}
-.pill.warn{background:rgba(232,160,48,.1);color:var(--amber);}
-.pill.err{background:rgba(224,85,85,.1);color:var(--red);}
-.pill.grey{background:rgba(242,237,228,.06);color:var(--iv3);}
-.trow-empty{text-align:center;padding:24px;color:var(--iv4);font-size:13px;}
+/* ── Panel ── */
+.panel{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;}
+.panel-head{padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.panel-title{font-size:13px;font-weight:600;}
+.panel-meta{font-size:11px;color:var(--dim2);}
+.panel-body{padding:0;}
 
-/* ── ROI TRACKER ── */
-.roi-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-@media(max-width:520px){.roi-grid{grid-template-columns:1fr;}}
-.roi-input-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 22px;}
-.roi-input-label{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--iv4);display:block;margin-bottom:8px;}
-.roi-input{width:100%;background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:10px 14px;font-family:var(--mono);font-size:20px;color:var(--green);outline:none;transition:border-color .15s;}
-.roi-input:focus{border-color:var(--line2);}
-.roi-input-hint{font-size:11px;color:var(--iv4);margin-top:6px;}
-.roi-results{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:12px;}
-@media(max-width:520px){.roi-results{grid-template-columns:1fr;}}
-.roi-result-card{background:var(--card2);border:1px solid var(--line2);border-radius:16px;padding:20px 22px;text-align:center;}
-.roi-result-label{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--iv4);margin-bottom:10px;}
-.roi-result-value{font-family:var(--mono);font-size:28px;font-weight:500;line-height:1;}
-.roi-result-value.pos{color:var(--green);}
-.roi-result-value.neg{color:var(--red);}
-.roi-result-value.neu{color:var(--ivory);}
+/* ── User table ── */
+.user-table-wrap{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;font-size:12px;}
+th{padding:10px 14px;text-align:left;font-size:10px;font-weight:600;color:var(--dim2);letter-spacing:.8px;text-transform:uppercase;border-bottom:1px solid var(--border);white-space:nowrap;}
+td{padding:11px 14px;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:middle;}
+tr:last-child td{border-bottom:none;}
+tr.user-row{cursor:pointer;transition:background .1s;}
+tr.user-row:hover td{background:rgba(255,255,255,.02);}
+.email-cell{font-family:var(--mono);font-size:11px;color:var(--teal);}
+.plan-badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:600;letter-spacing:.4px;}
+.plan-trial{background:rgba(59,130,246,.15);color:#60a5fa;}
+.plan-starter{background:rgba(0,212,170,.1);color:var(--teal);}
+.plan-pro{background:rgba(168,85,247,.15);color:#c084fc;}
+.plan-growth, .plan-business{background:rgba(245,158,11,.12);color:#fbbf24;}
+.plan-local{background:rgba(255,255,255,.06);color:var(--dim2);}
+.status-pill{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:500;padding:2px 8px;border-radius:20px;}
+.s-active{background:rgba(34,197,94,.1);color:var(--green);}
+.s-inactive{background:rgba(245,158,11,.1);color:var(--amber);}
+.s-never{background:rgba(239,68,68,.1);color:var(--red);}
+.btn-note{font-size:10px;color:var(--dim2);background:var(--bg3);border:1px solid var(--border);padding:3px 8px;border-radius:5px;cursor:pointer;font-family:var(--sans);transition:all .15s;white-space:nowrap;}
+.btn-note:hover{color:var(--teal);border-color:var(--border2);}
+.user-detail{display:none;background:var(--bg3);}
+.user-detail.open{display:table-row;}
+.user-detail td{padding:12px 18px;font-size:12px;color:var(--dim);}
+.note-input-row{display:flex;gap:8px;margin-top:8px;}
+.note-input-row input{flex:1;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:7px 10px;font-family:var(--sans);font-size:12px;color:var(--white);outline:none;}
+.note-input-row input:focus{border-color:var(--border2);}
+.btn-save-note{background:var(--teal);color:#0f1117;border:none;border-radius:6px;padding:7px 14px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;}
+.empty-state{padding:40px;text-align:center;color:var(--dim2);font-size:13px;}
 
-/* ── PROSPECT TABLE ── */
-.prospect-toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:10px;}
-.btn-add{display:inline-flex;align-items:center;gap:6px;background:rgba(45,206,130,.1);border:1px solid var(--line2);color:var(--green);border-radius:10px;padding:8px 16px;font-size:13px;font-weight:700;cursor:pointer;transition:all .15s;}
-.btn-add:hover{background:rgba(45,206,130,.18);}
-.prospect-status{padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;cursor:pointer;border:none;font-family:var(--sans);}
-select.prospect-status{appearance:none;-webkit-appearance:none;}
-td select{background:transparent;border:none;color:inherit;font-size:12px;font-family:var(--sans);cursor:pointer;outline:none;padding:2px 4px;}
-td input[type=text]{background:transparent;border:none;color:var(--iv2);font-size:13px;font-family:var(--sans);width:100%;outline:none;padding:2px 4px;}
-td input[type=text]:focus{border-bottom:1px solid var(--line2);}
-.btn-del{background:none;border:none;color:var(--iv4);cursor:pointer;font-size:14px;padding:4px 8px;border-radius:6px;transition:color .15s;}
-.btn-del:hover{color:var(--red);}
-.prospect-note{font-size:11px;color:var(--iv4);margin-top:8px;}
+/* ── Activity log ── */
+.activity-item{display:flex;align-items:flex-start;gap:12px;padding:11px 18px;border-bottom:1px solid rgba(255,255,255,.04);}
+.activity-item:last-child{border-bottom:none;}
+.activity-dot{width:6px;height:6px;border-radius:50%;background:var(--teal);margin-top:4px;flex-shrink:0;}
+.activity-body{flex:1;min-width:0;}
+.activity-email{font-family:var(--mono);font-size:11px;color:var(--teal);margin-bottom:2px;}
+.activity-hash{font-family:var(--mono);font-size:10px;color:var(--dim2);}
+.activity-time{font-size:10px;color:var(--dim3);white-space:nowrap;flex-shrink:0;}
 
-/* ── QUICK LINKS ── */
-.links-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;}
-.link-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;text-decoration:none;display:block;transition:border-color .15s,background .15s;}
-.link-card:hover{border-color:var(--line2);background:var(--card2);}
-.link-card-label{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--iv4);margin-bottom:6px;}
-.link-card-name{font-size:15px;font-weight:700;color:var(--green);}
-.link-card-url{font-size:11px;color:var(--iv4);margin-top:3px;font-family:var(--mono);}
+/* ── Funnel ── */
+.funnel-item{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;border-bottom:1px solid rgba(255,255,255,.04);}
+.funnel-item:last-child{border-bottom:none;}
+.funnel-label{font-size:13px;}
+.funnel-sub{font-size:11px;color:var(--dim2);margin-top:2px;}
+.funnel-count{font-family:var(--mono);font-size:22px;font-weight:500;}
+.fc-red{color:var(--red);}
+.fc-amber{color:var(--amber);}
+.fc-green{color:var(--green);}
 
-/* ── MISC ── */
-.last-refresh{font-size:11px;color:var(--iv4);text-align:right;margin-top:14px;}
-.fixed-costs{font-size:12px;color:var(--iv4);margin-top:8px;}
+/* ── Alert toggles ── */
+.alert-row{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid rgba(255,255,255,.04);}
+.alert-row:last-child{border-bottom:none;}
+.alert-info{}
+.alert-title{font-size:13px;font-weight:500;}
+.alert-desc{font-size:11px;color:var(--dim2);margin-top:2px;}
+.toggle{position:relative;width:40px;height:22px;flex-shrink:0;}
+.toggle input{opacity:0;width:0;height:0;}
+.toggle-slider{position:absolute;inset:0;background:rgba(255,255,255,.12);border-radius:22px;cursor:pointer;transition:background .2s;}
+.toggle-slider::before{content:'';position:absolute;width:16px;height:16px;left:3px;top:3px;background:#fff;border-radius:50%;transition:transform .2s;}
+.toggle input:checked + .toggle-slider{background:var(--teal);}
+.toggle input:checked + .toggle-slider::before{transform:translateX(18px);}
+
+/* ── Admin tools ── */
+.admin-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;padding:16px;}
+.btn-admin{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:14px 16px;font-family:var(--sans);font-size:13px;font-weight:500;color:var(--white);cursor:pointer;text-align:left;transition:all .15s;width:100%;}
+.btn-admin:hover{border-color:var(--border2);color:var(--teal);}
+.btn-admin .btn-admin-icon{font-size:18px;margin-bottom:6px;display:block;}
+.btn-admin .btn-admin-sub{font-size:10px;color:var(--dim2);margin-top:2px;display:block;}
+.btn-admin.danger{border-color:rgba(239,68,68,.2);}
+.btn-admin.danger:hover{border-color:rgba(239,68,68,.5);color:var(--red);}
+.admin-result{font-size:12px;color:var(--teal);padding:0 16px 14px;display:none;}
+
+/* ── Toast ── */
+#toast{
+  position:fixed;bottom:24px;right:24px;z-index:9999;
+  background:var(--bg2);border:1px solid var(--border2);border-radius:10px;
+  padding:12px 18px;font-size:13px;font-weight:500;
+  transform:translateY(80px);opacity:0;transition:all .25s;
+  max-width:320px;
+}
+#toast.show{transform:translateY(0);opacity:1;}
+#toast.error{border-color:rgba(239,68,68,.4);color:var(--red);}
+
+/* ── Misc ── */
+.refresh-btn{font-size:11px;color:var(--dim2);background:none;border:1px solid var(--border);padding:4px 10px;border-radius:6px;cursor:pointer;font-family:var(--sans);transition:all .15s;}
+.refresh-btn:hover{color:var(--teal);border-color:var(--border2);}
+.mono{font-family:var(--mono);}
+.loading{text-align:center;padding:32px;color:var(--dim2);font-size:13px;}
 </style>
 </head>
 <body>
 
-<!-- ══ LOGIN ══════════════════════════════════════════════════════════════ -->
-<div id="login-gate">
-  <div class="login-box">
-    <div class="login-badge">&#x1F512; PRIVATE</div>
-    <h1 class="login-title">Owner Dashboard</h1>
-    <p class="login-sub">DoxSeal — restricted access.</p>
-
-    <div id="step-creds">
-      <div class="form-field">
-        <label class="form-label">Email</label>
-        <input class="form-input" id="lg-email" type="email" placeholder="owner@doxseal.co.za" autocomplete="username">
+<!-- ═══════════════════════════════ LOGIN ═══════════════════════════════ -->
+<div id="login-overlay">
+  <div class="login-wrap">
+    <div class="login-logo">
+      <div class="login-logo-mark">
+        <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.5 3.8 10.7 9 12 5.2-1.3 9-6.5 9-12V5L12 1zm-1 14l-3-3 1.4-1.4L11 12.2l4.6-4.6L17 9l-6 6z"/></svg>
       </div>
-      <div class="form-field">
-        <label class="form-label">Password</label>
-        <input class="form-input" id="lg-pass" type="password" placeholder="Password" autocomplete="current-password">
+      <div>
+        <div class="login-logo-text">DoxSeal</div>
+        <div class="login-logo-sub">Command Centre</div>
       </div>
-      <button class="btn-login" id="btn-creds" onclick="checkCreds()">Continue</button>
-      <div class="login-err" id="err-creds"></div>
     </div>
 
-    <div id="step-2fa" style="display:none;">
-      <p id="code-sent-msg" style="font-size:13px;color:var(--green);margin-bottom:16px;display:none;">Code sent to your email ✓</p>
-      <div class="form-field">
-        <label class="form-label">2FA Code</label>
-        <input class="form-input" id="lg-2fa" type="text" inputmode="numeric" placeholder="6-digit code" maxlength="6" autocomplete="one-time-code">
-      </div>
-      <button class="btn-login" id="btn-2fa" onclick="check2FA()">Enter Dashboard</button>
-      <div class="login-err" id="err-2fa"></div>
+    <!-- Step 1: credentials -->
+    <div id="step-creds" class="login-card">
+      <div class="login-title">Owner Login</div>
+      <div class="login-sub">Private access — not for sharing</div>
+      <div class="field"><label>Email</label><input id="inp-email" type="email" placeholder="owner@doxseal.co.za" autocomplete="username"></div>
+      <div class="field"><label>Password</label><input id="inp-pass" type="password" placeholder="••••••••" autocomplete="current-password"></div>
+      <div class="login-err" id="creds-err"></div>
+      <button class="btn-primary" id="btn-creds" onclick="submitCreds()">Continue →</button>
+    </div>
+
+    <!-- Step 2: 2FA code -->
+    <div id="step-2fa" class="login-card">
+      <div class="login-title">Check Your Email</div>
+      <div class="login-sub">A 6-digit code was sent to your inbox.</div>
+      <div class="field"><label>Login Code</label><input id="inp-code" type="text" inputmode="numeric" maxlength="6" placeholder="123456" autocomplete="one-time-code"></div>
+      <div id="code-hint">Code sent ✓</div>
+      <div class="login-err" id="code-err"></div>
+      <button class="btn-primary" id="btn-2fa" onclick="submit2FA()">Verify →</button>
     </div>
   </div>
 </div>
 
-<!-- ══ DASHBOARD ══════════════════════════════════════════════════════════ -->
-<div id="dashboard">
-
-  <div class="topbar">
-    <div class="topbar-left">
-      <span class="tb-logo">DoxSeal</span>
-      <span class="tb-badge">OWNER ONLY</span>
-    </div>
-    <div class="topbar-right">
-      <div class="refresh-dot"></div>
-      <span class="refresh-label">Auto-refresh 60s</span>
-      <button class="btn-so" onclick="signOut()">Sign out</button>
-    </div>
-  </div>
-
-  <div class="content">
-
-    <!-- 0 ── OWNER PROFILE -->
-    <div class="sec">Your Profile</div>
-    <div style="background:var(--card,#1a2a1c);border:1px solid rgba(100,200,120,.09);border-radius:12px;padding:16px;margin-bottom:24px;display:flex;flex-direction:column;gap:14px;">
-      <div>
-        <label style="display:block;font-size:11px;font-weight:700;color:rgba(242,237,228,.42);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;">Company or Practice Name</label>
-        <input id="owner-co-input" type="text" placeholder="e.g. DoxSeal (Pty) Ltd"
-          style="display:block;width:100%;box-sizing:border-box;padding:10px 12px;font-size:14px;border-radius:8px;border:1px solid rgba(100,200,120,.16);background:#0e1610;color:#f2ede4;font-family:inherit;outline:none;margin-bottom:8px;">
-        <button onclick="ownerSaveCompany()"
-          style="padding:9px 20px;background:#2dce82;color:#fff;font-size:13px;font-weight:700;border:none;border-radius:8px;cursor:pointer;">Save Company Name</button>
-        <span id="owner-co-saved" style="display:none;font-size:12px;color:#2dce82;margin-left:10px;">Saved ✓</span>
+<!-- ═══════════════════════════════ APP ═══════════════════════════════ -->
+<div id="app">
+  <!-- Header -->
+  <header class="header">
+    <div class="header-left">
+      <div class="h-logo-mark">
+        <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.5 3.8 10.7 9 12 5.2-1.3 9-6.5 9-12V5L12 1zm-1 14l-3-3 1.4-1.4L11 12.2l4.6-4.6L17 9l-6 6z"/></svg>
       </div>
       <div>
-        <label style="display:block;font-size:11px;font-weight:700;color:rgba(242,237,228,.42);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;">WhatsApp Number (with country code)</label>
-        <input id="owner-wa-input" type="tel" placeholder="+27 82 123 4567"
-          style="display:block;width:100%;box-sizing:border-box;padding:10px 12px;font-size:14px;border-radius:8px;border:1px solid rgba(100,200,120,.16);background:#0e1610;color:#f2ede4;font-family:inherit;outline:none;margin-bottom:8px;">
-        <button onclick="ownerSaveWhatsApp()"
-          style="padding:9px 20px;background:#2dce82;color:#fff;font-size:13px;font-weight:700;border:none;border-radius:8px;cursor:pointer;">Save WhatsApp Number</button>
-        <span id="owner-wa-saved" style="display:none;font-size:12px;color:#2dce82;margin-left:10px;">Saved ✓</span>
+        <div class="h-title">Command Centre</div>
+        <div class="h-sub">DoxSeal · Owner Only</div>
+      </div>
+    </div>
+    <div class="header-center">
+      <div class="h-stat">
+        <div class="h-stat-val" id="h-balance">—</div>
+        <div class="h-stat-lbl">BSV Balance</div>
+      </div>
+      <div class="h-stat">
+        <div class="h-stat-val" id="h-utxos">—</div>
+        <div class="h-stat-lbl">UTXOs</div>
+      </div>
+      <div class="h-stat">
+        <div class="h-stat-val" id="h-faucet">—</div>
+        <div class="h-stat-lbl">Faucet Slots</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="h-time" id="h-time"></div>
+      <div class="h-status">
+        <div class="status-dot pulse" id="status-dot"></div>
+        <span id="status-txt" style="color:var(--dim2)">Connecting…</span>
+      </div>
+      <button class="btn-signout" onclick="signOut()">Sign out</button>
+    </div>
+  </header>
+
+  <div class="main">
+
+    <!-- ── Overview cards ── -->
+    <div class="section-label">Business Overview</div>
+    <div class="cards-row">
+      <div class="card">
+        <div class="card-val" id="ov-users">—</div>
+        <div class="card-lbl">Total Users</div>
+        <div class="card-sub" id="ov-users-sub"></div>
+      </div>
+      <div class="card">
+        <div class="card-val" id="ov-seals">—</div>
+        <div class="card-lbl">Total Seals</div>
+        <div class="card-sub">All time</div>
+      </div>
+      <div class="card">
+        <div class="card-val" id="ov-month">—</div>
+        <div class="card-lbl">Seals This Month</div>
+        <div class="card-sub" id="ov-month-sub"></div>
+      </div>
+      <div class="card">
+        <div class="card-val" id="ov-active">—</div>
+        <div class="card-lbl">Active (30d)</div>
+        <div class="card-sub">Sealed in last 30 days</div>
       </div>
     </div>
 
-    <!-- 1 ── WALLET BALANCE -->
-    <div class="sec">Wallet Balance — Live</div>
-    <div class="grid g3">
-      <div class="card">
-        <div class="card-label">Balance (sats)</div>
-        <div class="card-value" id="w-sats">—</div>
-        <div class="card-sub">Signing wallet</div>
-      </div>
-      <div class="card">
-        <div class="card-label">Balance (BSV)</div>
-        <div class="card-value" id="w-bsv">—</div>
-        <div class="card-sub">Hot wallet float</div>
-      </div>
-      <div class="card">
-        <div class="card-label">Faucet capacity</div>
-        <div class="card-value" id="w-faucet">—</div>
-        <div class="card-sub" id="w-utxo-sub">UTXOs: —</div>
-      </div>
-    </div>
-
-    <!-- 2 ── SERVER STATUS -->
-    <div class="sec">Server Status</div>
-    <div class="status-grid">
-      <div class="status-item">
-        <div class="sdot" id="sd-server"></div>
-        <div><div class="sname">Server</div><div class="sval" id="sv-server">—</div></div>
-      </div>
-      <div class="status-item">
-        <div class="sdot" id="sd-network"></div>
-        <div><div class="sname">Network</div><div class="sval" id="sv-network">—</div></div>
-      </div>
-      <div class="status-item">
-        <div class="sdot" id="sd-upstash"></div>
-        <div><div class="sname">Upstash (Redis)</div><div class="sval" id="sv-upstash">—</div></div>
-      </div>
-      <div class="status-item">
-        <div class="sdot" id="sd-balance"></div>
-        <div><div class="sname">Low Balance Alert</div><div class="sval" id="sv-balance">—</div></div>
-      </div>
-    </div>
-
-    <!-- 3 ── DEMO COUNTER -->
-    <div class="sec">Demo Seal Counter</div>
-    <div class="demo-panel">
-      <div style="display:flex;align-items:flex-end;gap:16px;margin-bottom:16px;">
-        <div class="demo-num" id="demo-count">—</div>
-        <div class="demo-meta">
-          <div class="demo-lbl">seals used</div>
-          <div class="demo-cap" id="demo-limit">limit: 3 per account</div>
+    <!-- ── Conversion Funnel ── -->
+    <div class="section-label">Conversion Funnel</div>
+    <div class="split">
+      <div class="panel">
+        <div class="panel-head">
+          <div class="panel-title">Pipeline Status</div>
+          <div class="panel-meta" id="funnel-updated"></div>
+        </div>
+        <div id="funnel-body">
+          <div class="funnel-item">
+            <div>
+              <div class="funnel-label">Registered — never sealed</div>
+              <div class="funnel-sub">Follow up immediately</div>
+            </div>
+            <div class="funnel-count fc-red" id="fn-never">—</div>
+          </div>
+          <div class="funnel-item">
+            <div>
+              <div class="funnel-label">Sealed — not paying</div>
+              <div class="funnel-sub">Prime conversion targets</div>
+            </div>
+            <div class="funnel-count fc-amber" id="fn-free">—</div>
+          </div>
+          <div class="funnel-item">
+            <div>
+              <div class="funnel-label">Active paying clients</div>
+              <div class="funnel-sub">Revenue base</div>
+            </div>
+            <div class="funnel-count fc-green" id="fn-paying">—</div>
+          </div>
         </div>
       </div>
-      <p style="font-size:13px;color:var(--iv3);margin-bottom:18px;">
-        Account: <span style="font-family:var(--mono);color:var(--iv2);">demo@doxseal.co.za</span>
-      </p>
-      <button class="btn-danger" id="btn-reset-demo" onclick="resetDemo()">Reset Demo Counter</button>
-      <div class="reset-note" id="reset-note"></div>
-    </div>
 
-    <!-- 4 ── ADMIN TOOLS -->
-    <div class="sec">Admin Tools</div>
-    <div class="demo-panel">
-      <p style="font-size:13px;color:var(--iv3);margin-bottom:18px;">
-        Use <b>Clear UTXO Lock</b> when seals fail with &ldquo;All UTXOs pending confirmation&rdquo;.
-      </p>
-      <button class="btn-danger" id="btn-clear-lock" onclick="clearUtxoLock()">Clear UTXO Lock</button>
-      <div class="reset-note" id="lock-note"></div>
-    </div>
-
-    <!-- 5 ── TRANSACTION HISTORY -->
-    <div class="sec" id="tx-heading">Recent Transactions</div>
-    <div class="card" style="padding:0;overflow:hidden;">
-      <table class="tbl" id="tx-table">
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>TX ID</th>
-            <th>Block</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody id="tx-body">
-          <tr><td colspan="4" class="trow-empty">Loading…</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <!-- 5 ── ROI TRACKER -->
-    <div class="sec">ROI Tracker</div>
-    <div class="roi-grid">
-      <div class="roi-input-card">
-        <label class="roi-input-label">Paying clients</label>
-        <input class="roi-input" id="roi-clients" type="number" min="0" value="0" oninput="calcROI()">
-        <div class="roi-input-hint">Number of active subscribers</div>
-      </div>
-      <div class="roi-input-card">
-        <label class="roi-input-label">Avg monthly revenue per client (R)</label>
-        <input class="roi-input" id="roi-arpu" type="number" min="0" value="297" oninput="calcROI()">
-        <div class="roi-input-hint">Starter R297 · Pro R500 · Business R1 000</div>
-      </div>
-    </div>
-    <div class="fixed-costs">
-      Fixed costs: Railway R90/mo + Domain R18/mo = <strong style="color:var(--iv2);">R108/mo</strong>
-    </div>
-    <div class="roi-results">
-      <div class="roi-result-card">
-        <div class="roi-result-label">Monthly Revenue</div>
-        <div class="roi-result-value pos" id="roi-revenue">R0</div>
-      </div>
-      <div class="roi-result-card">
-        <div class="roi-result-label">Monthly Costs</div>
-        <div class="roi-result-value neu" id="roi-costs">R108</div>
-      </div>
-      <div class="roi-result-card">
-        <div class="roi-result-label">Net Profit</div>
-        <div class="roi-result-value" id="roi-profit">-R108</div>
+      <!-- ── Email Alert Settings ── -->
+      <div class="panel">
+        <div class="panel-head">
+          <div class="panel-title">Email Alert Settings</div>
+          <div class="panel-meta">→ johan@supplycorp.co.za</div>
+        </div>
+        <div class="alert-row">
+          <div class="alert-info">
+            <div class="alert-title">New user registered</div>
+            <div class="alert-desc">PayFast signup or trial account created</div>
+          </div>
+          <label class="toggle">
+            <input type="checkbox" id="alert-newuser" onchange="saveAlerts()">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+        <div class="alert-row">
+          <div class="alert-info">
+            <div class="alert-title">First seal by user</div>
+            <div class="alert-desc">User completes their first blockchain seal</div>
+          </div>
+          <label class="toggle">
+            <input type="checkbox" id="alert-firstseal" onchange="saveAlerts()">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+        <div class="alert-row">
+          <div class="alert-info">
+            <div class="alert-title">User inactive 14 days</div>
+            <div class="alert-desc">Trigger re-engagement follow-up</div>
+          </div>
+          <label class="toggle">
+            <input type="checkbox" id="alert-inactive" onchange="saveAlerts()">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
       </div>
     </div>
 
-    <!-- 6 ── PROSPECT TRACKER -->
-    <div class="sec">Prospect Tracker</div>
-    <div class="prospect-toolbar">
-      <button class="btn-add" onclick="addProspect()">+ Add Prospect</button>
-      <span style="font-size:11px;color:var(--iv4);">Editable inline — saved in browser localStorage</span>
+    <!-- ── User Management ── -->
+    <div class="section-label" style="margin-top:28px;">
+      User Management
+      <button class="refresh-btn" onclick="loadUsers()">↻ Refresh</button>
     </div>
-    <div class="card" style="padding:0;overflow:hidden;">
-      <table class="tbl" id="prospect-table">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Company</th>
-            <th>Email</th>
-            <th>Status</th>
-            <th>Last contact</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody id="prospect-body"></tbody>
-      </table>
-    </div>
-    <div class="prospect-note">Data persists in localStorage — clears if you clear browser data.</div>
-
-    <!-- 7 ── QUICK LINKS -->
-    <div class="sec">Quick Links</div>
-    <div class="links-grid">
-      <a class="link-card" href="https://doxseal.co.za" target="_blank" rel="noopener">
-        <div class="link-card-label">User App</div>
-        <div class="link-card-name">DoxSeal</div>
-        <div class="link-card-url">doxseal.co.za</div>
-      </a>
-      <a class="link-card" href="https://railway.app/dashboard" target="_blank" rel="noopener">
-        <div class="link-card-label">Hosting</div>
-        <div class="link-card-name">Railway</div>
-        <div class="link-card-url">railway.app/dashboard</div>
-      </a>
-      <a class="link-card" href="https://console.upstash.com" target="_blank" rel="noopener">
-        <div class="link-card-label">Redis / Demo Counter</div>
-        <div class="link-card-name">Upstash</div>
-        <div class="link-card-url">console.upstash.com</div>
-      </a>
-      <a class="link-card" href="https://whatsonchain.com/address/19bUZ72SXwAdSPTGS1BekuKi55pZHCxQkr" target="_blank" rel="noopener" id="woc-link">
-        <div class="link-card-label">Blockchain Explorer</div>
-        <div class="link-card-name">WhatsOnChain</div>
-        <div class="link-card-url" id="woc-addr">19bUZ72…xQkr</div>
-      </a>
+    <div class="panel">
+      <div class="panel-head">
+        <div class="panel-title">All Users</div>
+        <div class="panel-meta" id="user-count-meta"></div>
+      </div>
+      <div class="user-table-wrap">
+        <table id="user-table">
+          <thead>
+            <tr>
+              <th>Email</th>
+              <th>Company</th>
+              <th>Plan</th>
+              <th>Seals</th>
+              <th>Last Seal</th>
+              <th>Status</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="user-tbody">
+            <tr><td colspan="7" class="loading">Loading users…</td></tr>
+          </tbody>
+        </table>
+      </div>
     </div>
 
-    <div class="last-refresh" id="last-refresh">Not yet refreshed</div>
+    <!-- ── Recent Activity ── -->
+    <div class="section-label" style="margin-top:28px;">
+      Recent Activity
+      <button class="refresh-btn" onclick="loadActivity()">↻ Refresh</button>
+    </div>
+    <div class="panel">
+      <div class="panel-head">
+        <div class="panel-title">Last 20 Seals</div>
+        <div class="panel-meta" id="activity-meta">Auto-refreshes every 60s</div>
+      </div>
+      <div id="activity-body">
+        <div class="loading">Loading activity…</div>
+      </div>
+    </div>
 
-  </div><!-- /content -->
-</div><!-- /dashboard -->
+    <!-- ── Admin Tools ── -->
+    <div class="section-label" style="margin-top:28px;">Admin Tools</div>
+    <div class="panel">
+      <div class="admin-grid">
+        <button class="btn-admin" onclick="adminAction('reset-demo')">
+          <span class="btn-admin-icon">🔄</span>
+          Reset Demo
+          <span class="btn-admin-sub">Clear demo@doxseal.co.za counter</span>
+        </button>
+        <button class="btn-admin" onclick="adminAction('clear-utxo')">
+          <span class="btn-admin-icon">🔓</span>
+          Clear UTXO Lock
+          <span class="btn-admin-sub">Unblock stuck seal queue</span>
+        </button>
+        <button class="btn-admin" onclick="adminAction('split-utxos')">
+          <span class="btn-admin-icon">⚡</span>
+          Split UTXOs
+          <span class="btn-admin-sub">Split wallet into 5 parallel UTXOs</span>
+        </button>
+        <button class="btn-admin" onclick="loadHealth()">
+          <span class="btn-admin-icon">📡</span>
+          Refresh Health
+          <span class="btn-admin-sub">Re-ping /api/health</span>
+        </button>
+      </div>
+      <div id="admin-result" class="admin-result"></div>
+    </div>
+
+  </div><!-- /main -->
+</div><!-- /app -->
+
+<div id="toast"></div>
 
 <script>
-// ══ CONFIG ═══════════════════════════════════════════════════════════════
-const SERVER_URL   = 'https://tm-server-production-c63f.up.railway.app';
-const OWNER_SECRET = 'TrueMarketing2026';
-const WOC_BASE     = 'https://api.whatsonchain.com/v1/bsv/main';
-let   WALLET_ADDR  = '19bUZ72SXwAdSPTGS1BekuKi55pZHCxQkr';
+// ═══════════════════════════════════════════════════════════
+// CONFIG
+// ═══════════════════════════════════════════════════════════
+const SERVER_URL    = 'https://tm-server-production-c63f.up.railway.app';
+const OWNER_SECRET  = 'TrueMarketing2026';
 
-// ══ AUTH ═════════════════════════════════════════════════════════════════
-async function checkCreds(){
-  const em  = document.getElementById('lg-email').value.trim().toLowerCase();
-  const pw  = document.getElementById('lg-pass').value;
-  const btn = document.getElementById('btn-creds');
-  const err = document.getElementById('err-creds');
+// ═══════════════════════════════════════════════════════════
+// AUTH
+// ═══════════════════════════════════════════════════════════
+let authenticated = false;
 
-  btn.disabled    = true;
+function authHeaders() {
+  return { 'Content-Type': 'application/json', 'x-owner-secret': OWNER_SECRET };
+}
+
+async function submitCreds() {
+  const email = document.getElementById('inp-email').value.trim();
+  const pass  = document.getElementById('inp-pass').value;
+  const btn   = document.getElementById('btn-creds');
+  const err   = document.getElementById('creds-err');
+
+  err.style.display = 'none';
+  btn.disabled = true;
   btn.textContent = 'Sending code…';
-  err.style.display = 'none';
 
   try {
-    const r = await fetch(SERVER_URL + '/api/owner/request-code', {
-      method:  'POST',
+    const r = await fetch(`${SERVER_URL}/api/owner/request-code`, {
+      method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body:    JSON.stringify({ email: em, password: pw })
+      body: JSON.stringify({ email, password: pass })
     });
     const d = await r.json();
-    if(r.ok){
-      document.getElementById('step-creds').style.display    = 'none';
-      document.getElementById('step-2fa').style.display      = 'block';
-      document.getElementById('code-sent-msg').style.display = 'block';
-      document.getElementById('lg-2fa').focus();
-    } else {
-      err.textContent   = d.error || 'Invalid credentials.';
-      err.style.display = 'block';
-    }
+    if (!r.ok) throw new Error(d.error || 'Invalid credentials');
+
+    document.getElementById('step-creds').style.display = 'none';
+    document.getElementById('step-2fa').style.display   = 'block';
+    document.getElementById('code-hint').style.display  = 'block';
+    document.getElementById('inp-code').focus();
   } catch(e) {
-    err.textContent   = 'Network error: ' + e.message;
+    err.textContent = e.message;
     err.style.display = 'block';
-  } finally {
-    btn.disabled    = false;
-    btn.textContent = 'Continue';
+    btn.disabled = false;
+    btn.textContent = 'Continue →';
   }
 }
 
-async function check2FA(){
-  const code = document.getElementById('lg-2fa').value.trim();
+async function submit2FA() {
+  const code = document.getElementById('inp-code').value.trim();
   const btn  = document.getElementById('btn-2fa');
-  const err  = document.getElementById('err-2fa');
+  const err  = document.getElementById('code-err');
 
-  btn.disabled    = true;
-  btn.textContent = 'Verifying…';
   err.style.display = 'none';
+  btn.disabled = true;
+  btn.textContent = 'Verifying…';
 
   try {
-    const r = await fetch(SERVER_URL + '/api/owner/verify-code', {
-      method:  'POST',
+    const r = await fetch(`${SERVER_URL}/api/owner/verify-code`, {
+      method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body:    JSON.stringify({ code })
+      body: JSON.stringify({ code })
     });
     const d = await r.json();
-    if(r.ok){
-      document.getElementById('login-gate').style.display = 'none';
-      document.getElementById('dashboard').classList.add('show');
-      initProspects();
-      calcROI();
-      loadAll();
-      setInterval(loadAll, 60000);
-      return;
-    }
-    err.textContent   = d.error || 'Invalid code.';
-    err.style.display = 'block';
+    if (!r.ok) throw new Error(d.error || 'Invalid code');
+
+    authenticated = true;
+    document.getElementById('login-overlay').style.display = 'none';
+    document.getElementById('app').classList.add('show');
+    initDashboard();
   } catch(e) {
-    err.textContent   = 'Network error: ' + e.message;
+    err.textContent = e.message;
     err.style.display = 'block';
-  }
-  btn.disabled    = false;
-  btn.textContent = 'Enter Dashboard';
-}
-
-function signOut(){ location.reload(); }
-
-function ownerSaveCompany(){
-  const val = document.getElementById('owner-co-input').value.trim();
-  localStorage.setItem('tm_company_owner@doxseal.co.za', val);
-  const s = document.getElementById('owner-co-saved');
-  s.style.display='inline'; setTimeout(()=>s.style.display='none', 2000);
-}
-function ownerSaveWhatsApp(){
-  const val = document.getElementById('owner-wa-input').value.trim();
-  localStorage.setItem('tm_wa_owner@doxseal.co.za', val);
-  const s = document.getElementById('owner-wa-saved');
-  s.style.display='inline'; setTimeout(()=>s.style.display='none', 2000);
-}
-(function loadOwnerProfile(){
-  const co = localStorage.getItem('tm_company_owner@doxseal.co.za');
-  const wa = localStorage.getItem('tm_wa_owner@doxseal.co.za');
-  if(co){ const el=document.getElementById('owner-co-input'); if(el) el.value=co; }
-  if(wa){ const el=document.getElementById('owner-wa-input'); if(el) el.value=wa; }
-})();
-
-document.addEventListener('keydown', e => {
-  if(e.key !== 'Enter') return;
-  if(document.getElementById('step-2fa').style.display === 'block') check2FA();
-  else checkCreds();
-});
-
-// ══ LIVE DATA ════════════════════════════════════════════════════════════
-async function loadAll(){
-  await Promise.allSettled([loadHealth(), loadDemoCount(), loadTxHistory()]);
-  document.getElementById('last-refresh').textContent =
-    'Last refreshed: ' + new Date().toLocaleTimeString('en-ZA');
-}
-
-// ── /api/health ──────────────────────────────────────────────────────────
-async function loadHealth(){
-  try{
-    const r = await fetch(SERVER_URL + '/api/health', {cache:'no-store'});
-    if(!r.ok) throw new Error('HTTP ' + r.status);
-    const d = await r.json();
-
-    if(d.fundingAddress){
-      WALLET_ADDR = d.fundingAddress;
-      updateWocLink();
-    }
-
-    setText('w-sats',   fmtNum(d.balanceSats));
-    setText('w-bsv',    Number(d.balanceBSV).toFixed(6));
-    setText('w-faucet', fmtNum(d.faucetCapacity) + ' users');
-    setText('w-utxo-sub','UTXOs: ' + (d.utxoCount ?? '—'));
-
-    setDot('sd-server',  d.status === 'ok' ? 'ok' : 'err');
-    setText('sv-server', d.status ?? '—');
-
-    setDot('sd-network',  (d.network||'').toLowerCase() === 'mainnet' ? 'ok' : 'warn');
-    setText('sv-network', d.network ?? '—');
-
-    setDot('sd-upstash',  d.upstash === true ? 'ok' : d.upstash === false ? 'err' : 'warn');
-    setText('sv-upstash', d.upstash === true ? 'Connected' : 'Disconnected');
-
-    setDot('sd-balance',  d.lowBalance ? 'err' : 'ok');
-    setText('sv-balance', d.lowBalance ? 'YES — top up' : 'OK');
-
-  }catch(e){
-    console.error('[health]', e);
-    ['w-sats','w-bsv','w-faucet','sv-server','sv-network','sv-upstash','sv-balance']
-      .forEach(id => setText(id,'Error'));
-    ['sd-server','sd-network','sd-upstash','sd-balance']
-      .forEach(id => setDot(id,'err'));
-  }
-}
-
-// ── POST /demo-count ─────────────────────────────────────────────────────
-async function loadDemoCount(){
-  try{
-    const r = await fetch(SERVER_URL + '/demo-count', {
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({email:'demo@doxseal.co.za'}),
-      cache:'no-store',
-    });
-    if(!r.ok) throw new Error('HTTP ' + r.status);
-    const d = await r.json();
-    setText('demo-count', d.count ?? '—');
-    if(d.limit != null) setText('demo-limit','limit: ' + d.limit + ' per account');
-  }catch(e){
-    console.error('[demo-count]', e);
-    setText('demo-count','Err');
-  }
-}
-
-async function resetDemo(){
-  const btn  = document.getElementById('btn-reset-demo');
-  const note = document.getElementById('reset-note');
-  btn.disabled = true;
-  btn.textContent = 'Resetting…';
-  note.textContent = '';
-  try{
-    const r = await fetch(SERVER_URL + '/admin/reset-demo', {
-      method:'POST',
-      headers:{'Content-Type':'application/json', 'x-owner-secret': OWNER_SECRET},
-      body: JSON.stringify({}),
-    });
-    const d = await r.json();
-    if(r.ok){
-      note.style.color = 'var(--green)';
-      note.textContent = 'Counter reset from ' + d.reset_from + ' to 0.';
-      await loadDemoCount();
-    } else {
-      note.style.color = 'var(--red)';
-      note.textContent = 'Error: ' + (d.error || r.status);
-    }
-  }catch(e){
-    note.style.color = 'var(--red)';
-    note.textContent = 'Network error: ' + e.message;
-  }finally{
     btn.disabled = false;
-    btn.textContent = 'Reset Demo Counter';
+    btn.textContent = 'Verify →';
   }
 }
 
-async function clearUtxoLock(){
-  const btn  = document.getElementById('btn-clear-lock');
-  const note = document.getElementById('lock-note');
-  btn.disabled = true;
-  btn.textContent = 'Clearing…';
-  note.textContent = '';
-  try{
-    const r = await fetch(SERVER_URL + '/admin/clear-utxo-lock', {
-      method:'POST',
-      headers:{'Content-Type':'application/json', 'x-owner-secret': OWNER_SECRET},
-      body: JSON.stringify({}),
-    });
+document.getElementById('inp-pass').addEventListener('keydown', e => { if (e.key === 'Enter') submitCreds(); });
+document.getElementById('inp-code').addEventListener('keydown', e => { if (e.key === 'Enter') submit2FA(); });
+
+function signOut() {
+  authenticated = false;
+  location.reload();
+}
+
+// ═══════════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════════
+function initDashboard() {
+  startClock();
+  loadHealth();
+  loadUsers();
+  loadActivity();
+  loadAlertSettings();
+
+  // Auto-refresh activity every 60s
+  setInterval(loadActivity, 60_000);
+  // Health ping every 30s
+  setInterval(loadHealth, 30_000);
+}
+
+// ═══════════════════════════════════════════════════════════
+// CLOCK
+// ═══════════════════════════════════════════════════════════
+function startClock() {
+  function tick() {
+    const now = new Date();
+    document.getElementById('h-time').textContent =
+      now.toLocaleDateString('en-ZA', { day:'2-digit', month:'short', year:'numeric' }) + '  ' +
+      now.toLocaleTimeString('en-ZA', { hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:false });
+  }
+  tick();
+  setInterval(tick, 1000);
+}
+
+// ═══════════════════════════════════════════════════════════
+// HEALTH
+// ═══════════════════════════════════════════════════════════
+async function loadHealth() {
+  const dot = document.getElementById('status-dot');
+  const txt = document.getElementById('status-txt');
+  try {
+    const r = await fetch(`${SERVER_URL}/api/health`);
     const d = await r.json();
-    if(r.ok){
-      note.style.color = 'var(--green)';
-      note.textContent = 'Cleared ' + d.cleared + ' locked UTXO(s).';
+
+    if (d.status === 'ok') {
+      dot.className = 'status-dot green pulse';
+      txt.style.color = 'var(--green)';
+      txt.textContent = 'Online';
     } else {
-      note.style.color = 'var(--red)';
-      note.textContent = 'Error: ' + (d.error || r.status);
+      dot.className = 'status-dot amber pulse';
+      txt.style.color = 'var(--amber)';
+      txt.textContent = 'Degraded';
     }
-  }catch(e){
-    note.style.color = 'var(--red)';
-    note.textContent = 'Network error: ' + e.message;
-  }finally{
-    btn.disabled = false;
-    btn.textContent = 'Clear UTXO Lock';
+
+    document.getElementById('h-balance').textContent = d.balanceBSV ? `${parseFloat(d.balanceBSV).toFixed(5)} BSV` : '—';
+    document.getElementById('h-utxos').textContent   = d.utxoCount ?? '—';
+    document.getElementById('h-faucet').textContent  = d.faucetCapacity ?? '—';
+  } catch {
+    dot.className = 'status-dot red';
+    txt.style.color = 'var(--red)';
+    txt.textContent = 'Offline';
+    document.getElementById('h-balance').textContent = '—';
+    document.getElementById('h-utxos').textContent   = '—';
+    document.getElementById('h-faucet').textContent  = '—';
   }
 }
 
-// ── TX history (WoC) ─────────────────────────────────────────────────────
-async function loadTxHistory(){
-  const tbody = document.getElementById('tx-body');
-  document.getElementById('tx-heading').textContent =
-    'Recent Transactions — ' + WALLET_ADDR;
-  try{
-    const r = await fetch(
-      `${WOC_BASE}/address/${WALLET_ADDR}/history`,
-      {cache:'no-store'}
-    );
-    if(!r.ok) throw new Error('WoC HTTP ' + r.status);
-    const hist = await r.json();
+// ═══════════════════════════════════════════════════════════
+// USERS
+// ═══════════════════════════════════════════════════════════
+let allUsers = [];
 
-    if(!Array.isArray(hist) || hist.length === 0){
-      tbody.innerHTML = '<tr><td colspan="4" class="trow-empty">No transactions found.</td></tr>';
-      return;
-    }
-
-    const recent  = hist.slice(-10).reverse();
-    const details = await Promise.allSettled(recent.map(h => fetchTxMeta(h.tx_hash)));
-
-    let rows = '';
-    for(let i = 0; i < recent.length; i++){
-      const txid   = recent[i].tx_hash;
-      const height = recent[i].height;
-      const meta   = details[i].status === 'fulfilled' ? details[i].value : null;
-      const date   = meta?.time
-        ? new Date(meta.time * 1000).toLocaleDateString('en-ZA')
-        : '—';
-      const conf   = height > 0
-        ? `<span class="pill ok">confirmed</span>`
-        : `<span class="pill warn">mempool</span>`;
-      rows += `<tr>
-        <td>${date}</td>
-        <td><a href="https://whatsonchain.com/tx/${txid}" target="_blank" rel="noopener">${txid.slice(0,20)}…</a></td>
-        <td style="font-family:var(--mono);font-size:12px;color:var(--iv4);">${height > 0 ? fmtNum(height) : '—'}</td>
-        <td>${conf}</td>
-      </tr>`;
-    }
-    tbody.innerHTML = rows;
-  }catch(e){
-    console.error('[tx-history]', e);
-    tbody.innerHTML = `<tr><td colspan="4" class="trow-empty" style="color:var(--red)">Failed: ${e.message}</td></tr>`;
+async function loadUsers() {
+  const tbody = document.getElementById('user-tbody');
+  tbody.innerHTML = '<tr><td colspan="7" class="loading">Loading…</td></tr>';
+  try {
+    const r = await fetch(`${SERVER_URL}/admin/users`, { headers: authHeaders() });
+    const d = await r.json();
+    allUsers = d.users || [];
+    renderUsers(allUsers);
+    buildOverviewCards(allUsers);
+    buildFunnel(allUsers);
+  } catch(e) {
+    tbody.innerHTML = `<tr><td colspan="7" class="empty-state">Failed to load users: ${e.message}</td></tr>`;
   }
 }
 
-async function fetchTxMeta(txid){
-  const r = await fetch(`${WOC_BASE}/tx/hash/${txid}`, {cache:'no-store'});
-  if(!r.ok) throw new Error('HTTP ' + r.status);
-  return r.json();
-}
+function renderUsers(users) {
+  const tbody = document.getElementById('user-tbody');
+  document.getElementById('user-count-meta').textContent = `${users.length} users`;
 
-function updateWocLink(){
-  const link = document.getElementById('woc-link');
-  const lbl  = document.getElementById('woc-addr');
-  if(link) link.href = `https://whatsonchain.com/address/${WALLET_ADDR}`;
-  if(lbl)  lbl.textContent = WALLET_ADDR.slice(0,10) + '…' + WALLET_ADDR.slice(-4);
-}
-
-// ══ ROI TRACKER ══════════════════════════════════════════════════════════
-const FIXED_COSTS = 108; // Railway R90 + domain R18
-
-function calcROI(){
-  const clients = Math.max(0, parseFloat(document.getElementById('roi-clients').value) || 0);
-  const arpu    = Math.max(0, parseFloat(document.getElementById('roi-arpu').value)    || 0);
-  const revenue = clients * arpu;
-  const profit  = revenue - FIXED_COSTS;
-
-  setText('roi-revenue', 'R' + fmtNum(Math.round(revenue)));
-  setText('roi-costs',   'R' + fmtNum(FIXED_COSTS));
-
-  const el = document.getElementById('roi-profit');
-  el.textContent = (profit >= 0 ? 'R' : '-R') + fmtNum(Math.abs(Math.round(profit)));
-  el.className = 'roi-result-value ' + (profit > 0 ? 'pos' : profit < 0 ? 'neg' : 'neu');
-}
-
-// ══ PROSPECT TRACKER ═════════════════════════════════════════════════════
-const PROSPECT_KEY = 'tm_prospects_v1';
-const STATUSES = ['Lead','Contacted','Demo sent','Interested','Client','Not interested'];
-
-let prospects = [];
-
-function initProspects(){
-  try{ prospects = JSON.parse(localStorage.getItem(PROSPECT_KEY)) || []; }
-  catch{ prospects = []; }
-  if(prospects.length === 0) prospects = getDefaultProspects();
-  renderProspects();
-}
-
-function getDefaultProspects(){
-  return [
-    {id:1,name:'',company:'',email:'',status:'Lead',last:''},
-  ];
-}
-
-function saveProspects(){
-  localStorage.setItem(PROSPECT_KEY, JSON.stringify(prospects));
-}
-
-function addProspect(){
-  const id = Date.now();
-  prospects.push({id, name:'', company:'', email:'', status:'Lead', last:''});
-  saveProspects();
-  renderProspects();
-  // Focus the new row's name field
-  setTimeout(()=>{
-    const row = document.querySelector(`tr[data-id="${id}"] .p-name`);
-    if(row) row.focus();
-  }, 50);
-}
-
-function deleteProspect(id){
-  prospects = prospects.filter(p => p.id !== id);
-  saveProspects();
-  renderProspects();
-}
-
-function updateField(id, field, value){
-  const p = prospects.find(p => p.id === id);
-  if(p){ p[field] = value; saveProspects(); }
-}
-
-function statusClass(s){
-  if(s === 'Client') return 'ok';
-  if(s === 'Interested' || s === 'Demo sent') return 'warn';
-  if(s === 'Not interested') return 'err';
-  return 'grey';
-}
-
-function renderProspects(){
-  const tbody = document.getElementById('prospect-body');
-  if(prospects.length === 0){
-    tbody.innerHTML = `<tr><td colspan="6" class="trow-empty">No prospects yet — click + Add Prospect</td></tr>`;
+  if (!users.length) {
+    tbody.innerHTML = '<tr><td colspan="7" class="empty-state">No users found</td></tr>';
     return;
   }
-  tbody.innerHTML = prospects.map(p => `
-    <tr data-id="${p.id}">
-      <td><input type="text" class="p-name" value="${esc(p.name)}" placeholder="Full name"
-           onchange="updateField(${p.id},'name',this.value)"></td>
-      <td><input type="text" value="${esc(p.company)}" placeholder="Company"
-           onchange="updateField(${p.id},'company',this.value)"></td>
-      <td><input type="text" value="${esc(p.email)}" placeholder="email@co.za"
-           onchange="updateField(${p.id},'email',this.value)"></td>
-      <td>
-        <select onchange="updateField(${p.id},'status',this.value)">
-          ${STATUSES.map(s=>`<option${s===p.status?' selected':''}>${s}</option>`).join('')}
-        </select>
-      </td>
-      <td><input type="text" value="${esc(p.last)}" placeholder="e.g. 15 Apr"
-           onchange="updateField(${p.id},'last',this.value)"></td>
-      <td><button class="btn-del" onclick="deleteProspect(${p.id})" title="Remove">✕</button></td>
-    </tr>
-  `).join('');
+
+  const now = Date.now();
+  const d30 = 30 * 86400_000;
+  const d14 = 14 * 86400_000;
+
+  tbody.innerHTML = users.map((u, i) => {
+    const planClass = planBadgeClass(u.plan);
+    const status    = userStatus(u, now, d30, d14);
+    const lastSeal  = u.last_seal ? relTime(u.last_seal) : (u.seals_used > 0 ? 'yes' : '—');
+    const note      = u.note ? `📝 ${u.note.slice(0, 40)}${u.note.length > 40 ? '…' : ''}` : '';
+
+    return `
+      <tr class="user-row" onclick="toggleDetail(${i})">
+        <td class="email-cell">${esc(u.email)}</td>
+        <td style="color:var(--dim2);font-size:11px">${esc(u.company || '—')}</td>
+        <td><span class="plan-badge ${planClass}">${esc(u.plan)}</span></td>
+        <td class="mono" style="font-size:12px">${u.seals_used}${u.seals_limit > 0 ? '/'+u.seals_limit : ''}</td>
+        <td style="font-size:11px;color:var(--dim2)">${lastSeal}</td>
+        <td>${status}</td>
+        <td><button class="btn-note" onclick="event.stopPropagation();toggleDetail(${i})">Note</button></td>
+      </tr>
+      <tr class="user-detail" id="detail-${i}">
+        <td colspan="7">
+          ${note ? `<div style="margin-bottom:8px;color:var(--dim2)">${esc(note)}</div>` : ''}
+          <div style="color:var(--dim2);margin-bottom:8px;font-size:11px">
+            Joined: ${u.created ? new Date(u.created).toLocaleDateString('en-ZA') : 'n/a'} ·
+            Type: ${u.account_type || 'unknown'} ·
+            Active: ${u.active ? 'Yes' : 'No'}
+          </div>
+          <div class="note-input-row">
+            <input type="text" id="note-inp-${i}" placeholder="Add a note about this user…" value="${esc(u.note||'')}">
+            <button class="btn-save-note" onclick="saveNote('${esc(u.email)}', ${i})">Save note</button>
+          </div>
+        </td>
+      </tr>`;
+  }).join('');
 }
 
-// ══ UTILS ════════════════════════════════════════════════════════════════
-function setText(id, val){
-  const el = document.getElementById(id);
-  if(el) el.textContent = val ?? '—';
+function toggleDetail(i) {
+  const row = document.getElementById(`detail-${i}`);
+  row.classList.toggle('open');
 }
-function setDot(id, state){
-  const el = document.getElementById(id);
-  if(el) el.className = 'sdot ' + state;
+
+async function saveNote(email, i) {
+  const note = document.getElementById(`note-inp-${i}`).value.trim();
+  try {
+    const r = await fetch(`${SERVER_URL}/admin/user/note`, {
+      method: 'POST',
+      headers: authHeaders(),
+      body: JSON.stringify({ email, note })
+    });
+    const d = await r.json();
+    if (!d.success) throw new Error('Save failed');
+    allUsers[i].note = note || null;
+    toast('Note saved ✓');
+    renderUsers(allUsers);
+    // Keep detail row open
+    setTimeout(() => document.getElementById(`detail-${i}`)?.classList.add('open'), 50);
+  } catch(e) {
+    toast('Failed: ' + e.message, true);
+  }
 }
-function fmtNum(v){
-  if(v == null || isNaN(Number(v))) return '—';
-  return Number(v).toLocaleString('en-ZA');
+
+function buildOverviewCards(users) {
+  const total      = users.length;
+  const totalSeals = users.reduce((s, u) => s + (u.seals_used || 0), 0);
+  const now        = Date.now();
+  const active30   = users.filter(u => u.last_seal && (now - u.last_seal) < 30 * 86400_000).length;
+
+  document.getElementById('ov-users').textContent   = total;
+  document.getElementById('ov-seals').textContent   = totalSeals;
+  document.getElementById('ov-active').textContent  = active30;
+
+  const paying = users.filter(u => u.account_type === 'paying').length;
+  document.getElementById('ov-users-sub').textContent = `${paying} paying`;
 }
-function esc(s){
-  return (s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
+
+function buildFunnel(users) {
+  const never  = users.filter(u => !u.seals_used).length;
+  const free   = users.filter(u => u.seals_used > 0 && u.account_type !== 'paying').length;
+  const paying = users.filter(u => u.seals_used > 0 && u.account_type === 'paying').length;
+
+  document.getElementById('fn-never').textContent  = never;
+  document.getElementById('fn-free').textContent   = free;
+  document.getElementById('fn-paying').textContent = paying;
+  document.getElementById('funnel-updated').textContent = 'Updated ' + new Date().toLocaleTimeString('en-ZA', { hour:'2-digit', minute:'2-digit', hour12:false });
+}
+
+// ═══════════════════════════════════════════════════════════
+// ACTIVITY LOG
+// ═══════════════════════════════════════════════════════════
+async function loadActivity() {
+  const body = document.getElementById('activity-body');
+  try {
+    const r = await fetch(`${SERVER_URL}/admin/seals/recent`, { headers: authHeaders() });
+    const d = await r.json();
+    const seals = d.seals || [];
+
+    document.getElementById('activity-meta').textContent =
+      `${seals.length} events · refreshed ${new Date().toLocaleTimeString('en-ZA', { hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:false })}`;
+
+    if (!seals.length) {
+      body.innerHTML = '<div class="empty-state">No seal activity recorded yet.<br><small style="color:var(--dim3)">Activity is logged from this deployment onward.</small></div>';
+      return;
+    }
+
+    // Update "seals this month"
+    const now   = new Date();
+    const month = now.getFullYear() * 100 + (now.getMonth() + 1);
+    const monthSeals = seals.filter(s => {
+      const d = new Date(s.ts);
+      return d.getFullYear() * 100 + (d.getMonth() + 1) === month;
+    }).length;
+    document.getElementById('ov-month').textContent     = monthSeals;
+    document.getElementById('ov-month-sub').textContent = now.toLocaleString('en-ZA', { month: 'long', year: 'numeric' });
+
+    body.innerHTML = seals.map(s => `
+      <div class="activity-item">
+        <div class="activity-dot"></div>
+        <div class="activity-body">
+          <div class="activity-email">${esc(s.email)}</div>
+          <div class="activity-hash">${s.subject ? esc(s.subject.slice(0,60)) + ' · ' : ''}${s.hash}… · <a href="https://whatsonchain.com/tx/${esc(s.txid)}" target="_blank" style="color:var(--teal);text-decoration:none;">${s.txid.slice(0,12)}…</a></div>
+        </div>
+        <div class="activity-time">${relTime(s.ts)}</div>
+      </div>`).join('');
+  } catch(e) {
+    body.innerHTML = `<div class="empty-state">Failed to load activity: ${e.message}</div>`;
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+// ALERT SETTINGS
+// ═══════════════════════════════════════════════════════════
+async function loadAlertSettings() {
+  try {
+    const r = await fetch(`${SERVER_URL}/admin/alerts/settings`, { headers: authHeaders() });
+    const d = await r.json();
+    document.getElementById('alert-newuser').checked   = !!d.newUser;
+    document.getElementById('alert-firstseal').checked = !!d.firstSeal;
+    document.getElementById('alert-inactive').checked  = !!d.inactive14d;
+  } catch { /* use defaults */ }
+}
+
+async function saveAlerts() {
+  const settings = {
+    newUser:    document.getElementById('alert-newuser').checked,
+    firstSeal:  document.getElementById('alert-firstseal').checked,
+    inactive14d: document.getElementById('alert-inactive').checked
+  };
+  try {
+    const r = await fetch(`${SERVER_URL}/admin/alerts/settings`, {
+      method: 'POST',
+      headers: authHeaders(),
+      body: JSON.stringify(settings)
+    });
+    if (!r.ok) throw new Error('Save failed');
+    toast('Alert settings saved ✓');
+  } catch(e) {
+    toast('Failed: ' + e.message, true);
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+// ADMIN ACTIONS
+// ═══════════════════════════════════════════════════════════
+async function adminAction(action) {
+  const resultEl = document.getElementById('admin-result');
+  resultEl.style.display = 'none';
+
+  try {
+    let url, body;
+    if (action === 'reset-demo') {
+      url  = `${SERVER_URL}/admin/reset-demo`;
+      body = JSON.stringify({ email: 'demo@doxseal.co.za' });
+    } else if (action === 'clear-utxo') {
+      url  = `${SERVER_URL}/admin/clear-utxo-lock`;
+      body = JSON.stringify({});
+    } else if (action === 'split-utxos') {
+      url  = `${SERVER_URL}/admin/split-utxos`;
+      body = JSON.stringify({ count: 5 });
+    }
+
+    const r = await fetch(url, { method: 'POST', headers: authHeaders(), body });
+    const d = await r.json();
+    if (!r.ok) throw new Error(d.error || 'Request failed');
+
+    const msg = action === 'reset-demo'  ? `Demo counter reset (was ${d.reset_from})` :
+                action === 'clear-utxo'  ? `Cleared ${d.cleared} locked UTXO(s)` :
+                action === 'split-utxos' ? `Split into ${d.outputs}× ${d.satsEach} sats — txid: ${d.txid?.slice(0,16)}…` :
+                JSON.stringify(d);
+
+    resultEl.textContent    = '✓ ' + msg;
+    resultEl.style.color    = 'var(--teal)';
+    resultEl.style.display  = 'block';
+    toast(msg);
+    setTimeout(() => { resultEl.style.display = 'none'; }, 8000);
+  } catch(e) {
+    resultEl.textContent   = '✗ ' + e.message;
+    resultEl.style.color   = 'var(--red)';
+    resultEl.style.display = 'block';
+    toast(e.message, true);
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════════════════════════════
+function planBadgeClass(plan) {
+  if (!plan) return 'plan-local';
+  const p = plan.toLowerCase();
+  if (p === 'trial')   return 'plan-trial';
+  if (p === 'starter') return 'plan-starter';
+  if (p === 'pro')     return 'plan-pro';
+  if (p === 'growth' || p === 'business') return 'plan-growth';
+  return 'plan-local';
+}
+
+function userStatus(u, now, d30, d14) {
+  if (!u.seals_used) return '<span class="status-pill s-never">Never sealed</span>';
+  if (u.last_seal && (now - u.last_seal) <= d30) return '<span class="status-pill s-active">Active</span>';
+  if (u.last_seal && (now - u.last_seal) <= d14 * 3) return '<span class="status-pill s-inactive">Inactive</span>';
+  if (u.seals_used > 0) return '<span class="status-pill s-inactive">Inactive</span>';
+  return '<span class="status-pill s-never">Never sealed</span>';
+}
+
+function relTime(ts) {
+  if (!ts) return '—';
+  const diff = Date.now() - ts;
+  if (diff < 60_000)       return 'just now';
+  if (diff < 3600_000)     return Math.floor(diff / 60_000) + 'm ago';
+  if (diff < 86400_000)    return Math.floor(diff / 3600_000) + 'h ago';
+  if (diff < 7 * 86400_000) return Math.floor(diff / 86400_000) + 'd ago';
+  return new Date(ts).toLocaleDateString('en-ZA', { day:'2-digit', month:'short' });
+}
+
+function esc(s) {
+  return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+let toastTimer;
+function toast(msg, isError = false) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className   = 'show' + (isError ? ' error' : '');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { el.className = ''; }, 3500);
 }
 </script>
 </body>
