@@ -629,6 +629,50 @@ body::before{
 .btn-seal:active{transform:translateY(0);}
 .btn-seal:disabled{opacity:.42;transform:none;cursor:not-allowed;}
 
+/* ── File upload zone ── */
+.file-or{display:flex;align-items:center;gap:10px;margin:4px 0 12px;font-size:11px;color:var(--iv4);}
+.file-or::before,.file-or::after{content:'';flex:1;height:1px;background:var(--line);}
+.file-zone{
+  border:1.5px dashed var(--line2);border-radius:14px;padding:20px 16px;
+  text-align:center;cursor:pointer;transition:all .2s;
+  background:rgba(45,206,130,.025);margin-bottom:12px;
+  position:relative;
+}
+.file-zone:hover,.file-zone.drag{border-color:var(--green2);background:rgba(45,206,130,.06);}
+.file-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+.fz-ico{font-size:22px;margin-bottom:5px;}
+.fz-title{font-size:13px;font-weight:600;color:var(--iv2);}
+.fz-sub{font-size:11px;color:var(--iv4);margin-top:3px;}
+.fz-privacy{
+  display:flex;align-items:center;gap:5px;justify-content:center;
+  margin-top:10px;font-size:10px;color:var(--iv3);
+  background:rgba(45,206,130,.07);border-radius:8px;padding:6px 10px;
+}
+.file-ready{
+  background:rgba(45,206,130,.06);border:1.5px solid rgba(45,206,130,.22);
+  border-radius:14px;padding:14px 16px;margin-bottom:12px;display:none;
+}
+.file-ready.show{display:block;}
+.fr-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;}
+.fr-name{font-size:13px;font-weight:600;color:var(--iv2);word-break:break-all;flex:1;}
+.fr-badge{
+  font-size:9px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;
+  background:rgba(45,206,130,.18);color:var(--green);border-radius:20px;
+  padding:3px 9px;flex-shrink:0;margin-top:1px;
+}
+.fr-hash{font-family:var(--mono);font-size:9px;color:var(--green2);margin-top:7px;word-break:break-all;line-height:1.6;}
+.fr-status{font-size:11px;color:var(--iv3);margin-top:5px;}
+.btn-clear-file{
+  font-size:11px;color:var(--iv4);background:none;border:none;cursor:pointer;
+  padding:2px 0;margin-top:6px;text-decoration:underline;font-family:var(--sans);
+}
+.cert-file-badge{
+  display:inline-flex;align-items:center;gap:5px;
+  background:rgba(45,206,130,.1);border:1px solid rgba(45,206,130,.2);
+  border-radius:20px;padding:4px 12px;font-size:10px;font-weight:700;
+  color:var(--green);letter-spacing:.5px;margin-bottom:10px;
+}
+
 /* ═══════════════════════════════════════
    ③  SEALING SCREEN — the ceremony
 ═══════════════════════════════════════ */
@@ -1481,6 +1525,30 @@ body::before{
           </div>
         </div>
 
+        <!-- File upload -->
+        <div class="file-or">or seal a file instead</div>
+
+        <div class="file-zone" id="file-zone"
+          ondragover="fzDrag(event,true)" ondragleave="fzDrag(event,false)" ondrop="fzDrop(event)">
+          <input type="file" id="file-input"
+            accept=".pdf,.jpg,.jpeg,.png,.gif,.bmp,.webp,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.csv,.zip,.mp4,.mov"
+            onchange="onFileSelect(this)">
+          <div class="fz-ico">📎</div>
+          <div class="fz-title">Upload a file to seal</div>
+          <div class="fz-sub">PDF · Image · Word · Excel · Any file type · Max 500 MB</div>
+          <div class="fz-privacy">🔒 Your file never leaves this device — only a unique fingerprint is sealed on the blockchain</div>
+        </div>
+
+        <div class="file-ready" id="file-ready">
+          <div class="fr-top">
+            <div class="fr-name" id="fr-name">—</div>
+            <span class="fr-badge">File sealed</span>
+          </div>
+          <div class="fr-hash" id="fr-hash"></div>
+          <div class="fr-status" id="fr-status">Generating fingerprint…</div>
+          <button class="btn-clear-file" onclick="clearFile()">✕ Remove file</button>
+        </div>
+
         <div class="cost-line">
           <span class="cl-l">Cost to seal</span>
           <span class="cl-r">1 credit · approx R0.003</span>
@@ -1611,10 +1679,14 @@ body::before{
         <div class="cert-row cert-row-hero"><span class="ck">Protected for</span><span class="cv cv-hero" id="cv-to">—</span></div>
         <div class="cert-row"><span class="ck">Subject</span><span class="cv" id="cv-subj">—</span></div>
         <div class="cert-row"><span class="ck">Sealed by</span><span class="cv" id="cv-from">—</span></div>
+        <div class="cert-row" id="cv-filename-row" style="display:none">
+          <span class="ck">File sealed</span>
+          <span class="cv" id="cv-filename" style="display:flex;align-items:center;gap:6px;justify-content:flex-end;flex-wrap:wrap;">—</span>
+        </div>
         <div class="cert-row-msg" id="cv-msg-row" style="display:none"><span class="ck-msg">Sealed message</span><span class="cv-msg" id="cv-msg"></span></div>
         <div class="cert-row"><span class="ck">Date &amp; time</span><span class="cv" id="cv-ts">—</span></div>
         <div class="cert-row"><span class="ck">Privacy mode</span><span class="cv" id="cv-mode">—</span></div>
-        <div class="cert-row"><span class="ck">Digital fingerprint</span><span class="cv m" id="cv-hash">—</span></div>
+        <div class="cert-row"><span class="ck">SHA-256 fingerprint</span><span class="cv m" id="cv-hash">—</span></div>
         <div class="cert-row"><span class="ck">Transaction ID</span><span class="cv m" id="cv-txid">—</span></div>
 
         <!-- Independent Verification Box — hidden until real TX -->
@@ -1687,6 +1759,7 @@ const DEMO_LIMIT = 3;
 // ═══════════════════════════════
 let CU=null, CREDS=0, HIST=[], LAST=null;
 let FILTER='all', PRIV='plain', PRIV_OPEN=false;
+let FILE_DATA = null; // { name, hash, size } — set when user uploads a file
 
 function loadCerts(email){
   try{ return JSON.parse(localStorage.getItem('tm_certs_'+email.toLowerCase())||'[]'); }
@@ -2079,6 +2152,51 @@ function accSaveWhatsApp(){
 }
 
 // ═══════════════════════════════
+// FILE SEAL
+// ═══════════════════════════════
+function fzDrag(e, on) {
+  e.preventDefault();
+  document.getElementById('file-zone').classList.toggle('drag', on);
+}
+function fzDrop(e) {
+  e.preventDefault();
+  fzDrag(e, false);
+  const f = e.dataTransfer.files[0];
+  if (f) processFile(f);
+}
+function onFileSelect(input) {
+  const f = input.files[0];
+  if (f) processFile(f);
+}
+async function processFile(file) {
+  FILE_DATA = null;
+  const ready = document.getElementById('file-ready');
+  ready.classList.add('show');
+  document.getElementById('file-zone').style.display = 'none';
+  document.getElementById('fr-name').textContent   = file.name;
+  document.getElementById('fr-hash').textContent   = '';
+  document.getElementById('fr-status').textContent = 'Generating fingerprint…';
+  try {
+    const buf      = await file.arrayBuffer();
+    const hashBuf  = await crypto.subtle.digest('SHA-256', buf);
+    const hash     = Array.from(new Uint8Array(hashBuf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+    FILE_DATA = { name: file.name, hash, size: file.size };
+    const kb = file.size < 1024*1024
+      ? (file.size/1024).toFixed(1)+' KB'
+      : (file.size/1024/1024).toFixed(2)+' MB';
+    document.getElementById('fr-hash').textContent   = hash;
+    document.getElementById('fr-status').textContent = `Hash ready ✅ · ${kb} · File not uploaded`;
+  } catch(e) {
+    document.getElementById('fr-status').textContent = '❌ Error: ' + e.message;
+  }
+}
+function clearFile() {
+  FILE_DATA = null;
+  document.getElementById('file-ready').classList.remove('show');
+  document.getElementById('file-zone').style.display = '';
+  document.getElementById('file-input').value = '';
+}
+
 // SEAL
 // ═══════════════════════════════
 function onMsgType(){
@@ -2112,19 +2230,26 @@ async function doSeal(){
   const to   =(document.getElementById('sf-to').value||'').trim();
   const subj =(document.getElementById('sf-subj').value||'').trim();
   const msg  =(document.getElementById('sf-msg').value||'').trim();
+  const isFileSeal = !!FILE_DATA;
   if(!to)  {toast('Who is this for?','Please enter a recipient email.','⚠️');return;}
   if(!subj){toast('What is this about?','Please add a subject line.','⚠️');return;}
-  if(!msg) {toast('Message is empty','Please type your message.','⚠️');return;}
+  if(!msg && !isFileSeal){toast('Nothing to seal','Type a message or upload a file.','⚠️');return;}
+  if(isFileSeal && !FILE_DATA.hash){toast('File not ready','Please wait for the fingerprint to finish.','⚠️');return;}
   if(CREDS<200){toast('Not enough credits','Contact us to top up your account.','💳');return;}
   document.getElementById('btn-seal').disabled=true;
   showPage('pg-sealing');
   try{
     await step(1,700);
-    const hash=await sha256(msg);
+    const hash = isFileSeal ? FILE_DATA.hash : await sha256(msg);
+    const fileName = isFileSeal ? FILE_DATA.name : null;
     await step(2,900);
     let txid;
     if(API.broadcast){
-      const r=await fetch(API.broadcast,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({opPayload:buildOP(hash,to,subj,msg),msgHash:hash,sender:CU.email,recipient:to,subject:subj})});
+      const d   = new Date().toISOString().slice(0,10);
+      const opPayload = isFileSeal
+        ? 'TM|FILE|'+hash.slice(0,20)+'|'+d+'|'+FILE_DATA.name.slice(0,80)
+        : buildOP(hash,to,subj,msg);
+      const r=await fetch(API.broadcast,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({opPayload,msgHash:hash,sender:CU.email,recipient:to,subject:subj})});
       if(r.status===429) throw new Error('Too many seals in a short time — please wait a minute and try again.');
       const d=await r.json();
       // Server blocks demo at limit
@@ -2154,7 +2279,7 @@ async function doSeal(){
     const company=(CU&&CU.company)||'';
     const sealedBy=(CU&&CU.name?CU.name+' · ':'')+((CU&&CU.email)||'—');
     const wa=(CU&&CU.whatsapp||'').replace(/\D/g,'');
-    LAST={id:Date.now(),dir:'sent',subj,to,msg,hash:hash.slice(0,20),fullHash:hash,txid,ts:now.toISOString().slice(0,16).replace('T',' '),tsStr,verified:!!API.broadcast,mode:PRIV,sealedBy,senderName:CU&&CU.name||'',senderEmail:CU&&CU.email||'',company,wa};
+    LAST={id:Date.now(),dir:'sent',subj,to,msg:isFileSeal?'':msg,fileName,hash:hash.slice(0,20),fullHash:hash,txid,ts:now.toISOString().slice(0,16).replace('T',' '),tsStr,verified:!!API.broadcast,mode:isFileSeal?'file':PRIV,sealedBy,senderName:CU&&CU.name||'',senderEmail:CU&&CU.email||'',company,wa};
     HIST.unshift(LAST);
     saveCerts(CU.email, HIST);
     // Populate success
@@ -2163,11 +2288,21 @@ async function doSeal(){
     set('cv-to',to);
     set('cv-from',sealedBy);
     set('cv-ts',tsStr);
-    const _privLabels={plain:'Plain Text',hash:'Hash Only (Private)',encrypted:'Encrypted'};
-    set('cv-mode',_privLabels[PRIV]||PRIV);
-    if(msg){set('cv-msg',msg);document.getElementById('cv-msg-row').style.display='block';}
-    else{document.getElementById('cv-msg-row').style.display='none';}
-    set('cv-hash',hash.slice(0,22)+'…');
+    const _privLabels={plain:'Plain Text',hash:'Hash Only (Private)',encrypted:'Encrypted',file:'File — not uploaded'};
+    set('cv-mode',_privLabels[isFileSeal?'file':PRIV]||(isFileSeal?'File — not uploaded':PRIV));
+    // File name row
+    if(isFileSeal){
+      document.getElementById('cv-filename-row').style.display='flex';
+      document.getElementById('cv-filename').innerHTML=
+        '<span class="cert-file-badge">📎 File sealed — not uploaded</span>' +
+        '<span style="font-family:var(--mono);font-size:10px;color:var(--iv2)">'+escHtml(fileName)+'</span>';
+      document.getElementById('cv-msg-row').style.display='none';
+    } else {
+      document.getElementById('cv-filename-row').style.display='none';
+      if(msg){set('cv-msg',msg);document.getElementById('cv-msg-row').style.display='block';}
+      else{document.getElementById('cv-msg-row').style.display='none';}
+    }
+    set('cv-hash', isFileSeal ? hash : hash.slice(0,22)+'…');
     const isLiveTx = !txid.startsWith('demo_');
     set('cv-txid', isLiveTx ? txid.slice(0,28)+'…' : 'Demo — connect server for live TX');
     set('chain-txt',API.broadcast?'⛓ Recorded on BSV blockchain · Permanent':'🔒 Sealed locally · Connect server for on-chain');
@@ -2232,6 +2367,7 @@ async function sealAnother(){
   document.getElementById('sf-subj').value='';
   document.getElementById('sf-msg').value='';
   PRIV='plain';
+  clearFile();
   document.getElementById('sf-cc').textContent='0 / 460';
   showPage('pg-app');
   await goTab('seal'); // goTab checks demo limit — shows upgrade if at limit
@@ -2266,6 +2402,7 @@ function buildCertHtml(cert){
   const sealedBy  = cert.sealedBy || ((CU&&CU.name ? CU.name+' · ' : '')+(CU&&CU.email||'—'));
   const company   = cert.company || (CU&&CU.company) || '';
   const h = s => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  const isFileCert = cert.mode === 'file' && cert.fileName;
 
   const html = `<!DOCTYPE html>
 <html lang="en"><head>
@@ -2327,8 +2464,10 @@ td:first-child{color:#555;width:36%;font-size:11px;font-family:Arial,sans-serif;
     <tr><td>Document / Subject</td><td>${h(cert.subj)}</td></tr>
     <tr><td>Sealed By</td><td>${h(sealedBy)}</td></tr>
     ${company ? `<tr><td>Company / Practice</td><td>${h(company)}</td></tr>` : ''}
+    ${isFileCert ? `<tr><td>File Sealed</td><td style="font-family:monospace;font-size:11px">${h(cert.fileName)}</td></tr>` : ''}
+    ${isFileCert ? `<tr><td>POPIA Status</td><td style="color:#1a8a53;font-weight:700">File NOT uploaded — fingerprint only</td></tr>` : ''}
     <tr><td>Date &amp; Time</td><td>${h(cert.tsStr)}</td></tr>
-    <tr><td>Privacy Mode</td><td>${h(cert.mode)}</td></tr>
+    <tr><td>Privacy Mode</td><td>${h(cert.mode==='file'?'File fingerprint — file never left device':cert.mode)}</td></tr>
   </table>
 </div>
 <div class="section">
@@ -2410,7 +2549,8 @@ function printCert(){
   s('pc-to').textContent    = LAST.to    || '—';
   s('pc-from').textContent  = (CU&&CU.name ? CU.name+' · ' : '')+(CU&&CU.email||'—');
   s('pc-ts').textContent    = LAST.tsStr || '—';
-  s('pc-mode').textContent  = privLabels[LAST.mode] || LAST.mode || '—';
+  s('pc-mode').textContent  = LAST.mode==='file' ? 'File fingerprint — file never left device' : (privLabels[LAST.mode] || LAST.mode || '—');
+  if(LAST.fileName){ try{ s('pc-subj').textContent += ' · File: '+LAST.fileName; }catch(e){} }
   s('pc-hash').textContent  = LAST.fullHash || '—';
   s('pc-txid').textContent  = LAST.txid     || '—';
   s('pc-url').textContent   = verifyUrl;
@@ -2524,6 +2664,8 @@ function toast(title,msg,ico){
 // ═══════════════════════════════
 const wait=ms=>new Promise(r=>setTimeout(r,ms));
 
+function escHtml(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
 async function sha256(str){
   const buf=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(str));
   return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
@@ -2552,7 +2694,8 @@ function saveSession(){
   if(!CU) return;
   try{
     localStorage.setItem('tm_session', JSON.stringify({
-      cu:{email:CU.email,name:CU.name,plan:CU.plan,addr:CU.addr||'',pass:CU.pass||''},
+      cu:{email:CU.email,name:CU.name,plan:CU.plan,addr:CU.addr||'',pass:CU.pass||'',
+          account_type:CU.account_type||'',seals_used:CU.seals_used||0,seals_limit:CU.seals_limit||0},
       creds:CREDS,
       ts: Date.now()
     }));
@@ -2574,7 +2717,10 @@ function restoreSession(){
     const em = s.cu.email.toLowerCase();
     CU = {...s.cu, email:em,
       company: loadCompany(em),
-      whatsapp: loadWhatsApp(em)
+      whatsapp: loadWhatsApp(em),
+      account_type: s.cu.account_type || '',
+      seals_used:   s.cu.seals_used   || 0,
+      seals_limit:  s.cu.seals_limit  || 0
     };
     if(!USERS[em]) USERS[em] = CU;
     CREDS = (typeof s.creds === 'number' && s.creds > 0) ? s.creds : 50000;
