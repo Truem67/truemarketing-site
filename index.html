@@ -2245,9 +2245,9 @@ async function doSeal(){
     await step(2,900);
     let txid;
     if(API.broadcast){
-      const d   = new Date().toISOString().slice(0,10);
+      const dateStr = new Date().toISOString().slice(0,10);
       const opPayload = isFileSeal
-        ? 'TM|FILE|'+hash.slice(0,20)+'|'+d+'|'+FILE_DATA.name.slice(0,80)
+        ? 'TM|FILE|'+hash.slice(0,20)+'|'+dateStr+'|'+FILE_DATA.name.slice(0,80)
         : buildOP(hash,to,subj,msg);
       const r=await fetch(API.broadcast,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({opPayload,msgHash:hash,sender:CU.email,recipient:to,subject:subj})});
       if(r.status===429) throw new Error('Too many seals in a short time — please wait a minute and try again.');
