@@ -1392,7 +1392,7 @@ body::before{
       <label for="up-consent" style="font-size:12px;color:rgba(242,237,228,.42);line-height:1.55;cursor:pointer;">I agree to the <a href="legal.html#terms" target="_blank" style="color:#23b06d;text-decoration:none;">Terms of Service</a> and <a href="legal.html#privacy" target="_blank" style="color:#23b06d;text-decoration:none;">Privacy Policy</a> at doxseal.co.za/legal.html</label>
     </div>
     <button class="btn-go" id="btn-up" onclick="doSignup()">✦ Create Free Account</button>
-    <p class="auth-note">You receive <strong>50,000 free credits</strong> instantly — no card required.<br>Every document permanently protected and verifiable.</p>
+    <p class="auth-note">Every document permanently protected and verifiable.</p>
   </div>
 
   <div class="trust-row">
@@ -1900,7 +1900,7 @@ function doSignup(){
     localStorage.setItem('tm_creds_'+em, JSON.stringify({name:nm,pass:pw}));
     btn.disabled=false; btn.textContent='✦ Create Free Account';
     openApp();
-    setTimeout(()=>toast('🎁 50,000 free credits added!','Go ahead — seal your first message. It takes under 10 seconds.','✦'),700);
+    setTimeout(()=>toast('Welcome to DoxSeal','Go ahead — seal your first document. It takes under 10 seconds.','✦'),700);
   }, 900);
 }
 
