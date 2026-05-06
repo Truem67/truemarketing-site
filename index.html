@@ -1418,7 +1418,7 @@ body::before{
 <div class="page hidden" id="pg-app">
 
   <div class="app-hdr">
-    <div class="hdr-brand">Dox<b>Seal</b></div>
+    <div class="hdr-brand" onclick="goTab('home')" style="cursor:pointer">Dox<b>Seal</b></div>
     <div class="hdr-right">
       <div class="hdr-bal" title="Your sealing credits">
         ✦ <span id="hdr-cred">—</span>
@@ -2030,7 +2030,7 @@ function renderUI(){
   const sealed   = HIST.filter(m=>m.dir==='sent').length;
   const verified = HIST.filter(m=>m.verified).length;
   const sealsLeft = Math.floor(CREDS/200);
-  const cStr     = sealsLeft.toLocaleString();
+  const cStr     = String(sealsLeft);
   const hr       = new Date().getHours();
   const greet    = hr<12?'Good morning':hr<17?'Good afternoon':'Good evening';
   const fn       = (CU.name||'').split(' ')[0];
