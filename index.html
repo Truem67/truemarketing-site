@@ -2142,6 +2142,11 @@ function switchTab(tab){
   if(tab==='account') loadAccTabFields();
 }
 function goTab(tab){
+  if(curPage !== 'pg-app'){
+    showPage('pg-app');
+    setTimeout(()=>goTab(tab), 350); // retry after transition completes
+    return;
+  }
   if(tab==='seal'){ checkDemoLimit().then(ok=>{ if(ok) switchTab('seal'); }); return; }
   switchTab(tab);
 }
