@@ -1854,9 +1854,23 @@ async function doLogin(){
   // 1. Check local demo/trial accounts first (works without server)
   const local=USERS[em];
   if(local && local.pass===pw){
-    CU={...local,email:em}; CREDS=48210; HIST=[...loadCerts(em),...DEMO];
+    CU={...local,email:em};
+    // Trial accounts start at DEMO_LIMIT seals; fetch actual remaining from server below
+    CREDS = TRIAL_EMAILS.has(em) ? DEMO_LIMIT * 200 : 48210;
+    HIST=[...loadCerts(em),...DEMO];
     btn.disabled=false; btn.textContent='Sign In →';
-    openApp(); return;
+    openApp();
+    // Sync actual remaining seals from server so credits pod is accurate
+    if(TRIAL_EMAILS.has(em) && SERVER_URL){
+      fetch(SERVER_URL+'/demo-count',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:em})})
+        .then(r=>r.json()).then(d=>{
+          const used  = typeof d.count==='number' ? d.count : 0;
+          const limit = typeof d.limit==='number' && d.limit > 0 ? d.limit : DEMO_LIMIT;
+          CREDS = Math.max(0, limit - used) * 200;
+          renderUI();
+        }).catch(()=>{});
+    }
+    return;
   }
 
   // 2. Try server login for paying clients
@@ -1870,7 +1884,12 @@ async function doLogin(){
       });
       const d=await r.json();
       if(d.success && d.user){
-        CU={...d.user,pass:pw}; CREDS=48210; HIST=loadCerts(d.user.email||em);
+        CU={...d.user,pass:pw};
+        // For trial accounts use remaining seals × 200; for paying use full balance
+        CREDS = d.user.account_type==='trial'
+          ? Math.max(0,(d.user.seals_limit||DEMO_LIMIT)-(d.user.seals_used||0))*200
+          : 48210;
+        HIST=loadCerts(d.user.email||em);
         btn.disabled=false; btn.textContent='Sign In →';
         openApp(); return;
       }
