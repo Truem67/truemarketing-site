@@ -1747,6 +1747,7 @@ const API = {
 // DEMO TRIAL CONFIG
 // ═══════════════════════════════
 const TRIAL_EMAILS = new Set([
+  'demo@doxseal.co.za',
   'johan@supplycorp.co.za',
   'shaunxve.com@gmail.com',
   'mve@leopardcreek.co.za',
@@ -1774,7 +1775,7 @@ let BSV_USD=0.55, ZAR=18.5;
 const OWNER_EMAIL = 'owner@doxseal.co.za';
 const OWNER_PASS  = 'owner123';
 // Accounts that never hit a seal limit or upgrade screen
-const UNLIMITED_ACCOUNTS = new Set(['owner@doxseal.co.za', 'demo@doxseal.co.za', 'louwrens@optimumgroup.co.za']);
+const UNLIMITED_ACCOUNTS = new Set(['owner@doxseal.co.za', 'louwrens@optimumgroup.co.za']);
 
 const USERS = {
   'demo@doxseal.co.za':          {pass:'demo123', name:'Demo User',        addr:'1TrMktDemoAddr4a2b9d1e7c',plan:'Starter'},
@@ -2094,9 +2095,10 @@ async function checkDemoLimit(){
     });
     const d = await r.json();
     console.log('[TM] demo-count →', d);
-    const serverLimit = d.limit ?? DEMO_LIMIT;
-    setDemoSealsUsed(d.count || 0); // sync local state with authoritative server count
-    if(d.count >= serverLimit){
+    const serverCount = typeof d.count === 'number' ? d.count : DEMO_LIMIT; // undefined → treat as limit reached
+    const serverLimit = typeof d.limit === 'number' ? d.limit : DEMO_LIMIT;
+    setDemoSealsUsed(serverCount);
+    if(serverCount >= serverLimit){
       showUpgradeScreen();
       return false;
     }
@@ -2730,11 +2732,7 @@ document.addEventListener('keydown',e=>{
   if(e.key==='Escape'&&document.getElementById('cert-modal').classList.contains('open')) closeCertModal();
 });
 
-// Show login screen for 300ms before attempting session restore.
-// Without this delay the transition fires before the user can see the login screen.
-setTimeout(function(){
-  if(restoreSession()) openApp();
-}, 300);
+// Always show login page — no auto-restore on load.
 </script>
 
 <!-- CERT VIEW MODAL -->
