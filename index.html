@@ -2104,30 +2104,29 @@ function dismissUpgrade(){
 
 async function checkDemoLimit(){
   if(!isDemoAccount()) return true;
-  // Quick local check before hitting server
-  if(getDemoSealsUsed() >= DEMO_LIMIT){ showUpgradeScreen(); return false; }
-  // Authoritative server check via Upstash
-  try{
-    const r = await fetch(SERVER_URL+'/demo-count',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({email:CU.email})
-    });
-    const d = await r.json();
-    console.log('[TM] demo-count →', d);
-    const serverCount = typeof d.count === 'number' ? d.count : DEMO_LIMIT; // undefined → treat as limit reached
-    const serverLimit = typeof d.limit === 'number' ? d.limit : DEMO_LIMIT;
-    setDemoSealsUsed(serverCount);
-    if(serverCount >= serverLimit){
-      showUpgradeScreen();
-      return false;
+  // Server is authoritative — always check it first so owner resets take effect immediately.
+  // localStorage is only a fallback when the server is unreachable.
+  if(SERVER_URL){
+    try{
+      const r = await fetch(SERVER_URL+'/demo-count',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({email:CU.email})
+      });
+      const d = await r.json();
+      console.log('[TM] demo-count →', d);
+      const serverCount = typeof d.count === 'number' ? d.count : DEMO_LIMIT;
+      const serverLimit = typeof d.limit === 'number' && d.limit > 0 ? d.limit : DEMO_LIMIT;
+      setDemoSealsUsed(serverCount); // sync localStorage with authoritative server value
+      if(serverCount >= serverLimit){ showUpgradeScreen(); return false; }
+      return true;
+    } catch(e){
+      console.warn('[TM] demo-count unreachable, falling back to localStorage');
     }
-    return true;
-  } catch(e){
-    console.warn('[TM] demo-count unreachable, using localStorage fallback');
-    if(getDemoSealsUsed() >= DEMO_LIMIT){ showUpgradeScreen(); return false; }
-    return true;
   }
+  // Offline fallback only
+  if(getDemoSealsUsed() >= DEMO_LIMIT){ showUpgradeScreen(); return false; }
+  return true;
 }
 
 // ═══════════════════════════════
