@@ -296,6 +296,8 @@ body::before{
 .hdr-brand{
   font-family:var(--serif);font-size:17px;
   color:var(--ivory);letter-spacing:.2px;
+  background:none;border:none;padding:0;cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
 }
 .hdr-brand b{color:var(--green);}
 .hdr-right{display:flex;align-items:center;gap:9px;}
@@ -1418,12 +1420,11 @@ body::before{
 <div class="page hidden" id="pg-app">
 
   <div class="app-hdr">
-    <div class="hdr-brand" onclick="goTab('home')" style="cursor:pointer">Dox<b>Seal</b></div>
+    <button class="hdr-brand" onclick="goTab('home')">Dox<b>Seal</b></button>
     <div class="hdr-right">
       <div class="hdr-bal" title="Your sealing credits">
         ✦ <span id="hdr-cred">—</span>
       </div>
-      <button class="hdr-out" onclick="doSignOut()">Sign out</button>
     </div>
   </div>
 
