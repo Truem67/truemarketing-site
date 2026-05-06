@@ -139,11 +139,14 @@ body.auto-verify-mode .input-wrap{display:none;}
 .result-wrap.show{display:block;}
 
 .check-another{
-  display:none;font-size:12px;color:var(--iv4);
-  cursor:pointer;text-decoration:underline;margin-bottom:20px;
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:14px;font-weight:600;color:var(--iv2);
+  cursor:pointer;text-decoration:none;
+  background:var(--card);border:1px solid var(--line2);
+  border-radius:10px;padding:10px 18px;margin-bottom:24px;
+  transition:border-color .15s,color .15s;
 }
-.check-another:hover{color:var(--green2);}
-body.auto-verify-mode .check-another{display:inline-block;}
+.check-another:hover{border-color:var(--green3);color:var(--green);}
 
 /* VERIFIED banner */
 .banner-verified{
@@ -333,7 +336,7 @@ body.auto-verify-mode .check-another{display:inline-block;}
 <body>
 
 <nav class="nav">
-  <a href="https://doxseal.co.za" class="nav-brand"><b>Dox</b>Seal</a>
+  <a href="https://doxseal.co.za" class="nav-brand" onclick="handleNavBrand(event)"><b>Dox</b>Seal</a>
   <span class="nav-badge">Public Verification</span>
 </nav>
 
@@ -364,7 +367,7 @@ body.auto-verify-mode .check-another{display:inline-block;}
 
 <!-- Result -->
 <div class="result-wrap" id="result-wrap">
-  <span class="check-another" onclick="showInputAgain()">← Check another document</span>
+  <span class="check-another" onclick="showInputAgain()">← Verify Another Document</span>
 
   <!-- ── VERIFIED ── -->
   <div id="r-verified" style="display:none">
@@ -522,6 +525,17 @@ body.auto-verify-mode .check-another{display:inline-block;}
 
 <script>
 'use strict';
+
+// ── NAV ──
+function handleNavBrand(e) {
+  // If this tab was opened by the app, close it to return to the app tab
+  if (window.opener && !window.opener.closed) {
+    e.preventDefault();
+    window.opener.focus();
+    window.close();
+  }
+  // Otherwise follow the href to doxseal.co.za normally
+}
 
 // ── EmailJS ──
 (function(){
