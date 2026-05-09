@@ -115,6 +115,27 @@ body.auto-verify-mode .input-wrap{display:none;}
 .txid-input:focus{border-color:var(--green3);}
 .input-hint{font-size:12px;color:var(--iv4);margin-top:10px;line-height:1.5;}
 
+/* ── INPUT TABS ── */
+.input-tabs{
+  display:flex;gap:4px;margin-bottom:12px;
+  background:var(--bg2);border:1px solid var(--line2);
+  border-radius:12px;padding:4px;
+}
+.itab{
+  flex:1;padding:9px;border-radius:9px;
+  font-size:13px;font-weight:600;color:var(--iv3);
+  background:none;border:none;cursor:pointer;transition:all .15s;
+}
+.itab.on{background:var(--card);color:var(--ivory);box-shadow:0 1px 4px rgba(0,0,0,.3);}
+.itab:hover:not(.on){color:var(--iv2);}
+.verify-btn{
+  width:100%;margin-top:14px;padding:12px;
+  background:var(--green);color:#fff;
+  font-size:14px;font-weight:700;border:none;
+  border-radius:10px;cursor:pointer;transition:background .15s;
+}
+.verify-btn:hover{background:var(--green2);}
+
 /* ── LOADING ── */
 .loading-state{
   position:relative;z-index:1;
@@ -297,14 +318,34 @@ body.auto-verify-mode .check-another{display:inline-block;}
 </div>
 
 <div class="input-wrap">
-  <div class="input-card">
-    <div class="input-label">Proof Reference</div>
-    <input class="txid-input" id="txid-input"
-      type="text"
-      placeholder="e.g. 3a7f92bc4d1e8af5d9c2e4b6f1a3d5e7..."
-      autocomplete="off" spellcheck="false"
-      onkeydown="if(event.key==='Enter')doVerify()">
-    <div class="input-hint">The Proof Reference appears on every DoxSeal certificate. Press Enter to verify.</div>
+  <div class="input-tabs">
+    <button class="itab on" id="itab-ref"  onclick="switchInputTab('ref')">Proof Reference</button>
+    <button class="itab"    id="itab-hash" onclick="switchInputTab('hash')">Document Hash</button>
+  </div>
+
+  <div id="tab-ref">
+    <div class="input-card">
+      <div class="input-label">Proof Reference</div>
+      <input class="txid-input" id="txid-input"
+        type="text"
+        placeholder="e.g. 3a7f92bc4d1e8af5d9c2e4b6f1a3d5e7..."
+        autocomplete="off" spellcheck="false"
+        onkeydown="if(event.key==='Enter')doVerify()">
+      <div class="input-hint">The Proof Reference appears on every DoxSeal certificate. Press Enter to verify.</div>
+    </div>
+  </div>
+
+  <div id="tab-hash" style="display:none">
+    <div class="input-card">
+      <div class="input-label">Document Hash (SHA-256)</div>
+      <input class="txid-input" id="hash-input"
+        type="text"
+        placeholder="e.g. a9084af6e5731cb039c13b884..."
+        autocomplete="off" spellcheck="false"
+        onkeydown="if(event.key==='Enter')doHashVerify()">
+      <div class="input-hint">The 64-character SHA-256 fingerprint shown on your DoxSeal certificate under "Digital fingerprint".</div>
+      <button class="verify-btn" onclick="doHashVerify()">Verify by Hash →</button>
+    </div>
   </div>
 </div>
 
@@ -531,6 +572,86 @@ function showInputAgain() {
   document.getElementById('txid-input').focus();
 }
 
+// ── TAB SWITCHER ──
+function switchInputTab(tab) {
+  document.getElementById('tab-ref').style.display  = tab === 'ref'  ? 'block' : 'none';
+  document.getElementById('tab-hash').style.display = tab === 'hash' ? 'block' : 'none';
+  document.getElementById('itab-ref').classList.toggle('on',  tab === 'ref');
+  document.getElementById('itab-hash').classList.toggle('on', tab === 'hash');
+  document.getElementById('result-wrap').classList.remove('show');
+}
+
+// ── HASH VERIFY ──
+const DOXSEAL_SERVER = 'https://tm-server-production-c63f.up.railway.app';
+
+async function doHashVerify() {
+  const input = document.getElementById('hash-input');
+  const hash  = (input.value || '').trim().toLowerCase().replace(/\s+/g, '');
+
+  if (!hash) { input.focus(); return; }
+  if (!/^[0-9a-f]{64}$/.test(hash)) {
+    alert('That doesn\'t look like a valid document hash.\n\nA SHA-256 hash is exactly 64 hexadecimal characters (0-9, a-f).');
+    input.focus();
+    return;
+  }
+
+  document.getElementById('result-wrap').classList.remove('show');
+  document.getElementById('loading-state').classList.add('show');
+
+  try {
+    const res  = await fetch(`${DOXSEAL_SERVER}/api/verify?hash=${hash}`, {
+      signal: AbortSignal.timeout(10_000)
+    });
+    const data = await res.json();
+
+    document.getElementById('loading-state').classList.remove('show');
+    document.getElementById('result-wrap').classList.add('show');
+
+    if (!res.ok || !data.found) { showHashNotFound(); return; }
+    showHashVerified(data);
+  } catch(e) {
+    document.getElementById('loading-state').classList.remove('show');
+    document.getElementById('result-wrap').classList.add('show');
+    showHashApiError();
+  }
+}
+
+function showHashVerified(data) {
+  const sealDate = new Date(data.sealedAt).toLocaleString('en-ZA', {
+    weekday:'long', day:'numeric', month:'long', year:'numeric',
+    hour:'2-digit', minute:'2-digit',
+    timeZone:'Africa/Johannesburg', timeZoneName:'short'
+  });
+  const shortRef = data.txid
+    ? data.txid.slice(0, 8).toUpperCase()
+    : data.hash.slice(0, 8).toUpperCase();
+
+  setText('r-confirm-sub', `This document is genuine and unaltered. Sealed on ${sealDate}.`);
+  setText('r-sealed-by', data.sealedBy || '—');
+  setText('r-date', sealDate);
+  setText('r-shortref', shortRef);
+
+  if (data.documentName) {
+    document.getElementById('r-msg-section').style.display = 'block';
+    setText('r-msg-content', data.documentName);
+  } else {
+    document.getElementById('r-msg-section').style.display = 'none';
+  }
+
+  document.getElementById('reply-wrap').style.display = 'none';
+  showOnly('r-verified');
+}
+
+function showHashNotFound() {
+  document.getElementById('r-woc-link-nf').style.display = 'none';
+  showOnly('r-notfound');
+}
+
+function showHashApiError() {
+  document.getElementById('r-woc-link-err').style.display = 'none';
+  showOnly('r-error');
+}
+
 // ── MAIN VERIFY ──
 async function doVerify() {
   const input = document.getElementById('txid-input');
@@ -574,6 +695,7 @@ async function doVerify() {
 }
 
 function showVerified(txid, tx) {
+  document.getElementById('reply-wrap').style.display = '';
   const sealDate = formatDate(tx.blocktime);
   const shortRef = txid.slice(0, 8).toUpperCase();
 
@@ -653,14 +775,18 @@ function escHtml(str) {
 
 function showNotFound(txid) {
   const wocUrl = `https://whatsonchain.com/tx/${txid}`;
-  document.getElementById('r-woc-link-nf').href = wocUrl;
+  const nfLink = document.getElementById('r-woc-link-nf');
+  nfLink.style.display = '';
+  nfLink.href = wocUrl;
   setText('r-woc-url-nf', wocUrl);
   showOnly('r-notfound');
 }
 
 function showApiError(txid) {
   const wocUrl = `https://whatsonchain.com/tx/${txid}`;
-  document.getElementById('r-woc-link-err').href = wocUrl;
+  const errLink = document.getElementById('r-woc-link-err');
+  errLink.style.display = '';
+  errLink.href = wocUrl;
   setText('r-woc-url-err', wocUrl);
   showOnly('r-error');
 }
