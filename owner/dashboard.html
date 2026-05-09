@@ -61,8 +61,6 @@ body{background:var(--bg);font-family:var(--sans);color:var(--white);-webkit-fon
 .btn-primary{width:100%;background:var(--teal);color:#0f1117;border:none;border-radius:10px;padding:13px;font-family:var(--sans);font-size:14px;font-weight:700;cursor:pointer;margin-top:6px;transition:background .15s;}
 .btn-primary:hover{background:var(--teal2);}
 .btn-primary:disabled{opacity:.5;cursor:not-allowed;}
-#step-2fa{display:none;}
-#code-hint{font-size:12px;color:var(--teal);margin-top:8px;display:none;}
 
 /* ═══════════════════════════════ SHELL ═══════════════════════════════ */
 #app{display:none;}
@@ -228,24 +226,13 @@ tr.user-row:hover td{background:rgba(255,255,255,.02);}
       </div>
     </div>
 
-    <!-- Step 1: credentials -->
+    <!-- Password login -->
     <div id="step-creds" class="login-card">
       <div class="login-title">Owner Login</div>
       <div class="login-sub">Private access — not for sharing</div>
-      <div class="field"><label>Email</label><input id="inp-email" type="email" placeholder="owner@doxseal.co.za" autocomplete="username"></div>
       <div class="field"><label>Password</label><input id="inp-pass" type="password" placeholder="••••••••" autocomplete="current-password"></div>
       <div class="login-err" id="creds-err"></div>
-      <button class="btn-primary" id="btn-creds" onclick="submitCreds()">Continue →</button>
-    </div>
-
-    <!-- Step 2: 2FA code -->
-    <div id="step-2fa" class="login-card">
-      <div class="login-title">Check Your Email</div>
-      <div class="login-sub">A 6-digit code was sent to your inbox.</div>
-      <div class="field"><label>Login Code</label><input id="inp-code" type="text" inputmode="numeric" maxlength="6" placeholder="123456" autocomplete="one-time-code"></div>
-      <div id="code-hint">Code sent ✓</div>
-      <div class="login-err" id="code-err"></div>
-      <button class="btn-primary" id="btn-2fa" onclick="submit2FA()">Verify →</button>
+      <button class="btn-primary" id="btn-creds" onclick="ownerLogin()">Login →</button>
     </div>
   </div>
 </div>
@@ -480,54 +467,23 @@ function authHeaders() {
   return { 'Content-Type': 'application/json', 'x-owner-secret': OWNER_SECRET };
 }
 
-async function submitCreds() {
-  const email = document.getElementById('inp-email').value.trim();
-  const pass  = document.getElementById('inp-pass').value;
-  const btn   = document.getElementById('btn-creds');
-  const err   = document.getElementById('creds-err');
+async function ownerLogin() {
+  const pass = document.getElementById('inp-pass').value;
+  const btn  = document.getElementById('btn-creds');
+  const err  = document.getElementById('creds-err');
 
   err.style.display = 'none';
   btn.disabled = true;
-  btn.textContent = 'Sending code…';
+  btn.textContent = 'Logging in…';
 
   try {
-    const r = await fetch(`${SERVER_URL}/api/owner/request-code`, {
+    const r = await fetch(`${SERVER_URL}/api/owner/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password: pass })
+      body: JSON.stringify({ password: pass })
     });
     const d = await r.json();
-    if (!r.ok) throw new Error(d.error || 'Invalid credentials');
-
-    document.getElementById('step-creds').style.display = 'none';
-    document.getElementById('step-2fa').style.display   = 'block';
-    document.getElementById('code-hint').style.display  = 'block';
-    document.getElementById('inp-code').focus();
-  } catch(e) {
-    err.textContent = e.message;
-    err.style.display = 'block';
-    btn.disabled = false;
-    btn.textContent = 'Continue →';
-  }
-}
-
-async function submit2FA() {
-  const code = document.getElementById('inp-code').value.trim();
-  const btn  = document.getElementById('btn-2fa');
-  const err  = document.getElementById('code-err');
-
-  err.style.display = 'none';
-  btn.disabled = true;
-  btn.textContent = 'Verifying…';
-
-  try {
-    const r = await fetch(`${SERVER_URL}/api/owner/verify-code`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ code })
-    });
-    const d = await r.json();
-    if (!r.ok) throw new Error(d.error || 'Invalid code');
+    if (!r.ok) throw new Error(d.error || 'Invalid password');
 
     authenticated = true;
     document.getElementById('login-overlay').style.display = 'none';
@@ -537,12 +493,11 @@ async function submit2FA() {
     err.textContent = e.message;
     err.style.display = 'block';
     btn.disabled = false;
-    btn.textContent = 'Verify →';
+    btn.textContent = 'Login →';
   }
 }
 
-document.getElementById('inp-pass').addEventListener('keydown', e => { if (e.key === 'Enter') submitCreds(); });
-document.getElementById('inp-code').addEventListener('keydown', e => { if (e.key === 'Enter') submit2FA(); });
+document.getElementById('inp-pass').addEventListener('keydown', e => { if (e.key === 'Enter') ownerLogin(); });
 
 function signOut() {
   authenticated = false;
