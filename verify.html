@@ -606,12 +606,14 @@ async function doHashVerify() {
 
     document.getElementById('loading-state').classList.remove('show');
     document.getElementById('result-wrap').classList.add('show');
+    document.getElementById('result-wrap').scrollIntoView({ behavior: 'smooth', block: 'start' });
 
     if (!res.ok || !data.found) { showHashNotFound(); return; }
     showHashVerified(data);
   } catch(e) {
     document.getElementById('loading-state').classList.remove('show');
     document.getElementById('result-wrap').classList.add('show');
+    document.getElementById('result-wrap').scrollIntoView({ behavior: 'smooth', block: 'start' });
     showHashApiError();
   }
 }
