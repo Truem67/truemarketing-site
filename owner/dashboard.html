@@ -455,22 +455,24 @@ tr.user-row:hover td{background:rgba(255,255,255,.02);}
 // ═══════════════════════════════════════════════════════════
 // CONFIG
 // ═══════════════════════════════════════════════════════════
-const SERVER_URL    = 'https://tm-server-production-c63f.up.railway.app';
-const OWNER_SECRET  = 'TrueMarketing2026';
+const SERVER_URL = 'https://tm-server-production-c63f.up.railway.app';
 
 // ═══════════════════════════════════════════════════════════
 // AUTH
 // ═══════════════════════════════════════════════════════════
 let authenticated = false;
+let ownerToken    = '';
 
 function authHeaders() {
-  return { 'Content-Type': 'application/json', 'x-owner-secret': OWNER_SECRET };
+  return { 'Content-Type': 'application/json', 'x-owner-secret': ownerToken };
 }
 
 async function ownerLogin() {
-  const pass = document.getElementById('inp-pass').value;
+  const pass = document.getElementById('inp-pass').value.trim();
   const btn  = document.getElementById('btn-creds');
   const err  = document.getElementById('creds-err');
+
+  if (!pass) return;
 
   err.style.display = 'none';
   btn.disabled = true;
@@ -485,12 +487,13 @@ async function ownerLogin() {
     const d = await r.json();
     if (!r.ok) throw new Error(d.error || 'Invalid password');
 
+    ownerToken    = d.token || pass;
     authenticated = true;
     document.getElementById('login-overlay').style.display = 'none';
     document.getElementById('app').classList.add('show');
     initDashboard();
   } catch(e) {
-    err.textContent = e.message;
+    err.textContent = e.message || 'Network error — is the server running?';
     err.style.display = 'block';
     btn.disabled = false;
     btn.textContent = 'Login →';
