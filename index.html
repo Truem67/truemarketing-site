@@ -1863,6 +1863,7 @@ async function doLogin(){
     HIST=[...loadCerts(em),...DEMO];
     btn.disabled=false; btn.textContent='Sign In →';
     openApp();
+    if(!TRIAL_EMAILS.has(em)){ syncWalletBalance(); return; }
     // Sync actual remaining seals from server so credits pod is accurate
     if(TRIAL_EMAILS.has(em) && SERVER_URL){
       fetch(SERVER_URL+'/demo-count',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:em})})
@@ -1894,7 +1895,9 @@ async function doLogin(){
           : 48210;
         HIST=loadCerts(d.user.email||em);
         btn.disabled=false; btn.textContent='Sign In →';
-        openApp(); return;
+        openApp();
+        if(d.user.account_type!=='trial') syncWalletBalance();
+        return;
       }
       authErr(d.error||'Incorrect email or password.');
     }catch(e){
@@ -2026,6 +2029,14 @@ function openApp(){
   showPage('pg-app');
   setTimeout(() => goTab('home'), 340);
   if(SERVER_URL) fetchLivePrice();
+}
+
+function syncWalletBalance(){
+  if(!SERVER_URL) return;
+  fetch(SERVER_URL+'/api/health')
+    .then(r=>r.json())
+    .then(d=>{ if(typeof d.balanceSats==='number'){ CREDS=d.balanceSats; renderUI(); } })
+    .catch(()=>{});
 }
 
 function renderUI(){
