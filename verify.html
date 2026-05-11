@@ -394,6 +394,11 @@ body.auto-verify-mode .check-another{display:inline-block;}
           <div class="payload-box" id="r-msg-content" style="word-break:break-word;white-space:pre-wrap;">—</div>
         </div>
 
+        <div class="rc-section" id="r-payload-section" style="display:none">
+          <div class="rc-section-title">Blockchain Record</div>
+          <div class="payload-box" id="r-payload-fields"></div>
+        </div>
+
       </div>
     </div>
 
@@ -723,13 +728,18 @@ function showVerified(txid, tx) {
   setText('r-date', sealDate);
   setText('r-shortref', shortRef);
 
-  // Message content
+  // Message content + payload fields (hash, date, type)
   const rawPayload = extractOpReturn(tx.vout);
   const parsed = parseTMPayload(rawPayload);
   const message = parsed?.message || (parsed?.type === 'plain-legacy' ? parsed?.message : null);
   if (message) {
     document.getElementById('r-msg-section').style.display = 'block';
     setText('r-msg-content', message);
+  }
+  const payloadHtml = parsed ? buildPayloadFields(parsed, rawPayload) : '';
+  if (payloadHtml) {
+    document.getElementById('r-payload-section').style.display = 'block';
+    document.getElementById('r-payload-fields').innerHTML = payloadHtml;
   }
 
   // WhatsOnChain link
