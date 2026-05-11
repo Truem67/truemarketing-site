@@ -727,9 +727,14 @@ async function doVerify() {
       showApiError(txid);
     } else {
       const tx = await res.json();
+      console.log('[VERIFY] WoC response status:', res.status);
+      console.log('[VERIFY] tx.blocktime:', tx.blocktime);
+      console.log('[VERIFY] tx.vout count:', tx.vout?.length);
+      console.log('[VERIFY] tx.vout[0] scriptPubKey:', JSON.stringify(tx.vout?.[0]?.scriptPubKey));
       showVerified(txid, tx);
     }
   } catch(e) {
+    console.error('[VERIFY] fetch error:', e.message);
     document.getElementById('loading-state').classList.remove('show');
     document.getElementById('result-wrap').classList.add('show');
     showApiError(txid);
@@ -756,20 +761,25 @@ function showVerified(txid, tx) {
 
   // Message content + payload fields (hash, date, type)
   const rawPayload = extractOpReturn(tx.vout);
+  console.log('[VERIFY] rawPayload:', rawPayload);
   const parsed = parseTMPayload(rawPayload);
+  console.log('[VERIFY] parsed:', JSON.stringify(parsed));
   const message = parsed?.message || (parsed?.type === 'plain-legacy' ? parsed?.message : null);
   if (message) {
     document.getElementById('r-msg-section').style.display = 'block';
     setText('r-msg-content', message);
   }
   const payloadHtml = parsed ? buildPayloadFields(parsed, rawPayload) : '';
+  console.log('[VERIFY] payloadHtml length:', payloadHtml.length);
   if (payloadHtml) {
     document.getElementById('r-payload-section').style.display = 'block';
     document.getElementById('r-payload-fields').innerHTML = payloadHtml;
   }
   setText('r-txid-full', txid);
   document.getElementById('r-txid-row').style.display = 'block';
-  if (!payloadHtml) document.getElementById('r-payload-section').style.display = 'block';
+  document.getElementById('r-payload-section').style.display = 'block';
+  console.log('[VERIFY] r-txid-row display:', document.getElementById('r-txid-row').style.display);
+  console.log('[VERIFY] r-payload-section display:', document.getElementById('r-payload-section').style.display);
 
   // WhatsOnChain link
   const wocUrl = `https://whatsonchain.com/tx/${txid}`;
