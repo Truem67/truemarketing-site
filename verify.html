@@ -244,6 +244,14 @@ body.auto-verify-mode .check-another{display:inline-block;}
 .pf-label{font-size:10px;color:var(--iv4);font-family:var(--sans);text-transform:uppercase;letter-spacing:.08em;}
 .pf-val{color:var(--green);word-break:break-word;overflow-wrap:break-word;white-space:pre-wrap;overflow:visible;max-height:none;max-width:100%;}
 
+/* Transaction ID row */
+.txid-row{margin-top:10px;padding-top:10px;border-top:1px solid var(--line);}
+.txid-row-label{font-size:10px;color:var(--iv4);font-family:var(--sans);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px;}
+.txid-row-val{display:flex;align-items:flex-start;gap:8px;}
+.txid-full{font-family:var(--mono);font-size:10px;color:var(--green);word-break:break-all;line-height:1.6;flex:1;}
+.btn-copy{flex-shrink:0;background:rgba(45,206,130,.1);border:1px solid rgba(45,206,130,.25);color:var(--green);border-radius:6px;padding:3px 10px;font-size:11px;font-weight:600;cursor:pointer;font-family:var(--sans);transition:all .15s;white-space:nowrap;}
+.btn-copy:hover{background:rgba(45,206,130,.2);}
+
 /* Independence note */
 .independence-note{
   background:var(--bg2);border:1px solid var(--line);
@@ -397,6 +405,13 @@ body.auto-verify-mode .check-another{display:inline-block;}
         <div class="rc-section" id="r-payload-section" style="display:none">
           <div class="rc-section-title">Blockchain Record</div>
           <div class="payload-box" id="r-payload-fields"></div>
+          <div class="txid-row" id="r-txid-row" style="display:none">
+            <div class="txid-row-label">Transaction ID</div>
+            <div class="txid-row-val">
+              <span class="txid-full" id="r-txid-full">—</span>
+              <button class="btn-copy" id="r-copy-btn" onclick="copyTxid()">Copy</button>
+            </div>
+          </div>
         </div>
 
       </div>
@@ -573,6 +588,17 @@ function setText(id, txt) {
   if (el) el.textContent = txt;
 }
 
+function copyTxid() {
+  const txid = document.getElementById('r-txid-full').textContent;
+  const btn  = document.getElementById('r-copy-btn');
+  navigator.clipboard.writeText(txid).then(() => {
+    btn.textContent = 'Copied!';
+    setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
+  }).catch(() => {
+    btn.textContent = 'Copy';
+  });
+}
+
 function showOnly(id) {
   ['r-verified','r-notfound','r-error'].forEach(x => {
     document.getElementById(x).style.display = x === id ? 'block' : 'none';
@@ -741,6 +767,9 @@ function showVerified(txid, tx) {
     document.getElementById('r-payload-section').style.display = 'block';
     document.getElementById('r-payload-fields').innerHTML = payloadHtml;
   }
+  setText('r-txid-full', txid);
+  document.getElementById('r-txid-row').style.display = 'block';
+  if (!payloadHtml) document.getElementById('r-payload-section').style.display = 'block';
 
   // WhatsOnChain link
   const wocUrl = `https://whatsonchain.com/tx/${txid}`;
