@@ -114,6 +114,8 @@ body.auto-verify-mode .input-wrap{display:none;}
 .txid-input::placeholder{font-family:var(--sans);font-size:13px;color:var(--iv4);}
 .txid-input:focus{border-color:var(--green3);}
 .input-hint{font-size:12px;color:var(--iv4);margin-top:10px;line-height:1.5;}
+.verify-btn{width:100%;margin-top:14px;padding:12px;background:var(--green);color:#fff;font-size:14px;font-weight:700;border:none;border-radius:10px;cursor:pointer;transition:background .15s;}
+.verify-btn:hover{background:var(--green2);}
 
 /* ── LOADING ── */
 .loading-state{
@@ -304,7 +306,8 @@ body.auto-verify-mode .check-another{display:inline-block;}
       placeholder="e.g. 3a7f92bc4d1e8af5d9c2e4b6f1a3d5e7..."
       autocomplete="off" spellcheck="false"
       onkeydown="if(event.key==='Enter')doVerify()">
-    <div class="input-hint">The Proof Reference appears on every DoxSeal certificate. Press Enter to verify.</div>
+    <div class="input-hint">The Proof Reference is the 64-character ID on every DoxSeal certificate.</div>
+    <button class="verify-btn" onclick="doVerify()">Verify Document →</button>
   </div>
 </div>
 
