@@ -339,7 +339,8 @@ body.auto-verify-mode .check-another{display:inline-block;}
         placeholder="e.g. 3a7f92bc4d1e8af5d9c2e4b6f1a3d5e7..."
         autocomplete="off" spellcheck="false"
         onkeydown="if(event.key==='Enter')doVerify()">
-      <div class="input-hint">The Proof Reference appears on every DoxSeal certificate. Press Enter to verify.</div>
+      <div class="input-hint">The Proof Reference is the 64-character ID on every DoxSeal certificate.</div>
+      <button class="verify-btn" onclick="doVerify()">Verify Document →</button>
     </div>
   </div>
 
