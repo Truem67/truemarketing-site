@@ -397,6 +397,15 @@ body.auto-verify-mode .check-another{display:inline-block;}
       </div>
     </div>
 
+    <!-- WhatsOnChain link -->
+    <a class="woc-link" id="r-woc-link-verified" href="#" target="_blank" rel="noopener" style="margin-top:16px;display:flex;">
+      <div class="woc-left">
+        <div class="woc-label">View transaction on WhatsOnChain</div>
+        <div class="woc-url" id="r-woc-url-verified">—</div>
+      </div>
+      <div class="woc-arr">↗</div>
+    </a>
+
     <!-- WhatsApp reply -->
     <div class="reply-wrap" id="reply-wrap">
       <a class="btn-wa" id="btn-wa" href="#" target="_blank" rel="noopener">
@@ -722,6 +731,12 @@ function showVerified(txid, tx) {
     document.getElementById('r-msg-section').style.display = 'block';
     setText('r-msg-content', message);
   }
+
+  // WhatsOnChain link
+  const wocUrl = `https://whatsonchain.com/tx/${txid}`;
+  const wocLink = document.getElementById('r-woc-link-verified');
+  wocLink.href = wocUrl;
+  setText('r-woc-url-verified', wocUrl);
 
   // WhatsApp button
   if (_senderWa) {
