@@ -739,7 +739,7 @@ function submitDemo(){
   var role=document.getElementById('f-role').value;
   if(!name||!email||!company||!role){alert('Please fill in all fields.');return;}
   if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){alert('Please enter a valid email address.');return;}
-  fetch('https://tm-server-production-c63f.up.railway.app/api/demo-request',{
+  fetch('https://tm-server-myv6.onrender.com/api/demo-request',{
     method:'POST',headers:{'Content-Type':'application/json'},
     body:JSON.stringify({name:name,email:email,company:company,role:role,source:'hr-landing'})
   }).catch(function(){});
