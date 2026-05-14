@@ -1057,6 +1057,39 @@ body::before{
 
 .hist-list{padding:0 20px;}
 
+/* history header row */
+.hist-head-row{display:flex;align-items:flex-start;justify-content:space-between;padding:20px 20px 10px;}
+.hist-head-row .hist-head{padding:0;}
+.hist-refresh{
+  background:transparent;border:1px solid var(--line2);border-radius:8px;
+  color:var(--green2);font-size:12px;font-weight:600;
+  padding:6px 12px;cursor:pointer;transition:all .15s;white-space:nowrap;flex-shrink:0;
+  font-family:var(--sans);margin-top:4px;
+}
+.hist-refresh:hover{background:var(--card);border-color:var(--green);}
+.hist-refresh:disabled{opacity:.4;cursor:default;}
+
+/* spinner */
+.hist-spinner{
+  display:flex;flex-direction:column;align-items:center;
+  padding:40px 16px;gap:12px;
+}
+.spinner-ring{
+  width:32px;height:32px;border-radius:50%;
+  border:3px solid var(--line2);
+  border-top-color:var(--green);
+  animation:spin .7s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.spinner-txt{font-size:12px;color:var(--iv4);}
+
+/* server-sourced badge */
+.seal-source-badge{
+  display:inline-block;font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--green3);background:rgba(45,206,130,.07);border:1px solid var(--line2);
+  border-radius:10px;padding:2px 7px;margin-left:6px;vertical-align:middle;
+}
+
 .empty-st{
   display:flex;flex-direction:column;align-items:center;
   padding:52px 16px;text-align:center;gap:10px;
@@ -1566,9 +1599,12 @@ body::before{
 
     <!-- HISTORY -->
     <div class="tab" id="t-history">
-      <div class="hist-head">
-        <div class="hist-title">My Certificates</div>
-        <div class="hist-sub">Every document you have validated and sealed</div>
+      <div class="hist-head-row">
+        <div class="hist-head">
+          <div class="hist-title">My Seals</div>
+          <div class="hist-sub">Every document you have sealed — permanently on record</div>
+        </div>
+        <button class="hist-refresh" id="hist-refresh-btn" onclick="refreshHistory()" title="Refresh from server">↻ Refresh</button>
       </div>
       <div class="fpills">
         <button class="fp on" onclick="setFilter('all',this)">All</button>
@@ -1746,11 +1782,12 @@ body::before{
 // ═══════════════════════════════
 const SERVER_URL = 'https://tm-server-myv6.onrender.com';
 const API = {
-  broadcast: SERVER_URL ? SERVER_URL+'/api/broadcast' : null,
-  login:     SERVER_URL ? SERVER_URL+'/api/login'     : null,
-  faucet:    SERVER_URL ? SERVER_URL+'/api/faucet'    : null,
-  health:    SERVER_URL ? SERVER_URL+'/api/health'    : null,
-  price:     SERVER_URL ? SERVER_URL+'/api/price'     : null,
+  broadcast: SERVER_URL ? SERVER_URL+'/api/broadcast'   : null,
+  login:     SERVER_URL ? SERVER_URL+'/api/login'       : null,
+  userSeals: SERVER_URL ? SERVER_URL+'/api/user/seals'  : null,
+  faucet:    SERVER_URL ? SERVER_URL+'/api/faucet'      : null,
+  health:    SERVER_URL ? SERVER_URL+'/api/health'      : null,
+  price:     SERVER_URL ? SERVER_URL+'/api/price'       : null,
 };
 
 // ═══════════════════════════════
@@ -2014,6 +2051,7 @@ function lookupPass(){
 
 function doSignOut(){
   CU=null; HIST=[]; LAST=null;
+  histCacheTs=0; histServerSeals=[];
   localStorage.removeItem('tm_session');
   showPage('pg-welcome');
   const emEl=document.getElementById('in-em'); if(emEl) emEl.value='';
@@ -2617,15 +2655,108 @@ function setFilter(f,el){
   renderHistory();
 }
 
-function renderHistory(){
-  const list=document.getElementById('hist-list');
-  if(!list) return;
-  const items=FILTER==='all'?HIST:FILTER==='sent'?HIST.filter(m=>m.dir==='sent'):FILTER==='received'?HIST.filter(m=>m.dir==='received'):HIST.filter(m=>m.verified);
-  if(!items.length){
-    list.innerHTML=`<div class="empty-st"><div class="empty-ico">📋</div><div class="empty-t">No proofs yet</div><div class="empty-s">Your sealed documents appear here — each one permanently protected and independently verifiable.</div></div>`;
+// ── server seal cache ──────────────────────────────────
+let histCacheTs = 0;
+let histServerSeals = []; // raw server objects merged into HIST format
+
+function serverEntryToHist(s) {
+  const d = new Date(s.ts);
+  const ts = d.toISOString().slice(0,16).replace('T',' ');
+  return {
+    id:          s.ts,
+    dir:         'sent',
+    subj:        s.subject || '(no subject)',
+    to:          '',
+    msg:         '',
+    fileName:    '',
+    hash:        (s.hash||'').slice(0,20),
+    fullHash:    s.hash||'',
+    txid:        s.txid||'',
+    ts,
+    verified:    true,
+    mode:        '',
+    sealedBy:    s.email||'',
+    senderEmail: s.email||'',
+    senderName:  '',
+    company:     '',
+    wa:          '',
+    fromServer:  true
+  };
+}
+
+function mergeHistWithServer(serverItems) {
+  const localTxids = new Set(HIST.map(m=>m.txid).filter(Boolean));
+  const extra = serverItems
+    .filter(s => s.txid && !localTxids.has(s.txid))
+    .map(serverEntryToHist);
+  // combine, sort newest first
+  const combined = [...HIST, ...extra].sort((a,b)=>{
+    const ta = typeof a.id==='number' ? a.id : new Date(a.ts||0).getTime();
+    const tb = typeof b.id==='number' ? b.id : new Date(b.ts||0).getTime();
+    return tb - ta;
+  });
+  return combined;
+}
+
+async function fetchServerHistory() {
+  if (!API.userSeals || !CU || !CU.pass) return [];
+  try {
+    const r = await fetch(API.userSeals, {
+      method:  'POST',
+      headers: {'Content-Type':'application/json'},
+      body:    JSON.stringify({email: CU.email, password: CU.pass}),
+      signal:  AbortSignal.timeout(8_000)
+    });
+    if (!r.ok) return [];
+    const d = await r.json();
+    return d.seals || [];
+  } catch { return []; }
+}
+
+function renderHistoryFromData(merged) {
+  const list = document.getElementById('hist-list');
+  if (!list) return;
+  const items = FILTER==='all' ? merged
+    : FILTER==='sent'     ? merged.filter(m=>m.dir==='sent')
+    : FILTER==='received' ? merged.filter(m=>m.dir==='received')
+    : merged.filter(m=>m.verified);
+  if (!items.length) {
+    list.innerHTML=`<div class="empty-st"><div class="empty-ico">📋</div><div class="empty-t">No seals yet</div><div class="empty-s">Your sealed documents appear here — each one permanently protected and independently verifiable.</div></div>`;
     return;
   }
-  list.innerHTML=items.map(m=>proofHTML(m)).join('');
+  list.innerHTML = items.map(m=>proofHTML(m)).join('');
+}
+
+function renderHistory() {
+  const list = document.getElementById('hist-list');
+  if (!list) return;
+
+  // Show what we have locally immediately
+  renderHistoryFromData(HIST);
+
+  // If cache is fresh (< 5 min) use it
+  if (Date.now() - histCacheTs < 300_000 && histServerSeals.length) {
+    renderHistoryFromData(mergeHistWithServer(histServerSeals));
+    return;
+  }
+
+  // Fetch from server (non-blocking — show spinner in list while loading)
+  if (API.userSeals && CU && CU.pass) {
+    list.innerHTML = `<div class="hist-spinner"><div class="spinner-ring"></div><div class="spinner-txt">Loading your seals…</div></div>`;
+    const btn = document.getElementById('hist-refresh-btn');
+    if (btn) btn.disabled = true;
+    fetchServerHistory().then(serverSeals => {
+      histServerSeals = serverSeals;
+      histCacheTs = Date.now();
+      renderHistoryFromData(mergeHistWithServer(serverSeals));
+      if (btn) btn.disabled = false;
+    });
+  }
+}
+
+function refreshHistory() {
+  histCacheTs = 0; // bust cache
+  renderHistory();
 }
 
 function renderHomeRecent(){
@@ -2643,12 +2774,15 @@ function proofHTML(m, compact){
   const cls=m.dir==='sent'?'s':'r';
   const ico=m.dir==='sent'?'🔐':'📩';
   const time=m.ts?m.ts.slice(5,16):'—';
+  const hasLocalCert = !!HIST.find(h=>h.id===m.id);
+  const verifyUrl = m.txid&&!m.txid.startsWith('demo_')
+    ? `https://doxseal.co.za/verify.html?txid=${m.txid}` : null;
   return `<div class="proof-card" onclick="toggleDetail(${m.id})">
     <div class="pc-row">
       <div class="pc-ico ${cls}">${ico}</div>
       <div class="pc-body">
-        <div class="pc-subj">${m.subj}</div>
-        <div class="pc-meta">${m.dir==='sent'?'To: ':'From: '}${m.to}</div>
+        <div class="pc-subj">${m.subj}${m.fromServer&&!hasLocalCert?'<span class="seal-source-badge">verified</span>':''}</div>
+        <div class="pc-meta">${m.dir==='sent'&&m.to?'To: '+m.to:m.dir==='received'&&m.to?'From: '+m.to:'Sealed by you'}</div>
       </div>
       <div class="pc-aside">
         <div class="pc-badge ${m.verified?'v':'p'}">${m.verified?'✓ On-chain':'⏳ Pending'}</div>
@@ -2661,9 +2795,9 @@ function proofHTML(m, compact){
       <div class="pd-row"><span class="pd-k">Transaction ID</span><span class="pd-v m">${m.txid&&!m.txid.startsWith('demo_')?m.txid.slice(0,20)+'…':'(demo)'}</span></div>
       <div class="pd-row"><span class="pd-k">Fingerprint</span><span class="pd-v m">${m.hash||''}…</span></div>
       <div class="pd-btns">
-        <button class="pd-btn" onclick="event.stopPropagation();viewCertById(${m.id})">👁 View</button>
-        <button class="pd-btn" onclick="event.stopPropagation();${m.txid&&!m.txid.startsWith('demo_')?"window.open('https://doxseal.co.za/verify.html?txid="+m.txid+"','_blank')":"alert('Demo seal — connect server for live verification.')"}">⛓ Verify ↗</button>
-        <button class="pd-btn" onclick="event.stopPropagation();downloadCertById(${m.id})">📄 Download</button>
+        ${hasLocalCert?`<button class="pd-btn" onclick="event.stopPropagation();viewCertById(${m.id})">👁 View</button>`:''}
+        ${verifyUrl?`<button class="pd-btn" onclick="event.stopPropagation();window.open('${verifyUrl}','_blank')">⛓ Verify ↗</button>`:m.txid&&m.txid.startsWith('demo_')?`<button class="pd-btn" onclick="event.stopPropagation();alert('Demo seal — not on blockchain.')">⛓ Verify</button>`:''}
+        ${hasLocalCert?`<button class="pd-btn" onclick="event.stopPropagation();downloadCertById(${m.id})">📄 Download</button>`:''}
       </div>
     </div>`:''}
   </div>`;
