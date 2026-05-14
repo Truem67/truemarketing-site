@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DoxSeal · Privacy Policy</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Nunito:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:       #080c09;
+  --bg2:      #0e1610;
+  --card:     #1a2a1c;
+  --card2:    #20321f;
+  --line:     rgba(100,200,120,.09);
+  --line2:    rgba(100,200,120,.16);
+  --line3:    rgba(100,200,120,.28);
+  --green:    #2dce82;
+  --green2:   #23b06d;
+  --green3:   #1a8a53;
+  --ivory:    #f2ede4;
+  --iv2:      rgba(242,237,228,.72);
+  --iv3:      rgba(242,237,228,.42);
+  --iv4:      rgba(242,237,228,.22);
+  --serif:    'Libre Baskerville', Georgia, serif;
+  --sans:     'Nunito', sans-serif;
+}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);
+  font-family:var(--sans);
+  color:var(--ivory);
+  -webkit-font-smoothing:antialiased;
+  min-height:100vh;
+}
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 80% 50% at 50% -10%,rgba(45,206,130,.07),transparent);
+  z-index:0;
+}
+::selection{background:rgba(45,206,130,.25);}
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-thumb{background:var(--line2);border-radius:4px;}
+
+/* NAV */
+.nav{
+  position:sticky;top:0;z-index:100;
+  background:rgba(8,12,9,.92);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);
+  padding:0 24px;
+  display:flex;align-items:center;justify-content:space-between;
+  height:56px;
+}
+.nav-logo{
+  display:flex;align-items:center;gap:10px;
+  text-decoration:none;
+}
+.nav-logo img{height:28px;width:auto;}
+.nav-back{
+  font-size:13px;font-weight:600;color:var(--green);
+  background:transparent;border:1px solid var(--line3);
+  padding:9px 16px;border-radius:6px;cursor:pointer;
+  text-decoration:none;
+  transition:all .15s;min-height:44px;display:flex;align-items:center;
+}
+.nav-back:hover{background:var(--card);border-color:var(--green2);}
+
+/* HERO */
+.hero{
+  position:relative;z-index:1;
+  padding:56px 24px 40px;
+  text-align:center;
+  max-width:760px;margin:0 auto;
+}
+.hero-label{
+  display:inline-block;
+  font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--green2);
+  background:rgba(45,206,130,.08);
+  border:1px solid var(--line3);
+  padding:5px 14px;border-radius:20px;
+  margin-bottom:20px;
+}
+.hero h1{
+  font-family:var(--serif);font-size:clamp(24px,4vw,34px);
+  font-weight:700;color:var(--ivory);line-height:1.25;
+  margin-bottom:14px;
+}
+.hero-sub{font-size:14px;color:var(--iv3);line-height:1.6;}
+.hero-sub a{color:var(--green2);text-decoration:none;}
+.hero-sub a:hover{text-decoration:underline;}
+
+/* CONTENT */
+.content-wrap{
+  position:relative;z-index:1;
+  max-width:860px;margin:0 auto;
+  padding:0 24px 80px;
+}
+.legal-card{
+  background:var(--card);
+  border:1px solid var(--line2);
+  border-radius:12px;
+  padding:36px 40px;
+}
+.legal-updated{
+  font-size:11px;color:var(--iv4);
+  letter-spacing:.08em;text-transform:uppercase;
+  margin-bottom:28px;
+}
+.legal-section{margin-bottom:32px;}
+.legal-section:last-child{margin-bottom:0;}
+.legal-h2{
+  font-family:var(--serif);font-size:18px;font-weight:700;
+  color:var(--ivory);margin-bottom:10px;
+  padding-bottom:8px;border-bottom:1px solid var(--line);
+}
+.legal-h3{
+  font-size:14px;font-weight:700;color:var(--green2);
+  margin-bottom:6px;margin-top:16px;
+}
+.legal-p{
+  font-size:14px;color:var(--iv2);line-height:1.75;
+  margin-bottom:10px;
+}
+.legal-p:last-child{margin-bottom:0;}
+.legal-p a{color:var(--green2);text-decoration:none;}
+.legal-p a:hover{text-decoration:underline;}
+.legal-list{
+  font-size:14px;color:var(--iv2);line-height:1.75;
+  padding-left:20px;margin-bottom:10px;
+}
+.legal-list li{margin-bottom:4px;}
+.legal-highlight{
+  background:var(--card2);
+  border:1px solid var(--line2);
+  border-left:3px solid var(--green3);
+  border-radius:8px;padding:16px 20px;
+  margin:16px 0;
+}
+.legal-highlight p{font-size:13px;color:var(--iv2);line-height:1.6;margin:0;}
+.legal-highlight strong{color:var(--ivory);}
+
+/* FOOTER */
+.page-footer{
+  position:relative;z-index:1;
+  border-top:1px solid var(--line);
+  padding:24px;
+  text-align:center;
+}
+.page-footer p{font-size:12px;color:var(--iv4);line-height:1.6;}
+.page-footer a{color:var(--iv3);text-decoration:none;}
+.page-footer a:hover{color:var(--green2);}
+.page-footer .sep{margin:0 8px;opacity:.4;}
+
+/* RESPONSIVE */
+@media(max-width:640px){
+  .hero{padding:32px 20px 24px;}
+  .hero h1{font-size:clamp(20px,5vw,28px);}
+  .legal-card{padding:20px 16px;}
+  .legal-h2{font-size:16px;}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="https://doxseal.co.za" class="nav-logo">
+    <img src="doxseal-logo-print.png" alt="DoxSeal">
+  </a>
+  <a href="https://doxseal.co.za" class="nav-back">← Back to DoxSeal</a>
+</nav>
+
+<div class="hero">
+  <div class="hero-label">Privacy &amp; POPIA</div>
+  <h1>Privacy Policy</h1>
+  <p class="hero-sub">
+    Johan van Eyssen, Founder &amp; Owner, DoxSeal &nbsp;·&nbsp;
+    <a href="mailto:johan@doxseal.co.za">johan@doxseal.co.za</a><br>
+    Governing law: Republic of South Africa
+  </p>
+</div>
+
+<div class="content-wrap">
+  <div class="legal-card">
+    <div class="legal-updated">Effective Date: 14 May 2026</div>
+
+    <div class="legal-section">
+      <h2 class="legal-h2">1. Introduction</h2>
+      <p class="legal-p">DoxSeal is committed to protecting your personal information under POPIA (Protection of Personal Information Act 4 of 2013).</p>
+    </div>
+
+    <div class="legal-section">
+      <h2 class="legal-h2">2. Information We Collect</h2>
+      <h3 class="legal-h3">Account Information</h3>
+      <p class="legal-p">Name and email address for authentication only.</p>
+      <h3 class="legal-h3">Usage Data</h3>
+      <p class="legal-p">Number of seals and activity timestamps for service management.</p>
+      <h3 class="legal-h3">Documents</h3>
+      <div class="legal-highlight">
+        <p><strong>DoxSeal does NOT collect, store or process document content.</strong> Only a SHA-256 hash is processed. Your document never leaves your device.</p>
+      </div>
+    </div>
+
+    <div class="legal-section">
+      <h2 class="legal-h2">3. How We Use Your Information</h2>
+      <ul class="legal-list">
+        <li>Provide and manage your account;</li>
+        <li>Deliver the sealing service;</li>
+        <li>Send authentication codes;</li>
+        <li>Comply with legal obligations.</li>
+      </ul>
+      <p class="legal-p">We do not sell or share personal information with any third party for marketing.</p>
+    </div>
+
+    <div class="legal-section">
+      <h2 class="legal-h2">4. Third-Party Services</h2>
+      <ul class="legal-list">
+        <li><strong>Resend</strong> — email delivery</li>
+        <li><strong>Upstash</strong> — data storage</li>
+        <li><strong>Render</strong> — server hosting</li>
+        <li><strong>BSV Blockchain</strong> — hash storage only (no personal data)</li>
+      </ul>
+    </div>
+
+    <div class="legal-section">
+      <h2 class="legal-h2">5. Data Security</h2>
+      <p class="legal-p">Account information is stored with industry-standard encryption and appropriate technical measures.</p>
+    </div>
+
+    <div class="legal-section">
+      <h2 class="legal-h2">6. Blockchain Records</h2>
+      <p class="legal-p">Only document hashes are recorded on the blockchain — no personal information. These records are permanent and public but cannot be reversed to reveal document content.</p>
+    </div>
+
+    <div class="legal-section">
+      <h2 class="legal-h2">7. Your Rights Under POPIA</h2>
+      <ul class="legal-list">
+        <li>Access your personal information;</li>
+        <li>Request correction;</li>
+        <li>Request deletion;</li>
+        <li>Object to processing;</li>
+        <li>Lodge a complaint with the Information Regulator.</li>
+      </ul>
+    </div>
+
+    <div class="legal-section">
+      <h2 class="legal-h2">8. Information Regulator</h2>
+      <p class="legal-p">
+        Website: <a href="https://www.inforegulator.org.za" target="_blank" rel="noopener">www.inforegulator.org.za</a><br>
+        Email: <a href="mailto:inforeg@justice.gov.za">inforeg@justice.gov.za</a>
+      </p>
+    </div>
+
+    <div class="legal-section">
+      <h2 class="legal-h2">9. Data Retention</h2>
+      <p class="legal-p">Data retained while account is active or as required by law. Request deletion by contacting us.</p>
+    </div>
+
+    <div class="legal-section">
+      <h2 class="legal-h2">10. Contact — Information Officer</h2>
+      <p class="legal-p">
+        Johan van Eyssen<br>
+        <a href="mailto:johan@doxseal.co.za">johan@doxseal.co.za</a> &nbsp;·&nbsp;
+        <a href="https://doxseal.co.za">doxseal.co.za</a>
+      </p>
+    </div>
+  </div>
+</div>
+
+<footer class="page-footer">
+  <p>
+    © 2026 Johan van Eyssen t/a DoxSeal
+    <span class="sep">·</span>
+    <a href="https://doxseal.co.za">Home</a>
+    <span class="sep">·</span>
+    <a href="terms.html">Terms &amp; Conditions</a>
+    <span class="sep">·</span>
+    <a href="mailto:johan@doxseal.co.za">johan@doxseal.co.za</a>
+  </p>
+</footer>
+
+</body>
+</html>
