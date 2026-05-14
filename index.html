@@ -2775,9 +2775,11 @@ function proofHTML(m, compact){
   const ico=m.dir==='sent'?'🔐':'📩';
   const time=m.ts?m.ts.slice(5,16):'—';
   const hasLocalCert = !!HIST.find(h=>h.id===m.id);
+  const fullHash = m.fullHash || m.hash || '';
+  const shortTxid = m.txid&&!m.txid.startsWith('demo_') ? m.txid.slice(0,20)+'…' : '(demo)';
   const verifyUrl = m.txid&&!m.txid.startsWith('demo_')
     ? `https://doxseal.co.za/verify.html?txid=${m.txid}` : null;
-  return `<div class="proof-card" onclick="toggleDetail(${m.id})">
+  return `<div class="proof-card" onclick="toggleDetail(this)">
     <div class="pc-row">
       <div class="pc-ico ${cls}">${ico}</div>
       <div class="pc-body">
@@ -2789,23 +2791,23 @@ function proofHTML(m, compact){
         <div class="pc-time">${time}</div>
       </div>
     </div>
-    ${!compact?`<div class="pc-detail" id="pd-${m.id}">
-      ${m.msg?`<div class="pd-row"><span class="pd-k">Message</span><span class="pd-v">${(m.msg||'').slice(0,100)}${(m.msg||'').length>100?'…':''}</span></div>`:''}
+    ${!compact?`<div class="pc-detail">
+      ${m.msg?`<div class="pd-row"><span class="pd-k">Message</span><span class="pd-v">${(m.msg||'').slice(0,120)}${(m.msg||'').length>120?'…':''}</span></div>`:''}
       <div class="pd-row"><span class="pd-k">Date sealed</span><span class="pd-v">${m.ts||'—'}</span></div>
-      <div class="pd-row"><span class="pd-k">Transaction ID</span><span class="pd-v m">${m.txid&&!m.txid.startsWith('demo_')?m.txid.slice(0,20)+'…':'(demo)'}</span></div>
-      <div class="pd-row"><span class="pd-k">Fingerprint</span><span class="pd-v m">${m.hash||''}…</span></div>
+      <div class="pd-row"><span class="pd-k">SHA-256 fingerprint</span><span class="pd-v m" style="font-size:9px;word-break:break-all;max-width:70%">${fullHash||'—'}</span></div>
+      <div class="pd-row"><span class="pd-k">Transaction ID</span><span class="pd-v m">${shortTxid}</span></div>
       <div class="pd-btns">
-        ${hasLocalCert?`<button class="pd-btn" onclick="event.stopPropagation();viewCertById(${m.id})">👁 View</button>`:''}
-        ${verifyUrl?`<button class="pd-btn" onclick="event.stopPropagation();window.open('${verifyUrl}','_blank')">⛓ Verify ↗</button>`:m.txid&&m.txid.startsWith('demo_')?`<button class="pd-btn" onclick="event.stopPropagation();alert('Demo seal — not on blockchain.')">⛓ Verify</button>`:''}
+        ${verifyUrl?`<button class="pd-btn" onclick="event.stopPropagation();window.open('${verifyUrl}','_blank')">⛓ Verify ↗</button>`:''}
+        ${hasLocalCert?`<button class="pd-btn" onclick="event.stopPropagation();viewCertById(${m.id})">👁 View cert</button>`:''}
         ${hasLocalCert?`<button class="pd-btn" onclick="event.stopPropagation();downloadCertById(${m.id})">📄 Download</button>`:''}
       </div>
     </div>`:''}
   </div>`;
 }
 
-function toggleDetail(id){
-  const el=document.getElementById('pd-'+id);
-  if(el) el.classList.toggle('open');
+function toggleDetail(card){
+  const detail = card.querySelector('.pc-detail');
+  if (detail) detail.classList.toggle('open');
 }
 
 function openWoc(txid){
