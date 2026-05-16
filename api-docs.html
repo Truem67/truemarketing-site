@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DoxSeal API — Developer Documentation</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Nunito:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:    #080c09;
+  --bg2:   #0e1610;
+  --card:  #1a2a1c;
+  --card2: #20321f;
+  --line:  rgba(100,200,120,.09);
+  --line2: rgba(100,200,120,.16);
+  --line3: rgba(100,200,120,.28);
+  --green: #2dce82;
+  --green2:#23b06d;
+  --green3:#1a8a53;
+  --ivory: #f2ede4;
+  --iv2:   rgba(242,237,228,.72);
+  --iv3:   rgba(242,237,228,.42);
+  --iv4:   rgba(242,237,228,.22);
+  --iv5:   rgba(242,237,228,.1);
+  --amber: #e8a030;
+  --teal:  #38b2ac;
+  --red:   #e05555;
+  --serif: 'Libre Baskerville',Georgia,serif;
+  --sans:  'Nunito',sans-serif;
+  --mono:  'JetBrains Mono',monospace;
+}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);font-family:var(--sans);
+  color:var(--ivory);-webkit-font-smoothing:antialiased;min-height:100vh;
+}
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(ellipse 80% 50% at 50% -10%,rgba(45,206,130,.07),transparent);
+}
+::selection{background:rgba(45,206,130,.25);}
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-thumb{background:var(--line2);border-radius:4px;}
+
+/* ── NAV ── */
+.nav{
+  position:sticky;top:0;z-index:100;
+  background:rgba(8,12,9,.92);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);
+  padding:0 24px;display:flex;align-items:center;justify-content:space-between;
+  height:56px;
+}
+.nav-logo{font-family:var(--serif);font-size:17px;color:var(--ivory);text-decoration:none;}
+.nav-logo b{color:var(--green);}
+.nav-badge{
+  font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  background:rgba(45,206,130,.12);border:1px solid var(--line3);
+  color:var(--green2);border-radius:20px;padding:3px 10px;margin-left:8px;
+  vertical-align:middle;
+}
+.nav-home{
+  font-size:13px;font-weight:600;color:var(--green2);
+  background:transparent;border:1px solid var(--line3);
+  padding:8px 14px;border-radius:6px;text-decoration:none;transition:all .15s;
+}
+.nav-home:hover{background:var(--card);border-color:var(--green2);}
+
+/* ── LAYOUT ── */
+.wrap{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:0 24px 80px;}
+
+/* ── HERO ── */
+.hero{padding:56px 0 40px;border-bottom:1px solid var(--line);margin-bottom:48px;}
+.hero-pill{
+  display:inline-block;font-size:11px;font-weight:700;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--green2);
+  background:rgba(45,206,130,.08);border:1px solid var(--line3);
+  padding:5px 14px;border-radius:20px;margin-bottom:20px;
+}
+.hero h1{
+  font-family:var(--serif);font-size:clamp(26px,4vw,38px);
+  font-weight:700;color:var(--ivory);line-height:1.2;margin-bottom:14px;
+}
+.hero-sub{font-size:15px;color:var(--iv3);line-height:1.7;max-width:600px;margin-bottom:28px;}
+.access-banner{
+  background:var(--card);border:1px solid var(--line2);border-left:3px solid var(--amber);
+  border-radius:10px;padding:16px 20px;
+}
+.access-banner p{font-size:13px;color:var(--iv2);line-height:1.6;}
+.access-banner a{color:var(--green2);text-decoration:none;}
+.access-banner a:hover{text-decoration:underline;}
+
+/* ── SECTION ── */
+.section{margin-bottom:56px;}
+.section-label{
+  font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--green3);margin-bottom:16px;
+}
+.section-title{
+  font-family:var(--serif);font-size:22px;font-weight:700;
+  color:var(--ivory);margin-bottom:10px;
+}
+.section-body{font-size:14px;color:var(--iv2);line-height:1.75;margin-bottom:24px;}
+.section-body a{color:var(--green2);text-decoration:none;}
+.section-body a:hover{text-decoration:underline;}
+
+/* ── ENDPOINT CARD ── */
+.ep-card{
+  background:var(--card);border:1px solid var(--line2);
+  border-radius:14px;margin-bottom:20px;overflow:hidden;
+}
+.ep-head{
+  display:flex;align-items:center;gap:12px;
+  padding:16px 20px;border-bottom:1px solid var(--line);
+}
+.ep-method{
+  font-family:var(--mono);font-size:11px;font-weight:500;
+  padding:4px 10px;border-radius:6px;flex-shrink:0;letter-spacing:.04em;
+}
+.ep-method.get {background:rgba(56,178,172,.12);color:var(--teal);border:1px solid rgba(56,178,172,.25);}
+.ep-method.post{background:rgba(45,206,130,.1);color:var(--green2);border:1px solid var(--line3);}
+.ep-path{font-family:var(--mono);font-size:14px;color:var(--ivory);}
+.ep-desc{font-size:12px;color:var(--iv3);margin-left:auto;flex-shrink:0;}
+.ep-body{padding:20px;}
+.ep-note{
+  font-size:13px;color:var(--iv2);line-height:1.65;margin-bottom:16px;
+}
+.ep-auth{
+  display:inline-flex;align-items:center;gap:6px;margin-bottom:16px;
+  font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  padding:5px 12px;border-radius:20px;
+}
+.ep-auth.key{background:rgba(45,206,130,.08);color:var(--green2);border:1px solid var(--line3);}
+.ep-auth.pub{background:rgba(56,178,172,.08);color:var(--teal);border:1px solid rgba(56,178,172,.2);}
+.ep-auth.owner{background:rgba(232,160,48,.08);color:var(--amber);border:1px solid rgba(232,160,48,.2);}
+
+/* ── CODE BLOCKS ── */
+.code-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--iv4);margin-bottom:6px;}
+pre{
+  background:var(--bg2);border:1px solid var(--line2);border-radius:8px;
+  padding:16px;overflow-x:auto;margin-bottom:16px;
+}
+pre code{font-family:var(--mono);font-size:12px;color:var(--iv2);line-height:1.7;}
+.c-key{color:var(--green2);}
+.c-str{color:#e8c97a;}
+.c-num{color:var(--teal);}
+.c-com{color:var(--iv4);font-style:italic;}
+.c-url{color:#7ec8f8;}
+
+/* ── FIELD TABLE ── */
+table{width:100%;border-collapse:collapse;margin-bottom:16px;font-size:13px;}
+th{
+  text-align:left;padding:8px 12px;
+  font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--iv4);border-bottom:1px solid var(--line2);
+}
+td{padding:10px 12px;color:var(--iv2);border-bottom:1px solid var(--line);}
+tr:last-child td{border-bottom:none;}
+td:first-child{font-family:var(--mono);font-size:12px;color:var(--green2);}
+td em{font-style:normal;font-size:11px;color:var(--iv4);}
+.req{color:var(--ivory);font-size:10px;font-weight:700;background:rgba(45,206,130,.1);border:1px solid var(--line3);border-radius:10px;padding:2px 7px;margin-left:4px;}
+.opt{color:var(--iv4);font-size:10px;font-weight:600;background:var(--iv5);border:1px solid var(--line);border-radius:10px;padding:2px 7px;margin-left:4px;}
+
+/* ── INLINE CODE ── */
+code{
+  font-family:var(--mono);font-size:12px;color:var(--green2);
+  background:rgba(45,206,130,.06);border:1px solid var(--line2);
+  border-radius:4px;padding:1px 6px;
+}
+
+/* ── KEY EXAMPLE ── */
+.key-example{
+  background:var(--bg2);border:1px solid var(--line2);
+  border-radius:8px;padding:14px 16px;margin-bottom:16px;
+  display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+}
+.key-example code{font-size:13px;word-break:break-all;}
+.key-label{font-size:11px;color:var(--iv4);flex-shrink:0;}
+
+/* ── ERROR TABLE ── */
+.err-row td:first-child{color:var(--red);}
+
+/* ── FOOTER ── */
+.page-footer{
+  border-top:1px solid var(--line);padding:24px 0;text-align:center;
+  position:relative;z-index:1;
+}
+.page-footer p{font-size:12px;color:var(--iv4);}
+.page-footer a{color:var(--iv3);text-decoration:none;}
+.page-footer a:hover{color:var(--green2);}
+.sep{margin:0 8px;opacity:.4;}
+
+/* ── RESPONSIVE ── */
+@media(max-width:640px){
+  .wrap{padding:0 16px 60px;}
+  .hero{padding:32px 0 28px;}
+  .ep-desc{display:none;}
+  pre{font-size:11px;}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="https://doxseal.co.za" class="nav-logo"><b>Dox</b>Seal <span class="nav-badge">API v1</span></a>
+  <a href="https://doxseal.co.za" class="nav-home">← App</a>
+</nav>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-pill">Developer Documentation</div>
+    <h1>DoxSeal REST API</h1>
+    <p class="hero-sub">
+      Seal documents programmatically from any system — CRM, DMS, ERP, or custom workflow.
+      Every seal creates a permanent, independently verifiable blockchain record.
+    </p>
+    <div class="access-banner">
+      <p>
+        <strong style="color:var(--ivory)">Access available on request.</strong>
+        API keys are issued manually to qualified integrators and enterprise clients.
+        Contact <a href="mailto:johan@doxseal.co.za">johan@doxseal.co.za</a> to request access.
+      </p>
+    </div>
+  </div>
+
+  <!-- AUTHENTICATION -->
+  <div class="section">
+    <div class="section-label">Getting Started</div>
+    <div class="section-title">Authentication</div>
+    <p class="section-body">
+      All <code>/api/v1/seal</code> requests require an API key passed in the
+      <code>x-api-key</code> header. API keys begin with <code>dsx_</code> followed by
+      64 hex characters. Keys are generated once and never stored in plain text —
+      save yours immediately on receipt.
+    </p>
+
+    <div class="code-label">Example header</div>
+    <pre><code>x-api-key: dsx_4a2f8b1c9e3d7a5f0b8c2e4d6f1a3b5c7e9f2a4b6c8d0e2f4a6b8c0d2e4f6a8b</code></pre>
+
+    <div class="code-label">Base URL</div>
+    <pre><code><span class="c-url">https://tm-server-myv6.onrender.com</span></code></pre>
+
+    <p class="section-body">
+      Rate limit: <strong style="color:var(--ivory)">60 requests per minute</strong> per API key.
+      Exceeding this returns HTTP 429.
+    </p>
+  </div>
+
+  <!-- ENDPOINTS -->
+  <div class="section">
+    <div class="section-label">Endpoints</div>
+    <div class="section-title">API Reference</div>
+
+    <!-- STATUS -->
+    <div class="ep-card">
+      <div class="ep-head">
+        <span class="ep-method get">GET</span>
+        <span class="ep-path">/api/v1/status</span>
+        <span class="ep-desc">No auth required</span>
+      </div>
+      <div class="ep-body">
+        <p class="ep-note">Health check. Use this to verify connectivity before sending seals.</p>
+        <div class="ep-auth pub">🌐 Public — no authentication required</div>
+
+        <div class="code-label">Response</div>
+        <pre><code>{
+  <span class="c-key">"status"</span>:  <span class="c-str">"ok"</span>,
+  <span class="c-key">"version"</span>: <span class="c-str">"1.0"</span>,
+  <span class="c-key">"service"</span>: <span class="c-str">"DoxSeal API"</span>
+}</code></pre>
+      </div>
+    </div>
+
+    <!-- SEAL -->
+    <div class="ep-card">
+      <div class="ep-head">
+        <span class="ep-method post">POST</span>
+        <span class="ep-path">/api/v1/seal</span>
+        <span class="ep-desc">Requires x-api-key</span>
+      </div>
+      <div class="ep-body">
+        <p class="ep-note">
+          Seals a message or file fingerprint permanently on the BSV blockchain.
+          Either <code>message</code> (the server computes the SHA-256) or
+          <code>fileHash</code> (pre-computed SHA-256 you computed client-side) must be provided —
+          not both. Documents never leave your system.
+        </p>
+        <div class="ep-auth key">🔑 x-api-key required</div>
+
+        <div class="code-label">Request body</div>
+        <table>
+          <tr><th>Field</th><th>Type</th><th>Description</th></tr>
+          <tr>
+            <td>subject <span class="req">required</span></td>
+            <td>string</td>
+            <td>Short description of what is being sealed. Max 200 chars.</td>
+          </tr>
+          <tr>
+            <td>message <span class="opt">optional</span></td>
+            <td>string</td>
+            <td>Plain-text content to seal. Server computes SHA-256. Max 10,000 chars. Use instead of fileHash.</td>
+          </tr>
+          <tr>
+            <td>fileHash <span class="opt">optional</span></td>
+            <td>string</td>
+            <td>Pre-computed SHA-256 hex (64 chars) of a file. Computed on your side — file never uploaded.</td>
+          </tr>
+          <tr>
+            <td>fileName <span class="opt">optional</span></td>
+            <td>string</td>
+            <td>Original filename — stored in response metadata only, not on-chain.</td>
+          </tr>
+          <tr>
+            <td>recipient <span class="opt">optional</span></td>
+            <td>string</td>
+            <td>Email address of the document recipient. Embedded in the on-chain record.</td>
+          </tr>
+        </table>
+
+        <div class="code-label">Example — seal a message</div>
+        <pre><code>curl -X POST <span class="c-url">https://tm-server-myv6.onrender.com/api/v1/seal</span> \
+  -H <span class="c-str">"x-api-key: dsx_your_key_here"</span> \
+  -H <span class="c-str">"Content-Type: application/json"</span> \
+  -d '{
+    <span class="c-key">"subject"</span>:   <span class="c-str">"Employment Contract — Sarah Johnson"</span>,
+    <span class="c-key">"message"</span>:   <span class="c-str">"I, Sarah Johnson, accept the terms of employment as Senior Analyst, effective 1 June 2026, at R480,000 per annum."</span>,
+    <span class="c-key">"recipient"</span>: <span class="c-str">"sarah.johnson@company.co.za"</span>
+  }'</code></pre>
+
+        <div class="code-label">Example — seal a file by its hash</div>
+        <pre><code>curl -X POST <span class="c-url">https://tm-server-myv6.onrender.com/api/v1/seal</span> \
+  -H <span class="c-str">"x-api-key: dsx_your_key_here"</span> \
+  -H <span class="c-str">"Content-Type: application/json"</span> \
+  -d '{
+    <span class="c-key">"subject"</span>:  <span class="c-str">"Signed NDA — Acme Corp"</span>,
+    <span class="c-key">"fileHash"</span>: <span class="c-str">"a3f2c1b8e7d6c5b4a3f2c1b8e7d6c5b4a3f2c1b8e7d6c5b4a3f2c1b8e7d6c5b4"</span>,
+    <span class="c-key">"fileName"</span>: <span class="c-str">"acme-nda-signed-2026.pdf"</span>
+  }'</code></pre>
+
+        <div class="code-label">Success response</div>
+        <pre><code>{
+  <span class="c-key">"success"</span>:        <span class="c-num">true</span>,
+  <span class="c-key">"txid"</span>:           <span class="c-str">"a4f2c8b1e3d7a5f0b8c2e4d6f1a3b5c7e9f2a4b6c8d0e2f4a6b8c0d2e4f6a8b0"</span>,
+  <span class="c-key">"hash"</span>:           <span class="c-str">"3a7f92bc4d1e8af5d9c2e4b6f1a3d5e7..."</span>,
+  <span class="c-key">"subject"</span>:        <span class="c-str">"Employment Contract — Sarah Johnson"</span>,
+  <span class="c-key">"fileName"</span>:       <span class="c-num">null</span>,
+  <span class="c-key">"timestamp"</span>:      <span class="c-str">"2026-06-01T08:30:00.000Z"</span>,
+  <span class="c-key">"block"</span>:          <span class="c-str">"mempool"</span>,
+  <span class="c-key">"confirmed"</span>:      <span class="c-num">false</span>,
+  <span class="c-key">"certificateUrl"</span>: <span class="c-str">"https://doxseal.co.za/verify.html?txid=a4f2c8b1..."</span>,
+  <span class="c-key">"wocUrl"</span>:         <span class="c-str">"https://whatsonchain.com/tx/a4f2c8b1..."</span>
+}</code></pre>
+
+        <p class="ep-note" style="margin-top:8px;font-size:12px;color:var(--iv3)">
+          Blocks confirm in ~1 minute on BSV. Poll <code>/api/v1/verify</code> with the txid to check confirmation status.
+          The <code>certificateUrl</code> is shareable and publicly verifiable without any login.
+        </p>
+      </div>
+    </div>
+
+    <!-- VERIFY -->
+    <div class="ep-card">
+      <div class="ep-head">
+        <span class="ep-method post">POST</span>
+        <span class="ep-path">/api/v1/verify</span>
+        <span class="ep-desc">No auth required</span>
+      </div>
+      <div class="ep-body">
+        <p class="ep-note">
+          Verify a DoxSeal transaction. Returns blockchain confirmation status and the
+          original seal metadata. Can also be used to check transactions sealed via the web app.
+        </p>
+        <div class="ep-auth pub">🌐 Public — no authentication required</div>
+
+        <div class="code-label">Request body</div>
+        <table>
+          <tr><th>Field</th><th>Type</th><th>Description</th></tr>
+          <tr>
+            <td>txid <span class="req">required</span></td>
+            <td>string</td>
+            <td>64-char hex transaction ID returned from <code>/api/v1/seal</code>.</td>
+          </tr>
+        </table>
+
+        <div class="code-label">Example</div>
+        <pre><code>curl -X POST <span class="c-url">https://tm-server-myv6.onrender.com/api/v1/verify</span> \
+  -H <span class="c-str">"Content-Type: application/json"</span> \
+  -d '{ <span class="c-key">"txid"</span>: <span class="c-str">"a4f2c8b1e3d7a5f0b8c2e4d6f1a3b5c7e9f2a4b6c8d0e2f4a6b8c0d2e4f6a8b0"</span> }'</code></pre>
+
+        <div class="code-label">Verified response</div>
+        <pre><code>{
+  <span class="c-key">"verified"</span>:      <span class="c-num">true</span>,
+  <span class="c-key">"txid"</span>:          <span class="c-str">"a4f2c8b1..."</span>,
+  <span class="c-key">"hash"</span>:          <span class="c-str">"3a7f92bc4d1e8af5..."</span>,
+  <span class="c-key">"subject"</span>:       <span class="c-str">"Employment Contract — Sarah Johnson"</span>,
+  <span class="c-key">"sealedBy"</span>:      <span class="c-str">"yourco@example.com"</span>,
+  <span class="c-key">"timestamp"</span>:     <span class="c-str">"2026-06-01T08:30:00.000Z"</span>,
+  <span class="c-key">"block"</span>:         <span class="c-num">901234</span>,
+  <span class="c-key">"confirmed"</span>:     <span class="c-num">true</span>,
+  <span class="c-key">"certificateUrl"</span>:<span class="c-str">"https://doxseal.co.za/verify.html?txid=a4f2c8b1..."</span>,
+  <span class="c-key">"wocUrl"</span>:        <span class="c-str">"https://whatsonchain.com/tx/a4f2c8b1..."</span>
+}
+
+<span class="c-com">// Not found / unverified:</span>
+{
+  <span class="c-key">"verified"</span>: <span class="c-num">false</span>,
+  <span class="c-key">"txid"</span>:     <span class="c-str">"..."</span>,
+  <span class="c-key">"message"</span>: <span class="c-str">"Transaction not found on blockchain"</span>
+}</code></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- ERRORS -->
+  <div class="section">
+    <div class="section-label">Reference</div>
+    <div class="section-title">Error Codes</div>
+
+    <div class="ep-card">
+      <div class="ep-body" style="padding:0">
+        <table class="err-row">
+          <tr><th>HTTP Status</th><th>Meaning</th><th>Action</th></tr>
+          <tr><td>400</td><td>Bad Request — missing or invalid field</td><td>Check request body against the field table above</td></tr>
+          <tr><td>401</td><td>Missing or invalid API key</td><td>Ensure <code>x-api-key</code> header is present and starts with <code>dsx_</code></td></tr>
+          <tr><td>403</td><td>API key revoked</td><td>Contact johan@doxseal.co.za to request a replacement key</td></tr>
+          <tr><td>429</td><td>Rate limit exceeded</td><td>Max 60 requests/min per key — slow down and retry after 1 minute</td></tr>
+          <tr><td>500</td><td>Server error (e.g. insufficient wallet funds)</td><td>Contact support — do not retry immediately</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="code-label" style="margin-top:20px">Error response shape</div>
+    <pre><code>{ <span class="c-key">"error"</span>: <span class="c-str">"Description of what went wrong"</span> }</code></pre>
+  </div>
+
+  <!-- CODE EXAMPLES -->
+  <div class="section">
+    <div class="section-label">Integration Examples</div>
+    <div class="section-title">Code Samples</div>
+
+    <div class="code-label">Node.js</div>
+    <pre><code><span class="c-com">// npm install node-fetch  (or use built-in fetch in Node 18+)</span>
+const API_KEY = process.env.DOXSEAL_API_KEY;
+const BASE    = <span class="c-str">'https://tm-server-myv6.onrender.com'</span>;
+
+async function sealDocument(subject, message, recipient) {
+  const res = await fetch(`${BASE}/api/v1/seal`, {
+    method:  <span class="c-str">'POST'</span>,
+    headers: {
+      <span class="c-str">'Content-Type'</span>: <span class="c-str">'application/json'</span>,
+      <span class="c-str">'x-api-key'</span>:    API_KEY
+    },
+    body: JSON.stringify({ subject, message, recipient })
+  });
+  if (!res.ok) throw new Error((await res.json()).error);
+  return res.json();
+}
+
+<span class="c-com">// Usage</span>
+const result = await sealDocument(
+  <span class="c-str">'Written Warning — J. Smith'</span>,
+  <span class="c-str">'First written warning issued for repeated lateness. Date: 1 June 2026.'</span>,
+  <span class="c-str">'john.smith@company.co.za'</span>
+);
+console.log(result.certificateUrl);
+<span class="c-com">// → https://doxseal.co.za/verify.html?txid=...</span></code></pre>
+
+    <div class="code-label">Python</div>
+    <pre><code>import requests, os
+
+API_KEY = os.environ[<span class="c-str">'DOXSEAL_API_KEY'</span>]
+BASE    = <span class="c-str">'https://tm-server-myv6.onrender.com'</span>
+
+def seal_document(subject, message, recipient=None):
+    headers = {<span class="c-str">'x-api-key'</span>: API_KEY, <span class="c-str">'Content-Type'</span>: <span class="c-str">'application/json'</span>}
+    payload = {<span class="c-str">'subject'</span>: subject, <span class="c-str">'message'</span>: message}
+    if recipient:
+        payload[<span class="c-str">'recipient'</span>] = recipient
+    r = requests.post(f<span class="c-str">'{BASE}/api/v1/seal'</span>, json=payload, headers=headers)
+    r.raise_for_status()
+    return r.json()
+
+def seal_file(subject, file_path, recipient=None):
+    import hashlib
+    sha256 = hashlib.sha256()
+    with open(file_path, <span class="c-str">'rb'</span>) as f:
+        for chunk in iter(lambda: f.read(<span class="c-num">65536</span>), b<span class="c-str">''</span>):
+            sha256.update(chunk)
+    return seal_document.__wrapped__(subject, sha256.hexdigest(), file_path, recipient)
+
+<span class="c-com"># Seal a file without uploading it</span>
+headers = {<span class="c-str">'x-api-key'</span>: API_KEY, <span class="c-str">'Content-Type'</span>: <span class="c-str">'application/json'</span>}
+import hashlib
+h = hashlib.sha256(open(<span class="c-str">'contract.pdf'</span>, <span class="c-str">'rb'</span>).read()).hexdigest()
+r = requests.post(f<span class="c-str">'{BASE}/api/v1/seal'</span>, headers=headers, json={
+    <span class="c-str">'subject'</span>:  <span class="c-str">'Signed Contract — Acme'</span>,
+    <span class="c-str">'fileHash'</span>: h,
+    <span class="c-str">'fileName'</span>: <span class="c-str">'contract.pdf'</span>
+})
+print(r.json()[<span class="c-str">'certificateUrl'</span>])</code></pre>
+
+    <div class="code-label">PHP</div>
+    <pre><code>$apiKey = getenv(<span class="c-str">'DOXSEAL_API_KEY'</span>);
+$base   = <span class="c-str">'https://tm-server-myv6.onrender.com'</span>;
+
+function doxseal_seal(string $subject, string $message, string $recipient = <span class="c-str">''</span>): array {
+    global $apiKey, $base;
+    $ch = curl_init(<span class="c-str">"$base/api/v1/seal"</span>);
+    curl_setopt_array($ch, [
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_POST           => true,
+        CURLOPT_HTTPHEADER     => [<span class="c-str">"x-api-key: $apiKey"</span>, <span class="c-str">'Content-Type: application/json'</span>],
+        CURLOPT_POSTFIELDS     => json_encode(array_filter([
+            <span class="c-str">'subject'</span>   => $subject,
+            <span class="c-str">'message'</span>   => $message,
+            <span class="c-str">'recipient'</span> => $recipient
+        ]))
+    ]);
+    $result = json_decode(curl_exec($ch), true);
+    curl_close($ch);
+    return $result;
+}
+
+$seal = doxseal_seal(<span class="c-str">'Invoice #INV-2026-0042'</span>, <span class="c-str">'Amount: R15,000. Due: 30 June 2026.'</span>, <span class="c-str">'client@firm.co.za'</span>);
+echo $seal[<span class="c-str">'certificateUrl'</span>];</code></pre>
+  </div>
+
+  <!-- HOW IT WORKS -->
+  <div class="section">
+    <div class="section-label">Technical Background</div>
+    <div class="section-title">How DoxSeal Sealing Works</div>
+    <p class="section-body">
+      When you call <code>POST /api/v1/seal</code>, DoxSeal computes (or accepts) a
+      SHA-256 fingerprint of your content and records it in an
+      <a href="https://wiki.bitcoinsv.io/index.php/OP_RETURN" target="_blank" rel="noopener">OP_RETURN</a>
+      output on the BSV blockchain. This creates a permanent, tamper-proof timestamp.
+    </p>
+    <p class="section-body">
+      The record is public and independently verifiable by anyone — without any account or
+      access to DoxSeal. Direct verification via WhatsOnChain: <code>whatsonchain.com/tx/{txid}</code>
+    </p>
+    <p class="section-body">
+      <strong style="color:var(--ivory)">Document privacy:</strong>
+      When using <code>fileHash</code>, the document never leaves your system.
+      Only the 64-character fingerprint is transmitted and recorded on-chain.
+      Even if the blockchain record were public, the original document cannot be
+      reconstructed from a SHA-256 hash.
+    </p>
+  </div>
+
+  <!-- CONTACT -->
+  <div class="section">
+    <div class="section-label">Support</div>
+    <div class="section-title">Request API Access</div>
+    <p class="section-body">
+      API access is issued on request to integrators, law firms, HR platforms,
+      and enterprise clients. There is no public self-service signup.
+    </p>
+    <p class="section-body">
+      Email <a href="mailto:johan@doxseal.co.za">johan@doxseal.co.za</a> with a brief description
+      of your use case and integration platform.
+    </p>
+  </div>
+
+</div><!-- wrap -->
+
+<footer class="page-footer">
+  <div class="wrap">
+    <p>
+      © 2026 Johan van Eyssen t/a DoxSeal
+      <span class="sep">·</span>
+      <a href="https://doxseal.co.za">App</a>
+      <span class="sep">·</span>
+      <a href="terms.html">Terms</a>
+      <span class="sep">·</span>
+      <a href="privacy.html">Privacy</a>
+      <span class="sep">·</span>
+      <a href="mailto:johan@doxseal.co.za">johan@doxseal.co.za</a>
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>
