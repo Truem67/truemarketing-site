@@ -1728,7 +1728,7 @@ body::before{
 <div class="toast-tray" id="toast-tray"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false">
 'use strict';
 
 // ═══════════════════════════════
@@ -2716,6 +2716,17 @@ document.addEventListener('keydown',e=>{
 setTimeout(function(){
   if(restoreSession()) openApp();
 }, 300);
+
+// Expose all inline-handler functions globally in case Cloudflare Rocket Loader defers this script
+window.authTab=authTab; window.doLogin=doLogin; window.doSignup=doSignup; window.doSignOut=doSignOut;
+window.togglePass=togglePass; window.showForgotPass=showForgotPass; window.lookupPass=lookupPass;
+window.saveCompany=saveCompany; window.saveWhatsApp=saveWhatsApp; window.goTab=goTab;
+window.showExamples=showExamples; window.onMsgType=onMsgType; window.onFileSelect=onFileSelect;
+window.clearFile=clearFile; window.doSeal=doSeal; window.setFilter=setFilter;
+window.accSaveCompany=accSaveCompany; window.accSaveWhatsApp=accSaveWhatsApp;
+window.downloadCert=downloadCert; window.printCert=printCert; window.verifyOnChain=verifyOnChain;
+window.sealAnother=sealAnother; window.toggleDetail=toggleDetail; window.viewCertById=viewCertById;
+window.downloadCertById=downloadCertById; window.closeCertModal=closeCertModal; window.dismissUpgrade=dismissUpgrade;
 </script>
 
 <!-- CERT VIEW MODAL -->
