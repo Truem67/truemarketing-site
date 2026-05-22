@@ -1774,14 +1774,6 @@ let BSV_USD=0.55, ZAR=18.5;
 // Accounts that never hit a seal limit or upgrade screen
 const UNLIMITED_ACCOUNTS = new Set(['owner@doxseal.co.za', 'demo@doxseal.co.za', 'louwrens@optimumgroup.co.za']);
 
-const USERS = {
-  'demo@doxseal.co.za':          {pass:'demo123', name:'Demo User',        addr:'1TrMktDemoAddr4a2b9d1e7c',plan:'Starter'},
-  'johan@supplycorp.co.za':      {pass:'test123', name:'Johan (SupplyCorp)',addr:'1TrMktTest1Jo2b9d1e7c3f4', plan:'Starter'},
-  'shaunxve.com@gmail.com':      {pass:'test123', name:'Shaun',            addr:'1TrMktTest2Sh4c0d2e8f5', plan:'Starter'},
-  'mve@leopardcreek.co.za':      {pass:'test123', name:'MVE (Leopard Crk)',addr:'1TrMktTest3Mv6e3f9a0b6', plan:'Starter'},
-  'warren2ve@gmail.com':         {pass:'test123',       name:'Warren',           addr:'1TrMktTest4Wa8f4a0c7d7', plan:'Starter'},
-  'louwrens@optimumgroup.co.za': {pass:'Optimum2026',   name:'Louwrens (Optimum)',addr:'1TrMktVIPLo8f2c9d5e1a7b', plan:'Business'}
-};
 
 const DEMO = [
   {id:1001,demoSeed:true,dir:'sent',subj:'Letter of Demand — Invoice #2024-118',to:'advocate@law.co.za',
@@ -1842,35 +1834,29 @@ async function doLogin(){
   if(!em||!pw){authErr('Please enter your email and password.');return;}
   btn.disabled=true; btn.textContent='Signing in…';
 
-  // 1. Check local demo/trial accounts first (works without server)
-  const local=USERS[em];
-  if(local && local.pass===pw){
-    CU={...local,email:em}; CREDS=48210; HIST=[...loadCerts(em),...DEMO];
+  if(!API.login){
+    authErr('Server not configured. Contact support.');
     btn.disabled=false; btn.textContent='Sign In →';
-    openApp(); return;
+    return;
   }
-
-  // 2. Try server login for paying clients
-  if(API.login){
-    try{
-      const r=await fetch(API.login,{
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({email:em,password:pw}),
-        signal:AbortSignal.timeout(8000)
-      });
-      const d=await r.json();
-      if(d.success && d.user){
-        CU={...d.user,pass:pw}; CREDS=48210; HIST=loadCerts(d.user.email||em);
-        btn.disabled=false; btn.textContent='Sign In →';
-        openApp(); return;
-      }
-      authErr(d.error||'Incorrect email or password.');
-    }catch(e){
-      authErr('Could not reach server. Check your connection.');
+  try{
+    const r=await fetch(API.login,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({email:em,password:pw}),
+      signal:AbortSignal.timeout(8000)
+    });
+    const d=await r.json();
+    if(d.success && d.user){
+      CU={...d.user,pass:pw}; CREDS=48210;
+      HIST=loadCerts(d.user.email||em);
+      if(em==='demo@doxseal.co.za') HIST=[...HIST,...DEMO];
+      btn.disabled=false; btn.textContent='Sign In →';
+      openApp(); return;
     }
-  } else {
-    authErr('Incorrect email or password. Try the demo account.');
+    authErr(d.error||'Incorrect email or password.');
+  }catch(e){
+    authErr('Could not reach server. Check your connection.');
   }
   btn.disabled=false; btn.textContent='Sign In →';
 }
@@ -1888,7 +1874,7 @@ function doSignup(){
   setTimeout(()=>{
     const addr='1TM'+Math.random().toString(36).slice(2,8).toUpperCase()+Date.now().toString(36).toUpperCase().slice(-5);
     CU={name:nm,email:em,pass:pw,addr,plan:'Starter'};
-    USERS[em]=CU; CREDS=50000; HIST=loadCerts(em);
+    CREDS=50000; HIST=loadCerts(em);
     localStorage.setItem('tm_creds_'+em, JSON.stringify({name:nm,pass:pw}));
     btn.disabled=false; btn.textContent='✦ Create Free Account';
     openApp();
@@ -2714,7 +2700,6 @@ function restoreSession(){
       seals_used:   s.cu.seals_used   || 0,
       seals_limit:  s.cu.seals_limit  || 0
     };
-    if(!USERS[em]) USERS[em] = CU;
     CREDS = (typeof s.creds === 'number' && s.creds > 0) ? s.creds : 50000;
     HIST = loadCerts(em);
     if(TRIAL_EMAILS.has(em) || em === 'demo@doxseal.co.za') HIST = [...HIST, ...DEMO];
