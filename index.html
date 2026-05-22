@@ -8,15 +8,15 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --dark:      #060d09;
-    --dark-mid:  #0c1810;
-    --dark-card: #0f1f14;
-    --green:     #49a076;
-    --green-bright: #69c797;
-    --green-dim: rgba(73,160,118,0.15);
-    --green-border: rgba(73,160,118,0.22);
-    --cream:     #e8f5ee;
-    --text-muted: rgba(232,245,238,0.45);
+    --dark:      #0f1923;
+    --dark-mid:  #131f2e;
+    --dark-card: #1a2b3c;
+    --green:     #1db97a;
+    --green-bright: #2dce82;
+    --green-dim: rgba(45,206,130,0.12);
+    --green-border: #1e3048;
+    --cream:     #f0f4f8;
+    --text-muted: #8fa3b8;
     --white:     #ffffff;
   }
 
@@ -36,8 +36,8 @@
     content: '';
     position: fixed; inset: 0;
     background-image:
-      linear-gradient(rgba(73,160,118,0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(73,160,118,0.03) 1px, transparent 1px);
+      linear-gradient(rgba(45,206,130,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(45,206,130,0.03) 1px, transparent 1px);
     background-size: 56px 56px;
     pointer-events: none;
     z-index: 0;
@@ -49,7 +49,7 @@
     z-index: 100;
     display: flex; align-items: center; justify-content: space-between;
     padding: 1.2rem 4rem;
-    background: rgba(6,13,9,0.88);
+    background: rgba(15,25,35,0.88);
     backdrop-filter: blur(14px);
     border-bottom: 1px solid var(--green-border);
     animation: fadeDown 0.7s ease both;
@@ -109,7 +109,7 @@
     position: absolute; top: 50%; right: 15%;
     transform: translate(50%, -50%);
     width: 700px; height: 700px; border-radius: 50%;
-    background: radial-gradient(circle, rgba(73,160,118,0.07) 0%, transparent 65%);
+    background: radial-gradient(circle, rgba(45,206,130,0.07) 0%, transparent 65%);
     pointer-events: none;
   }
 
@@ -155,7 +155,7 @@
   .btn-primary:hover {
     background: var(--green-bright);
     transform: translateY(-2px);
-    box-shadow: 0 8px 22px rgba(73,160,118,0.3);
+    box-shadow: 0 8px 22px rgba(45,206,130,0.3);
   }
 
   .btn-ghost {
@@ -183,8 +183,8 @@
     border: 1px solid var(--green-border);
   }
   .orbit-ring:nth-child(1) { inset: 0; animation: spin 20s linear infinite; }
-  .orbit-ring:nth-child(2) { inset: 40px; animation: spin 30s linear infinite reverse; border-style: dashed; border-color: rgba(73,160,118,0.12); }
-  .orbit-ring:nth-child(3) { inset: 75px; animation: spin 15s linear infinite; border-color: rgba(73,160,118,0.08); }
+  .orbit-ring:nth-child(2) { inset: 40px; animation: spin 30s linear infinite reverse; border-style: dashed; border-color: rgba(45,206,130,0.12); }
+  .orbit-ring:nth-child(3) { inset: 75px; animation: spin 15s linear infinite; border-color: rgba(45,206,130,0.08); }
 
   /* dot on orbit ring */
   .orbit-dot {
@@ -199,7 +199,7 @@
     position: relative; z-index: 5;
     width: 120px; height: 120px;
     border-radius: 50%;
-    box-shadow: 0 0 50px rgba(73,160,118,0.25), 0 0 100px rgba(73,160,118,0.1);
+    box-shadow: 0 0 50px rgba(45,206,130,0.25), 0 0 100px rgba(45,206,130,0.1);
     animation: pulse-glow 4s ease-in-out infinite;
   }
 
@@ -251,12 +251,12 @@
     padding: 2.8rem 2.2rem;
     transition: border-color 0.3s, background 0.3s;
   }
-  .step:hover { border-color: var(--green); background: rgba(73,160,118,0.05); }
+  .step:hover { border-color: var(--green); background: rgba(45,206,130,0.05); }
 
   .step-num {
     font-family: 'Playfair Display', serif;
     font-size: 3.5rem; font-weight: 900;
-    color: rgba(73,160,118,0.1); line-height: 1; margin-bottom: 1.2rem;
+    color: rgba(45,206,130,0.1); line-height: 1; margin-bottom: 1.2rem;
   }
 
   .step-icon { width: 32px; height: 32px; margin-bottom: 1rem; color: var(--green); }
@@ -315,20 +315,20 @@
   .cert-field {
     display: flex; justify-content: space-between; align-items: center;
     padding: 0.55rem 0;
-    border-bottom: 1px solid rgba(73,160,118,0.1);
+    border-bottom: 1px solid rgba(45,206,130,0.1);
   }
   .cert-field:last-of-type { border-bottom: none; }
   .cert-key { font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); }
   .cert-val { font-family: monospace; font-size: 0.76rem; color: var(--green-bright); max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .cert-ok { margin-top: 1.2rem; display: flex; align-items: center; gap: 0.6rem; color: #5dcb8f; font-size: 0.78rem; }
+  .cert-ok { margin-top: 1.2rem; display: flex; align-items: center; gap: 0.6rem; color: #2dce82; font-size: 0.78rem; }
 
   .cert-chain {
     margin-top: 1rem;
     border: 1px solid var(--green-border);
-    padding: 1.2rem; background: rgba(73,160,118,0.04);
+    padding: 1.2rem; background: rgba(45,206,130,0.04);
   }
   .cert-chain-label { font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.6rem; }
-  .cert-chain-data { font-family: monospace; font-size: 0.76rem; color: rgba(73,160,118,0.6); line-height: 1.9; }
+  .cert-chain-data { font-family: monospace; font-size: 0.76rem; color: rgba(45,206,130,0.6); line-height: 1.9; }
 
   /* ── INDUSTRIES ── */
   .industries {
@@ -347,7 +347,7 @@
   .industries-list { display: flex; gap: 2.5rem; flex-wrap: wrap; }
   .industry-tag {
     font-family: 'Playfair Display', serif; font-size: 0.95rem;
-    color: rgba(232,245,238,0.3); transition: color 0.3s; cursor: default;
+    color: rgba(143,163,184,0.5); transition: color 0.3s; cursor: default;
   }
   .industry-tag:hover { color: var(--green-bright); }
 
@@ -400,7 +400,7 @@
     content: ''; position: absolute; top: 50%; left: 50%;
     transform: translate(-50%, -50%);
     width: 700px; height: 700px; border-radius: 50%;
-    background: radial-gradient(circle, rgba(73,160,118,0.07) 0%, transparent 65%);
+    background: radial-gradient(circle, rgba(45,206,130,0.07) 0%, transparent 65%);
     pointer-events: none;
   }
   .cta-title { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 900; line-height: 1.12; margin-bottom: 1.4rem; }
@@ -435,8 +435,8 @@
   }
   @keyframes spin { to { transform: rotate(360deg); } }
   @keyframes pulse-glow {
-    0%,100% { box-shadow: 0 0 50px rgba(73,160,118,0.25), 0 0 100px rgba(73,160,118,0.08); }
-    50%      { box-shadow: 0 0 70px rgba(73,160,118,0.45), 0 0 130px rgba(73,160,118,0.18); }
+    0%,100% { box-shadow: 0 0 50px rgba(45,206,130,0.25), 0 0 100px rgba(45,206,130,0.08); }
+    50%      { box-shadow: 0 0 70px rgba(45,206,130,0.45), 0 0 130px rgba(45,206,130,0.18); }
   }
 
   @media (max-width: 900px) {
@@ -617,13 +617,13 @@
         <div class="cert-field"><span class="cert-key">Sealed At</span><span class="cert-val">2026-05-22 · 09:14 SAST</span></div>
         <div class="cert-field"><span class="cert-key">Issuer</span><span class="cert-val">DoxSeal</span></div>
         <div class="cert-ok">
-          <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="7.5" cy="7.5" r="6.5" stroke="#5dcb8f" stroke-width="1.2"/><path d="M4.5 7.5l2 2 4-4" stroke="#5dcb8f" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="7.5" cy="7.5" r="6.5" stroke="#2dce82" stroke-width="1.2"/><path d="M4.5 7.5l2 2 4-4" stroke="#2dce82" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
           Document integrity verified on BSV blockchain
         </div>
       </div>
       <div class="cert-chain">
         <div class="cert-chain-label">Blockchain confirmation</div>
-        <div class="cert-chain-data">Block: #892,441<br>Confirmations: 12,847<br>Network: BSV Mainnet<br>Status: <span style="color:#5dcb8f;">✓ Immutable</span></div>
+        <div class="cert-chain-data">Block: #892,441<br>Confirmations: 12,847<br>Network: BSV Mainnet<br>Status: <span style="color:#2dce82;">✓ Immutable</span></div>
       </div>
     </div>
   </div>
