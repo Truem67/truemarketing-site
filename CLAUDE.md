@@ -109,8 +109,8 @@ const SERVER_URL = 'https://your-server.up.railway.app';
 ~R95/month total (Railway $5 + domain ~R18)
 
 ## Demo Credentials (for testing)
-- User: demo@truemarketing.co.za / demo123
-- Owner: owner@truemarketing.co.za / owner123 / 2FA: 123456
+- User: demo@doxseal.co.za / demo123
+- Owner: owner@doxseal.co.za / owner123 / 2FA: 123456
 
 ## Common Tasks for Claude Code
 - "Update SERVER_URL in both HTML files to [URL]"
