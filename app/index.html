@@ -1332,8 +1332,8 @@ body::before{
   </div>
 
   <div class="auth-tabs">
-    <button class="at-tab on" id="at-in" onclick="authTab('in')">Sign In</button>
-    <button class="at-tab"    id="at-up" onclick="authTab('up')">Get Started Free</button>
+    <button class="at-tab on" id="at-in">Sign In</button>
+    <button class="at-tab"    id="at-up">Get Started Free</button>
   </div>
 
   <div class="auth-err" id="auth-err"></div>
@@ -1343,26 +1343,26 @@ body::before{
     <div class="af-row">
       <div class="af-label">Email address</div>
       <input class="af-input" type="email" id="in-em" placeholder="you@yourwork.com"
-        autocomplete="off" onkeydown="if(event.key==='Enter')doLogin()">
+        autocomplete="off">
     </div>
     <div class="af-row">
       <div class="af-label">Password</div>
       <div class="af-pw-wrap">
         <input class="af-input" type="password" id="in-pw" placeholder="••••••••"
-          autocomplete="off" onkeydown="if(event.key==='Enter')doLogin()">
-        <button class="af-pw-toggle" type="button" onclick="togglePass('in-pw',this)" aria-label="Show password">👁</button>
+          autocomplete="off">
+        <button class="af-pw-toggle" id="pw-toggle-in" type="button" aria-label="Show password">👁</button>
       </div>
     </div>
-    <button class="btn-go" id="btn-in" onclick="doLogin()">Sign In →</button>
+    <button class="btn-go" id="btn-in">Sign In →</button>
     <p class="auth-note">Demo: <strong>demo@doxseal.co.za</strong> / demo123</p>
-    <p class="fp-link"><a href="#" onclick="showForgotPass();return false;">Forgot password?</a></p>
+    <p class="fp-link"><a href="#" id="fp-link-a">Forgot password?</a></p>
     <!-- Forgot password panel -->
     <div id="fp-panel" style="display:none">
       <div class="af-row" style="margin-bottom:10px">
         <div class="af-label">Enter your email address</div>
         <input class="af-input" type="email" id="fp-em" placeholder="you@yourwork.com" autocomplete="email">
       </div>
-      <button class="btn-go" onclick="lookupPass()">Find my password</button>
+      <button class="btn-go" id="btn-lookup">Find my password</button>
       <div id="fp-result" style="display:none" class="fp-result"></div>
     </div>
     <p class="auth-note" style="margin-top:10px;border-top:1px solid var(--line2);padding-top:10px;">
@@ -1384,14 +1384,14 @@ body::before{
       <div class="af-label">Choose a password</div>
       <div class="af-pw-wrap">
         <input class="af-input" type="password" id="up-pw" placeholder="Min. 8 characters" autocomplete="new-password">
-        <button class="af-pw-toggle" type="button" onclick="togglePass('up-pw',this)" aria-label="Show password">👁</button>
+        <button class="af-pw-toggle" id="pw-toggle-up" type="button" aria-label="Show password">👁</button>
       </div>
     </div>
     <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:12px;padding:12px 14px;background:rgba(45,206,130,.04);border:1px solid rgba(100,200,120,.16);border-radius:8px;">
       <input type="checkbox" id="up-consent" style="margin-top:3px;flex-shrink:0;width:16px;height:16px;accent-color:#23b06d;cursor:pointer;">
       <label for="up-consent" style="font-size:12px;color:rgba(242,237,228,.42);line-height:1.55;cursor:pointer;">I agree to the <a href="legal.html#terms" target="_blank" style="color:#23b06d;text-decoration:none;">Terms of Service</a> and <a href="legal.html#privacy" target="_blank" style="color:#23b06d;text-decoration:none;">Privacy Policy</a> at doxseal.co.za/legal.html</label>
     </div>
-    <button class="btn-go" id="btn-up" onclick="doSignup()">✦ Create Free Account</button>
+    <button class="btn-go" id="btn-up">✦ Create Free Account</button>
     <p class="auth-note">You receive <strong>50,000 free credits</strong> instantly — no card required.<br>Every document permanently protected and verifiable.</p>
   </div>
 
@@ -1423,7 +1423,7 @@ body::before{
       <div class="hdr-bal" title="Your sealing credits">
         ✦ <span id="hdr-cred">—</span>
       </div>
-      <button class="hdr-out" onclick="doSignOut()">Sign out</button>
+      <button class="hdr-out" id="hdr-out">Sign out</button>
     </div>
   </div>
 
@@ -1437,7 +1437,7 @@ body::before{
             <div class="home-greet" id="h-greet">Good morning</div>
             <div class="home-name" id="h-name">Welcome back <em>—</em></div>
           </div>
-          <button onclick="doSignOut()" style="background:rgba(224,85,85,.10);border:1px solid rgba(224,85,85,.25);color:#e05555;font-size:11px;font-weight:700;cursor:pointer;padding:4px 10px;margin-top:2px;border-radius:6px;font-family:var(--sans);letter-spacing:.03em;">Sign out</button>
+          <button id="home-signout" style="background:rgba(224,85,85,.10);border:1px solid rgba(224,85,85,.25);color:#e05555;font-size:11px;font-weight:700;cursor:pointer;padding:4px 10px;margin-top:2px;border-radius:6px;font-family:var(--sans);letter-spacing:.03em;">Sign out</button>
         </div>
         <div class="cred-pod">
           <div class="cp-inner">
@@ -1455,19 +1455,19 @@ body::before{
         <label style="display:block;font-size:12px;color:var(--iv3);margin-bottom:4px;">Company or Practice Name</label>
         <input id="co-input" type="text" placeholder="e.g. ABC Financial Services" autocomplete="organization"
           style="display:block;width:100%;box-sizing:border-box;padding:10px 12px;font-size:14px;border-radius:8px;border:1px solid var(--line2);background:var(--bg2);color:var(--ivory);font-family:var(--sans);outline:none;margin-bottom:8px;">
-        <button onclick="saveCompany()"
+        <button id="btn-save-company"
           style="width:100%;padding:10px;background:var(--green);color:#fff;font-size:13px;font-weight:700;border:none;border-radius:8px;cursor:pointer;margin-bottom:14px;">Save Company Name</button>
         <div id="co-saved" class="wa-saved">Saved ✓</div>
         <label style="display:block;font-size:12px;color:var(--iv3);margin-bottom:4px;">WhatsApp Number (with country code)</label>
         <input id="wa-input" type="tel" placeholder="+27 82 123 4567" autocomplete="tel"
           style="display:block;width:100%;box-sizing:border-box;padding:10px 12px;font-size:14px;border-radius:8px;border:1px solid var(--line2);background:var(--bg2);color:var(--ivory);font-family:var(--sans);outline:none;margin-bottom:8px;">
-        <button onclick="saveWhatsApp()"
+        <button id="btn-save-whatsapp"
           style="width:100%;padding:10px;background:var(--green);color:#fff;font-size:13px;font-weight:700;border:none;border-radius:8px;cursor:pointer;">Save WhatsApp Number</button>
         <div id="wa-saved" class="wa-saved">Saved ✓</div>
       </div>
 
       <div class="qa-grid">
-        <button class="qa-btn big" onclick="goTab('seal')">
+        <button class="qa-btn big" id="btn-go-seal">
           <div class="qa-big-ico">✦</div>
           <div class="qa-big-body">
             <div class="qa-title">Validate Document</div>
@@ -1510,7 +1510,7 @@ body::before{
           <input type="text" id="sf-subj" placeholder="e.g. Invoice confirmation · Agreement · Notice…">
           <div class="s-field-foot">
             <span style="color:var(--iv4)">Keep it brief and clear</span>
-            <span class="s-field-hint" onclick="showExamples()">See examples</span>
+            <span class="s-field-hint" id="hint-examples">See examples</span>
           </div>
         </div>
 
@@ -1518,7 +1518,7 @@ body::before{
           <div class="s-field-lbl">Your message</div>
           <textarea id="sf-msg" rows="5"
             placeholder="Type exactly what you want protected. This text will be permanently sealed — word for word, as written."
-            oninput="onMsgType()"></textarea>
+            ></textarea>
           <div class="s-field-foot">
             <span style="color:var(--iv4)">Write naturally — plain language works best</span>
             <span id="sf-cc">0 / 460</span>
@@ -1528,11 +1528,9 @@ body::before{
         <!-- File upload -->
         <div class="file-or">or seal a file instead</div>
 
-        <div class="file-zone" id="file-zone"
-          ondragover="fzDrag(event,true)" ondragleave="fzDrag(event,false)" ondrop="fzDrop(event)">
+        <div class="file-zone" id="file-zone">
           <input type="file" id="file-input"
-            accept=".pdf,.jpg,.jpeg,.png,.gif,.bmp,.webp,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.csv,.zip,.mp4,.mov"
-            onchange="onFileSelect(this)">
+            accept=".pdf,.jpg,.jpeg,.png,.gif,.bmp,.webp,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.csv,.zip,.mp4,.mov">
           <div class="fz-ico">📎</div>
           <div class="fz-title">Upload a file to seal</div>
           <div class="fz-sub">PDF · Image · Word · Excel · Any file type · Max 500 MB</div>
@@ -1546,7 +1544,7 @@ body::before{
           </div>
           <div class="fr-hash" id="fr-hash"></div>
           <div class="fr-status" id="fr-status">Generating fingerprint…</div>
-          <button class="btn-clear-file" onclick="clearFile()">✕ Remove file</button>
+          <button class="btn-clear-file" id="btn-clear-file">✕ Remove file</button>
         </div>
 
         <div class="cost-line">
@@ -1554,7 +1552,7 @@ body::before{
           <span class="cl-r">1 credit · approx R0.003</span>
         </div>
 
-        <button class="btn-seal" id="btn-seal" onclick="doSeal()">
+        <button class="btn-seal" id="btn-seal">
           ✦ Validate &amp; Seal Document
         </button>
       </div>
@@ -1567,10 +1565,10 @@ body::before{
         <div class="hist-sub">Every document you have validated and sealed</div>
       </div>
       <div class="fpills">
-        <button class="fp on" onclick="setFilter('all',this)">All</button>
-        <button class="fp" onclick="setFilter('sent',this)">Sent</button>
-        <button class="fp" onclick="setFilter('received',this)">Received</button>
-        <button class="fp" onclick="setFilter('verified',this)">✓ Verified</button>
+        <button class="fp on" data-filter="all">All</button>
+        <button class="fp" data-filter="sent">Sent</button>
+        <button class="fp" data-filter="received">Received</button>
+        <button class="fp" data-filter="verified">✓ Verified</button>
       </div>
       <div class="hist-list" id="hist-list"></div>
     </div>
@@ -1586,18 +1584,18 @@ body::before{
         <label style="display:block;font-size:12px;font-weight:700;color:var(--iv3);margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em;">Company or Practice Name</label>
         <input id="acc-co-input" type="text" placeholder="e.g. ABC Financial Services" autocomplete="organization"
           style="display:block;width:100%;box-sizing:border-box;padding:12px;font-size:15px;border-radius:8px;border:1px solid rgba(100,200,120,.16);background:var(--bg2);color:var(--ivory);font-family:var(--sans);outline:none;margin-bottom:8px;">
-        <button onclick="accSaveCompany()"
+        <button id="acc-btn-save-company"
           style="display:block;width:100%;padding:12px;background:#2dce82;color:#fff;font-size:14px;font-weight:700;border:none;border-radius:8px;cursor:pointer;margin-bottom:6px;">Save Company Name</button>
         <div id="acc-co-saved" style="display:none;font-size:12px;color:#2dce82;margin-bottom:18px;">Saved ✓</div>
 
         <label style="display:block;font-size:12px;font-weight:700;color:var(--iv3);margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em;">WhatsApp Number (+27...)</label>
         <input id="acc-wa-input" type="tel" placeholder="+27 82 123 4567" autocomplete="tel"
           style="display:block;width:100%;box-sizing:border-box;padding:12px;font-size:15px;border-radius:8px;border:1px solid rgba(100,200,120,.16);background:var(--bg2);color:var(--ivory);font-family:var(--sans);outline:none;margin-bottom:8px;">
-        <button onclick="accSaveWhatsApp()"
+        <button id="acc-btn-save-whatsapp"
           style="display:block;width:100%;padding:12px;background:#2dce82;color:#fff;font-size:14px;font-weight:700;border:none;border-radius:8px;cursor:pointer;margin-bottom:6px;">Save WhatsApp Number</button>
         <div id="acc-wa-saved" style="display:none;font-size:12px;color:#2dce82;margin-bottom:24px;">Saved ✓</div>
 
-        <button onclick="doSignOut()"
+        <button id="acc-signout"
           style="display:block;width:100%;padding:13px;border-radius:12px;background:rgba(224,85,85,.08);border:1px solid rgba(224,85,85,.18);color:#e05555;font-size:14px;font-weight:700;cursor:pointer;">Sign Out</button>
 
         <!-- Hidden elements renderUI needs -->
@@ -1618,16 +1616,16 @@ body::before{
 
 <!-- Bottom nav — fixed at body level, visible only when pg-app is active -->
 <nav class="app-nav" id="app-nav" style="display:none">
-  <button class="nav-it on" id="nb-home" onclick="goTab('home')">
+  <button class="nav-it on" id="nb-home">
     <span class="nav-ico">🏠</span><span class="nav-lbl">Home</span>
   </button>
-  <button class="nav-it" id="nb-seal" onclick="goTab('seal')">
+  <button class="nav-it" id="nb-seal">
     <span class="nav-ico">✦</span><span class="nav-lbl">Validate</span>
   </button>
-  <button class="nav-it" id="nb-history" onclick="goTab('history')">
+  <button class="nav-it" id="nb-history">
     <span class="nav-ico">📋</span><span class="nav-lbl">My Certs</span>
   </button>
-  <button class="nav-it" id="nb-account" onclick="goTab('account')" style="display:flex!important">
+  <button class="nav-it" id="nb-account" style="display:flex!important">
     <span class="nav-ico">👤</span><span class="nav-lbl">Account</span>
   </button>
 </nav>
@@ -1716,10 +1714,10 @@ body::before{
     </div>
 
     <div class="suc-actions">
-      <button class="btn-dl" onclick="downloadCert()">📄 Download Certificate</button>
-      <button class="btn-print" onclick="printCert()">🖨️ Print Certificate</button>
-      <button class="btn-woc" id="btn-woc" onclick="verifyOnChain()">🔗 Verify Document ↗</button>
-      <button class="btn-again" id="btn-again" onclick="sealAnother()">← Validate Another Document</button>
+      <button class="btn-dl" id="btn-dl">📄 Download Certificate</button>
+      <button class="btn-print" id="btn-print">🖨️ Print Certificate</button>
+      <button class="btn-woc" id="btn-woc">🔗 Verify Document ↗</button>
+      <button class="btn-again" id="btn-again">← Validate Another Document</button>
     </div>
   </div>
 </div>
@@ -2582,7 +2580,7 @@ function proofHTML(m, compact){
   const cls=m.dir==='sent'?'s':'r';
   const ico=m.dir==='sent'?'🔐':'📩';
   const time=m.ts?m.ts.slice(5,16):'—';
-  return `<div class="proof-card" onclick="toggleDetail(${m.id})">
+  return `<div class="proof-card" data-id="${m.id}">
     <div class="pc-row">
       <div class="pc-ico ${cls}">${ico}</div>
       <div class="pc-body">
@@ -2600,9 +2598,9 @@ function proofHTML(m, compact){
       <div class="pd-row"><span class="pd-k">Transaction ID</span><span class="pd-v m">${m.txid&&!m.txid.startsWith('demo_')?m.txid.slice(0,20)+'…':'(demo)'}</span></div>
       <div class="pd-row"><span class="pd-k">Fingerprint</span><span class="pd-v m">${m.hash||''}…</span></div>
       <div class="pd-btns">
-        <button class="pd-btn" onclick="event.stopPropagation();viewCertById(${m.id})">👁 View</button>
-        <button class="pd-btn" onclick="event.stopPropagation();${m.txid&&!m.txid.startsWith('demo_')?"window.open('https://doxseal.co.za/verify.html?txid="+m.txid+"','_blank')":"alert('Demo seal — connect server for live verification.')"}">⛓ Verify ↗</button>
-        <button class="pd-btn" onclick="event.stopPropagation();downloadCertById(${m.id})">📄 Download</button>
+        <button class="pd-btn pd-view" data-id="${m.id}">👁 View</button>
+        <button class="pd-btn pd-verify" data-id="${m.id}" data-txid="${m.txid||''}">⛓ Verify ↗</button>
+        <button class="pd-btn pd-dl" data-id="${m.id}">📄 Download</button>
       </div>
     </div>`:''}
   </div>`;
@@ -2717,21 +2715,91 @@ setTimeout(function(){
   if(restoreSession()) openApp();
 }, 300);
 
-// Expose all inline-handler functions globally in case Cloudflare Rocket Loader defers this script
-window.authTab=authTab; window.doLogin=doLogin; window.doSignup=doSignup; window.doSignOut=doSignOut;
-window.togglePass=togglePass; window.showForgotPass=showForgotPass; window.lookupPass=lookupPass;
-window.saveCompany=saveCompany; window.saveWhatsApp=saveWhatsApp; window.goTab=goTab;
-window.showExamples=showExamples; window.onMsgType=onMsgType; window.onFileSelect=onFileSelect;
-window.clearFile=clearFile; window.doSeal=doSeal; window.setFilter=setFilter;
-window.accSaveCompany=accSaveCompany; window.accSaveWhatsApp=accSaveWhatsApp;
-window.downloadCert=downloadCert; window.printCert=printCert; window.verifyOnChain=verifyOnChain;
-window.sealAnother=sealAnother; window.toggleDetail=toggleDetail; window.viewCertById=viewCertById;
-window.downloadCertById=downloadCertById; window.closeCertModal=closeCertModal; window.dismissUpgrade=dismissUpgrade;
+// Wire up all event listeners — no inline onclick handlers anywhere in the HTML
+document.addEventListener('DOMContentLoaded', function() {
+  // Auth tabs
+  document.getElementById('at-in').addEventListener('click', function(){ authTab('in'); });
+  document.getElementById('at-up').addEventListener('click', function(){ authTab('up'); });
+
+  // Sign in
+  document.getElementById('in-em').addEventListener('keydown', function(e){ if(e.key==='Enter') doLogin(); });
+  document.getElementById('in-pw').addEventListener('keydown', function(e){ if(e.key==='Enter') doLogin(); });
+  document.getElementById('pw-toggle-in').addEventListener('click', function(){ togglePass('in-pw', this); });
+  document.getElementById('btn-in').addEventListener('click', doLogin);
+  document.getElementById('fp-link-a').addEventListener('click', function(e){ e.preventDefault(); showForgotPass(); });
+  document.getElementById('btn-lookup').addEventListener('click', lookupPass);
+
+  // Sign up
+  document.getElementById('pw-toggle-up').addEventListener('click', function(){ togglePass('up-pw', this); });
+  document.getElementById('btn-up').addEventListener('click', doSignup);
+
+  // Header + home sign-out
+  document.getElementById('hdr-out').addEventListener('click', doSignOut);
+  document.getElementById('home-signout').addEventListener('click', doSignOut);
+
+  // Home tab
+  document.getElementById('btn-save-company').addEventListener('click', saveCompany);
+  document.getElementById('btn-save-whatsapp').addEventListener('click', saveWhatsApp);
+  document.getElementById('btn-go-seal').addEventListener('click', function(){ goTab('seal'); });
+
+  // Seal tab
+  document.getElementById('hint-examples').addEventListener('click', showExamples);
+  document.getElementById('sf-msg').addEventListener('input', onMsgType);
+  document.getElementById('file-input').addEventListener('change', function(){ onFileSelect(this); });
+  const fz = document.getElementById('file-zone');
+  fz.addEventListener('dragover', function(e){ fzDrag(e, true); });
+  fz.addEventListener('dragleave', function(e){ fzDrag(e, false); });
+  fz.addEventListener('drop', fzDrop);
+  document.getElementById('btn-clear-file').addEventListener('click', clearFile);
+  document.getElementById('btn-seal').addEventListener('click', doSeal);
+
+  // History filters — event delegation on the filter pill bar
+  document.querySelector('.fpills').addEventListener('click', function(e){
+    const btn = e.target.closest('[data-filter]');
+    if(btn) setFilter(btn.dataset.filter, btn);
+  });
+
+  // History list — event delegation for proof cards
+  document.getElementById('hist-list').addEventListener('click', function(e){
+    const card = e.target.closest('.proof-card');
+    if(!card) return;
+    const id = parseInt(card.dataset.id);
+    if(e.target.closest('.pd-view')){ e.stopPropagation(); viewCertById(id); }
+    else if(e.target.closest('.pd-dl')){ e.stopPropagation(); downloadCertById(id); }
+    else if(e.target.closest('.pd-verify')){
+      e.stopPropagation();
+      const txid = e.target.closest('.pd-verify').dataset.txid;
+      if(txid && !txid.startsWith('demo_')) window.open('https://doxseal.co.za/verify.html?txid='+txid, '_blank');
+      else alert('Demo seal — connect server for live verification.');
+    } else { toggleDetail(id); }
+  });
+
+  // Account tab
+  document.getElementById('acc-btn-save-company').addEventListener('click', accSaveCompany);
+  document.getElementById('acc-btn-save-whatsapp').addEventListener('click', accSaveWhatsApp);
+  document.getElementById('acc-signout').addEventListener('click', doSignOut);
+
+  // Bottom nav
+  document.getElementById('nb-home').addEventListener('click', function(){ goTab('home'); });
+  document.getElementById('nb-seal').addEventListener('click', function(){ goTab('seal'); });
+  document.getElementById('nb-history').addEventListener('click', function(){ goTab('history'); });
+  document.getElementById('nb-account').addEventListener('click', function(){ goTab('account'); });
+
+  // Success page actions
+  document.getElementById('btn-dl').addEventListener('click', downloadCert);
+  document.getElementById('btn-print').addEventListener('click', printCert);
+  document.getElementById('btn-woc').addEventListener('click', verifyOnChain);
+  document.getElementById('btn-again').addEventListener('click', sealAnother);
+
+  // Cert modal + upgrade overlay
+  document.getElementById('cert-modal-close').addEventListener('click', closeCertModal);
+  document.getElementById('btn-upgrade-back').addEventListener('click', dismissUpgrade);
+});
 </script>
 
 <!-- CERT VIEW MODAL -->
 <div id="cert-modal">
-  <button id="cert-modal-close" onclick="closeCertModal()" title="Close">×</button>
+  <button id="cert-modal-close" title="Close">×</button>
   <iframe id="cert-modal-frame" title="Certificate" sandbox="allow-same-origin"></iframe>
 </div>
 
@@ -2744,7 +2812,7 @@ window.downloadCertById=downloadCertById; window.closeCertModal=closeCertModal; 
   <a class="upg-btn" href="https://doxseal.co.za/subscribe.html" target="_blank" rel="noopener">
     Upgrade My Account →
   </a>
-  <button class="upg-back" onclick="dismissUpgrade()">← Back to my certificates</button>
+  <button class="upg-back" id="btn-upgrade-back">← Back to my certificates</button>
   <p class="upg-note" style="margin-top:16px;"><a href="https://wa.me/27726126733" target="_blank" rel="noopener" style="color:var(--iv3);text-decoration:none;font-size:13px;">Questions? WhatsApp us</a></p>
   <p class="upg-note" style="margin-top:8px;"><a href="mailto:hello@doxseal.co.za" style="color:var(--iv3);text-decoration:none;font-size:13px;">Or email hello@doxseal.co.za</a></p>
 </div>
