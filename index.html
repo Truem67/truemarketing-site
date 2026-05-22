@@ -424,6 +424,70 @@
   .footer-links a:hover { color: var(--green-bright); }
   .footer-copy { font-size: 0.72rem; color: var(--text-muted); }
 
+  /* ── COMPARISON ── */
+  .comparison-section { background: var(--dark-mid); }
+
+  .comparison-wrap { max-width: 900px; margin: 0 auto; }
+
+  .comparison-table {
+    width: 100%; border-collapse: collapse;
+    border: 1px solid var(--green-border);
+  }
+
+  .comparison-table thead tr { background: var(--dark-card); }
+
+  .comparison-table th,
+  .comparison-table td {
+    padding: 1rem 1.2rem;
+    border-bottom: 1px solid var(--green-border);
+    border-left: 1px solid var(--green-border);
+    font-size: 0.84rem; vertical-align: middle;
+  }
+
+  .comparison-table th:first-child,
+  .comparison-table td:first-child { border-left: none; }
+
+  .comparison-table tbody tr:last-child td { border-bottom: none; }
+
+  .comp-row-label { color: var(--cream); font-size: 0.85rem; text-align: left; }
+
+  .comp-col-header {
+    text-align: center; font-weight: 700;
+    font-family: 'Playfair Display', serif;
+    font-size: 0.92rem; letter-spacing: 0.02em;
+  }
+
+  .comp-col-header.other { color: var(--text-muted); }
+
+  .comp-col-header.us {
+    color: var(--green-bright);
+    background: rgba(45,206,130,0.06);
+    border-top: 2px solid var(--green);
+  }
+
+  .comp-cell { text-align: center; font-size: 0.83rem; }
+  .comp-cell.no   { color: var(--text-muted); }
+  .comp-cell.warn { color: #e5a44a; }
+
+  .comp-cell.yes {
+    color: var(--green-bright);
+    background: rgba(45,206,130,0.05);
+    font-weight: 500;
+  }
+
+  .comparison-table tbody tr:hover td { background: rgba(45,206,130,0.03); }
+  .comparison-table tbody tr:hover .comp-cell.yes { background: rgba(45,206,130,0.09); }
+
+  .comparison-note {
+    margin: 2.5rem auto 0; max-width: 700px;
+    padding: 1.8rem 2rem;
+    border: 1px solid var(--green-border);
+    border-left: 3px solid var(--green);
+    background: rgba(45,206,130,0.04);
+    font-size: 0.9rem; line-height: 1.8;
+    color: var(--text-muted);
+  }
+
   /* ── ANIMATIONS ── */
   @keyframes fadeDown {
     from { opacity: 0; transform: translateY(-14px); }
@@ -449,6 +513,7 @@
     .steps, .features-grid, .pricing-grid { grid-template-columns: 1fr; }
     .industries-inner { flex-direction: column; gap: 1rem; }
     footer { flex-direction: column; gap: 1.5rem; text-align: center; }
+    .comparison-table th, .comparison-table td { padding: 0.65rem 0.55rem; font-size: 0.75rem; }
   }
 </style>
 </head>
@@ -644,6 +709,67 @@
     </div>
   </div>
 </div>
+
+<!-- COMPARISON -->
+<section class="section comparison-section" id="compare">
+  <div class="section-header">
+    <div class="section-eyebrow">Compare</div>
+    <h2 class="section-title">Why not just use a<br><em>PDF or DocuSign?</em></h2>
+  </div>
+  <div class="comparison-wrap">
+    <div style="overflow-x:auto;">
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th style="width:34%;"></th>
+            <th class="comp-col-header other" style="width:22%;">PDF / Email</th>
+            <th class="comp-col-header other" style="width:22%;">DocuSign</th>
+            <th class="comp-col-header us" style="width:22%;">DoxSeal</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="comp-row-label">Tamper-proof</td>
+            <td class="comp-cell no">❌</td>
+            <td class="comp-cell warn">⚠️ Depends on provider</td>
+            <td class="comp-cell yes">✅ Always</td>
+          </tr>
+          <tr>
+            <td class="comp-row-label">Independent verification</td>
+            <td class="comp-cell no">❌</td>
+            <td class="comp-cell no">❌ Need their account</td>
+            <td class="comp-cell yes">✅ Anyone, anywhere</td>
+          </tr>
+          <tr>
+            <td class="comp-row-label">Survives company closure</td>
+            <td class="comp-cell no">❌</td>
+            <td class="comp-cell no">❌</td>
+            <td class="comp-cell yes">✅ Permanent</td>
+          </tr>
+          <tr>
+            <td class="comp-row-label">POPIA compliant</td>
+            <td class="comp-cell warn">⚠️</td>
+            <td class="comp-cell warn">⚠️</td>
+            <td class="comp-cell yes">✅ By design</td>
+          </tr>
+          <tr>
+            <td class="comp-row-label">No document stored</td>
+            <td class="comp-cell no">❌</td>
+            <td class="comp-cell no">❌</td>
+            <td class="comp-cell yes">✅ Never</td>
+          </tr>
+          <tr>
+            <td class="comp-row-label">Cost per seal</td>
+            <td class="comp-cell no">Free</td>
+            <td class="comp-cell warn">R10–R50</td>
+            <td class="comp-cell yes">From R0.003</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="comparison-note">DoxSeal doesn't store your documents or rely on any single company's servers. Your proof exists permanently and independently — verifiable by anyone, forever. Even if DoxSeal ceased to exist tomorrow, every sealed record remains intact and verifiable.</p>
+  </div>
+</section>
 
 <!-- PRICING -->
 <section class="section" id="pricing">
