@@ -1,0 +1,877 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DoxSeal · Broker Protection & Client Growth</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════
+   DOXSEAL — UNIFIED DESIGN SYSTEM
+   Springbok Edition · Old Gold + Deep Green
+═══════════════════════════════════════════════ */
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+
+:root{
+  /* — Greens (backgrounds, surfaces) — */
+  --bg:        #040f08;
+  --bg2:       #071a0e;
+  --bg3:       #0a2614;
+  --card:      #0d3018;
+  --card2:     #10391c;
+  --edge:      #174d26;
+
+  /* — Transparency layers — */
+  --line:      rgba(184,134,11,.13);
+  --line2:     rgba(184,134,11,.24);
+  --line3:     rgba(184,134,11,.38);
+
+  /* — Old Gold (the hero colour) — */
+  --gold:      #b8860b;
+  --gold2:     #c9a84c;
+  --gold3:     #9a6f08;
+  --gold4:     #7a5506;
+  --gold-glow: rgba(184,134,11,.16);
+  --gold-glow2:rgba(184,134,11,.08);
+
+  /* — Text — */
+  --ivory:     #f0ead8;
+  --iv2:       rgba(240,234,216,.78);
+  --iv3:       rgba(240,234,216,.48);
+  --iv4:       rgba(240,234,216,.26);
+  --iv5:       rgba(240,234,216,.10);
+
+  /* — Accents — */
+  --red:       #c0392b;
+  --red-soft:  rgba(192,57,43,.12);
+
+  /* — Typography — */
+  --serif:     'Cormorant Garamond', Georgia, serif;
+  --sans:      'DM Sans', sans-serif;
+  --mono:      'JetBrains Mono', monospace;
+
+  /* — Motion — */
+  --ease:      cubic-bezier(.4,0,.2,1);
+  --bounce:    cubic-bezier(.34,1.56,.64,1);
+
+  /* — Shadows — */
+  --shadow-gold: 0 0 32px rgba(184,134,11,.18), 0 6px 24px rgba(0,0,0,.45);
+  --shadow-card: 0 8px 40px rgba(0,0,0,.38), 0 1px 0 rgba(184,134,11,.10) inset;
+}
+
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);
+  font-family:var(--sans);
+  color:var(--ivory);
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+
+/* Grain overlay */
+body::before{
+  content:'';position:fixed;inset:0;z-index:9998;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23g)' opacity='1'/%3E%3C/svg%3E");
+  opacity:.03;mix-blend-mode:screen;
+}
+
+::selection{background:rgba(184,134,11,.28);}
+::-webkit-scrollbar{width:3px;}
+::-webkit-scrollbar-thumb{background:var(--line2);border-radius:3px;}
+
+/* ══════════════════════════════
+   NAV
+══════════════════════════════ */
+.nav{
+  position:sticky;top:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 28px;
+  background:rgba(4,15,8,.92);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--line);
+}
+.nav-brand{
+  font-family:var(--serif);font-size:20px;font-weight:700;
+  color:var(--ivory);letter-spacing:.02em;
+  display:flex;align-items:center;gap:10px;
+}
+.nav-brand-icon{
+  width:30px;height:30px;border-radius:7px;
+  background:linear-gradient(135deg,var(--gold),var(--gold3));
+  display:flex;align-items:center;justify-content:center;
+  font-size:15px;flex-shrink:0;
+}
+.nav-brand span{color:var(--gold);}
+.nav-cta{
+  padding:11px 24px;border-radius:9px;
+  background:linear-gradient(135deg,var(--gold3),var(--gold2));
+  font-size:13px;font-weight:700;color:var(--bg);
+  text-decoration:none;letter-spacing:.02em;
+  box-shadow:0 4px 18px rgba(184,134,11,.30);
+  transition:all .2s var(--ease);white-space:nowrap;
+}
+.nav-cta:hover{transform:translateY(-1px);box-shadow:0 8px 28px rgba(184,134,11,.44);}
+
+/* ══════════════════════════════
+   HERO
+══════════════════════════════ */
+.hero{
+  padding:90px 28px 80px;text-align:center;
+  background:
+    radial-gradient(ellipse 90% 55% at 15% -5%, rgba(184,134,11,.06) 0%, transparent 60%),
+    radial-gradient(ellipse 70% 50% at 88% 108%, rgba(184,134,11,.04) 0%, transparent 55%),
+    var(--bg);
+  position:relative;overflow:hidden;
+}
+.hero::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--line3),transparent);
+}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  background:rgba(184,134,11,.07);
+  border:1px solid var(--line2);
+  border-radius:30px;padding:8px 20px;
+  font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  color:var(--gold2);margin-bottom:36px;
+}
+.hero-dot{
+  width:7px;height:7px;border-radius:50%;
+  background:var(--gold);box-shadow:0 0 7px var(--gold);
+  animation:flash 2.4s infinite;
+}
+@keyframes flash{0%,100%{opacity:1;}50%{opacity:.25;}}
+
+.hero-h1{
+  font-family:var(--serif);
+  font-size:clamp(28px,5.8vw,58px);
+  font-weight:700;line-height:1.06;
+  color:var(--ivory);max-width:860px;margin:0 auto 24px;
+  letter-spacing:-.3px;
+}
+.hero-h1 em{
+  font-style:italic;
+  background:linear-gradient(135deg,var(--gold2),var(--gold3));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.hero-sub{
+  font-size:clamp(15px,2.2vw,18px);
+  color:var(--iv3);line-height:1.75;font-weight:300;
+  max-width:660px;margin:0 auto 48px;
+}
+.hero-sub strong{color:var(--ivory);font-weight:600;}
+
+.hero-cta{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:18px 44px;border-radius:13px;
+  background:linear-gradient(135deg,var(--gold3) 0%,var(--gold2) 50%,var(--gold3) 100%);
+  font-size:16px;font-weight:700;color:var(--bg);
+  text-decoration:none;letter-spacing:.02em;
+  box-shadow:0 10px 40px rgba(184,134,11,.36);
+  transition:all .24s var(--ease);position:relative;overflow:hidden;
+}
+.hero-cta::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(255,255,255,.14),transparent);
+  pointer-events:none;
+}
+.hero-cta:hover{transform:translateY(-3px);box-shadow:0 18px 52px rgba(184,134,11,.48);}
+
+.hero-note{margin-top:18px;font-size:12px;color:var(--iv4);}
+.hero-note a{color:var(--gold3);text-decoration:none;font-weight:600;}
+.hero-note a:hover{color:var(--gold2);}
+
+/* Gold rule */
+.gold-rule{
+  width:70px;height:1px;margin:0 auto;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+}
+
+/* ══════════════════════════════
+   NUMBER BAR
+══════════════════════════════ */
+.num-bar{
+  background:var(--bg2);
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+  padding:32px 28px;
+}
+.num-inner{
+  max-width:940px;margin:0 auto;
+  display:flex;justify-content:center;flex-wrap:wrap;gap:0;
+}
+.num-stat{
+  padding:14px 40px;
+  border-right:1px solid var(--line);
+  flex:1;min-width:160px;text-align:center;
+}
+.num-stat:last-child{border-right:none;}
+.num-val{
+  font-family:var(--serif);
+  font-size:clamp(22px,3.5vw,36px);
+  font-weight:700;line-height:1;margin-bottom:8px;
+}
+.num-val.gold{color:var(--gold2);}
+.num-val.red{color:var(--red);}
+.num-val.green{color:var(--gold);}
+.num-lbl{
+  font-size:10px;color:var(--iv3);
+  font-weight:600;letter-spacing:.6px;
+  text-transform:uppercase;line-height:1.45;
+}
+
+/* ══════════════════════════════
+   AUDIENCE TABS
+══════════════════════════════ */
+.audience-bar{
+  background:rgba(4,15,8,.95);
+  border-bottom:1px solid var(--line);
+  padding:0 28px;
+  display:flex;justify-content:center;
+  position:sticky;top:57px;z-index:90;
+  backdrop-filter:blur(16px);
+}
+.aud-tab{
+  padding:20px 36px;
+  font-size:13px;font-weight:600;
+  color:var(--iv3);
+  border-bottom:2px solid transparent;
+  cursor:pointer;transition:all .2s;
+  white-space:nowrap;background:none;
+  border-top:none;border-left:none;border-right:none;
+  font-family:var(--sans);letter-spacing:.01em;
+}
+.aud-tab:hover{color:var(--iv2);}
+.aud-tab.on{color:var(--gold2);border-bottom-color:var(--gold);}
+
+/* ══════════════════════════════
+   SECTIONS
+══════════════════════════════ */
+.section{max-width:900px;margin:0 auto;padding:80px 28px;}
+.section-eyebrow{
+  font-size:10px;font-weight:700;letter-spacing:3px;
+  text-transform:uppercase;color:var(--gold3);margin-bottom:14px;
+}
+.section-eyebrow.gold{color:var(--gold2);}
+.section-h2{
+  font-family:var(--serif);
+  font-size:clamp(24px,4.2vw,40px);
+  font-weight:700;line-height:1.14;
+  color:var(--ivory);margin-bottom:18px;letter-spacing:-.2px;
+}
+.section-h2 em{
+  font-style:italic;
+  background:linear-gradient(135deg,var(--gold2),var(--gold3));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.section-lead{
+  font-size:16px;color:var(--iv3);
+  line-height:1.78;font-weight:300;
+  max-width:650px;margin-bottom:36px;
+}
+.section-lead strong{color:var(--ivory);font-weight:600;}
+
+.aud-section{border-top:1px solid var(--line);}
+
+/* ══════════════════════════════
+   NEW BROKER LAYOUT
+══════════════════════════════ */
+.new-broker-layout{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:40px;align-items:start;margin-top:8px;
+}
+@media(max-width:680px){.new-broker-layout{grid-template-columns:1fr;}}
+
+.pitch-card{
+  background:var(--card2);
+  border:1px solid var(--line2);
+  border-left:3px solid var(--gold);
+  border-radius:14px;padding:30px 28px;
+}
+.pitch-label{
+  font-size:9px;font-weight:700;letter-spacing:2.5px;
+  text-transform:uppercase;color:var(--gold3);margin-bottom:16px;
+}
+.pitch-quote{
+  font-family:var(--serif);font-size:18px;font-style:italic;
+  color:var(--ivory);line-height:1.55;margin-bottom:18px;
+}
+.pitch-quote::before{content:'\201C';color:var(--gold2);font-size:28px;line-height:0;vertical-align:-.45em;margin-right:4px;}
+.pitch-quote::after{content:'\201D';color:var(--gold2);font-size:28px;line-height:0;vertical-align:-.45em;margin-left:4px;}
+.pitch-note{font-size:12px;color:var(--iv3);}
+
+.advantage-list{display:flex;flex-direction:column;gap:12px;margin-top:4px;}
+.adv-item{
+  background:var(--card);border:1px solid var(--line);
+  border-radius:12px;padding:18px 20px;
+  display:flex;gap:14px;align-items:flex-start;
+  transition:border-color .2s,background .2s;
+}
+.adv-item:hover{border-color:var(--line2);background:var(--card2);}
+.adv-ico{font-size:19px;flex-shrink:0;margin-top:1px;}
+.adv-title{font-size:13px;font-weight:700;color:var(--ivory);margin-bottom:4px;}
+.adv-desc{font-size:12px;color:var(--iv3);line-height:1.58;}
+
+/* ══════════════════════════════
+   ESTABLISHED BROKER LAYOUT
+══════════════════════════════ */
+.est-layout{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:40px;align-items:start;margin-top:8px;
+}
+@media(max-width:680px){.est-layout{grid-template-columns:1fr;}}
+
+.ruling-card{
+  background:rgba(192,57,43,.05);
+  border:1px solid rgba(192,57,43,.22);
+  border-left:3px solid var(--red);
+  border-radius:14px;padding:30px 28px;
+}
+.ruling-label{
+  font-size:9px;font-weight:700;letter-spacing:2px;
+  text-transform:uppercase;color:var(--red);
+  margin-bottom:14px;opacity:.85;
+}
+.ruling-amount{
+  font-family:var(--serif);
+  font-size:clamp(34px,5vw,52px);
+  font-weight:700;color:var(--red);line-height:1;margin-bottom:10px;
+}
+.ruling-desc{font-size:13px;color:var(--iv2);line-height:1.68;margin-bottom:18px;}
+.ruling-resolution{
+  background:rgba(184,134,11,.08);
+  border:1px solid var(--line2);
+  border-radius:8px;padding:12px 14px;
+  font-size:12px;color:var(--gold2);font-weight:600;
+}
+
+.protect-list{display:flex;flex-direction:column;gap:12px;margin-top:4px;}
+.prot-item{
+  background:var(--card);border:1px solid var(--line);
+  border-radius:12px;padding:16px 20px;
+  display:flex;gap:12px;align-items:center;
+  transition:border-color .2s;
+}
+.prot-item:hover{border-color:var(--line2);}
+.prot-check{
+  width:24px;height:24px;border-radius:50%;flex-shrink:0;
+  background:rgba(184,134,11,.10);
+  border:1px solid var(--line2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;color:var(--gold2);
+}
+.prot-text{font-size:13px;color:var(--iv2);font-weight:500;}
+
+/* ══════════════════════════════
+   WHAT TO SEAL
+══════════════════════════════ */
+.seal-bg{
+  background:var(--bg2);
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+  padding:80px 28px;
+}
+.seal-inner{max-width:900px;margin:0 auto;}
+.seal-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(255px,1fr));
+  gap:14px;margin-top:44px;
+}
+.seal-card{
+  background:var(--card);border:1px solid var(--line);
+  border-radius:14px;padding:24px 26px;
+  display:flex;gap:16px;align-items:flex-start;
+  transition:all .22s var(--ease);
+  position:relative;overflow:hidden;
+}
+.seal-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  opacity:0;transition:opacity .25s;
+}
+.seal-card:hover{
+  border-color:var(--line2);background:var(--card2);
+  transform:translateY(-2px);box-shadow:var(--shadow-card);
+}
+.seal-card:hover::before{opacity:1;}
+.seal-ico{
+  width:38px;height:38px;border-radius:10px;flex-shrink:0;
+  background:var(--gold-glow2);border:1px solid var(--line);
+  display:flex;align-items:center;justify-content:center;font-size:17px;
+}
+.seal-title{font-size:14px;font-weight:700;color:var(--ivory);margin-bottom:6px;}
+.seal-desc{font-size:12px;color:var(--iv3);line-height:1.58;}
+
+/* ══════════════════════════════
+   PRICING
+══════════════════════════════ */
+.pricing-section{padding:80px 28px;border-top:1px solid var(--line);}
+.pricing-inner{max-width:900px;margin:0 auto;}
+.pricing-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(215px,1fr));
+  gap:16px;margin-top:16px;margin-bottom:16px;
+}
+
+.price-card{
+  background:var(--card);border:1px solid var(--line);
+  border-radius:16px;padding:28px 24px;
+  display:flex;flex-direction:column;gap:8px;
+  transition:all .2s var(--ease);
+}
+.price-card:hover{border-color:var(--line2);background:var(--card2);}
+.price-card.featured{
+  background:var(--card2);
+  border:1.5px solid var(--gold3);
+  position:relative;overflow:hidden;
+}
+.price-card.featured::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--gold3),var(--gold2),var(--gold3));
+}
+.price-tier{
+  font-size:10px;font-weight:700;letter-spacing:2.5px;
+  text-transform:uppercase;color:var(--iv3);
+}
+.price-card.featured .price-tier{color:var(--gold2);}
+.price-amount{
+  font-family:var(--serif);font-size:34px;
+  font-weight:700;color:var(--ivory);line-height:1;
+}
+.price-amount span{font-size:15px;font-weight:400;color:var(--iv3);}
+.price-desc{font-size:13px;color:var(--iv3);line-height:1.62;margin-top:4px;}
+.price-desc strong{color:var(--ivory);}
+.price-cancel{margin-top:auto;padding-top:14px;font-size:11px;color:var(--gold3);}
+
+/* ══════════════════════════════
+   PROOF NUMBERS
+══════════════════════════════ */
+.proof-section{
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 50%, rgba(184,134,11,.04) 0%, transparent 70%),
+    var(--bg);
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+  padding:80px 28px;text-align:center;
+}
+.proof-inner{max-width:720px;margin:0 auto;}
+.proof-h2{
+  font-family:var(--serif);
+  font-size:clamp(24px,4.2vw,38px);
+  font-weight:700;line-height:1.18;
+  color:var(--ivory);margin-bottom:32px;
+}
+.proof-h2 em{
+  font-style:italic;
+  background:linear-gradient(135deg,var(--gold2),var(--gold3));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.proof-chips{
+  display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-bottom:40px;
+}
+.chip{
+  background:var(--card);border:1px solid var(--line);
+  border-radius:12px;padding:16px 24px;text-align:center;
+  transition:border-color .2s;
+}
+.chip:hover{border-color:var(--line2);}
+.chip-val{
+  font-size:clamp(18px,3vw,28px);font-weight:700;
+  font-family:var(--serif);color:var(--red);margin-bottom:5px;
+}
+.chip-lbl{font-size:10px;color:var(--iv3);text-transform:uppercase;letter-spacing:.6px;}
+.chip.gold .chip-val{color:var(--gold2);}
+
+/* ══════════════════════════════
+   GROUP / CEO SECTION
+══════════════════════════════ */
+.group-card{
+  background:rgba(184,134,11,.05);
+  border:1px solid var(--line2);
+  border-left:3px solid var(--gold);
+  border-radius:14px;padding:34px 38px;
+  max-width:620px;margin-top:12px;
+}
+.group-card-eyebrow{
+  font-size:9px;font-weight:700;letter-spacing:2.5px;
+  text-transform:uppercase;color:var(--gold2);margin-bottom:16px;
+}
+.group-card p{font-size:15px;color:var(--iv2);line-height:1.78;margin-bottom:20px;}
+.group-contact{display:flex;flex-direction:column;gap:10px;}
+.group-contact a{
+  font-size:14px;color:var(--gold2);text-decoration:none;
+  font-weight:600;transition:color .2s;
+}
+.group-contact a:hover{color:var(--gold2);text-decoration:underline;}
+
+/* ══════════════════════════════
+   FAQ
+══════════════════════════════ */
+.faq-list{margin-top:44px;display:flex;flex-direction:column;gap:2px;}
+.faq-item{background:var(--card);border:1px solid var(--line);}
+.faq-item:first-child{border-radius:14px 14px 0 0;}
+.faq-item:last-child{border-radius:0 0 14px 14px;}
+.faq-q{
+  width:100%;padding:22px 26px;
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  font-size:15px;font-weight:600;color:var(--ivory);text-align:left;
+  cursor:pointer;background:none;border:none;font-family:var(--sans);
+  transition:background .15s;
+}
+.faq-q:hover{background:rgba(184,134,11,.04);}
+.faq-arrow{font-size:11px;color:var(--gold3);flex-shrink:0;transition:transform .25s var(--ease);}
+.faq-item.open .faq-arrow{transform:rotate(180deg);}
+.faq-item.open .faq-q{color:var(--gold2);}
+.faq-a{
+  display:none;
+  padding:0 26px 22px;padding-top:18px;
+  font-size:14px;color:var(--iv3);line-height:1.76;
+  border-top:1px solid var(--line);
+}
+.faq-item.open .faq-a{display:block;}
+
+/* ══════════════════════════════
+   FINAL CTA
+══════════════════════════════ */
+.final-cta{
+  padding:90px 28px;text-align:center;
+  background:
+    radial-gradient(ellipse 100% 80% at 50% 100%, rgba(184,134,11,.05) 0%, transparent 65%),
+    var(--bg2);
+  border-top:1px solid var(--line);
+}
+.final-inner{max-width:620px;margin:0 auto;}
+.final-h2{
+  font-family:var(--serif);
+  font-size:clamp(26px,5.5vw,46px);
+  font-weight:700;line-height:1.1;
+  color:var(--ivory);margin-bottom:18px;letter-spacing:-.3px;
+}
+.final-h2 em{
+  font-style:italic;
+  background:linear-gradient(135deg,var(--gold2),var(--gold3));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.final-sub{font-size:17px;color:var(--iv3);line-height:1.68;font-weight:300;margin-bottom:36px;}
+.final-btn{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:20px 52px;border-radius:13px;
+  background:linear-gradient(135deg,var(--gold3) 0%,var(--gold2) 50%,var(--gold3) 100%);
+  font-size:16px;font-weight:700;color:var(--bg);
+  text-decoration:none;letter-spacing:.02em;
+  box-shadow:0 12px 44px rgba(184,134,11,.38);
+  transition:all .24s var(--ease);position:relative;overflow:hidden;
+}
+.final-btn::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(255,255,255,.14),transparent);
+  pointer-events:none;
+}
+.final-btn:hover{transform:translateY(-3px);box-shadow:0 20px 58px rgba(184,134,11,.52);}
+.final-note{margin-top:18px;font-size:11px;color:var(--iv4);}
+
+/* ══════════════════════════════
+   FOOTER
+══════════════════════════════ */
+.footer{
+  padding:28px 28px;
+  border-top:1px solid var(--line);
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;
+  background:var(--bg);
+}
+.footer-brand{font-family:var(--serif);font-size:15px;color:var(--iv3);}
+.footer-brand b{color:var(--gold3);}
+.footer-links{display:flex;gap:22px;flex-wrap:wrap;}
+.footer-links a{font-size:12px;color:var(--iv4);text-decoration:none;transition:color .15s;}
+.footer-links a:hover{color:var(--gold2);}
+
+/* ══════════════════════════════
+   MOBILE
+══════════════════════════════ */
+@media(max-width:640px){
+  .hero{padding:60px 20px 60px;}
+  .section{padding:56px 20px;}
+  .seal-bg{padding:56px 20px;}
+  .proof-section{padding:56px 20px;}
+  .final-cta{padding:60px 20px;}
+  .pricing-section{padding:56px 20px;}
+  .num-stat{border-right:none;border-bottom:1px solid var(--line);padding:16px 20px;}
+  .num-stat:last-child{border-bottom:none;}
+  .aud-tab{padding:15px 18px;font-size:12px;}
+  .hero-cta,.final-btn{width:100%;justify-content:center;padding:18px 28px;}
+  .group-card{padding:24px 20px;}
+  .nav{padding:14px 20px;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="https://doxseal.co.za" class="nav-brand" style="display:flex;align-items:center;gap:9px;text-decoration:none;font-family:'Cormorant Garamond',Georgia,serif;font-size:19px;font-weight:700;color:#f0ead8;">
+    <div style="width:26px;height:26px;border-radius:6px;background:linear-gradient(135deg,#9a6f08,#c9a84c);display:flex;align-items:center;justify-content:center;font-size:12px;color:#040f08;flex-shrink:0;">âœ¦</div>
+    <span style="color:#c9a84c;">Dox</span>Seal
+  </a>
+  <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+    <a href="https://doxseal.co.za/brokers.html" style="font-size:12px;color:rgba(240,234,216,.48);text-decoration:none;padding:6px 12px;">For Brokers</a>
+    <a href="https://doxseal.co.za/hr-landing.html" style="font-size:12px;color:rgba(240,234,216,.48);text-decoration:none;padding:6px 12px;">For HR</a>
+    <a href="https://doxseal.co.za/verify.html" style="font-size:12px;color:rgba(240,234,216,.48);text-decoration:none;padding:6px 12px;">Verify</a>
+    <a href="https://doxseal.co.za/app.html" style="font-size:13px;font-weight:600;color:#c9a84c;background:transparent;border:1px solid rgba(184,134,11,.24);padding:8px 16px;border-radius:8px;text-decoration:none;">Sign In</a>
+    <a href="https://doxseal.co.za/trial.html" style="font-size:13px;font-weight:700;color:#040f08;background:linear-gradient(135deg,#9a6f08,#c9a84c);padding:8px 16px;border-radius:8px;text-decoration:none;">Try Free â†’</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eyebrow">
+    <span class="hero-dot"></span>
+    For South African Insurance &amp; Investment Brokers
+  </div>
+  <h1 class="hero-h1">The only financial advisor who gives clients <em>permanent proof</em> of exactly what was promised</h1>
+  <p class="hero-sub">Seal every financial plan, every proposal, every client instruction on the blockchain. <strong>Win more cold appointments.</strong> Generate automatic referrals. <strong>FAIS-compliant. ECT Act certified.</strong></p>
+  <a href="https://doxseal.co.za/trial" class="hero-cta">
+    <span>See It In Action</span>
+    <span>→</span>
+  </a>
+  <p class="hero-note">Start your free trial at <a href="https://doxseal.co.za/trial">doxseal.co.za/trial</a></p>
+</section>
+
+<!-- NUMBER BAR -->
+<div class="num-bar">
+  <div class="num-inner">
+    <div class="num-stat">
+      <div class="num-val red">38,855</div>
+      <div class="num-lbl">Insurance complaints to NFO in 2024</div>
+    </div>
+    <div class="num-stat">
+      <div class="num-val gold">R328.5M</div>
+      <div class="num-lbl">Recovered against brokers &amp; insurers</div>
+    </div>
+    <div class="num-stat">
+      <div class="num-val red">R122,350</div>
+      <div class="num-lbl">Paid personally — failed to prove disclosure</div>
+    </div>
+    <div class="num-stat">
+      <div class="num-val gold">R499</div>
+      <div class="num-lbl">DoxSeal per month</div>
+    </div>
+  </div>
+</div>
+
+<!-- AUDIENCE TABS -->
+<div class="audience-bar">
+  <button class="aud-tab on" onclick="showAud('new',this)">New Brokers — Win Clients</button>
+  <button class="aud-tab" onclick="showAud('est',this)">Established Brokers — Ombud Protection</button>
+</div>
+
+<!-- NEW BROKER SECTION -->
+<div class="aud-section" id="aud-new">
+  <section class="section">
+    <div class="section-eyebrow">For New Brokers</div>
+    <h2 class="section-h2">Win clients from brokers with <em>10 years' experience</em></h2>
+    <p class="section-lead">Every broker gives clients a printed quote. You give them a PDF blockchain certificate alongside it. Their terms are <strong>locked permanently on the blockchain</strong>. You cannot change them. Nobody can. That is why clients choose you over someone with a decade of experience.</p>
+    <div class="new-broker-layout">
+      <div>
+        <div class="pitch-card">
+          <div class="pitch-label">Your Pitch — Word for Word</div>
+          <div class="pitch-quote">I am the only broker who gives you permanent proof of exactly what I promised — before you sign anything.</div>
+          <div class="pitch-note">Hand them the PDF certificate. Watch the conversation change.</div>
+        </div>
+      </div>
+      <div class="advantage-list">
+        <div class="adv-item">
+          <span class="adv-ico">🏆</span>
+          <div>
+            <div class="adv-title">Instant differentiation</div>
+            <div class="adv-desc">No experienced broker is offering this. You walk in with something they have never seen. The conversation is about trust before it is about premium.</div>
+          </div>
+        </div>
+        <div class="adv-item">
+          <span class="adv-ico">📋</span>
+          <div>
+            <div class="adv-title">A certificate at every appointment</div>
+            <div class="adv-desc">Seal the quote before you leave the table. Email them the blockchain certificate on the spot. Their existing broker cannot match it.</div>
+          </div>
+        </div>
+        <div class="adv-item">
+          <span class="adv-ico">🔁</span>
+          <div>
+            <div class="adv-title">Clients who refer clients</div>
+            <div class="adv-desc">A client with a blockchain certificate talks about it. It is different. It is visible. It generates referrals without you asking for them.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ESTABLISHED BROKER SECTION -->
+<div class="aud-section" id="aud-est" style="display:none;">
+  <section class="section">
+    <div class="section-eyebrow gold">For Established Brokers</div>
+    <h2 class="section-h2">Never pay an Ombud ruling <em>out of your own pocket</em> again</h2>
+    <p class="section-lead">A broker was ordered to pay <strong>R122,350 personally</strong> last year. Not the insurer. The broker. The reason: he could not prove he disclosed a policy exclusion to his client. The conversation happened. He just could not prove it.</p>
+    <div class="est-layout">
+      <div class="ruling-card">
+        <div class="ruling-label">Real Ombud Ruling · 2024</div>
+        <div class="ruling-amount">R122,350</div>
+        <div class="ruling-desc">Ordered against the broker personally. The insurer paid nothing. The exclusion had been verbally disclosed — the broker had no proof it ever happened. One sealed record would have closed this case in minutes.</div>
+        <div class="ruling-resolution">✦ DoxSeal seals every client conversation. One QR code closes any Ombud case.</div>
+      </div>
+      <div class="protect-list">
+        <div class="prot-item"><div class="prot-check">✦</div><div class="prot-text">Every exclusion disclosure sealed at the exact moment of advice</div></div>
+        <div class="prot-item"><div class="prot-check">✦</div><div class="prot-text">Independently verifiable timestamp — no one can dispute the date</div></div>
+        <div class="prot-item"><div class="prot-check">✦</div><div class="prot-text">QR code on every certificate — FAIS Ombud can verify in seconds</div></div>
+        <div class="prot-item"><div class="prot-check">✦</div><div class="prot-text">Full suitability records sealed with every investment recommendation</div></div>
+        <div class="prot-item"><div class="prot-check">✦</div><div class="prot-text">Policy change instructions sealed on client receipt — no version disputes</div></div>
+        <div class="prot-item"><div class="prot-check">✦</div><div class="prot-text">Section 7 FAIS Record of Advice — unassailable, blockchain-backed</div></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- WHAT TO SEAL -->
+<div class="seal-bg">
+  <div class="seal-inner">
+    <div class="section-eyebrow">What to Seal</div>
+    <h2 class="section-h2">Every document that matters — <em>sealed the moment it's issued.</em></h2>
+    <div class="seal-grid">
+      <div class="seal-card"><div class="seal-ico">📄</div><div><div class="seal-title">Quotations &amp; Policy Terms</div><div class="seal-desc">Sealed on presentation. The terms you quoted are locked. Nobody can claim they were changed after the fact.</div></div></div>
+      <div class="seal-card"><div class="seal-ico">⚠️</div><div><div class="seal-title">Exclusion Disclosures</div><div class="seal-desc">Sealed at point of advice. The most common reason brokers pay Ombud rulings — eliminated in 30 seconds.</div></div></div>
+      <div class="seal-card"><div class="seal-ico">🔄</div><div><div class="seal-title">Policy Change Instructions</div><div class="seal-desc">Sealed on client receipt. No disputes about what was requested, what was authorised, or when.</div></div></div>
+      <div class="seal-card"><div class="seal-ico">📅</div><div><div class="seal-title">Renewal Notices</div><div class="seal-desc">Sealed on issue date. Proof the client was notified — before the renewal, not after the claim.</div></div></div>
+      <div class="seal-card"><div class="seal-ico">✅</div><div><div class="seal-title">Claim Acknowledgements</div><div class="seal-desc">Sealed immediately on receipt. Timestamp proves you received it, logged it, and acted.</div></div></div>
+      <div class="seal-card"><div class="seal-ico">📈</div><div><div class="seal-title">Investment Recommendations</div><div class="seal-desc">Sealed with full suitability record. Your FAIS Record of Advice — permanent, verifiable, unassailable.</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- PRICING -->
+<div class="pricing-section">
+  <div class="pricing-inner">
+    <div class="section-eyebrow">Pricing</div>
+    <h2 class="section-h2" style="margin-bottom:10px;">Less than one tank of petrol per month.<br><em>Cancel anytime.</em></h2>
+    <p class="section-lead">One new client pays for years of this. Start on Starter, upgrade when you're ready.</p>
+    <div class="pricing-grid">
+      <div class="price-card">
+        <div class="price-tier">Starter</div>
+        <div class="price-amount">R499<span>/mo</span></div>
+        <div class="price-desc">Seal up to 50 documents per month. Quotes, financial plans, client certificates.</div>
+        <div class="price-cancel">Cancel anytime.</div>
+      </div>
+      <div class="price-card featured">
+        <div class="price-tier">✦ Pro · Most Popular</div>
+        <div class="price-amount" style="font-size:22px;color:var(--iv2);">Contact us</div>
+        <div class="price-desc">Seal up to 200 documents plus <strong>20 blockchain-sealed prospect messages</strong> included every month.</div>
+        <div class="price-cancel">Cancel anytime.</div>
+      </div>
+      <div class="price-card">
+        <div class="price-tier">Growth</div>
+        <div class="price-amount" style="font-size:22px;color:var(--iv2);">Contact us</div>
+        <div class="price-desc">Unlimited document sealing plus 50 prospect messages per month.</div>
+        <div class="price-cancel">Cancel anytime.</div>
+      </div>
+    </div>
+    <p style="font-size:12px;color:var(--iv4);text-align:center;margin-top:8px;">No contracts on monthly plans.</p>
+  </div>
+</div>
+
+<!-- PROOF NUMBERS -->
+<div class="proof-section">
+  <div class="proof-inner">
+    <h2 class="proof-h2">The numbers that should make every broker <em>uncomfortable</em></h2>
+    <div class="proof-chips">
+      <div class="chip"><div class="chip-val">38,855</div><div class="chip-lbl">NFO complaints in 2024</div></div>
+      <div class="chip"><div class="chip-val">R328.5M</div><div class="chip-lbl">Recovered from brokers</div></div>
+      <div class="chip"><div class="chip-val">R122,350</div><div class="chip-lbl">One broker. One ruling. No proof.</div></div>
+      <div class="chip gold"><div class="chip-val">from R499/mo</div><div class="chip-lbl">Less than one tank of petrol</div></div>
+    </div>
+    <a href="https://doxseal.co.za/trial" class="hero-cta" style="font-size:15px;padding:16px 38px;">
+      Start Protecting Yourself Today →
+    </a>
+  </div>
+</div>
+
+<!-- GROUP / CEO -->
+<div class="seal-bg">
+  <div class="seal-inner">
+    <div class="section-eyebrow gold">For Investment Group Owners &amp; CEOs</div>
+    <h2 class="section-h2">Rolling out DoxSeal <em>across your group</em></h2>
+    <p class="section-lead" style="max-width:680px;">If you manage a team of financial advisors — DoxSeal gives every advisor in your group a competitive edge that no other group has. Every client meeting sealed. Every FAIS record unassailable. Every referral automatic.</p>
+    <div class="group-card">
+      <div class="group-card-eyebrow">Free 2-Week Group Pilot</div>
+      <p>We offer a free 2-week pilot for investment groups — 3 advisors, zero cost, results in 2 weeks.</p>
+      <div class="group-contact">
+        <div>📧 <a href="mailto:johan@doxseal.co.za">johan@doxseal.co.za</a></div>
+        <div>💬 <a href="https://wa.me/27726126733">WhatsApp: +27 72 612 6733</a></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FAQ -->
+<section class="section">
+  <div class="section-eyebrow">Questions</div>
+  <h2 class="section-h2">Straight answers.</h2>
+  <div class="faq-list">
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)"><span>Is this FAIS compliant documentation?</span><span class="faq-arrow">▼</span></button>
+      <div class="faq-a">The blockchain timestamp proves the exact date, time and content of every client communication. It is independently verifiable by the FAIS Ombud at whatsonchain.com. The immutability of the blockchain record means the content cannot have been altered after the fact — which is exactly what the Ombud needs to see.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)"><span>Does my client need to use DoxSeal?</span><span class="faq-arrow">▼</span></button>
+      <div class="faq-a">No. You seal it on your side at the time of issue. The proof belongs to you. Your client does not need an account — the blockchain record is public and independently verifiable by anyone, including a commissioner or adjudicator.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)"><span>What about the printed quotes I already hand over?</span><span class="faq-arrow">▼</span></button>
+      <div class="faq-a">Seal it in 30 seconds before you hand it over. Your client gets the printed quote and a PDF blockchain certificate. Nothing else changes in your workflow — except that you now have permanent proof of exactly what you quoted, when you quoted it.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)"><span>What about investment advice records?</span><span class="faq-arrow">▼</span></button>
+      <div class="faq-a">Every recommendation, every risk disclosure, every mandate change — sealed permanently. Your FAIS Record of Advice is unassailable. If it ever goes to the Ombud, you produce the blockchain certificate and a QR code that verifies it independently. The case closes.</div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<div class="final-cta">
+  <div class="final-inner">
+    <h2 class="final-h2">The broker who <em>proves everything</em> wins everything.</h2>
+    <p class="final-sub">Clients. Trust. Ombud cases. Start sealing your conversations today.</p>
+    <a href="https://doxseal.co.za/trial" class="final-btn">
+      <span>Get Started Now</span>
+      <span>→</span>
+    </a>
+    <p class="final-note">From R499/month. Less than one tank of petrol. Cancel anytime. One new client pays for years of this.</p>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-brand">Â© 2026 Orsolso Trader t/a <b>Dox</b>Seal</div>
+  <div class="footer-links">
+    <a href="https://doxseal.co.za">Home</a>
+    <a href="https://doxseal.co.za/brokers.html">For Brokers</a>
+    <a href="https://doxseal.co.za/hr-landing.html">For HR</a>
+    <a href="https://doxseal.co.za/verify.html">Verify</a>
+    <a href="https://doxseal.co.za/legal.html">Legal</a>
+    <a href="mailto:hello@doxseal.co.za">Contact</a>
+  </div>
+</footer>
+
+<script>
+function showAud(id, btn) {
+  document.getElementById('aud-new').style.display = id === 'new' ? 'block' : 'none';
+  document.getElementById('aud-est').style.display = id === 'est' ? 'block' : 'none';
+  document.querySelectorAll('.aud-tab').forEach(t => t.classList.remove('on'));
+  btn.classList.add('on');
+}
+function toggleFaq(btn) {
+  const item = btn.closest('.faq-item');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+</script>
+</body>
+</html>
