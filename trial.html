@@ -5,34 +5,48 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Free Trial — DoxSeal Document Validation</title>
 <meta name="description" content="Start your free DoxSeal trial. 3 free document seals — no card needed. Tamper-proof blockchain timestamps for HR, legal and property professionals.">
-<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Nunito:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
+/* ═══════════════════════════════════════════════
+   DOXSEAL — UNIFIED DESIGN SYSTEM
+   Springbok Edition · Old Gold + Deep Green
+═══════════════════════════════════════════════ */
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+
 :root{
-  --bg:       #080c09;
-  --bg2:      #0e1610;
-  --bg3:      #141f16;
-  --card:     #1a2a1c;
-  --card2:    #20321f;
-  --edge:     #283c2a;
-  --line:     rgba(100,200,120,.09);
-  --line2:    rgba(100,200,120,.16);
-  --line3:    rgba(100,200,120,.28);
-  --green:    #2dce82;
-  --green2:   #23b06d;
-  --green3:   #1a8a53;
-  --green4:   #117040;
-  --gold:     #c8a84b;
-  --ivory:    #f2ede4;
-  --iv2:      rgba(242,237,228,.72);
-  --iv3:      rgba(242,237,228,.42);
-  --iv4:      rgba(242,237,228,.22);
-  --iv5:      rgba(242,237,228,.1);
-  --red:      #e05555;
-  --serif:    'Libre Baskerville', Georgia, serif;
-  --sans:     'Nunito', sans-serif;
-  --ease:     cubic-bezier(.4,0,.2,1);
+  --bg:        #040f08;
+  --bg2:       #071a0e;
+  --bg3:       #0a2614;
+  --card:      #0d3018;
+  --card2:     #10391c;
+  --edge:      #174d26;
+
+  --line:      rgba(184,134,11,.13);
+  --line2:     rgba(184,134,11,.24);
+  --line3:     rgba(184,134,11,.38);
+
+  --gold:      #b8860b;
+  --gold2:     #c9a84c;
+  --gold3:     #9a6f08;
+  --gold4:     #7a5506;
+  --gold-glow: rgba(184,134,11,.16);
+  --gold-glow2:rgba(184,134,11,.08);
+
+  --ivory:     #f0ead8;
+  --iv2:       rgba(240,234,216,.78);
+  --iv3:       rgba(240,234,216,.48);
+  --iv4:       rgba(240,234,216,.26);
+  --iv5:       rgba(240,234,216,.10);
+
+  --red:       #c0392b;
+
+  --serif:     'Cormorant Garamond', Georgia, serif;
+  --sans:      'DM Sans', sans-serif;
+
+  --ease:      cubic-bezier(.4,0,.2,1);
+  --bounce:    cubic-bezier(.34,1.56,.64,1);
 }
+
 html{scroll-behavior:smooth;}
 body{
   background:var(--bg);font-family:var(--sans);
@@ -41,176 +55,248 @@ body{
   align-items:center;justify-content:flex-start;
   overflow-x:hidden;
 }
+
+/* Radial glow */
 body::before{
   content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
   background:
-    radial-gradient(ellipse 80% 50% at 20% -10%,rgba(45,206,130,.07),transparent 60%),
-    radial-gradient(ellipse 60% 40% at 80% 110%,rgba(26,138,83,.05),transparent 55%);
+    radial-gradient(ellipse 80% 50% at 20% -10%, rgba(184,134,11,.06), transparent 60%),
+    radial-gradient(ellipse 60% 40% at 80% 110%, rgba(184,134,11,.04), transparent 55%);
 }
-::selection{background:rgba(45,206,130,.25);}
 
-/* ── Layout ── */
+/* Grain */
+body::after{
+  content:'';position:fixed;inset:0;z-index:9998;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23g)' opacity='1'/%3E%3C/svg%3E");
+  opacity:.025;mix-blend-mode:screen;
+}
+
+::selection{background:rgba(184,134,11,.28);}
+
+/* ══════════════════════════════
+   LAYOUT
+══════════════════════════════ */
 .wrap{
   position:relative;z-index:1;
   width:100%;max-width:460px;
-  padding:48px 24px 64px;
+  padding:52px 24px 72px;
 }
 
-/* ── Brand bar ── */
-.brand{
-  text-align:center;margin-bottom:36px;
-}
+/* ══════════════════════════════
+   BRAND BAR
+══════════════════════════════ */
+.brand{text-align:center;margin-bottom:36px;}
 .brand-logo{
-  font-family:var(--serif);font-size:22px;font-weight:700;
+  font-family:var(--serif);font-size:24px;font-weight:700;
   color:var(--ivory);letter-spacing:.02em;text-decoration:none;
+  display:inline-flex;align-items:center;gap:10px;
 }
-.brand-logo span{color:var(--green);}
+.brand-icon{
+  width:30px;height:30px;border-radius:7px;
+  background:linear-gradient(135deg,var(--gold3),var(--gold2));
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;color:var(--bg);flex-shrink:0;
+}
+.brand-logo span{color:var(--gold2);}
 
-/* ── Card ── */
+/* ══════════════════════════════
+   CARD
+══════════════════════════════ */
 .card{
   background:var(--card);
   border:1px solid var(--line2);
-  border-radius:16px;
-  padding:36px 32px;
+  border-radius:18px;
+  padding:38px 34px;
+  box-shadow:0 12px 48px rgba(0,0,0,.35), 0 1px 0 rgba(184,134,11,.08) inset;
 }
+
+/* Gold top line on card */
+.card::before{
+  content:'';display:block;
+  height:2px;margin:-38px -34px 36px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  border-radius:18px 18px 0 0;
+}
+
 @media(max-width:480px){
-  .card{padding:28px 20px;border-radius:12px;}
+  .card{padding:28px 22px;border-radius:14px;}
+  .card::before{margin:-28px -22px 28px;}
 }
 
-/* ── Steps ── */
+/* ══════════════════════════════
+   STEPS
+══════════════════════════════ */
 .step{display:none;}
-.step.active{display:block;}
+.step.active{display:block;animation:fadeUp .32s var(--ease) both;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
 
-/* ── Headings ── */
+/* ══════════════════════════════
+   HEADINGS
+══════════════════════════════ */
 .step-h{
-  font-family:var(--serif);font-size:22px;font-weight:700;
-  color:var(--ivory);margin-bottom:6px;line-height:1.3;
+  font-family:var(--serif);font-size:26px;font-weight:700;
+  color:var(--ivory);margin-bottom:6px;line-height:1.2;
 }
 .step-sub{
-  font-size:14px;color:var(--iv3);margin-bottom:28px;line-height:1.5;
+  font-size:14px;color:var(--iv3);margin-bottom:28px;line-height:1.55;
 }
 
-/* ── Form fields ── */
+/* ══════════════════════════════
+   FORM FIELDS
+══════════════════════════════ */
 .field{margin-bottom:18px;}
 .field label{
-  display:block;font-size:12px;font-weight:600;
-  color:var(--iv3);text-transform:uppercase;letter-spacing:.06em;
-  margin-bottom:6px;
+  display:block;font-size:10px;font-weight:700;
+  color:var(--gold3);text-transform:uppercase;letter-spacing:.14em;
+  margin-bottom:7px;
 }
 .field input{
   width:100%;background:var(--bg2);
-  border:1px solid var(--line2);border-radius:8px;
+  border:1.5px solid var(--line);border-radius:9px;
   color:var(--ivory);font-family:var(--sans);font-size:15px;
   padding:13px 14px;outline:none;
-  transition:border-color .2s var(--ease);
+  transition:border-color .2s var(--ease), box-shadow .2s var(--ease);
 }
-.field input:focus{border-color:var(--green3);}
+.field input:focus{
+  border-color:var(--gold);
+  box-shadow:0 0 0 3px rgba(184,134,11,.10);
+}
 .field input::placeholder{color:var(--iv4);}
 .field input.err{border-color:var(--red);}
 
-/* ── Error message ── */
+/* ══════════════════════════════
+   ERROR MESSAGE
+══════════════════════════════ */
 .err-msg{
   display:none;font-size:13px;color:var(--red);
-  background:rgba(224,85,85,.08);border:1px solid rgba(224,85,85,.2);
-  border-radius:8px;padding:10px 14px;margin-bottom:18px;line-height:1.5;
+  background:rgba(192,57,43,.08);border:1px solid rgba(192,57,43,.22);
+  border-radius:9px;padding:11px 14px;margin-bottom:18px;line-height:1.55;
 }
 .err-msg.show{display:block;}
 
-/* ── Primary button ── */
+/* ══════════════════════════════
+   PRIMARY BUTTON
+══════════════════════════════ */
 .btn-primary{
-  width:100%;padding:15px;border:none;border-radius:10px;
-  background:linear-gradient(135deg,var(--green2),var(--green3));
-  color:#fff;font-family:var(--sans);font-size:16px;font-weight:700;
+  width:100%;padding:15px;border:none;border-radius:11px;
+  background:linear-gradient(135deg,var(--gold3) 0%,var(--gold2) 50%,var(--gold3) 100%);
+  color:var(--bg);font-family:var(--sans);font-size:15px;font-weight:700;
   cursor:pointer;letter-spacing:.02em;
-  transition:opacity .2s var(--ease),transform .15s var(--ease);
-  margin-top:8px;
+  box-shadow:0 6px 24px rgba(184,134,11,.28);
+  transition:all .2s var(--ease);
+  margin-top:8px;position:relative;overflow:hidden;
 }
-.btn-primary:hover{opacity:.9;}
+.btn-primary::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(255,255,255,.13),transparent);
+  pointer-events:none;
+}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 10px 32px rgba(184,134,11,.40);}
 .btn-primary:active{transform:scale(.98);}
-.btn-primary:disabled{opacity:.5;cursor:default;}
+.btn-primary:disabled{opacity:.5;cursor:default;transform:none;}
 
-/* ── Code input (big digits) ── */
+/* ══════════════════════════════
+   CODE INPUT
+══════════════════════════════ */
 .code-input{
   width:100%;background:var(--bg2);
-  border:1px solid var(--line2);border-radius:8px;
-  color:var(--ivory);font-family:var(--sans);font-size:28px;
-  font-weight:700;letter-spacing:.25em;text-align:center;
+  border:1.5px solid var(--line);border-radius:9px;
+  color:var(--gold2);font-family:var(--sans);font-size:32px;
+  font-weight:700;letter-spacing:.3em;text-align:center;
   padding:16px 14px;outline:none;
-  transition:border-color .2s var(--ease);
+  transition:border-color .2s var(--ease), box-shadow .2s var(--ease);
 }
-.code-input:focus{border-color:var(--green3);}
+.code-input:focus{
+  border-color:var(--gold);
+  box-shadow:0 0 0 3px rgba(184,134,11,.10);
+}
 .code-to{
-  font-size:13px;color:var(--iv3);margin-bottom:20px;line-height:1.5;
+  font-size:13px;color:var(--iv3);margin-bottom:20px;line-height:1.55;
 }
 .code-to strong{color:var(--iv2);}
 
-/* ── Resend link ── */
+/* ══════════════════════════════
+   RESEND LINK
+══════════════════════════════ */
 .resend-wrap{text-align:center;margin-top:16px;}
 .resend-wrap a{
   font-size:13px;color:var(--iv3);text-decoration:none;cursor:pointer;
-  transition:color .2s;
+  transition:color .2s;border-bottom:1px dotted var(--iv4);
+  padding-bottom:1px;
 }
-.resend-wrap a:hover{color:var(--green);}
+.resend-wrap a:hover{color:var(--gold2);}
 
-/* ── Success screen ── */
+/* ══════════════════════════════
+   SUCCESS SCREEN
+══════════════════════════════ */
 .success-icon{
-  text-align:center;font-size:48px;margin-bottom:16px;
+  text-align:center;font-size:52px;margin-bottom:16px;
+  animation:badgePop .6s var(--bounce) both;
 }
+@keyframes badgePop{0%{opacity:0;transform:scale(.4);}100%{opacity:1;transform:scale(1);}}
 .success-h{
-  font-family:var(--serif);font-size:22px;font-weight:700;
-  color:var(--green);margin-bottom:10px;text-align:center;
+  font-family:var(--serif);font-size:28px;font-weight:700;
+  color:var(--gold2);margin-bottom:10px;text-align:center;
 }
 .success-body{
-  font-size:15px;color:var(--iv2);line-height:1.7;text-align:center;
+  font-size:15px;color:var(--iv2);line-height:1.72;text-align:center;
   margin-bottom:28px;
 }
 .success-body strong{color:var(--ivory);}
+.success-body a{color:var(--gold2);text-decoration:none;font-weight:600;}
 .login-btn{
-  display:block;width:100%;padding:15px;border-radius:10px;
-  background:linear-gradient(135deg,var(--green2),var(--green3));
-  color:#fff;font-family:var(--sans);font-size:16px;font-weight:700;
+  display:block;width:100%;padding:15px;border-radius:11px;
+  background:linear-gradient(135deg,var(--gold3) 0%,var(--gold2) 50%,var(--gold3) 100%);
+  color:var(--bg);font-family:var(--sans);font-size:15px;font-weight:700;
   text-align:center;text-decoration:none;letter-spacing:.02em;
-  transition:opacity .2s var(--ease);
+  box-shadow:0 6px 24px rgba(184,134,11,.28);
+  transition:all .2s var(--ease);
 }
-.login-btn:hover{opacity:.9;}
+.login-btn:hover{transform:translateY(-1px);box-shadow:0 10px 32px rgba(184,134,11,.40);}
 
-/* ── Footer note ── */
+/* ══════════════════════════════
+   FOOTER NOTE
+══════════════════════════════ */
 .foot-note{
   text-align:center;font-size:12px;color:var(--iv4);
-  margin-top:20px;line-height:1.6;
+  margin-top:20px;line-height:1.65;
 }
-.foot-note a{color:var(--iv3);text-decoration:none;}
-.foot-note a:hover{color:var(--green);}
+.foot-note a{color:var(--iv3);text-decoration:none;transition:color .15s;}
+.foot-note a:hover{color:var(--gold2);}
 
-/* ── Trust indicators ── */
+/* ══════════════════════════════
+   TRUST INDICATORS
+══════════════════════════════ */
 .trust{
-  display:flex;flex-wrap:wrap;gap:8px;justify-content:center;
+  display:flex;flex-wrap:wrap;gap:10px;justify-content:center;
   margin-top:28px;
 }
 .trust-item{
   font-size:11px;color:var(--iv4);
-  display:flex;align-items:center;gap:4px;
+  display:flex;align-items:center;gap:5px;
 }
-.trust-item::before{content:'✓';color:var(--green3);}
+.trust-item::before{content:'✦';color:var(--gold3);font-size:9px;}
 
-/* ── Consent checkbox ── */
+/* ══════════════════════════════
+   CONSENT CHECKBOX
+══════════════════════════════ */
 .consent-row{
   display:flex;align-items:flex-start;gap:10px;
   margin-bottom:16px;
   padding:14px;
-  background:rgba(45,206,130,.04);
-  border:1px solid var(--line2);
-  border-radius:8px;
+  background:var(--gold-glow2);
+  border:1px solid var(--line);
+  border-radius:9px;
 }
 .consent-row input[type=checkbox]{
   margin-top:2px;flex-shrink:0;
   width:17px;height:17px;
-  accent-color:var(--green2);cursor:pointer;
+  accent-color:var(--gold);cursor:pointer;
 }
 .consent-row label{
-  font-size:13px;color:var(--iv3);line-height:1.55;cursor:pointer;
+  font-size:13px;color:var(--iv3);line-height:1.58;cursor:pointer;
 }
-.consent-row label a{color:var(--green2);text-decoration:none;}
+.consent-row label a{color:var(--gold2);text-decoration:none;}
 .consent-row label a:hover{text-decoration:underline;}
 </style>
 </head>
@@ -220,12 +306,15 @@ body::before{
 
   <!-- Brand -->
   <div class="brand">
-    <a class="brand-logo" href="https://doxseal.co.za"><span>Dox</span>Seal</a>
+    <a class="brand-logo" href="https://doxseal.co.za">
+      <div class="brand-icon">✦</div>
+      <span>Dox</span>Seal
+    </a>
   </div>
 
   <div class="card">
 
-    <!-- ══ STEP 1: Signup form ══ -->
+    <!-- STEP 1: Signup form -->
     <div class="step active" id="step-1">
       <h1 class="step-h">Start your free trial</h1>
       <p class="step-sub">3 free document seals — no card needed</p>
@@ -245,7 +334,7 @@ body::before{
       </div>
 
       <div class="field">
-        <label for="f-company">Company name <span style="font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></label>
+        <label for="f-company">Company name <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--iv4)">(optional)</span></label>
         <input type="text" id="f-company" placeholder="Acme Pty Ltd" autocomplete="organization"
           onkeydown="if(event.key==='Enter')requestCode()">
       </div>
@@ -264,7 +353,7 @@ body::before{
       </div>
     </div>
 
-    <!-- ══ STEP 2: Code verification ══ -->
+    <!-- STEP 2: Code verification -->
     <div class="step" id="step-2">
       <h2 class="step-h">Check your email</h2>
       <p class="code-to" id="code-to">Enter the 6-digit code sent to <strong id="code-email-display"></strong></p>
@@ -287,14 +376,14 @@ body::before{
       </div>
     </div>
 
-    <!-- ══ STEP 3: Success ══ -->
+    <!-- STEP 3: Success -->
     <div class="step" id="step-3">
       <div class="success-icon">✅</div>
       <h2 class="success-h">Your account is ready</h2>
       <p class="success-body">
         Check your email for login details.<br>
         <strong>Takes 2 minutes to arrive.</strong><br><br>
-        Login at <a href="https://doxseal.co.za" style="color:var(--green);text-decoration:none;font-weight:600;">doxseal.co.za</a>
+        Login at <a href="https://doxseal.co.za">doxseal.co.za</a>
       </p>
       <a class="login-btn" href="https://doxseal.co.za">Go to Login →</a>
       <div class="foot-note">
@@ -437,10 +526,12 @@ async function resendCode() {
     });
     const d = await r.json();
     if (d.success) {
-      showErr('err-2', 'New code sent — check your inbox.');
-      document.getElementById('err-2').style.background = 'rgba(45,206,130,.08)';
-      document.getElementById('err-2').style.borderColor = 'rgba(45,206,130,.2)';
-      document.getElementById('err-2').style.color = 'var(--green)';
+      const errEl = document.getElementById('err-2');
+      errEl.textContent = 'New code sent — check your inbox.';
+      errEl.style.background = 'rgba(184,134,11,.08)';
+      errEl.style.borderColor = 'rgba(184,134,11,.25)';
+      errEl.style.color = 'var(--gold2)';
+      errEl.classList.add('show');
     } else {
       showErr('err-2', d.error || 'Could not resend. Please try again.');
     }

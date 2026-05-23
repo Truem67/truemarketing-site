@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- DoxSeal verify v2026.05.11 -->
+<!-- DoxSeal verify v2026.04.29 -->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -9,260 +9,315 @@
 <meta http-equiv="Expires" content="0">
 <title>Verify Document — DoxSeal</title>
 <meta name="description" content="Confirm a DoxSeal sealed document is genuine and unaltered. No account required.">
-<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Nunito:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
+/* ═══════════════════════════════════════════════
+   DOXSEAL — UNIFIED DESIGN SYSTEM
+   Springbok Edition · Old Gold + Deep Green
+═══════════════════════════════════════════════ */
 *{box-sizing:border-box;margin:0;padding:0;}
+
 :root{
-  --bg:    #080c09;
-  --bg2:   #0e1610;
-  --bg3:   #141f16;
-  --card:  #1a2a1c;
-  --card2: #20321f;
-  --line:  rgba(100,200,120,.09);
-  --line2: rgba(100,200,120,.16);
-  --line3: rgba(100,200,120,.28);
-  --green: #2dce82;
-  --green2:#23b06d;
-  --green3:#1a8a53;
-  --red:   #e05555;
-  --amber: #e8a030;
-  --gold:  #c8a84b;
-  --wa:    #25d366;
-  --wa2:   #128c7e;
-  --ivory: #f2ede4;
-  --iv2:   rgba(242,237,228,.72);
-  --iv3:   rgba(242,237,228,.42);
-  --iv4:   rgba(242,237,228,.22);
-  --serif: 'Libre Baskerville', Georgia, serif;
-  --sans:  'Nunito', sans-serif;
-  --mono:  'JetBrains Mono', monospace;
+  --bg:        #040f08;
+  --bg2:       #071a0e;
+  --bg3:       #0a2614;
+  --card:      #0d3018;
+  --card2:     #10391c;
+  --edge:      #174d26;
+
+  --line:      rgba(184,134,11,.13);
+  --line2:     rgba(184,134,11,.24);
+  --line3:     rgba(184,134,11,.38);
+
+  --gold:      #b8860b;
+  --gold2:     #c9a84c;
+  --gold3:     #9a6f08;
+  --gold4:     #7a5506;
+  --gold-glow: rgba(184,134,11,.16);
+  --gold-glow2:rgba(184,134,11,.08);
+
+  --ivory:     #f0ead8;
+  --iv2:       rgba(240,234,216,.78);
+  --iv3:       rgba(240,234,216,.48);
+  --iv4:       rgba(240,234,216,.26);
+  --iv5:       rgba(240,234,216,.10);
+
+  --red:       #c0392b;
+  --amber:     #d4882a;
+  --wa:        #25d366;
+  --wa2:       #128c7e;
+
+  --serif:     'Cormorant Garamond', Georgia, serif;
+  --sans:      'DM Sans', sans-serif;
+  --mono:      'JetBrains Mono', monospace;
+
+  --ease:      cubic-bezier(.4,0,.2,1);
 }
+
 html{scroll-behavior:smooth;}
 body{
   background:var(--bg);font-family:var(--sans);
   color:var(--ivory);-webkit-font-smoothing:antialiased;
   min-height:100vh;
 }
+
+/* Radial glow */
 body::before{
   content:'';position:fixed;inset:0;pointer-events:none;
-  background:radial-gradient(ellipse 90% 55% at 50% 0%,rgba(45,206,130,.06),transparent);
+  background:radial-gradient(ellipse 90% 55% at 50% 0%, rgba(184,134,11,.05), transparent);
   z-index:0;
 }
-::selection{background:rgba(45,206,130,.25);}
+
+/* Grain */
+body::after{
+  content:'';position:fixed;inset:0;z-index:9998;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23g)' opacity='1'/%3E%3C/svg%3E");
+  opacity:.025;mix-blend-mode:screen;
+}
+
+::selection{background:rgba(184,134,11,.28);}
 ::-webkit-scrollbar{width:4px;}
 ::-webkit-scrollbar-thumb{background:var(--line2);border-radius:4px;}
 
-/* ── NAV ── */
+/* ══════════════════════════════
+   NAV
+══════════════════════════════ */
 .nav{
   position:sticky;top:0;z-index:100;
-  background:rgba(8,12,9,.94);backdrop-filter:blur(14px);
+  background:rgba(4,15,8,.94);backdrop-filter:blur(14px);
   border-bottom:1px solid var(--line);
-  padding:0 24px;height:56px;
+  padding:0 28px;height:56px;
   display:flex;align-items:center;justify-content:space-between;
 }
-.nav-brand{font-family:var(--serif);font-size:17px;color:var(--ivory);text-decoration:none;}
-.nav-brand b{color:var(--green);}
+.nav-brand{
+  font-family:var(--serif);font-size:19px;font-weight:700;
+  color:var(--ivory);text-decoration:none;
+  display:flex;align-items:center;gap:9px;
+}
+.nav-brand-icon{
+  width:26px;height:26px;border-radius:6px;
+  background:linear-gradient(135deg,var(--gold3),var(--gold2));
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;color:var(--bg);flex-shrink:0;
+}
+.nav-brand span{color:var(--gold2);}
 .nav-badge{
-  font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
-  color:var(--green2);background:rgba(45,206,130,.08);
-  border:1px solid var(--line3);padding:4px 12px;border-radius:20px;
+  font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--gold2);background:rgba(184,134,11,.08);
+  border:1px solid var(--line2);padding:4px 12px;border-radius:20px;
 }
 
-/* ── HERO ── */
+/* ══════════════════════════════
+   HERO
+══════════════════════════════ */
 .hero{
   position:relative;z-index:1;
   max-width:700px;margin:0 auto;
-  padding:52px 24px 36px;text-align:center;
+  padding:56px 28px 40px;text-align:center;
 }
 .hero-eye{
   display:inline-block;
-  font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
-  color:var(--green2);background:rgba(45,206,130,.08);
-  border:1px solid var(--line3);padding:5px 14px;border-radius:20px;
+  font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--gold2);background:rgba(184,134,11,.07);
+  border:1px solid var(--line2);padding:5px 14px;border-radius:20px;
   margin-bottom:18px;
 }
 .hero h1{
-  font-family:var(--serif);font-size:clamp(22px,4vw,34px);
-  font-weight:700;line-height:1.25;margin-bottom:12px;
+  font-family:var(--serif);font-size:clamp(24px,4vw,38px);
+  font-weight:700;line-height:1.18;margin-bottom:12px;letter-spacing:-.2px;
 }
 .hero-sub{font-size:14px;color:var(--iv3);line-height:1.65;max-width:500px;margin:0 auto;}
+
+/* Gold rule */
+.gold-rule{
+  width:60px;height:1px;margin:24px auto 0;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+}
 
 body.auto-verify-mode .hero,
 body.auto-verify-mode .input-wrap{display:none;}
 
-/* ── INPUT SECTION ── */
+/* ══════════════════════════════
+   INPUT SECTION
+══════════════════════════════ */
 .input-wrap{
   position:relative;z-index:1;
   max-width:680px;margin:0 auto;
-  padding:0 24px 48px;
+  padding:0 28px 52px;
 }
 .input-card{
   background:var(--card);border:1px solid var(--line2);
-  border-radius:16px;padding:28px;
+  border-radius:16px;padding:30px;
+  box-shadow:0 8px 40px rgba(0,0,0,.3), 0 1px 0 rgba(184,134,11,.08) inset;
 }
 .input-label{
-  font-size:12px;font-weight:700;color:var(--iv4);
-  letter-spacing:.08em;text-transform:uppercase;
+  font-size:10px;font-weight:700;color:var(--gold3);
+  letter-spacing:.16em;text-transform:uppercase;
   margin-bottom:10px;
 }
 .txid-input{
-  width:100%;background:var(--bg);border:1px solid var(--line2);
+  width:100%;background:var(--bg2);border:1.5px solid var(--line);
   border-radius:10px;padding:13px 16px;
   font-family:var(--mono);font-size:13px;color:var(--ivory);
-  outline:none;transition:border-color .15s;
+  outline:none;transition:border-color .15s, box-shadow .15s;
 }
 .txid-input::placeholder{font-family:var(--sans);font-size:13px;color:var(--iv4);}
-.txid-input:focus{border-color:var(--green3);}
-.input-hint{font-size:12px;color:var(--iv4);margin-top:10px;line-height:1.5;}
-
-/* ── INPUT TABS ── */
-.input-tabs{
-  display:flex;gap:4px;margin-bottom:12px;
-  background:var(--bg2);border:1px solid var(--line2);
-  border-radius:12px;padding:4px;
+.txid-input:focus{
+  border-color:var(--gold);
+  box-shadow:0 0 0 3px rgba(184,134,11,.10);
 }
-.itab{
-  flex:1;padding:9px;border-radius:9px;
-  font-size:13px;font-weight:600;color:var(--iv3);
-  background:none;border:none;cursor:pointer;transition:all .15s;
-}
-.itab.on{background:var(--card);color:var(--ivory);box-shadow:0 1px 4px rgba(0,0,0,.3);}
-.itab:hover:not(.on){color:var(--iv2);}
+.input-hint{font-size:12px;color:var(--iv4);margin-top:10px;line-height:1.55;}
 .verify-btn{
-  width:100%;margin-top:14px;padding:12px;
-  background:var(--green);color:#fff;
-  font-size:14px;font-weight:700;border:none;
-  border-radius:10px;cursor:pointer;transition:background .15s;
+  width:100%;margin-top:14px;padding:13px;
+  background:linear-gradient(135deg,var(--gold3) 0%,var(--gold2) 50%,var(--gold3) 100%);
+  color:var(--bg);font-size:14px;font-weight:700;font-family:var(--sans);
+  border:none;border-radius:10px;cursor:pointer;letter-spacing:.02em;
+  box-shadow:0 4px 18px rgba(184,134,11,.28);
+  transition:all .18s var(--ease);position:relative;overflow:hidden;
 }
-.verify-btn:hover{background:var(--green2);}
+.verify-btn::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(255,255,255,.13),transparent);
+  pointer-events:none;
+}
+.verify-btn:hover{transform:translateY(-1px);box-shadow:0 8px 26px rgba(184,134,11,.40);}
 
-/* ── LOADING ── */
+/* ══════════════════════════════
+   LOADING
+══════════════════════════════ */
 .loading-state{
   position:relative;z-index:1;
-  max-width:680px;margin:0 auto;padding:48px 24px;
+  max-width:680px;margin:0 auto;padding:52px 28px;
   text-align:center;display:none;
 }
 .loading-state.show{display:block;}
 .spinner{
   width:40px;height:40px;border-radius:50%;
-  border:3px solid var(--line2);border-top-color:var(--green);
+  border:3px solid var(--line2);border-top-color:var(--gold2);
   animation:spin .9s linear infinite;
   margin:0 auto 16px;
 }
-@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes spin{to{transform:rotate(360deg);}}
 .loading-txt{font-size:14px;color:var(--iv3);}
 .loading-sub{font-size:12px;color:var(--iv4);margin-top:6px;}
 
-/* ── RESULT SECTION ── */
+/* ══════════════════════════════
+   RESULT SECTION
+══════════════════════════════ */
 .result-wrap{
   position:relative;z-index:1;
   max-width:680px;margin:0 auto;
-  padding:32px 24px 80px;display:none;
+  padding:32px 28px 90px;display:none;
 }
 .result-wrap.show{display:block;}
 
 .check-another{
   display:none;font-size:12px;color:var(--iv4);
-  cursor:pointer;text-decoration:underline;margin-bottom:20px;
+  cursor:pointer;text-decoration:none;margin-bottom:20px;
+  border-bottom:1px dotted var(--iv4);padding-bottom:1px;
+  transition:color .15s;
 }
-.check-another:hover{color:var(--green2);}
+.check-another:hover{color:var(--gold2);}
 body.auto-verify-mode .check-another{display:inline-block;}
 
-/* VERIFIED banner */
+/* ══════════════════════════════
+   VERIFIED BANNER
+══════════════════════════════ */
 .banner-verified{
-  background:linear-gradient(135deg,rgba(45,206,130,.12),rgba(26,138,83,.08));
-  border:2px solid rgba(45,206,130,.4);
+  background:linear-gradient(135deg, rgba(184,134,11,.10), rgba(184,134,11,.05));
+  border:2px solid rgba(184,134,11,.36);
   border-radius:16px;padding:24px 28px;
   display:flex;align-items:center;gap:18px;
   margin-bottom:24px;
 }
 .banner-ico{font-size:36px;flex-shrink:0;}
-.banner-text{}
 .banner-title{
-  font-family:var(--serif);font-size:20px;font-weight:700;
-  color:var(--green);letter-spacing:.03em;line-height:1.2;
+  font-family:var(--serif);font-size:22px;font-weight:700;
+  color:var(--gold2);letter-spacing:.02em;line-height:1.2;
 }
-.banner-sub{font-size:13px;color:var(--iv3);margin-top:4px;line-height:1.5;}
+.banner-sub{font-size:13px;color:var(--iv3);margin-top:5px;line-height:1.55;}
 
-/* NOT FOUND banner */
+/* NOT FOUND BANNER */
 .banner-notfound{
-  background:rgba(224,85,85,.07);border:2px solid rgba(224,85,85,.3);
+  background:rgba(192,57,43,.06);border:2px solid rgba(192,57,43,.28);
   border-radius:16px;padding:24px 28px;
   display:flex;align-items:center;gap:18px;
   margin-bottom:24px;
 }
 .banner-notfound .banner-title{color:var(--red);}
 
-/* API ERROR banner */
+/* API ERROR BANNER */
 .banner-error{
-  background:rgba(232,160,48,.07);border:2px solid rgba(232,160,48,.3);
+  background:rgba(212,136,42,.06);border:2px solid rgba(212,136,42,.28);
   border-radius:16px;padding:24px 28px;
   display:flex;align-items:center;gap:18px;
   margin-bottom:24px;
 }
 .banner-error .banner-title{color:var(--amber);}
 
-/* Result detail card */
+/* ══════════════════════════════
+   RESULT CARD
+══════════════════════════════ */
 .result-card{
   background:var(--card);border:1px solid var(--line2);
   border-radius:16px;overflow:visible;margin-bottom:20px;
 }
-.rc-bar{height:3px;background:linear-gradient(90deg,var(--green3),var(--green),var(--gold));}
-.rc-body{padding:24px;}
-.rc-section{margin-bottom:20px;}
+.rc-bar{height:3px;background:linear-gradient(90deg,var(--gold3),var(--gold2),var(--gold3));}
+.rc-body{padding:26px;}
+.rc-section{margin-bottom:22px;}
 .rc-section:last-child{margin-bottom:0;}
 .rc-section-title{
-  font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
-  color:var(--green2);margin-bottom:10px;
+  font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--gold3);margin-bottom:12px;
 }
 .rc-row{
   display:flex;justify-content:space-between;align-items:flex-start;
-  padding:8px 0;border-bottom:1px solid rgba(255,255,255,.04);
+  padding:9px 0;border-bottom:1px solid rgba(255,255,255,.04);
   font-size:13px;gap:16px;
 }
 .rc-row:last-child{border:none;}
 .rk{color:var(--iv4);flex-shrink:0;min-width:120px;}
 .rv{color:var(--iv2);text-align:right;word-break:break-all;font-family:var(--sans);}
-.rv.mono{font-family:var(--mono);font-size:11px;color:var(--green);}
-.rc-confirm{
-  display:inline-flex;align-items:center;gap:6px;
-  font-size:12px;font-weight:700;color:var(--green);
-  background:rgba(45,206,130,.08);border:1px solid rgba(45,206,130,.2);
-  padding:4px 10px;border-radius:20px;
-}
-.rc-confirm-dot{width:6px;height:6px;background:var(--green);border-radius:50%;}
+.rv.mono{font-family:var(--mono);font-size:11px;color:var(--gold2);}
 
-/* Payload box */
+/* ══════════════════════════════
+   PAYLOAD BOX
+══════════════════════════════ */
 .payload-box{
   background:var(--bg);border:1px solid var(--line);
   border-radius:10px;padding:14px;margin-top:12px;
   font-family:var(--mono);font-size:11px;color:var(--iv3);
   word-break:break-all;line-height:1.7;
 }
-.payload-field{display:flex;flex-direction:column;gap:4px;margin-bottom:8px;}
+.payload-field{display:flex;flex-direction:column;gap:4px;margin-bottom:10px;}
 .payload-field:last-child{margin-bottom:0;}
-.pf-label{font-size:10px;color:var(--iv4);font-family:var(--sans);text-transform:uppercase;letter-spacing:.08em;}
-.pf-val{color:var(--green);word-break:break-word;overflow-wrap:break-word;white-space:pre-wrap;overflow:visible;max-height:none;max-width:100%;}
+.pf-label{
+  font-size:10px;color:var(--gold4);font-family:var(--sans);
+  text-transform:uppercase;letter-spacing:.1em;
+}
+.pf-val{
+  color:var(--gold2);word-break:break-word;overflow-wrap:break-word;
+  white-space:pre-wrap;overflow:visible;max-height:none;max-width:100%;
+}
 
-/* Transaction ID row */
-.txid-row{margin-top:10px;padding-top:10px;border-top:1px solid var(--line);}
-.txid-row-label{font-size:10px;color:var(--iv4);font-family:var(--sans);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px;}
-.txid-row-val{display:flex;align-items:flex-start;gap:8px;}
-.txid-full{font-family:var(--mono);font-size:10px;color:var(--green);word-break:break-all;line-height:1.6;flex:1;}
-.btn-copy{flex-shrink:0;background:rgba(45,206,130,.1);border:1px solid rgba(45,206,130,.25);color:var(--green);border-radius:6px;padding:3px 10px;font-size:11px;font-weight:600;cursor:pointer;font-family:var(--sans);transition:all .15s;white-space:nowrap;}
-.btn-copy:hover{background:rgba(45,206,130,.2);}
-
-/* Independence note */
+/* ══════════════════════════════
+   INDEPENDENCE NOTE
+══════════════════════════════ */
 .independence-note{
   background:var(--bg2);border:1px solid var(--line);
-  border-left:3px solid var(--green3);
-  border-radius:10px;padding:18px 20px;
+  border-left:3px solid var(--gold);
+  border-radius:10px;padding:18px 22px;
   margin-bottom:20px;
 }
-.in-title{font-size:11px;font-weight:700;color:var(--green2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;}
-.in-text{font-size:13px;color:var(--iv3);line-height:1.7;}
+.in-title{
+  font-size:10px;font-weight:700;color:var(--gold2);
+  text-transform:uppercase;letter-spacing:.12em;margin-bottom:8px;
+}
+.in-text{font-size:13px;color:var(--iv3);line-height:1.72;}
 
-/* Fallback link */
+/* ══════════════════════════════
+   WOC LINK
+══════════════════════════════ */
 .woc-link{
   display:flex;align-items:center;justify-content:space-between;
   background:var(--card);border:1px solid var(--line2);
@@ -270,111 +325,107 @@ body.auto-verify-mode .check-another{display:inline-block;}
   text-decoration:none;color:var(--iv2);
   transition:border-color .15s;
 }
-.woc-link:hover{border-color:var(--line3);}
-.woc-left{}
-.woc-label{font-size:11px;color:var(--iv4);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px;}
-.woc-url{font-family:var(--mono);font-size:12px;color:var(--green);}
+.woc-link:hover{border-color:var(--gold);}
+.woc-label{
+  font-size:10px;color:var(--iv4);text-transform:uppercase;
+  letter-spacing:.1em;margin-bottom:5px;
+}
+.woc-url{font-family:var(--mono);font-size:12px;color:var(--gold2);}
 .woc-arr{font-size:20px;color:var(--iv4);}
 
-/* ── REPLY SECTION ── */
-.reply-wrap{margin-top:24px;}
-
-/* WhatsApp button */
+/* ══════════════════════════════
+   REPLY / WHATSAPP
+══════════════════════════════ */
+.reply-wrap{margin-top:20px;}
 .btn-wa{
   display:none;align-items:center;justify-content:center;gap:10px;
   background:var(--wa);color:#fff;
   font-size:15px;font-weight:700;
-  padding:15px 22px;border-radius:10px;
-  text-decoration:none;transition:background .15s;width:100%;box-sizing:border-box;
+  padding:15px 22px;border-radius:11px;
+  text-decoration:none;transition:background .15s;
+  width:100%;box-sizing:border-box;
 }
 .btn-wa:hover{background:var(--wa2);}
 .btn-wa.visible{display:flex;}
 
-
-/* FOOTER */
+/* ══════════════════════════════
+   FOOTER
+══════════════════════════════ */
 .page-footer{
   position:relative;z-index:1;
   border-top:1px solid var(--line);
-  padding:24px;text-align:center;
+  padding:28px;text-align:center;
+  background:var(--bg);
 }
 .page-footer p{font-size:12px;color:var(--iv4);line-height:1.6;}
-.page-footer a{color:var(--iv3);text-decoration:none;}
-.page-footer a:hover{color:var(--green2);}
+.page-footer a{color:var(--iv3);text-decoration:none;transition:color .15s;}
+.page-footer a:hover{color:var(--gold2);}
 .page-footer .sep{margin:0 8px;opacity:.4;}
 
+/* ══════════════════════════════
+   RESPONSIVE
+══════════════════════════════ */
 @media(max-width:640px){
-  .hero{padding:32px 20px 24px;}
-  .input-wrap{padding:0 16px 32px;}
-  .result-wrap{padding:24px 16px 40px;}
+  .hero{padding:36px 20px 28px;}
+  .input-wrap{padding:0 16px 36px;}
+  .result-wrap{padding:24px 16px 48px;}
   .banner-verified,.banner-notfound,.banner-error{gap:12px;}
   .banner-ico{font-size:28px;}
   .rk{min-width:90px;}
+  .nav{padding:0 20px;}
 }
 </style>
 </head>
 <body>
 
+<!-- NAV -->
 <nav class="nav">
-  <a href="https://doxseal.co.za" class="nav-brand"><b>Dox</b>Seal</a>
+  <a href="https://doxseal.co.za" class="nav-brand">
+    <div class="nav-brand-icon">✦</div>
+    <span>Dox</span>Seal
+  </a>
   <span class="nav-badge">Public Verification</span>
 </nav>
 
+<!-- HERO -->
 <div class="hero">
   <div class="hero-eye">Document Verification</div>
   <h1>Verify a Sealed Document</h1>
   <p class="hero-sub">Enter a Proof Reference from a DoxSeal certificate to confirm it is genuine and unaltered — no account required.</p>
+  <div class="gold-rule"></div>
 </div>
 
+<!-- INPUT -->
 <div class="input-wrap">
-  <div class="input-tabs">
-    <button class="itab on" id="itab-ref"  onclick="switchInputTab('ref')">Proof Reference</button>
-    <button class="itab"    id="itab-hash" onclick="switchInputTab('hash')">Document Hash</button>
-  </div>
-
-  <div id="tab-ref">
-    <div class="input-card">
-      <div class="input-label">Proof Reference</div>
-      <input class="txid-input" id="txid-input"
-        type="text"
-        placeholder="e.g. 3a7f92bc4d1e8af5d9c2e4b6f1a3d5e7..."
-        autocomplete="off" spellcheck="false"
-        onkeydown="if(event.key==='Enter')doVerify()">
-      <div class="input-hint">The Proof Reference is the 64-character ID on every DoxSeal certificate.</div>
-      <button class="verify-btn" onclick="doVerify()">Verify Document →</button>
-    </div>
-  </div>
-
-  <div id="tab-hash" style="display:none">
-    <div class="input-card">
-      <div class="input-label">Document Hash (SHA-256)</div>
-      <input class="txid-input" id="hash-input"
-        type="text"
-        placeholder="e.g. a9084af6e5731cb039c13b884..."
-        autocomplete="off" spellcheck="false"
-        onkeydown="if(event.key==='Enter')doHashVerify()">
-      <div class="input-hint">The 64-character SHA-256 fingerprint shown on your DoxSeal certificate under "Digital fingerprint".</div>
-      <button class="verify-btn" onclick="doHashVerify()">Verify by Hash →</button>
-    </div>
+  <div class="input-card">
+    <div class="input-label">Proof Reference</div>
+    <input class="txid-input" id="txid-input"
+      type="text"
+      placeholder="e.g. 3a7f92bc4d1e8af5d9c2e4b6f1a3d5e7..."
+      autocomplete="off" spellcheck="false"
+      onkeydown="if(event.key==='Enter')doVerify()">
+    <div class="input-hint">The Proof Reference is the 64-character ID on every DoxSeal certificate.</div>
+    <button class="verify-btn" onclick="doVerify()">Verify Document →</button>
   </div>
 </div>
 
-<!-- Loading -->
+<!-- LOADING -->
 <div class="loading-state" id="loading-state">
   <div class="spinner"></div>
   <div class="loading-txt">Verifying your document…</div>
-  <div class="loading-sub">This may take a moment.</div>
+  <div class="loading-sub">Checking the BSV blockchain — this may take a moment.</div>
 </div>
 
-<!-- Result -->
+<!-- RESULT -->
 <div class="result-wrap" id="result-wrap">
   <span class="check-another" onclick="showInputAgain()">← Check another document</span>
 
-  <!-- ── VERIFIED ── -->
+  <!-- VERIFIED -->
   <div id="r-verified" style="display:none">
     <div class="banner-verified">
       <div class="banner-ico">✅</div>
       <div class="banner-text">
-        <div class="banner-title">Document Verified ✓</div>
+        <div class="banner-title">Document Verified ✦</div>
         <div class="banner-sub" id="r-confirm-sub">This document is genuine and unaltered.</div>
       </div>
     </div>
@@ -382,43 +433,18 @@ body.auto-verify-mode .check-another{display:inline-block;}
     <div class="result-card">
       <div class="rc-bar"></div>
       <div class="rc-body">
-
         <div class="rc-section">
-          <div class="rc-row">
-            <span class="rk">Sealed by</span>
-            <span class="rv" id="r-sealed-by">—</span>
-          </div>
-          <div class="rc-row">
-            <span class="rk">Date sealed</span>
-            <span class="rv" id="r-date">—</span>
-          </div>
-          <div class="rc-row">
-            <span class="rk">Reference</span>
-            <span class="rv mono" id="r-shortref">—</span>
-          </div>
+          <div class="rc-row"><span class="rk">Sealed by</span><span class="rv" id="r-sealed-by">—</span></div>
+          <div class="rc-row"><span class="rk">Date sealed</span><span class="rv" id="r-date">—</span></div>
+          <div class="rc-row"><span class="rk">Reference</span><span class="rv mono" id="r-shortref">—</span></div>
         </div>
-
         <div class="rc-section" id="r-msg-section" style="display:none">
           <div class="rc-section-title">Document Content</div>
           <div class="payload-box" id="r-msg-content" style="word-break:break-word;white-space:pre-wrap;">—</div>
         </div>
-
-        <div class="rc-section" id="r-payload-section" style="display:none">
-          <div class="rc-section-title">Blockchain Record</div>
-          <div class="payload-box" id="r-payload-fields"></div>
-          <div class="txid-row" id="r-txid-row" style="display:none">
-            <div class="txid-row-label">Transaction ID</div>
-            <div class="txid-row-val">
-              <span class="txid-full" id="r-txid-full">—</span>
-              <button class="btn-copy" id="r-copy-btn" onclick="copyTxid()">Copy</button>
-            </div>
-          </div>
-        </div>
-
       </div>
     </div>
 
-    <!-- WhatsOnChain link -->
     <a class="woc-link" id="r-woc-link-verified" href="#" target="_blank" rel="noopener" style="margin-top:16px;display:flex;">
       <div class="woc-left">
         <div class="woc-label">View transaction on WhatsOnChain</div>
@@ -427,7 +453,6 @@ body.auto-verify-mode .check-another{display:inline-block;}
       <div class="woc-arr">↗</div>
     </a>
 
-    <!-- WhatsApp reply -->
     <div class="reply-wrap" id="reply-wrap">
       <a class="btn-wa" id="btn-wa" href="#" target="_blank" rel="noopener">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
@@ -436,7 +461,7 @@ body.auto-verify-mode .check-another{display:inline-block;}
     </div>
   </div>
 
-  <!-- ── NOT FOUND ── -->
+  <!-- NOT FOUND -->
   <div id="r-notfound" style="display:none">
     <div class="banner-notfound">
       <div class="banner-ico">❌</div>
@@ -463,7 +488,7 @@ body.auto-verify-mode .check-another{display:inline-block;}
     </a>
   </div>
 
-  <!-- ── API ERROR ── -->
+  <!-- API ERROR -->
   <div id="r-error" style="display:none">
     <div class="banner-error">
       <div class="banner-ico">⚠️</div>
@@ -487,6 +512,7 @@ body.auto-verify-mode .check-another{display:inline-block;}
 
 </div>
 
+<!-- FOOTER -->
 <footer class="page-footer">
   <p>
     © 2026 Orsolso Trader t/a DoxSeal
@@ -502,15 +528,13 @@ body.auto-verify-mode .check-another{display:inline-block;}
 <script>
 'use strict';
 
-// ── URL PARAMS ──
-const _params     = new URLSearchParams(window.location.search);
-const _senderName = _params.get('from')  || '';
-const _senderEmail= _params.get('se')    || '';
-const _senderCo   = _params.get('co')    || '';
-const _senderWa   = _params.get('wa')    || '';
-let   _currentTxid= '';
+const _params      = new URLSearchParams(window.location.search);
+const _senderName  = _params.get('from') || '';
+const _senderEmail = _params.get('se')   || '';
+const _senderCo    = _params.get('co')   || '';
+const _senderWa    = _params.get('wa')   || '';
+let   _currentTxid = '';
 
-// ── UTILITIES ──
 function hexToUtf8(hex) {
   const bytes = new Uint8Array(hex.match(/.{1,2}/g).map(b => parseInt(b, 16)));
   return new TextDecoder('utf-8', { fatal: true }).decode(bytes);
@@ -520,8 +544,6 @@ function extractOpReturn(vout) {
   if (!vout) return null;
   for (const out of vout) {
     const asm = out.scriptPubKey?.asm || '';
-    // Accept nulldata OR nonstandard — buildSafeDataOut produces OP_0 OP_RETURN
-    // which WhatsOnChain classifies as 'nonstandard', not 'nulldata'
     if (!asm.includes('OP_RETURN')) continue;
     const idx = asm.indexOf('OP_RETURN');
     const rest = asm.slice(idx + 9).trim();
@@ -589,17 +611,6 @@ function setText(id, txt) {
   if (el) el.textContent = txt;
 }
 
-function copyTxid() {
-  const txid = document.getElementById('r-txid-full').textContent;
-  const btn  = document.getElementById('r-copy-btn');
-  navigator.clipboard.writeText(txid).then(() => {
-    btn.textContent = 'Copied!';
-    setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
-  }).catch(() => {
-    btn.textContent = 'Copy';
-  });
-}
-
 function showOnly(id) {
   ['r-verified','r-notfound','r-error'].forEach(x => {
     document.getElementById(x).style.display = x === id ? 'block' : 'none';
@@ -613,89 +624,6 @@ function showInputAgain() {
   document.getElementById('txid-input').focus();
 }
 
-// ── TAB SWITCHER ──
-function switchInputTab(tab) {
-  document.getElementById('tab-ref').style.display  = tab === 'ref'  ? 'block' : 'none';
-  document.getElementById('tab-hash').style.display = tab === 'hash' ? 'block' : 'none';
-  document.getElementById('itab-ref').classList.toggle('on',  tab === 'ref');
-  document.getElementById('itab-hash').classList.toggle('on', tab === 'hash');
-  document.getElementById('result-wrap').classList.remove('show');
-}
-
-// ── HASH VERIFY ──
-const DOXSEAL_SERVER = 'https://tm-server-myv6.onrender.com';
-
-async function doHashVerify() {
-  const input = document.getElementById('hash-input');
-  const hash  = (input.value || '').trim().toLowerCase().replace(/\s+/g, '');
-
-  if (!hash) { input.focus(); return; }
-  if (!/^[0-9a-f]{64}$/.test(hash)) {
-    alert('That doesn\'t look like a valid document hash.\n\nA SHA-256 hash is exactly 64 hexadecimal characters (0-9, a-f).');
-    input.focus();
-    return;
-  }
-
-  document.getElementById('result-wrap').classList.remove('show');
-  document.getElementById('loading-state').classList.add('show');
-
-  try {
-    const res  = await fetch(`${DOXSEAL_SERVER}/api/verify?hash=${hash}`, {
-      signal: AbortSignal.timeout(10_000)
-    });
-    const data = await res.json();
-
-    document.getElementById('loading-state').classList.remove('show');
-    document.getElementById('result-wrap').classList.add('show');
-    document.getElementById('result-wrap').scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-    if (!res.ok || !data.found) { showHashNotFound(); return; }
-    showHashVerified(data);
-  } catch(e) {
-    document.getElementById('loading-state').classList.remove('show');
-    document.getElementById('result-wrap').classList.add('show');
-    document.getElementById('result-wrap').scrollIntoView({ behavior: 'smooth', block: 'start' });
-    showHashApiError();
-  }
-}
-
-function showHashVerified(data) {
-  const sealDate = new Date(data.sealedAt).toLocaleString('en-ZA', {
-    weekday:'long', day:'numeric', month:'long', year:'numeric',
-    hour:'2-digit', minute:'2-digit',
-    timeZone:'Africa/Johannesburg', timeZoneName:'short'
-  });
-  const shortRef = data.txid
-    ? data.txid.slice(0, 8).toUpperCase()
-    : data.hash.slice(0, 8).toUpperCase();
-
-  setText('r-confirm-sub', `This document is genuine and unaltered. Sealed on ${sealDate}.`);
-  setText('r-sealed-by', data.sealedBy || '—');
-  setText('r-date', sealDate);
-  setText('r-shortref', shortRef);
-
-  if (data.documentName) {
-    document.getElementById('r-msg-section').style.display = 'block';
-    setText('r-msg-content', data.documentName);
-  } else {
-    document.getElementById('r-msg-section').style.display = 'none';
-  }
-
-  document.getElementById('reply-wrap').style.display = 'none';
-  showOnly('r-verified');
-}
-
-function showHashNotFound() {
-  document.getElementById('r-woc-link-nf').style.display = 'none';
-  showOnly('r-notfound');
-}
-
-function showHashApiError() {
-  document.getElementById('r-woc-link-err').style.display = 'none';
-  showOnly('r-error');
-}
-
-// ── MAIN VERIFY ──
 async function doVerify() {
   const input = document.getElementById('txid-input');
   const txid  = (input.value || '').trim().toLowerCase().replace(/\s+/g,'');
@@ -728,14 +656,9 @@ async function doVerify() {
       showApiError(txid);
     } else {
       const tx = await res.json();
-      console.log('[VERIFY] WoC response status:', res.status);
-      console.log('[VERIFY] tx.blocktime:', tx.blocktime);
-      console.log('[VERIFY] tx.vout count:', tx.vout?.length);
-      console.log('[VERIFY] tx.vout[0] scriptPubKey:', JSON.stringify(tx.vout?.[0]?.scriptPubKey));
       showVerified(txid, tx);
     }
   } catch(e) {
-    console.error('[VERIFY] fetch error:', e.message);
     document.getElementById('loading-state').classList.remove('show');
     document.getElementById('result-wrap').classList.add('show');
     showApiError(txid);
@@ -743,7 +666,6 @@ async function doVerify() {
 }
 
 function showVerified(txid, tx) {
-  document.getElementById('reply-wrap').style.display = '';
   const sealDate = formatDate(tx.blocktime);
   const shortRef = txid.slice(0, 8).toUpperCase();
 
@@ -751,44 +673,26 @@ function showVerified(txid, tx) {
     ? (_senderCo ? `${_senderName} · ${_senderCo}` : _senderName)
     : (_senderCo || '');
 
-  // Banner
   const byLine = senderDisplay ? ` by ${senderDisplay}` : '';
   setText('r-confirm-sub', `This document is genuine and unaltered. Sealed on ${sealDate}${byLine}.`);
 
-  // Result card rows
   setText('r-sealed-by', senderDisplay || '—');
   setText('r-date', sealDate);
   setText('r-shortref', shortRef);
 
-  // Message content + payload fields (hash, date, type)
   const rawPayload = extractOpReturn(tx.vout);
-  console.log('[VERIFY] rawPayload:', rawPayload);
   const parsed = parseTMPayload(rawPayload);
-  console.log('[VERIFY] parsed:', JSON.stringify(parsed));
   const message = parsed?.message || (parsed?.type === 'plain-legacy' ? parsed?.message : null);
   if (message) {
     document.getElementById('r-msg-section').style.display = 'block';
     setText('r-msg-content', message);
   }
-  const payloadHtml = parsed ? buildPayloadFields(parsed, rawPayload) : '';
-  console.log('[VERIFY] payloadHtml length:', payloadHtml.length);
-  if (payloadHtml) {
-    document.getElementById('r-payload-section').style.display = 'block';
-    document.getElementById('r-payload-fields').innerHTML = payloadHtml;
-  }
-  setText('r-txid-full', txid);
-  document.getElementById('r-txid-row').style.display = 'block';
-  document.getElementById('r-payload-section').style.display = 'block';
-  console.log('[VERIFY] r-txid-row display:', document.getElementById('r-txid-row').style.display);
-  console.log('[VERIFY] r-payload-section display:', document.getElementById('r-payload-section').style.display);
 
-  // WhatsOnChain link
   const wocUrl = `https://whatsonchain.com/tx/${txid}`;
   const wocLink = document.getElementById('r-woc-link-verified');
   wocLink.href = wocUrl;
   setText('r-woc-url-verified', wocUrl);
 
-  // WhatsApp button
   if (_senderWa) {
     const greeting = _senderName ? `Hi ${_senderName}` : 'Hi';
     const waText   = encodeURIComponent(`${greeting}, I received your sealed document (Ref: ${shortRef}) and would like to respond.`);
@@ -842,23 +746,18 @@ function escHtml(str) {
 
 function showNotFound(txid) {
   const wocUrl = `https://whatsonchain.com/tx/${txid}`;
-  const nfLink = document.getElementById('r-woc-link-nf');
-  nfLink.style.display = '';
-  nfLink.href = wocUrl;
+  document.getElementById('r-woc-link-nf').href = wocUrl;
   setText('r-woc-url-nf', wocUrl);
   showOnly('r-notfound');
 }
 
 function showApiError(txid) {
   const wocUrl = `https://whatsonchain.com/tx/${txid}`;
-  const errLink = document.getElementById('r-woc-link-err');
-  errLink.style.display = '';
-  errLink.href = wocUrl;
+  document.getElementById('r-woc-link-err').href = wocUrl;
   setText('r-woc-url-err', wocUrl);
   showOnly('r-error');
 }
 
-// ── AUTO-VERIFY FROM URL PARAM ──
 (function() {
   const txid = _params.get('txid') || _params.get('tx') || '';
   if (txid) {

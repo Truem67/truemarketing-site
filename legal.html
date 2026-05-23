@@ -4,33 +4,47 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>DoxSeal · Legal</title>
-<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Nunito:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
+/* ═══════════════════════════════════════════════
+   DOXSEAL — UNIFIED DESIGN SYSTEM
+   Springbok Edition · Old Gold + Deep Green
+═══════════════════════════════════════════════ */
 *{box-sizing:border-box;margin:0;padding:0;}
+
 :root{
-  --bg:       #080c09;
-  --bg2:      #0e1610;
-  --bg3:      #141f16;
-  --card:     #1a2a1c;
-  --card2:    #20321f;
-  --edge:     #283c2a;
-  --line:     rgba(100,200,120,.09);
-  --line2:    rgba(100,200,120,.16);
-  --line3:    rgba(100,200,120,.28);
-  --green:    #2dce82;
-  --green2:   #23b06d;
-  --green3:   #1a8a53;
-  --green4:   #117040;
-  --glow:     rgba(45,206,130,.14);
-  --gold:     #c8a84b;
-  --ivory:    #f2ede4;
-  --iv2:      rgba(242,237,228,.72);
-  --iv3:      rgba(242,237,228,.42);
-  --iv4:      rgba(242,237,228,.22);
-  --iv5:      rgba(242,237,228,.1);
-  --serif:    'Libre Baskerville', Georgia, serif;
-  --sans:     'Nunito', sans-serif;
+  --bg:        #040f08;
+  --bg2:       #071a0e;
+  --bg3:       #0a2614;
+  --card:      #0d3018;
+  --card2:     #10391c;
+  --edge:      #174d26;
+
+  --line:      rgba(184,134,11,.13);
+  --line2:     rgba(184,134,11,.24);
+  --line3:     rgba(184,134,11,.38);
+
+  --gold:      #b8860b;
+  --gold2:     #c9a84c;
+  --gold3:     #9a6f08;
+  --gold4:     #7a5506;
+  --gold-glow: rgba(184,134,11,.16);
+  --gold-glow2:rgba(184,134,11,.08);
+
+  --ivory:     #f0ead8;
+  --iv2:       rgba(240,234,216,.78);
+  --iv3:       rgba(240,234,216,.48);
+  --iv4:       rgba(240,234,216,.26);
+  --iv5:       rgba(240,234,216,.10);
+
+  --red:       #c0392b;
+
+  --serif:     'Cormorant Garamond', Georgia, serif;
+  --sans:      'DM Sans', sans-serif;
+
+  --ease:      cubic-bezier(.4,0,.2,1);
 }
+
 html{scroll-behavior:smooth;}
 body{
   background:var(--bg);
@@ -39,73 +53,100 @@ body{
   -webkit-font-smoothing:antialiased;
   min-height:100vh;
 }
+
+/* Subtle radial glow */
 body::before{
   content:'';position:fixed;inset:0;pointer-events:none;
-  background:radial-gradient(ellipse 80% 50% at 50% -10%,rgba(45,206,130,.07),transparent);
+  background:radial-gradient(ellipse 80% 50% at 50% -10%, rgba(184,134,11,.05), transparent);
   z-index:0;
 }
-::selection{background:rgba(45,206,130,.25);}
+
+/* Grain */
+body::after{
+  content:'';position:fixed;inset:0;z-index:9998;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23g)' opacity='1'/%3E%3C/svg%3E");
+  opacity:.025;mix-blend-mode:screen;
+}
+
+::selection{background:rgba(184,134,11,.28);}
 ::-webkit-scrollbar{width:4px;}
 ::-webkit-scrollbar-thumb{background:var(--line2);border-radius:4px;}
 
-/* ── NAV ── */
+/* ══════════════════════════════
+   NAV
+══════════════════════════════ */
 .nav{
   position:sticky;top:0;z-index:100;
-  background:rgba(8,12,9,.92);
+  background:rgba(4,15,8,.92);
   backdrop-filter:blur(12px);
   border-bottom:1px solid var(--line);
-  padding:0 24px;
+  padding:0 28px;
   display:flex;align-items:center;justify-content:space-between;
   height:56px;
 }
 .nav-brand{
-  font-family:var(--serif);font-size:17px;color:var(--ivory);
-  text-decoration:none;
+  font-family:var(--serif);font-size:19px;font-weight:700;
+  color:var(--ivory);text-decoration:none;
+  display:flex;align-items:center;gap:9px;
 }
-.nav-brand b{color:var(--green);}
+.nav-brand-icon{
+  width:26px;height:26px;border-radius:6px;
+  background:linear-gradient(135deg,var(--gold3),var(--gold2));
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;color:var(--bg);flex-shrink:0;
+}
+.nav-brand span{color:var(--gold2);}
 .nav-print{
-  font-size:13px;font-weight:600;color:var(--green);
-  background:transparent;border:1px solid var(--line3);
-  padding:10px 16px;border-radius:6px;cursor:pointer;
-  transition:all .15s;min-height:44px;
+  font-size:13px;font-weight:600;color:var(--gold2);
+  background:transparent;border:1px solid var(--line2);
+  padding:10px 16px;border-radius:8px;cursor:pointer;
+  transition:all .15s;min-height:44px;font-family:var(--sans);
 }
-.nav-print:hover{background:var(--card);border-color:var(--green2);}
+.nav-print:hover{background:var(--card);border-color:var(--gold);}
 
-/* ── HERO ── */
+/* ══════════════════════════════
+   HERO
+══════════════════════════════ */
 .hero{
   position:relative;z-index:1;
-  padding:56px 24px 40px;
+  padding:60px 28px 44px;
   text-align:center;
   max-width:760px;margin:0 auto;
 }
 .hero-label{
   display:inline-block;
-  font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
-  color:var(--green2);
-  background:rgba(45,206,130,.08);
-  border:1px solid var(--line3);
+  font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--gold2);
+  background:rgba(184,134,11,.07);
+  border:1px solid var(--line2);
   padding:5px 14px;border-radius:20px;
   margin-bottom:20px;
 }
 .hero h1{
-  font-family:var(--serif);font-size:clamp(24px,4vw,36px);
-  font-weight:700;color:var(--ivory);line-height:1.25;
-  margin-bottom:14px;
+  font-family:var(--serif);font-size:clamp(26px,4vw,40px);
+  font-weight:700;color:var(--ivory);line-height:1.18;
+  margin-bottom:14px;letter-spacing:-.2px;
 }
-.hero-sub{
-  font-size:14px;color:var(--iv3);line-height:1.6;
-}
-.hero-sub a{color:var(--green2);text-decoration:none;}
+.hero-sub{font-size:14px;color:var(--iv3);line-height:1.65;}
+.hero-sub a{color:var(--gold2);text-decoration:none;}
 .hero-sub a:hover{text-decoration:underline;}
 
-/* ── TABS ── */
+/* Gold divider */
+.gold-rule{
+  width:60px;height:1px;margin:28px auto 0;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+}
+
+/* ══════════════════════════════
+   TABS
+══════════════════════════════ */
 .tabs-wrap{
   position:relative;z-index:1;
-  max-width:860px;margin:0 auto;
-  padding:0 24px 80px;
+  max-width:880px;margin:0 auto;
+  padding:0 28px 100px;
 }
 .tab-nav{
-  display:flex;flex-wrap:wrap;gap:6px;
+  display:flex;flex-wrap:wrap;gap:0;
   margin-bottom:28px;
   border-bottom:1px solid var(--line);
   padding-bottom:0;
@@ -114,115 +155,134 @@ body::before{
   font-family:var(--sans);font-size:13px;font-weight:600;
   color:var(--iv3);background:transparent;
   border:none;border-bottom:2px solid transparent;
-  padding:10px 18px 12px;cursor:pointer;
-  transition:all .15s;
-  margin-bottom:-1px;
+  padding:12px 20px 14px;cursor:pointer;
+  transition:all .18s var(--ease);
+  margin-bottom:-1px;letter-spacing:.01em;
 }
-.tab-btn:hover{color:var(--ivory);}
-.tab-btn.active{
-  color:var(--green);
-  border-bottom-color:var(--green);
-}
+.tab-btn:hover{color:var(--iv2);}
+.tab-btn.active{color:var(--gold2);border-bottom-color:var(--gold);}
 
-/* ── CONTENT PANEL ── */
+/* ══════════════════════════════
+   CONTENT PANELS
+══════════════════════════════ */
 .tab-panel{display:none;}
 .tab-panel.active{display:block;}
 
 .legal-card{
   background:var(--card);
   border:1px solid var(--line2);
-  border-radius:12px;
-  padding:36px 40px;
+  border-radius:14px;
+  padding:40px 44px;
 }
 
 .legal-updated{
-  font-size:11px;color:var(--iv4);
-  letter-spacing:.08em;text-transform:uppercase;
-  margin-bottom:28px;
+  font-size:10px;color:var(--iv4);
+  letter-spacing:.12em;text-transform:uppercase;
+  margin-bottom:30px;
+  padding-bottom:16px;
+  border-bottom:1px solid var(--line);
 }
 
-.legal-section{margin-bottom:32px;}
+.legal-section{margin-bottom:36px;}
 .legal-section:last-child{margin-bottom:0;}
 
 .legal-h2{
-  font-family:var(--serif);font-size:18px;font-weight:700;
-  color:var(--ivory);margin-bottom:10px;
-  padding-bottom:8px;border-bottom:1px solid var(--line);
+  font-family:var(--serif);font-size:20px;font-weight:700;
+  color:var(--ivory);margin-bottom:12px;
+  padding-bottom:10px;border-bottom:1px solid var(--line);
 }
+
 .legal-h3{
-  font-size:14px;font-weight:700;color:var(--green2);
-  margin-bottom:6px;margin-top:16px;
+  font-size:13px;font-weight:700;color:var(--gold2);
+  margin-bottom:8px;margin-top:18px;
+  letter-spacing:.02em;text-transform:uppercase;font-size:11px;
 }
+
 .legal-p{
-  font-size:14px;color:var(--iv2);line-height:1.75;
-  margin-bottom:10px;
+  font-size:14px;color:var(--iv2);line-height:1.78;
+  margin-bottom:12px;
 }
 .legal-p:last-child{margin-bottom:0;}
-.legal-p a{color:var(--green2);text-decoration:none;}
+.legal-p a{color:var(--gold2);text-decoration:none;}
 .legal-p a:hover{text-decoration:underline;}
+.legal-p strong{color:var(--ivory);}
 
 .legal-list{
-  font-size:14px;color:var(--iv2);line-height:1.75;
-  padding-left:20px;margin-bottom:10px;
+  font-size:14px;color:var(--iv2);line-height:1.78;
+  padding-left:20px;margin-bottom:12px;
 }
-.legal-list li{margin-bottom:4px;}
+.legal-list li{margin-bottom:6px;}
+.legal-list li strong{color:var(--ivory);}
+.legal-list a{color:var(--gold2);text-decoration:none;}
+.legal-list a:hover{text-decoration:underline;}
 
 .legal-highlight{
   background:var(--card2);
   border:1px solid var(--line2);
-  border-left:3px solid var(--green3);
-  border-radius:8px;padding:16px 20px;
-  margin:16px 0;
+  border-left:3px solid var(--gold);
+  border-radius:8px;padding:18px 22px;
+  margin:18px 0;
 }
-.legal-highlight p{
-  font-size:13px;color:var(--iv2);line-height:1.6;margin:0;
-}
+.legal-highlight p{font-size:13px;color:var(--iv2);line-height:1.68;margin:0;}
 .legal-highlight strong{color:var(--ivory);}
+.legal-highlight a{color:var(--gold2);text-decoration:none;}
+.legal-highlight a:hover{text-decoration:underline;}
 
-/* ── PAGE FOOTER ── */
+/* ══════════════════════════════
+   FOOTER
+══════════════════════════════ */
 .legal-footer{
   position:relative;z-index:1;
   border-top:1px solid var(--line);
-  padding:24px;
-  text-align:center;
+  padding:28px;text-align:center;
+  background:var(--bg);
 }
-.legal-footer p{
-  font-size:12px;color:var(--iv4);line-height:1.6;
-}
-.legal-footer a{color:var(--iv3);text-decoration:none;}
-.legal-footer a:hover{color:var(--green2);}
+.legal-footer p{font-size:12px;color:var(--iv4);line-height:1.6;}
+.legal-footer a{color:var(--iv3);text-decoration:none;transition:color .15s;}
+.legal-footer a:hover{color:var(--gold2);}
 .legal-footer .sep{margin:0 8px;opacity:.4;}
 
-/* ── PRINT ── */
+/* ══════════════════════════════
+   PRINT
+══════════════════════════════ */
 @media print{
-  .nav,.tab-nav,.legal-footer{display:none!important;}
+  .nav,.tab-nav,.legal-footer,body::after{display:none!important;}
   body{background:#fff;color:#1a1a1a;}
   .hero{padding:24px 0 16px;}
   .hero h1,.legal-h2{color:#1a1a1a;}
-  .legal-card{border:1px solid #ddd;border-radius:0;padding:24px;}
-  .legal-p,.legal-list,.legal-h3{color:#333;}
-  .legal-highlight{background:#f8f8f8;border-color:#ddd;}
+  .legal-card{border:1px solid #ddd;border-radius:0;padding:24px;background:#fff;}
+  .legal-p,.legal-list{color:#333;}
+  .legal-h3{color:#555;}
+  .legal-highlight{background:#f8f8f8;border-color:#ddd;border-left:3px solid #b8860b;}
   .tab-panel{display:block!important;}
-  .tab-panel + .tab-panel{page-break-before:always;}
+  .tab-panel+.tab-panel{page-break-before:always;}
 }
 
-/* ── RESPONSIVE ── */
+/* ══════════════════════════════
+   RESPONSIVE
+══════════════════════════════ */
 @media(max-width:640px){
-  .hero{padding:32px 20px 24px;}
-  .hero h1{font-size:clamp(20px,5vw,28px);}
-  .legal-card{padding:20px 16px;}
-  .tab-btn{font-size:12px;padding:10px 12px;min-height:44px;}
-  .legal-h2{font-size:16px;}
+  .hero{padding:36px 20px 28px;}
+  .legal-card{padding:22px 18px;}
+  .tab-btn{font-size:12px;padding:10px 14px;min-height:44px;}
+  .legal-h2{font-size:18px;}
+  .tabs-wrap{padding:0 20px 80px;}
+  .nav{padding:0 20px;}
 }
 </style>
 </head>
 <body>
 
+<!-- NAV -->
 <nav class="nav">
-  <a href="https://doxseal.co.za" class="nav-brand"><b>Dox</b>Seal</a>
+  <a href="https://doxseal.co.za" class="nav-brand">
+    <div class="nav-brand-icon">✦</div>
+    <span>Dox</span>Seal
+  </a>
   <button class="nav-print" onclick="window.print()">Print / Save PDF</button>
 </nav>
 
+<!-- HERO -->
 <div class="hero">
   <div class="hero-label">Legal &amp; Compliance</div>
   <h1>Terms, Privacy &amp; POPIA</h1>
@@ -231,8 +291,10 @@ body::before{
     <a href="mailto:hello@doxseal.co.za">hello@doxseal.co.za</a><br>
     Governing law: Republic of South Africa
   </p>
+  <div class="gold-rule"></div>
 </div>
 
+<!-- TABS -->
 <div class="tabs-wrap">
   <div class="tab-nav">
     <button class="tab-btn active" data-tab="terms" onclick="showTab('terms',this)">Terms of Service</button>
@@ -241,7 +303,7 @@ body::before{
     <button class="tab-btn" data-tab="subscription" onclick="showTab('subscription',this)">Subscription Terms</button>
   </div>
 
-  <!-- ── TERMS OF SERVICE ── -->
+  <!-- TERMS OF SERVICE -->
   <div class="tab-panel active" id="tab-terms">
     <div class="legal-card">
       <div class="legal-updated">Last updated: April 2026</div>
@@ -314,7 +376,7 @@ body::before{
     </div>
   </div>
 
-  <!-- ── PRIVACY POLICY ── -->
+  <!-- PRIVACY POLICY -->
   <div class="tab-panel" id="tab-privacy">
     <div class="legal-card">
       <div class="legal-updated">Last updated: May 2026</div>
@@ -408,7 +470,7 @@ body::before{
 
       <div class="legal-section">
         <h2 class="legal-h2">9. Cookies</h2>
-        <p class="legal-p">The DoxSeal app uses browser <code>localStorage</code> — not cookies — to store your session and preferences locally on your device. No third-party tracking cookies are used.</p>
+        <p class="legal-p">The DoxSeal app uses browser <code style="font-family:monospace;font-size:12px;background:var(--bg2);padding:2px 6px;border-radius:4px;color:var(--gold2);">localStorage</code> — not cookies — to store your session and preferences locally on your device. No third-party tracking cookies are used.</p>
       </div>
 
       <div class="legal-section">
@@ -418,7 +480,7 @@ body::before{
     </div>
   </div>
 
-  <!-- ── POPIA COMPLIANCE ── -->
+  <!-- POPIA COMPLIANCE -->
   <div class="tab-panel" id="tab-popia">
     <div class="legal-card">
       <div class="legal-updated">Last updated: April 2026</div>
@@ -439,28 +501,20 @@ body::before{
 
       <div class="legal-section">
         <h2 class="legal-h2">Eight Conditions for Lawful Processing</h2>
-
         <h3 class="legal-h3">1. Accountability</h3>
         <p class="legal-p">DoxSeal takes full responsibility for ensuring personal information in our possession is processed in accordance with POPIA. Our operator (sole trader) is the designated Information Officer.</p>
-
         <h3 class="legal-h3">2. Processing Limitation</h3>
         <p class="legal-p">We collect only the personal information necessary to provide the Service (name, email address, payment reference). Your original documents are processed entirely on your device and are never transmitted to us.</p>
-
         <h3 class="legal-h3">3. Purpose Specification</h3>
         <p class="legal-p">Personal information is collected for the specific, explicitly defined purpose of providing the DoxSeal timestamping service, billing, and support. We will not process your information for any other purpose without your explicit consent.</p>
-
         <h3 class="legal-h3">4. Further Processing Limitation</h3>
         <p class="legal-p">We do not further process personal information in a way that is incompatible with the purpose for which it was collected. We do not sell or share personal information with third parties for marketing purposes.</p>
-
         <h3 class="legal-h3">5. Information Quality</h3>
         <p class="legal-p">We take reasonable steps to ensure that personal information we hold is complete, accurate, not misleading, and updated where necessary. You may request correction of your information at any time.</p>
-
         <h3 class="legal-h3">6. Openness</h3>
         <p class="legal-p">This Privacy Policy and POPIA Compliance Statement constitute our notification to data subjects about the personal information we hold and how we process it.</p>
-
         <h3 class="legal-h3">7. Security Safeguards</h3>
         <p class="legal-p">We maintain reasonable technical and organisational security measures to protect personal information from loss, damage, unauthorised destruction, or unlawful access or processing. In the event of a breach likely to result in harm, we will notify the Information Regulator and affected data subjects promptly.</p>
-
         <h3 class="legal-h3">8. Data Subject Participation</h3>
         <p class="legal-p">Data subjects have the right to request access to, correction of, or deletion of their personal information. Contact <a href="mailto:hello@doxseal.co.za">hello@doxseal.co.za</a>. We will respond within 30 days.</p>
       </div>
@@ -498,7 +552,7 @@ body::before{
     </div>
   </div>
 
-  <!-- ── SUBSCRIPTION TERMS ── -->
+  <!-- SUBSCRIPTION TERMS -->
   <div class="tab-panel" id="tab-subscription">
     <div class="legal-card">
       <div class="legal-updated">Last updated: April 2026</div>
@@ -506,9 +560,9 @@ body::before{
       <div class="legal-section">
         <h2 class="legal-h2">1. Subscription Plans</h2>
         <ul class="legal-list">
-          <li><strong>Starter</strong> — R297/month · 50 seals per month · Cancel anytime — no contracts</li>
-          <li><strong>Pro</strong> — R497/month · 200 seals per month · Cancel anytime — no contracts</li>
-          <li><strong>Business</strong> — R997/month · 500 seals per month · Cancel anytime — no contracts</li>
+          <li><strong>Starter</strong> — from R297/month · 50 seals per month · Cancel anytime — no contracts</li>
+          <li><strong>Pro</strong> — from R497/month · 200 seals per month · Cancel anytime — no contracts</li>
+          <li><strong>Growth</strong> — from R997/month · Unlimited seals · Cancel anytime — no contracts</li>
         </ul>
         <p class="legal-p">All prices are in South African Rand (ZAR) and are exclusive of VAT where applicable. Plans and pricing are subject to change with 30 days' notice to existing subscribers.</p>
         <div class="legal-highlight">
@@ -573,6 +627,7 @@ body::before{
   </div>
 </div>
 
+<!-- FOOTER -->
 <footer class="legal-footer">
   <p>
     © 2026 Orsolso Trader t/a DoxSeal

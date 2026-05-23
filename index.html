@@ -1,3010 +1,869 @@
 <!DOCTYPE html>
-<!-- DoxSeal app v2026.04.30d -->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0">
-<title>DoxSeal · Seal Your Words Forever</title>
-<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Nunito:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DoxSeal · Broker Protection & Client Growth</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
+/* ═══════════════════════════════════════════════
+   DOXSEAL — UNIFIED DESIGN SYSTEM
+   Springbok Edition · Old Gold + Deep Green
+═══════════════════════════════════════════════ */
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+
 :root{
-  --bg:       #080c09;
-  --bg2:      #0e1610;
-  --bg3:      #141f16;
-  --card:     #1a2a1c;
-  --card2:    #20321f;
-  --edge:     #283c2a;
-  --line:     rgba(100,200,120,.09);
-  --line2:    rgba(100,200,120,.16);
-  --line3:    rgba(100,200,120,.28);
-  --green:    #2dce82;
-  --green2:   #23b06d;
-  --green3:   #1a8a53;
-  --green4:   #117040;
-  --glow:     rgba(45,206,130,.14);
-  --glow2:    rgba(45,206,130,.06);
-  --glow3:    rgba(45,206,130,.03);
-  --gold:     #c8a84b;
-  --gold2:    rgba(200,168,75,.12);
-  --ivory:    #f2ede4;
-  --iv2:      rgba(242,237,228,.72);
-  --iv3:      rgba(242,237,228,.42);
-  --iv4:      rgba(242,237,228,.22);
-  --iv5:      rgba(242,237,228,.1);
-  --red:      #e05555;
-  --amber:    #e8a030;
-  --teal:     #38b2ac;
-  --serif:    'Libre Baskerville', Georgia, serif;
-  --sans:     'Nunito', sans-serif;
-  --mono:     'JetBrains Mono', monospace;
-  --ease:     cubic-bezier(.4,0,.2,1);
-  --bounce:   cubic-bezier(.34,1.56,.64,1);
-  --swift:    cubic-bezier(.22,1,.36,1);
+  /* — Greens (backgrounds, surfaces) — */
+  --bg:        #040f08;
+  --bg2:       #071a0e;
+  --bg3:       #0a2614;
+  --card:      #0d3018;
+  --card2:     #10391c;
+  --edge:      #174d26;
+
+  /* — Transparency layers — */
+  --line:      rgba(184,134,11,.13);
+  --line2:     rgba(184,134,11,.24);
+  --line3:     rgba(184,134,11,.38);
+
+  /* — Old Gold (the hero colour) — */
+  --gold:      #b8860b;
+  --gold2:     #c9a84c;
+  --gold3:     #9a6f08;
+  --gold4:     #7a5506;
+  --gold-glow: rgba(184,134,11,.16);
+  --gold-glow2:rgba(184,134,11,.08);
+
+  /* — Text — */
+  --ivory:     #f0ead8;
+  --iv2:       rgba(240,234,216,.78);
+  --iv3:       rgba(240,234,216,.48);
+  --iv4:       rgba(240,234,216,.26);
+  --iv5:       rgba(240,234,216,.10);
+
+  /* — Accents — */
+  --red:       #c0392b;
+  --red-soft:  rgba(192,57,43,.12);
+
+  /* — Typography — */
+  --serif:     'Cormorant Garamond', Georgia, serif;
+  --sans:      'DM Sans', sans-serif;
+  --mono:      'JetBrains Mono', monospace;
+
+  /* — Motion — */
+  --ease:      cubic-bezier(.4,0,.2,1);
+  --bounce:    cubic-bezier(.34,1.56,.64,1);
+
+  /* — Shadows — */
+  --shadow-gold: 0 0 32px rgba(184,134,11,.18), 0 6px 24px rgba(0,0,0,.45);
+  --shadow-card: 0 8px 40px rgba(0,0,0,.38), 0 1px 0 rgba(184,134,11,.10) inset;
 }
 
-html,body{
-  height:100%;min-height:100%;
+html{scroll-behavior:smooth;}
+body{
   background:var(--bg);
   font-family:var(--sans);
   color:var(--ivory);
   -webkit-font-smoothing:antialiased;
-  overflow:hidden;
+  overflow-x:hidden;
 }
-button{font-family:var(--sans);cursor:pointer;border:none;background:none;color:inherit;}
-input,textarea,select{font-family:var(--sans);color:var(--ivory);}
-::selection{background:rgba(45,206,130,.25);}
+
+/* Grain overlay */
+body::before{
+  content:'';position:fixed;inset:0;z-index:9998;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23g)' opacity='1'/%3E%3C/svg%3E");
+  opacity:.03;mix-blend-mode:screen;
+}
+
+::selection{background:rgba(184,134,11,.28);}
 ::-webkit-scrollbar{width:3px;}
 ::-webkit-scrollbar-thumb{background:var(--line2);border-radius:3px;}
 
-/* ────────────────────────────
-   GRAIN + VIGNETTE
-──────────────────────────── */
-body::before{
-  content:'';position:fixed;inset:0;z-index:9998;pointer-events:none;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23g)' opacity='1'/%3E%3C/svg%3E");
-  opacity:.028;mix-blend-mode:screen;
-}
-
-/* ────────────────────────────
-   SCREEN SYSTEM
-──────────────────────────── */
-.page{
-  position:fixed;inset:0;
-  display:flex;flex-direction:column;
-  will-change:transform,opacity;
-  transition:opacity .38s var(--ease), transform .38s var(--ease);
-}
-.page.hidden{opacity:0;pointer-events:none;transform:translateY(18px);visibility:hidden;}
-.page.leaving{opacity:0;pointer-events:none;transform:translateY(-14px);}
-.page.visible{opacity:1;pointer-events:all;transform:none;visibility:visible;}
-
-/* ═══════════════════════════════════════
-   ①  WELCOME
-═══════════════════════════════════════ */
-#pg-welcome{
-  align-items:center;justify-content:flex-start;
-  padding:14px 20px;
-  overflow-y:auto;
-  background:
-    radial-gradient(ellipse 100% 60% at 10% 0%, rgba(45,206,130,.07) 0%, transparent 55%),
-    radial-gradient(ellipse 80% 50% at 90% 100%, rgba(26,138,83,.05) 0%, transparent 50%),
-    var(--bg);
-}
-
-/* Animated sigil */
-.sigil{
-  position:relative;width:52px;height:52px;
-  margin:0 auto 12px;flex-shrink:0;
-}
-.sigil-r1,.sigil-r2,.sigil-r3{
-  position:absolute;border-radius:50%;
-  border-style:solid;border-color:transparent;
-}
-.sigil-r1{
-  inset:0;border-width:1px;
-  border-top-color:rgba(45,206,130,.5);
-  border-right-color:rgba(45,206,130,.2);
-  animation:spin1 5s linear infinite;
-}
-.sigil-r2{
-  inset:10px;border-width:1px;
-  border-bottom-color:rgba(45,206,130,.4);
-  border-left-color:rgba(45,206,130,.15);
-  animation:spin1 8s linear infinite reverse;
-}
-.sigil-r3{
-  inset:20px;border-width:1px;
-  border-top-color:rgba(45,206,130,.3);
-  animation:spin1 12s linear infinite;
-}
-.sigil-core{
-  position:absolute;inset:17px;border-radius:50%;
-  background:linear-gradient(135deg,var(--green3),var(--green2));
-  display:flex;align-items:center;justify-content:center;
-  box-shadow:0 0 16px rgba(45,206,130,.3);
-  font-size:10px;
-}
-@keyframes spin1{to{transform:rotate(360deg);}}
-
-.wl-eyebrow{
-  font-family:var(--serif);font-size:clamp(16px,3vw,26px);
-  font-weight:700;line-height:1.2;letter-spacing:-.2px;
-  color:var(--ivory);
-  text-align:center;margin-top:4px;margin-bottom:10px;
-}
-.wl-h1{
-  font-family:var(--serif);font-size:clamp(24px,4vw,48px);
-  font-weight:700;line-height:1.1;text-align:center;
-  color:var(--green2);margin-bottom:2px;letter-spacing:-.4px;
-}
-.wl-h1 em{font-style:italic;color:var(--green);font-weight:400;}
-.wl-desc{
-  font-size:12px;color:var(--iv3);line-height:1.55;
-  text-align:center;margin-bottom:8px;font-weight:300;
-  max-width:340px;margin-left:auto;margin-right:auto;
-}
-.wl-product{
-  font-size:12px;color:var(--iv4);line-height:1.6;
-  text-align:center;max-width:320px;margin:0 auto 10px;
-}
-
-/* Live ticker */
-.live-bar{
-  display:inline-flex;align-items:center;gap:8px;
-  background:rgba(45,206,130,.06);border:1px solid rgba(45,206,130,.15);
-  border-radius:30px;padding:5px 14px;margin-bottom:14px;
-  font-size:11px;
-}
-.live-dot{
-  width:6px;height:6px;border-radius:50%;
-  background:var(--green);
-  box-shadow:0 0 6px var(--green);
-  animation:liveFlash 2s infinite;
-}
-@keyframes liveFlash{0%,100%{opacity:1;}50%{opacity:.3;}}
-.live-txt{color:var(--green2);font-weight:600;}
-.live-sep{color:var(--iv5);}
-.live-stat{color:var(--iv3);}
-
-/* Tab switcher */
-.auth-tabs{
-  display:flex;background:rgba(255,255,255,.04);
-  border:1px solid var(--line);border-radius:14px;
-  padding:4px;width:100%;max-width:400px;
-  margin:0 auto 12px;
-}
-.at-tab{
-  flex:1;padding:9px;border-radius:10px;
-  font-size:13px;font-weight:600;color:var(--iv3);
-  transition:all .2s;
-}
-.at-tab.on{
-  background:var(--card2);color:var(--ivory);
-  box-shadow:0 2px 12px rgba(0,0,0,.4);
-}
-
-/* Error */
-.auth-err{
-  display:none;background:rgba(224,85,85,.07);
-  border:1px solid rgba(224,85,85,.22);
-  border-radius:10px;padding:11px 14px;
-  font-size:12px;color:var(--red);text-align:center;
-  max-width:400px;width:100%;margin:0 auto 12px;
-}
-
-/* Form */
-.auth-form{
-  display:flex;flex-direction:column;gap:10px;
-  width:100%;max-width:400px;margin:0 auto;
-}
-.af-row{display:flex;flex-direction:column;gap:5px;}
-.af-label{
-  font-size:10px;font-weight:700;text-transform:uppercase;
-  letter-spacing:.9px;color:var(--iv3);padding-left:2px;
-}
-.af-input{
-  width:100%;padding:10px 14px;
-  background:rgba(255,255,255,.05);
-  border:1.5px solid var(--line);border-radius:11px;
-  font-size:15px;outline:none;
-  transition:border .2s,background .2s,box-shadow .2s;
-}
-.af-input:focus{
-  border-color:var(--green2);
-  background:rgba(45,206,130,.04);
-  box-shadow:0 0 0 3px rgba(45,206,130,.08);
-}
-.af-input::placeholder{color:var(--iv4);}
-.af-pw-wrap{position:relative;}
-.af-pw-wrap .af-input{padding-right:46px;}
-.af-pw-toggle{
-  position:absolute;right:12px;top:50%;transform:translateY(-50%);
-  background:none;border:none;cursor:pointer;padding:4px 6px;
-  color:var(--iv4);font-size:15px;line-height:1;
-  transition:color .15s;
-}
-.af-pw-toggle:hover{color:var(--ivory);}
-
-.btn-go{
-  width:100%;padding:13px;border-radius:13px;
-  background:linear-gradient(140deg,var(--green3) 0%,var(--green2) 100%);
-  font-size:15px;font-weight:700;color:#fff;
-  box-shadow:0 8px 30px rgba(45,206,130,.28);
-  transition:all .22s var(--ease);
-  display:flex;align-items:center;justify-content:center;gap:9px;
-  letter-spacing:.05px;position:relative;overflow:hidden;
-}
-.btn-go::after{
-  content:'';position:absolute;inset:0;
-  background:linear-gradient(180deg,rgba(255,255,255,.12),transparent);
-  pointer-events:none;
-}
-.btn-go:hover{transform:translateY(-2px);box-shadow:0 14px 38px rgba(45,206,130,.38);}
-.btn-go:active{transform:translateY(0);box-shadow:0 6px 20px rgba(45,206,130,.22);}
-.btn-go:disabled{opacity:.45;transform:none;cursor:not-allowed;}
-
-.auth-note{
-  font-size:11px;color:var(--iv4);text-align:center;
-  line-height:1.65;max-width:340px;margin:0 auto;
-}
-.auth-note strong{color:var(--green);}
-
-/* Forgot password */
-.fp-link{font-size:12px;color:var(--iv4);text-align:center;margin-top:10px;}
-.fp-link a{color:var(--iv3);text-decoration:none;border-bottom:1px dotted var(--iv4);}
-.fp-link a:hover{color:var(--ivory);}
-#fp-panel{margin-top:12px;border-top:1px solid var(--line2);padding-top:14px;}
-#fp-panel .btn-go{font-size:14px;padding:11px;}
-.fp-result{
-  margin-top:12px;padding:12px 14px;border-radius:10px;font-size:13px;line-height:1.6;
-  background:rgba(45,206,130,.08);border:1px solid rgba(45,206,130,.2);color:var(--ivory);
-}
-.fp-result.err{background:rgba(255,80,80,.07);border-color:rgba(255,80,80,.2);color:var(--iv3);}
-
-/* Trust badges */
-.trust-row{
-  display:flex;justify-content:center;gap:20px;
-  margin-top:14px;padding-top:14px;
-  border-top:1px solid var(--line);
-  max-width:400px;width:100%;margin-left:auto;margin-right:auto;
-}
-.trust-item{
-  display:flex;flex-direction:column;align-items:center;gap:5px;
-}
-.trust-ico{font-size:20px;}
-.trust-txt{font-size:10px;font-weight:600;color:var(--iv3);text-align:center;line-height:1.4;}
-
-/* ═══════════════════════════════════════
-   ②  APP SHELL
-═══════════════════════════════════════ */
-#pg-app{background:var(--bg);}
-
-/* Header */
-.app-hdr{
+/* ══════════════════════════════
+   NAV
+══════════════════════════════ */
+.nav{
+  position:sticky;top:0;z-index:100;
   display:flex;align-items:center;justify-content:space-between;
-  padding:13px 20px;
-  border-bottom:1px solid var(--line);
-  background:rgba(8,12,9,.88);
-  backdrop-filter:blur(18px);
-  flex-shrink:0;
-  position:relative;z-index:20;
-}
-.hdr-brand{
-  font-family:var(--serif);font-size:17px;
-  color:var(--ivory);letter-spacing:.2px;
-  background:none;border:none;padding:0;cursor:pointer;
-  -webkit-tap-highlight-color:transparent;
-}
-.hdr-brand b{color:var(--green);}
-.hdr-right{display:flex;align-items:center;gap:9px;}
-.hdr-bal{
-  display:flex;align-items:center;gap:5px;
-  background:var(--gold2);
-  border:1px solid rgba(200,168,75,.2);
-  border-radius:20px;padding:5px 12px;
-  font-size:11px;font-weight:700;color:var(--gold);
-  letter-spacing:.2px;
-}
-.hdr-out{
-  font-size:11px;color:var(--red);
-  padding:5px 10px;border:1px solid rgba(224,85,85,.3);
-  border-radius:8px;transition:all .15s;background:rgba(224,85,85,.07);
-}
-.hdr-out:hover{background:rgba(224,85,85,.18);}
-
-/* Scrollable body */
-.app-body{
-  flex:1;overflow-y:auto;overflow-x:hidden;
-  -webkit-overflow-scrolling:touch;
-  padding-bottom:72px;
-}
-.app-body::-webkit-scrollbar{width:2px;}
-
-/* Bottom nav */
-.app-nav{
-  position:fixed;bottom:0;left:0;right:0;width:100%;
-  display:flex;
-  background:rgba(10,16,11,.96);
-  border-top:1px solid var(--line);
+  padding:16px 28px;
+  background:rgba(4,15,8,.92);
   backdrop-filter:blur(20px);
-  z-index:30;
-  box-sizing:border-box;
-  padding-bottom:env(safe-area-inset-bottom,0);
-}
-.nav-it{
-  flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;
-  padding:9px 4px 7px;gap:3px;
-  transition:all .15s;
-}
-.nav-ico{font-size:19px;line-height:1;transition:transform .2s var(--bounce);}
-.nav-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--iv4);transition:color .15s;}
-.nav-it.on .nav-lbl{color:var(--green);}
-.nav-it.on .nav-ico{transform:scale(1.18);}
-@media(max-width:360px){
-  .nav-it{padding:8px 1px 6px;}
-  .nav-ico{font-size:17px;}
-  .nav-lbl{font-size:8px;letter-spacing:0;}
-}
-
-/* Tabs */
-.tab{display:none;animation:tabIn .3s var(--ease);}
-.tab.on{display:block;}
-
-@keyframes tabIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
-
-/* ─── Section labels ─── */
-.sec-label{
-  font-size:10px;font-weight:700;text-transform:uppercase;
-  letter-spacing:1px;color:var(--iv4);
-  padding:0 20px;margin-bottom:10px;margin-top:4px;
-}
-
-/* ═══════════════════════════════════════
-   HOME TAB
-═══════════════════════════════════════ */
-.home-hero{
-  padding:22px 20px 18px;
   border-bottom:1px solid var(--line);
 }
-.home-greet{
-  font-size:11px;font-weight:600;letter-spacing:.5px;
-  text-transform:uppercase;color:var(--iv3);margin-bottom:3px;
+.nav-brand{
+  font-family:var(--serif);font-size:20px;font-weight:700;
+  color:var(--ivory);letter-spacing:.02em;
+  display:flex;align-items:center;gap:10px;
 }
-.home-name{
-  font-family:var(--serif);font-size:28px;font-weight:700;
-  color:var(--ivory);letter-spacing:-.2px;margin-bottom:18px;
-  line-height:1.1;
+.nav-brand-icon{
+  width:30px;height:30px;border-radius:7px;
+  background:linear-gradient(135deg,var(--gold),var(--gold3));
+  display:flex;align-items:center;justify-content:center;
+  font-size:15px;flex-shrink:0;
 }
-.home-name em{font-style:italic;color:var(--green);font-weight:400;}
+.nav-brand span{color:var(--gold);}
+.nav-cta{
+  padding:11px 24px;border-radius:9px;
+  background:linear-gradient(135deg,var(--gold3),var(--gold2));
+  font-size:13px;font-weight:700;color:var(--bg);
+  text-decoration:none;letter-spacing:.02em;
+  box-shadow:0 4px 18px rgba(184,134,11,.30);
+  transition:all .2s var(--ease);white-space:nowrap;
+}
+.nav-cta:hover{transform:translateY(-1px);box-shadow:0 8px 28px rgba(184,134,11,.44);}
 
-/* Credits pod */
-.cred-pod{
-  background:var(--card);border:1px solid var(--line2);
-  border-radius:18px;padding:20px;position:relative;overflow:hidden;
-}
-.cred-pod::before{
-  content:'';position:absolute;
-  top:-40px;right:-40px;width:160px;height:160px;
-  border-radius:50%;
-  background:radial-gradient(var(--glow),transparent 65%);
-  pointer-events:none;
-}
-.cp-inner{position:relative;z-index:1;}
-.cp-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--iv4);margin-bottom:8px;}
-.cp-val{
-  font-family:var(--mono);font-size:34px;font-weight:500;
-  color:var(--green);letter-spacing:-1px;line-height:1;margin-bottom:4px;
-}
-.cp-sub{font-size:11px;color:var(--iv3);margin-bottom:14px;font-weight:300;}
-.cp-track{height:3px;background:rgba(255,255,255,.07);border-radius:3px;overflow:hidden;}
-.cp-fill{height:100%;background:linear-gradient(90deg,var(--green3),var(--green));border-radius:3px;transition:width 1s var(--swift);}
-
-/* Quick actions */
-.qa-grid{
-  display:grid;grid-template-columns:1fr 1fr;
-  gap:10px;padding:16px 20px;
-}
-.qa-btn{
-  background:var(--card);border:1px solid var(--line);
-  border-radius:16px;padding:16px 14px;
-  text-align:left;transition:all .2s var(--ease);
-}
-.qa-btn:hover{border-color:var(--line2);background:var(--card2);}
-.qa-btn:active{transform:scale(.97);}
-.qa-btn.big{
-  grid-column:span 2;
-  background:linear-gradient(140deg,var(--green3),var(--green2));
-  border-color:transparent;
-  box-shadow:0 6px 26px rgba(45,206,130,.22);
-  display:flex;align-items:center;gap:14px;padding:18px 20px;
-}
-.qa-btn.big:hover{transform:translateY(-2px);box-shadow:0 12px 36px rgba(45,206,130,.32);}
-.qa-big-ico{font-size:28px;}
-.qa-big-body .qa-title{font-size:16px;font-weight:700;color:#fff;margin-bottom:2px;}
-.qa-big-body .qa-sub{font-size:12px;color:rgba(255,255,255,.68);}
-.qa-big-arrow{margin-left:auto;font-size:20px;color:rgba(255,255,255,.5);}
-.qa-ico{font-size:22px;margin-bottom:8px;}
-.qa-title{font-size:13px;font-weight:700;color:var(--ivory);}
-.qa-sub{font-size:11px;color:var(--iv3);margin-top:2px;}
-
-/* Stats */
-.stats-strip{
-  display:grid;grid-template-columns:1fr 1fr;
-  gap:10px;padding:0 20px 16px;
-}
-.stat{
-  background:var(--card);border:1px solid var(--line);
-  border-radius:14px;padding:16px;
-}
-.stat-n{
-  font-family:var(--mono);font-size:30px;font-weight:500;
-  margin-bottom:3px;
-}
-.stat-n.g{color:var(--green);}
-.stat-n.au{color:var(--gold);}
-.stat-l{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--iv4);}
-
-/* Recent list */
-.recent-wrap{padding:0 20px;}
-
-/* ═══════════════════════════════════════
-   PROOF ITEM (shared)
-═══════════════════════════════════════ */
-.proof-card{
-  background:var(--card);border:1px solid var(--line);
-  border-radius:16px;padding:15px;margin-bottom:10px;
-  cursor:pointer;transition:all .18s var(--ease);
-}
-.proof-card:hover{border-color:var(--line2);background:var(--card2);}
-.proof-card:active{transform:scale(.99);}
-.pc-row{display:flex;align-items:flex-start;gap:11px;}
-.pc-ico{
-  width:40px;height:40px;border-radius:11px;flex-shrink:0;
-  display:flex;align-items:center;justify-content:center;font-size:18px;
-}
-.pc-ico.s{background:rgba(45,206,130,.09);}
-.pc-ico.r{background:rgba(56,178,172,.08);}
-.pc-body{flex:1;min-width:0;}
-.pc-subj{
-  font-size:14px;font-weight:600;color:var(--ivory);
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
-  margin-bottom:3px;
-}
-.pc-meta{font-size:11px;color:var(--iv3);}
-.pc-aside{text-align:right;flex-shrink:0;}
-.pc-badge{
-  display:inline-flex;align-items:center;gap:3px;
-  font-size:9px;font-weight:700;letter-spacing:.3px;
-  padding:3px 8px;border-radius:20px;margin-bottom:4px;
-}
-.pc-badge.v{
-  background:rgba(45,206,130,.1);color:#5adf9a;
-  border:1px solid rgba(45,206,130,.2);
-}
-.pc-badge.p{
-  background:rgba(232,160,48,.08);color:var(--amber);
-  border:1px solid rgba(232,160,48,.2);
-}
-.pc-time{font-size:10px;color:var(--iv4);}
-
-/* Expandable */
-.pc-detail{
-  margin-top:13px;padding-top:13px;
-  border-top:1px solid var(--line);
-  display:none;
-}
-.pc-detail.open{display:block;animation:fadeIn .22s ease;}
-@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
-.pd-row{
-  display:flex;justify-content:space-between;align-items:flex-start;
-  padding:6px 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:12px;
-}
-.pd-row:last-of-type{border:none;}
-.pd-k{color:var(--iv4);flex-shrink:0;margin-right:10px;}
-.pd-v{color:var(--iv2);text-align:right;word-break:break-all;max-width:62%;}
-.pd-v.m{font-family:var(--mono);font-size:10px;color:var(--green);}
-.pd-btns{display:flex;gap:8px;margin-top:11px;}
-.pd-btn{
-  flex:1;padding:10px;border-radius:9px;
-  background:rgba(45,206,130,.06);border:1px solid rgba(45,206,130,.16);
-  color:var(--green2);font-size:12px;font-weight:600;
-  display:flex;align-items:center;justify-content:center;gap:6px;
-  transition:all .15s;
-}
-.pd-btn:hover{background:rgba(45,206,130,.1);}
-
-/* ═══════════════════════════════════════
-   SEAL TAB
-═══════════════════════════════════════ */
-.seal-wrap{padding:20px 20px 0;}
-
-.seal-hero{
-  background:var(--card);border:1px solid var(--line2);
-  border-radius:18px;padding:20px;margin-bottom:16px;
+/* ══════════════════════════════
+   HERO
+══════════════════════════════ */
+.hero{
+  padding:90px 28px 80px;text-align:center;
+  background:
+    radial-gradient(ellipse 90% 55% at 15% -5%, rgba(184,134,11,.06) 0%, transparent 60%),
+    radial-gradient(ellipse 70% 50% at 88% 108%, rgba(184,134,11,.04) 0%, transparent 55%),
+    var(--bg);
   position:relative;overflow:hidden;
 }
-.seal-hero::after{
-  content:'';position:absolute;
-  bottom:-50px;right:-50px;width:150px;height:150px;
-  border-radius:50%;background:radial-gradient(var(--glow2),transparent 70%);
+.hero::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--line3),transparent);
 }
-.sh-title{font-family:var(--serif);font-size:21px;color:var(--ivory);margin-bottom:5px;}
-.sh-sub{font-size:13px;color:var(--iv3);line-height:1.7;font-weight:300;}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  background:rgba(184,134,11,.07);
+  border:1px solid var(--line2);
+  border-radius:30px;padding:8px 20px;
+  font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  color:var(--gold2);margin-bottom:36px;
+}
+.hero-dot{
+  width:7px;height:7px;border-radius:50%;
+  background:var(--gold);box-shadow:0 0 7px var(--gold);
+  animation:flash 2.4s infinite;
+}
+@keyframes flash{0%,100%{opacity:1;}50%{opacity:.25;}}
 
-/* Smart field */
-.s-field{
-  background:var(--card);border:1.5px solid var(--line);
-  border-radius:14px;overflow:hidden;margin-bottom:12px;
-  transition:border .2s,box-shadow .2s;
+.hero-h1{
+  font-family:var(--serif);
+  font-size:clamp(28px,5.8vw,58px);
+  font-weight:700;line-height:1.06;
+  color:var(--ivory);max-width:860px;margin:0 auto 24px;
+  letter-spacing:-.3px;
 }
-.s-field:focus-within{
-  border-color:var(--line3);
-  box-shadow:0 0 0 3px rgba(45,206,130,.07);
+.hero-h1 em{
+  font-style:italic;
+  background:linear-gradient(135deg,var(--gold2),var(--gold3));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
 }
-.s-field-lbl{
-  padding:12px 15px 0;
-  font-size:10px;font-weight:700;text-transform:uppercase;
-  letter-spacing:.7px;color:var(--iv3);
+.hero-sub{
+  font-size:clamp(15px,2.2vw,18px);
+  color:var(--iv3);line-height:1.75;font-weight:300;
+  max-width:660px;margin:0 auto 48px;
 }
-.s-field input,.s-field textarea{
-  display:block;width:100%;
-  padding:7px 15px 13px;
-  background:transparent;border:none;outline:none;
-  font-size:15px;resize:none;
-}
-.s-field input::placeholder,.s-field textarea::placeholder{color:var(--iv4);}
-.s-field-foot{
-  padding:0 15px 10px;
-  display:flex;justify-content:space-between;
-  font-size:10px;color:var(--iv4);
-}
-.s-field-hint{color:var(--green2);cursor:pointer;font-weight:600;}
+.hero-sub strong{color:var(--ivory);font-weight:600;}
 
-/* Privacy */
-.priv-card{
-  background:var(--card);border:1.5px solid var(--line);
-  border-radius:14px;padding:15px;margin-bottom:12px;
+.hero-cta{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:18px 44px;border-radius:13px;
+  background:linear-gradient(135deg,var(--gold3) 0%,var(--gold2) 50%,var(--gold3) 100%);
+  font-size:16px;font-weight:700;color:var(--bg);
+  text-decoration:none;letter-spacing:.02em;
+  box-shadow:0 10px 40px rgba(184,134,11,.36);
+  transition:all .24s var(--ease);position:relative;overflow:hidden;
 }
-.priv-head{
-  display:flex;align-items:center;justify-content:space-between;
-  cursor:pointer;
-}
-.priv-head-left{font-size:13px;font-weight:700;color:var(--iv2);}
-.priv-head-right{
-  font-size:11px;color:var(--iv3);display:flex;align-items:center;gap:4px;
-  transition:all .2s;
-}
-.priv-opts{
-  margin-top:14px;display:flex;flex-direction:column;gap:8px;
-  animation:fadeIn .2s ease;
-}
-.priv-opt{
-  display:flex;align-items:flex-start;gap:11px;
-  padding:11px 12px;border-radius:10px;cursor:pointer;
-  border:1.5px solid transparent;transition:all .15s;
-}
-.priv-opt:hover{background:rgba(255,255,255,.03);}
-.priv-opt.on{
-  background:rgba(45,206,130,.05);
-  border-color:rgba(45,206,130,.2);
-}
-.priv-radio{
-  width:17px;height:17px;border-radius:50%;flex-shrink:0;margin-top:2px;
-  border:2px solid var(--line2);
-  display:flex;align-items:center;justify-content:center;
-  transition:all .15s;
-}
-.priv-opt.on .priv-radio{border-color:var(--green);background:var(--green);}
-.priv-opt.on .priv-radio::after{content:'';width:5px;height:5px;border-radius:50%;background:#fff;}
-.priv-opt-title{font-size:13px;font-weight:700;color:var(--iv2);margin-bottom:2px;}
-.priv-opt-desc{font-size:11px;color:var(--iv3);line-height:1.5;}
-
-/* Cost */
-.cost-line{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:12px 15px;
-  background:rgba(255,255,255,.03);border-radius:10px;
-  margin-bottom:14px;font-size:12px;
-}
-.cl-l{color:var(--iv3);}
-.cl-r{font-family:var(--mono);color:var(--green);font-weight:500;}
-
-/* Seal CTA */
-.btn-seal{
-  width:100%;padding:18px;border-radius:16px;
-  background:linear-gradient(140deg,var(--green3) 0%,var(--green2) 100%);
-  font-size:16px;font-weight:700;color:#fff;
-  box-shadow:0 8px 32px rgba(45,206,130,.26);
-  transition:all .22s var(--ease);
-  display:flex;align-items:center;justify-content:center;gap:10px;
-  position:relative;overflow:hidden;letter-spacing:.05px;
-}
-.btn-seal::before{
+.hero-cta::after{
   content:'';position:absolute;inset:0;
   background:linear-gradient(180deg,rgba(255,255,255,.14),transparent);
-}
-.btn-seal:hover{transform:translateY(-2px);box-shadow:0 14px 44px rgba(45,206,130,.38);}
-.btn-seal:active{transform:translateY(0);}
-.btn-seal:disabled{opacity:.42;transform:none;cursor:not-allowed;}
-
-/* ── File upload zone ── */
-.file-or{display:flex;align-items:center;gap:10px;margin:4px 0 12px;font-size:11px;color:var(--iv4);}
-.file-or::before,.file-or::after{content:'';flex:1;height:1px;background:var(--line);}
-.file-zone{
-  border:1.5px dashed var(--line2);border-radius:14px;padding:20px 16px;
-  text-align:center;cursor:pointer;transition:all .2s;
-  background:rgba(45,206,130,.025);margin-bottom:12px;
-  position:relative;
-}
-.file-zone:hover,.file-zone.drag{border-color:var(--green2);background:rgba(45,206,130,.06);}
-.file-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
-.fz-ico{font-size:22px;margin-bottom:5px;}
-.fz-title{font-size:13px;font-weight:600;color:var(--iv2);}
-.fz-sub{font-size:11px;color:var(--iv4);margin-top:3px;}
-.fz-privacy{
-  display:flex;align-items:center;gap:5px;justify-content:center;
-  margin-top:10px;font-size:10px;color:var(--iv3);
-  background:rgba(45,206,130,.07);border-radius:8px;padding:6px 10px;
-}
-.file-ready{
-  background:rgba(45,206,130,.06);border:1.5px solid rgba(45,206,130,.22);
-  border-radius:14px;padding:14px 16px;margin-bottom:12px;display:none;
-}
-.file-ready.show{display:block;}
-.fr-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;}
-.fr-name{font-size:13px;font-weight:600;color:var(--iv2);word-break:break-all;flex:1;}
-.fr-badge{
-  font-size:9px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;
-  background:rgba(45,206,130,.18);color:var(--green);border-radius:20px;
-  padding:3px 9px;flex-shrink:0;margin-top:1px;
-}
-.fr-hash{font-family:var(--mono);font-size:9px;color:var(--green2);margin-top:7px;word-break:break-all;line-height:1.6;}
-.fr-status{font-size:11px;color:var(--iv3);margin-top:5px;}
-.btn-clear-file{
-  font-size:11px;color:var(--iv4);background:none;border:none;cursor:pointer;
-  padding:2px 0;margin-top:6px;text-decoration:underline;font-family:var(--sans);
-}
-.cert-file-badge{
-  display:inline-flex;align-items:center;gap:5px;
-  background:rgba(45,206,130,.1);border:1px solid rgba(45,206,130,.2);
-  border-radius:20px;padding:4px 12px;font-size:10px;font-weight:700;
-  color:var(--green);letter-spacing:.5px;margin-bottom:10px;
-}
-
-/* ═══════════════════════════════════════
-   ③  SEALING SCREEN — the ceremony
-═══════════════════════════════════════ */
-#pg-sealing{
-  align-items:center;justify-content:center;
-  flex-direction:column;gap:0;
-  padding:40px 24px;
-  text-align:center;
-  background:
-    radial-gradient(ellipse 80% 60% at 50% 40%, rgba(45,206,130,.07) 0%, transparent 60%),
-    var(--bg);
-}
-
-/* Triple-orbit */
-.orbit-wrap{position:relative;width:150px;height:150px;margin-bottom:36px;}
-.orb{position:absolute;border-radius:50%;border-style:solid;}
-.orb-1{
-  inset:0;border-width:1.5px;
-  border-color:rgba(45,206,130,.25) rgba(45,206,130,.06) rgba(45,206,130,.12) rgba(45,206,130,.06);
-  animation:orbA 3s linear infinite;
-}
-.orb-2{
-  inset:16px;border-width:1px;
-  border-color:transparent rgba(45,206,130,.2) transparent rgba(45,206,130,.1);
-  animation:orbA 5s linear infinite reverse;
-}
-.orb-3{
-  inset:30px;border-width:1px;
-  border-color:rgba(45,206,130,.15) transparent transparent transparent;
-  animation:orbA 7s linear infinite;
-}
-.orb-dot{
-  position:absolute;width:6px;height:6px;border-radius:50%;
-  background:var(--green);
-  box-shadow:0 0 10px var(--green),0 0 20px rgba(45,206,130,.5);
-}
-.orb-1 .orb-dot{top:-3px;left:50%;transform:translateX(-50%);}
-.orb-2 .orb-dot{bottom:-3px;left:50%;transform:translateX(-50%);background:var(--green2);}
-.orb-core{
-  position:absolute;inset:44px;border-radius:50%;
-  background:linear-gradient(135deg,var(--green3),var(--green2));
-  display:flex;align-items:center;justify-content:center;
-  box-shadow:0 0 30px rgba(45,206,130,.35);font-size:20px;
-}
-@keyframes orbA{to{transform:rotate(360deg);}}
-
-.sealing-t{
-  font-family:var(--serif);font-size:24px;font-weight:700;
-  color:var(--ivory);margin-bottom:6px;
-}
-.sealing-s{font-size:14px;color:var(--iv3);margin-bottom:30px;font-weight:300;}
-.seal-steps{width:100%;max-width:260px;}
-.ss{
-  display:flex;align-items:center;gap:12px;
-  padding:9px 0;border-bottom:1px solid rgba(255,255,255,.05);
-  font-size:13px;color:var(--iv4);transition:all .3s;
-}
-.ss:last-child{border:none;}
-.ss.on{color:var(--ivory);}
-.ss.done{color:var(--green);}
-.ss-dot{
-  width:7px;height:7px;border-radius:50%;
-  background:rgba(255,255,255,.12);flex-shrink:0;transition:all .3s;
-}
-.ss.on .ss-dot{background:var(--green);box-shadow:0 0 8px var(--green);animation:ssDot 1.1s infinite;}
-.ss.done .ss-dot{background:#5adf9a;}
-@keyframes ssDot{0%,100%{transform:scale(1);}50%{transform:scale(1.5);}}
-
-/* ═══════════════════════════════════════
-   ④  SUCCESS SCREEN — the reward
-═══════════════════════════════════════ */
-#pg-success{
-  overflow-y:auto;
-  background:
-    radial-gradient(ellipse 90% 55% at 50% 15%, rgba(45,206,130,.07) 0%, transparent 55%),
-    var(--bg);
-}
-.suc-inner{
-  padding:36px 20px calc(80px + env(safe-area-inset-bottom,0px));
-  display:flex;flex-direction:column;align-items:center;
-  max-width:440px;margin:0 auto;
-}
-
-/* Award badge */
-.suc-badge{
-  position:relative;margin-bottom:22px;
-  animation:badgePop .65s var(--bounce) both;
-}
-@keyframes badgePop{
-  0%{opacity:0;transform:scale(.3) rotate(-15deg);}
-  100%{opacity:1;transform:scale(1) rotate(0);}
-}
-.suc-badge-ring{
-  width:96px;height:96px;border-radius:50%;
-  background:rgba(45,206,130,.1);
-  border:2px solid rgba(45,206,130,.25);
-  display:flex;align-items:center;justify-content:center;
-  box-shadow:0 0 48px rgba(45,206,130,.18);
-}
-.suc-badge-ico{font-size:44px;animation:icoIn .4s .4s var(--bounce) both;}
-@keyframes icoIn{0%{transform:scale(0);}100%{transform:scale(1);}}
-/* Ripple rings */
-.suc-badge::before,.suc-badge::after{
-  content:'';position:absolute;inset:-16px;border-radius:50%;
-  border:1px solid rgba(45,206,130,.12);
-  animation:ripple 2.5s 1s ease-out both infinite;
-}
-.suc-badge::after{inset:-32px;animation-delay:1.5s;}
-@keyframes ripple{0%{opacity:.6;transform:scale(.85);}100%{opacity:0;transform:scale(1.15);}}
-
-.suc-eye{
-  font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
-  color:var(--green2);margin-bottom:6px;
-  animation:fadeUp .4s .5s ease both;
-}
-@keyframes fadeUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
-.suc-title{
-  font-family:var(--serif);font-size:32px;font-weight:700;
-  color:var(--ivory);margin-bottom:6px;letter-spacing:-.3px;
-  animation:fadeUp .4s .55s ease both;
-}
-.suc-desc{
-  font-size:14px;color:var(--iv3);text-align:center;
-  line-height:1.7;margin-bottom:26px;font-weight:300;
-  max-width:300px;
-  animation:fadeUp .4s .6s ease both;
-}
-
-/* Certificate card */
-.cert{
-  width:100%;background:var(--bg2);
-  border:1px solid var(--line2);border-radius:20px;
-  overflow:hidden;margin-bottom:18px;
-  box-shadow:0 12px 50px rgba(0,0,0,.4);
-  animation:fadeUp .4s .65s ease both;
-}
-.cert-bar{height:3px;background:linear-gradient(90deg,var(--green3),var(--green),var(--gold));}
-.cert-body{padding:22px;}
-.cert-head{
-  display:flex;align-items:center;gap:10px;
-  margin-bottom:18px;padding-bottom:14px;
-  border-bottom:1px solid var(--line);
-}
-.cert-head-ico{
-  width:36px;height:36px;border-radius:10px;
-  background:linear-gradient(135deg,var(--green3),var(--green2));
-  display:flex;align-items:center;justify-content:center;font-size:16px;
-  box-shadow:0 4px 14px rgba(45,206,130,.2);flex-shrink:0;
-}
-.cert-head-title{font-size:14px;font-weight:700;color:var(--ivory);}
-.cert-head-sub{font-size:10px;color:var(--green2);font-weight:700;letter-spacing:.5px;text-transform:uppercase;}
-.cert-row{
-  display:flex;justify-content:space-between;align-items:flex-start;
-  padding:8px 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:12px;
-}
-.cert-row:last-child{border:none;}
-.ck{color:var(--iv4);flex-shrink:0;margin-right:10px;}
-.cv{color:var(--iv2);text-align:right;word-break:break-all;font-size:11px;}
-.cv.m{font-family:var(--mono);font-size:10px;color:var(--green);}
-.cert-row-hero{background:rgba(45,206,130,.07);border-radius:8px;padding:12px 8px;margin:0 -8px 6px;border-bottom:2px solid rgba(45,206,130,.18) !important;}
-.cv-hero{font-size:16px !important;font-weight:700;color:var(--ivory) !important;}
-.cert-row-msg{display:block;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.04);}
-.ck-msg{display:block;color:var(--iv4);font-size:12px;margin-bottom:5px;}
-.cv-msg{display:block;color:var(--iv2);font-size:11px;line-height:1.7;word-break:break-word;overflow-wrap:break-word;white-space:pre-wrap;text-align:left;}
-
-/* Blockchain confirmed */
-.chain-bar{
-  display:flex;align-items:center;gap:9px;
-  background:rgba(45,206,130,.07);border:1px solid rgba(45,206,130,.17);
-  border-radius:12px;padding:12px 15px;margin-bottom:18px;
-  animation:fadeUp .4s .7s ease both;
-}
-.chain-led{
-  width:7px;height:7px;border-radius:50%;
-  background:var(--green);animation:ssDot 2s infinite;flex-shrink:0;
-}
-.chain-txt{font-size:13px;color:#5adf9a;font-weight:600;}
-
-/* Actions */
-.suc-actions{
-  width:100%;display:flex;flex-direction:column;gap:10px;
-  animation:fadeUp .4s .75s ease both;
-}
-.btn-dl{
-  width:100%;padding:15px;border-radius:14px;
-  background:linear-gradient(140deg,var(--green3),var(--green2));
-  font-size:15px;font-weight:700;color:#fff;
-  box-shadow:0 6px 26px rgba(45,206,130,.24);
-  transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px;
-}
-.btn-dl:hover{transform:translateY(-1px);box-shadow:0 10px 34px rgba(45,206,130,.34);}
-.btn-woc{
-  width:100%;padding:14px;border-radius:14px;
-  background:transparent;border:1.5px solid var(--line2);
-  font-size:14px;font-weight:600;color:var(--iv2);
-  transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px;
-}
-.btn-woc:hover{border-color:var(--green2);color:var(--green);}
-.btn-seal-another{
-  width:100%;padding:16px;border-radius:14px;
-  background:linear-gradient(140deg,var(--green3),var(--green2));
-  font-size:15px;font-weight:700;color:#fff;
-  box-shadow:0 6px 26px rgba(45,206,130,.26);
-  transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px;
-}
-.btn-seal-another:hover{transform:translateY(-1px);box-shadow:0 10px 34px rgba(45,206,130,.38);}
-.btn-seal-another:active{transform:translateY(0);}
-.btn-seal-another:disabled{opacity:.5;cursor:not-allowed;transform:none;font-family:var(--mono);font-size:12px;font-weight:400;}
-.btn-print{
-  width:100%;padding:14px;border-radius:14px;
-  background:transparent;border:1.5px solid var(--line2);
-  font-size:14px;font-weight:600;color:var(--iv2);
-  transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px;
-}
-.btn-print:hover{border-color:var(--iv3);color:var(--ivory);}
-
-/* ── Screen: hide print-only certificate ─────────────────────────────── */
-#print-cert{display:none;}
-
-/* ── Print: professional A4 certificate ──────────────────────────────── */
-@media print{
-  @page{size:A4 portrait;margin:14mm 18mm;}
-  html,body{
-    overflow:visible!important;height:auto!important;background:#fff!important;
-    font-family:Georgia,'Times New Roman',serif;color:#111!important;
-    -webkit-print-color-adjust:exact;print-color-adjust:exact;
-  }
-  body::before{display:none!important;}
-  .page,#pg-upgrade,#toast-tray{display:none!important;}
-
-  /* ── Root container ── */
-  #print-cert{
-    display:block!important;background:#fff;color:#111;
-    font-family:Georgia,'Times New Roman',serif;
-  }
-  .pc-outer{
-    border:2px solid #1a8a53;display:flex;flex-direction:column;
-    min-height:calc(297mm - 28mm);
-  }
-
-  /* ── Top gradient bar ── */
-  .pc-bar{height:9px;background:linear-gradient(90deg,#1a8a53,#2dce82,#c8a84b)!important;}
-
-  /* ── Letterhead ── */
-  .pc-header{
-    display:flex;justify-content:space-between;align-items:center;
-    padding:18px 28px 15px;border-bottom:1px solid #c4e0cc;
-  }
-  .pc-logo{
-    font-family:Georgia,'Times New Roman',serif;
-    font-size:24px;font-weight:700;color:#1a8a53!important;letter-spacing:-.3px;
-  }
-  .pc-logo-tag{
-    font-family:Arial,Helvetica,sans-serif;font-size:9px;
-    color:#888!important;letter-spacing:1.4px;text-transform:uppercase;margin-top:3px;
-  }
-  .pc-seal-badge{
-    font-family:Arial,Helvetica,sans-serif;font-size:8px;font-weight:700;
-    letter-spacing:1px;text-transform:uppercase;
-    color:#fff!important;background:#1a8a53!important;
-    padding:5px 12px;border-radius:3px;display:inline-block;
-  }
-
-  /* ── Certificate title block ── */
-  .pc-title-wrap{
-    text-align:center;padding:20px 28px 17px;
-    border-bottom:1px solid #c4e0cc;background:#f6fcf8!important;
-  }
-  .pc-eyebrow{
-    font-family:Arial,Helvetica,sans-serif;font-size:9px;font-weight:700;
-    letter-spacing:2.5px;text-transform:uppercase;color:#1a8a53!important;margin-bottom:8px;
-  }
-  .pc-cert-title{
-    font-family:Georgia,'Times New Roman',serif;
-    font-size:22px;font-weight:700;color:#111!important;
-    letter-spacing:-.2px;margin-bottom:5px;
-  }
-  .pc-cert-sub{
-    font-family:Arial,Helvetica,sans-serif;font-size:10px;
-    color:#555!important;letter-spacing:.3px;
-  }
-
-  /* ── Generic section wrapper ── */
-  .pc-section{padding:15px 28px;border-bottom:1px solid #e6eeea;}
-  .pc-section-lbl{
-    font-family:Arial,Helvetica,sans-serif;font-size:9px;font-weight:700;
-    letter-spacing:1.8px;text-transform:uppercase;
-    color:#1a8a53!important;margin-bottom:11px;
-  }
-
-  /* ── Document details table ── */
-  .pc-table{width:100%;border-collapse:collapse;}
-  .pc-table tr{border-bottom:1px solid #eaefec;}
-  .pc-table tr:last-child{border:none;}
-  .pc-table td{padding:7px 0;vertical-align:top;}
-  .pk{
-    font-family:Arial,Helvetica,sans-serif;font-size:10px;font-weight:700;
-    color:#555!important;text-transform:uppercase;letter-spacing:.4px;
-    width:32%;padding-right:14px;
-  }
-  .pv{
-    font-family:Georgia,'Times New Roman',serif;
-    font-size:12px;color:#111!important;line-height:1.5;
-  }
-  .pv-hero{font-size:17px!important;font-weight:700;color:#111!important;}
-
-  /* ── Crypto proof section ── */
-  .pc-crypto{background:#f4fbf7!important;}
-  .pc-hash-block{margin-bottom:11px;}
-  .pc-hash-block:last-child{margin-bottom:0;}
-  .pc-hash-lbl{
-    font-family:Arial,Helvetica,sans-serif;font-size:9px;font-weight:700;
-    color:#555!important;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;
-  }
-  .pc-hash-val{
-    font-family:'Courier New',Courier,monospace;font-size:10px;
-    color:#111!important;background:#e3f3ec!important;
-    border-left:3px solid #1a8a53;padding:7px 11px;
-    border-radius:0 4px 4px 0;word-break:break-all;line-height:1.7;
-  }
-
-  /* ── Verification section ── */
-  .pc-verify-inner{display:flex;gap:18px;align-items:flex-start;}
-  .pc-verify-left{flex:1;min-width:0;}
-  .pc-verify-note{
-    font-family:Arial,Helvetica,sans-serif;font-size:10px;
-    color:#444!important;line-height:1.7;margin-bottom:11px;
-  }
-  .pc-url-lbl{
-    font-family:Arial,Helvetica,sans-serif;font-size:9px;font-weight:700;
-    text-transform:uppercase;letter-spacing:.5px;color:#888!important;margin-bottom:3px;
-  }
-  .pc-url{
-    font-family:'Courier New',Courier,monospace;font-size:10px;
-    color:#1a8a53!important;word-break:break-all;line-height:1.5;margin-bottom:9px;
-  }
-  .pc-qr-wrap{flex-shrink:0;text-align:center;}
-  .pc-qr-wrap img{
-    width:150px!important;height:150px!important;display:block;
-    border:1px solid #ccc;border-radius:4px;
-  }
-  .pc-qr-lbl{
-    font-family:Arial,Helvetica,sans-serif;font-size:11px;font-weight:600;
-    color:#333!important;margin-top:10px;line-height:1.55;max-width:160px;text-align:center;
-  }
-
-  /* ── Footer ── */
-  .pc-footer{
-    margin-top:auto;padding:12px 28px;
-    background:#eef8f2!important;border-top:2px solid #1a8a53;text-align:center;
-  }
-  .pc-footer-main{
-    font-family:Arial,Helvetica,sans-serif;font-size:10px;font-weight:700;
-    color:#1a8a53!important;margin-bottom:4px;letter-spacing:.2px;
-  }
-  .pc-footer-sub{
-    font-family:Arial,Helvetica,sans-serif;font-size:9px;
-    color:#888!important;letter-spacing:.2px;
-  }
-}
-
-/* ═══════════════════════════════════════
-   HISTORY TAB
-═══════════════════════════════════════ */
-.hist-head{padding:20px 20px 10px;}
-.hist-title{font-family:var(--serif);font-size:24px;font-weight:700;color:var(--ivory);margin-bottom:3px;}
-.hist-sub{font-size:13px;color:var(--iv4);font-weight:300;}
-
-.fpills{
-  display:flex;gap:8px;padding:0 20px 14px;
-  overflow-x:auto;
-}
-.fpills::-webkit-scrollbar{display:none;}
-.fp{
-  padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600;
-  border:1px solid var(--line);color:var(--iv3);
-  white-space:nowrap;flex-shrink:0;transition:all .15s;
-}
-.fp.on{background:var(--green2);border-color:var(--green2);color:#fff;}
-
-.hist-list{padding:0 20px;}
-
-/* history header row */
-.hist-head-row{display:flex;align-items:flex-start;justify-content:space-between;padding:20px 20px 10px;}
-.hist-head-row .hist-head{padding:0;}
-.hist-refresh{
-  background:transparent;border:1px solid var(--line2);border-radius:8px;
-  color:var(--green2);font-size:12px;font-weight:600;
-  padding:6px 12px;cursor:pointer;transition:all .15s;white-space:nowrap;flex-shrink:0;
-  font-family:var(--sans);margin-top:4px;
-}
-.hist-refresh:hover{background:var(--card);border-color:var(--green);}
-.hist-refresh:disabled{opacity:.4;cursor:default;}
-
-/* spinner */
-.hist-spinner{
-  display:flex;flex-direction:column;align-items:center;
-  padding:40px 16px;gap:12px;
-}
-.spinner-ring{
-  width:32px;height:32px;border-radius:50%;
-  border:3px solid var(--line2);
-  border-top-color:var(--green);
-  animation:spin .7s linear infinite;
-}
-@keyframes spin{to{transform:rotate(360deg)}}
-.spinner-txt{font-size:12px;color:var(--iv4);}
-
-/* server-sourced badge */
-.seal-source-badge{
-  display:inline-block;font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
-  color:var(--green3);background:rgba(45,206,130,.07);border:1px solid var(--line2);
-  border-radius:10px;padding:2px 7px;margin-left:6px;vertical-align:middle;
-}
-
-.empty-st{
-  display:flex;flex-direction:column;align-items:center;
-  padding:52px 16px;text-align:center;gap:10px;
-}
-.empty-ico{font-size:44px;opacity:.3;}
-.empty-t{font-size:15px;font-weight:600;color:var(--iv3);}
-.empty-s{font-size:13px;color:var(--iv4);line-height:1.6;max-width:260px;}
-
-/* ═══════════════════════════════════════
-   ACCOUNT TAB
-═══════════════════════════════════════ */
-.acc-wrap{padding:20px;}
-
-.acc-profile{
-  background:var(--card);border:1px solid var(--line);
-  border-radius:20px;overflow:hidden;margin-bottom:14px;
-}
-.acc-cover{
-  height:56px;
-  background:linear-gradient(135deg,var(--green4),var(--bg2));
-}
-.acc-av-wrap{position:relative;height:0;}
-.acc-av{
-  position:absolute;top:-28px;left:22px;
-  width:56px;height:56px;border-radius:15px;
-  background:linear-gradient(135deg,var(--green3),var(--green2));
-  display:flex;align-items:center;justify-content:center;
-  font-family:var(--serif);font-size:22px;color:#fff;
-  border:3px solid var(--card);
-  box-shadow:0 4px 18px rgba(45,206,130,.22);
-}
-.acc-info{padding:38px 22px 18px;}
-.acc-nm{font-family:var(--serif);font-size:20px;font-weight:700;color:var(--ivory);margin-bottom:2px;}
-.acc-em{font-size:12px;color:var(--iv3);}
-.acc-plan-badge{
-  display:inline-flex;align-items:center;gap:5px;margin-top:9px;
-  background:var(--gold2);border:1px solid rgba(200,168,75,.22);
-  border-radius:20px;padding:4px 12px;
-  font-size:11px;font-weight:700;color:var(--gold);
-}
-
-.acc-list{
-  background:var(--card);border:1px solid var(--line);
-  border-radius:16px;margin-bottom:14px;overflow:hidden;
-}
-.acc-row{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:15px 18px;border-bottom:1px solid var(--line);
-  transition:background .15s;
-}
-.acc-row:last-child{border:none;}
-.acc-row.tap{cursor:pointer;}
-.acc-row.tap:hover{background:rgba(255,255,255,.02);}
-.ar-l{display:flex;align-items:center;gap:13px;}
-.ar-ico{font-size:17px;width:20px;text-align:center;}
-.ar-title{font-size:14px;font-weight:600;color:var(--ivory);}
-.ar-sub{font-size:11px;color:var(--iv4);margin-top:1px;}
-.ar-val{font-family:var(--mono);font-size:13px;color:var(--green);font-weight:500;}
-.ar-r{font-size:13px;color:var(--iv3);}
-.ar-arr{font-size:16px;color:var(--iv4);}
-
-.acc-note{
-  background:var(--gold2);border:1px solid rgba(200,168,75,.18);
-  border-radius:14px;padding:16px 18px;margin-bottom:14px;
-}
-.an-t{font-size:13px;font-weight:700;color:var(--gold);margin-bottom:6px;}
-.an-s{font-size:12px;color:var(--iv3);line-height:1.65;}
-
-.btn-so{
-  width:100%;padding:13px;border-radius:12px;
-  background:rgba(224,85,85,.08);border:1px solid rgba(224,85,85,.18);
-  color:var(--red);font-size:13px;font-weight:700;
-  transition:all .15s;
-}
-.btn-so:hover{background:rgba(224,85,85,.14);}
-
-/* WhatsApp settings field */
-.wa-settings{padding:16px 0 4px;}
-.wa-settings-label{font-size:11px;font-weight:700;color:var(--iv4);letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px;}
-.wa-settings-row{display:flex;gap:8px;}
-.wa-input{flex:1;background:var(--bg2);border:1px solid var(--line2);border-radius:8px;padding:10px 12px;font-family:var(--sans);font-size:14px;color:var(--ivory);outline:none;transition:border-color .15s;}
-.wa-input::placeholder{color:var(--iv4);}
-.wa-input:focus{border-color:var(--green3);}
-.wa-save-btn{background:var(--green);color:#fff;font-size:13px;font-weight:700;padding:10px 16px;border-radius:8px;border:none;cursor:pointer;white-space:nowrap;transition:all .15s;}
-.wa-save-btn:hover{background:var(--green2);}
-.wa-saved{font-size:12px;color:var(--green);margin-top:6px;display:none;}
-.wa-saved.show{display:block;}
-
-/* Account field card */
-.acc-field-card{
-  background:var(--card);border:1px solid var(--line);
-  border-radius:16px;padding:20px;margin-bottom:14px;
-}
-.acc-field-title{
-  font-size:11px;font-weight:700;color:var(--iv4);
-  letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px;
-}
-/* Compact Account layout on small phones so fields are visible without scrolling */
-@media(max-width:480px){
-  .acc-wrap{padding:12px;}
-  .acc-cover{height:36px;}
-  .acc-av{width:44px;height:44px;font-size:18px;top:-22px;}
-  .acc-info{padding:28px 16px 12px;}
-  .acc-nm{font-size:17px;}
-  .acc-field-card{padding:14px;margin-bottom:10px;}
-  .acc-field-title{margin-bottom:10px;}
-  .acc-profile{margin-bottom:10px;}
-  .btn-so{padding:11px;}
-}
-
-/* Seal intro — product description paragraph */
-.seal-intro{
-  background:rgba(45,206,130,.04);border:1px solid rgba(45,206,130,.12);
-  border-radius:14px;padding:15px 17px;margin-bottom:14px;
-}
-.seal-intro p{font-size:13px;color:var(--iv3);line-height:1.75;margin:0;}
-
-/* ── INDEPENDENT VERIFICATION BOX ── */
-.cert-verify-box{
-  margin-top:14px;padding:16px;
-  background:var(--bg);
-  border:1.5px solid rgba(45,206,130,.3);
-  border-radius:14px;
-}
-.cvb-head{
-  display:flex;align-items:center;gap:8px;
-  margin-bottom:10px;
-}
-.cvb-badge{
-  font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
-  color:var(--green2);background:rgba(45,206,130,.1);
-  border:1px solid rgba(45,206,130,.25);
-  padding:3px 8px;border-radius:10px;flex-shrink:0;
-}
-.cvb-title{font-size:11px;font-weight:700;color:var(--ivory);}
-.cvb-body{
-  display:flex;gap:14px;align-items:flex-start;
-}
-.cvb-text{flex:1;min-width:0;}
-.cvb-url-label{font-size:10px;color:var(--iv4);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px;}
-.cvb-url{
-  font-family:var(--mono);font-size:10px;color:var(--green);
-  word-break:break-all;line-height:1.5;margin-bottom:8px;
-}
-.cvb-note{font-size:11px;color:var(--iv3);line-height:1.55;}
-.cvb-qr{flex-shrink:0;width:150px;height:150px;border-radius:8px;overflow:hidden;background:var(--card);}
-.cvb-qr img{width:150px!important;height:150px!important;display:block;}
-.cvb-txid-row{margin-top:8px;}
-.cvb-txid-label{font-size:10px;color:var(--iv4);text-transform:uppercase;letter-spacing:.08em;margin-bottom:3px;}
-.cvb-txid{font-family:var(--mono);font-size:9px;color:var(--green);word-break:break-all;line-height:1.6;}
-
-/* ── UPGRADE OVERLAY ── */
-#pg-upgrade{
-  display:none;position:fixed;inset:0;z-index:200;
-  background:var(--bg);
-  flex-direction:column;align-items:center;justify-content:center;
-  padding:40px 28px;text-align:center;
-}
-#pg-upgrade.show{display:flex;}
-.upg-icon{font-size:44px;margin-bottom:20px;}
-.upg-h{font-family:var(--serif);font-size:22px;font-weight:700;color:var(--ivory);margin-bottom:12px;line-height:1.3;}
-.upg-sub{font-size:14px;color:var(--iv3);line-height:1.65;max-width:300px;margin-bottom:32px;}
-.upg-btn{
-  display:inline-flex;align-items:center;gap:8px;
-  background:var(--green);color:#fff;
-  font-size:15px;font-weight:700;
-  padding:14px 28px;border-radius:12px;
-  text-decoration:none;
-  box-shadow:0 8px 28px rgba(45,206,130,.35);
-  transition:all .15s;
-}
-.upg-btn:hover{background:var(--green2);transform:translateY(-1px);}
-.upg-note{font-size:12px;color:var(--iv4);margin-top:16px;}
-.upg-back{
-  margin-top:14px;background:none;border:none;
-  color:var(--iv4);font-size:13px;cursor:pointer;
-  text-decoration:underline;text-underline-offset:3px;
-  transition:color .15s;
-}
-.upg-back:hover{color:var(--iv3);}
-
-/* ── WELCOME FOOTER ── */
-.wl-footer{
-  margin-top:28px;padding-top:20px;
-  border-top:1px solid var(--line);
-  width:100%;max-width:360px;
-  text-align:center;
-}
-.wl-footer-copy{
-  font-size:10px;color:var(--iv4);
-  margin-bottom:8px;
-}
-.wl-footer-links{
-  display:flex;flex-wrap:wrap;justify-content:center;gap:6px 14px;
-}
-.wl-footer-links a{
-  font-size:11px;color:var(--iv3);text-decoration:none;
-  transition:color .15s;
-}
-.wl-footer-links a:hover{color:var(--green2);}
-
-/* ═══════════════════════════════════════
-   TOASTS
-═══════════════════════════════════════ */
-/* ────────────────────────────
-   CERT VIEW MODAL
-──────────────────────────── */
-#cert-modal{
-  position:fixed;inset:0;z-index:9999;
-  background:rgba(0,0,0,.93);
-  display:flex;flex-direction:column;
-  opacity:0;pointer-events:none;
-  transition:opacity .22s var(--ease);
-}
-#cert-modal.open{opacity:1;pointer-events:all;}
-#cert-modal-close{
-  position:absolute;top:12px;right:14px;
-  font-size:22px;line-height:1;color:var(--ivory);
-  background:rgba(255,255,255,.13);
-  border:1px solid rgba(255,255,255,.18);
-  border-radius:50%;width:40px;height:40px;
-  cursor:pointer;z-index:2;
-  display:flex;align-items:center;justify-content:center;
-  transition:background .15s;
-}
-#cert-modal-close:hover{background:rgba(255,255,255,.24);}
-#cert-modal iframe{
-  flex:1;width:100%;border:none;
-  background:#fff;
-}
-
-.toast-tray{
-  position:fixed;bottom:78px;left:0;right:0;
-  z-index:9000;padding:0 16px;
-  display:flex;flex-direction:column;align-items:center;gap:8px;
   pointer-events:none;
 }
-.toast{
-  background:var(--edge);border:1px solid var(--line2);
-  border-radius:14px;padding:12px 16px;
-  display:flex;align-items:flex-start;gap:10px;
-  box-shadow:0 8px 36px rgba(0,0,0,.5);
-  max-width:400px;width:100%;pointer-events:all;
-  animation:toastUp .3s var(--bounce);
-  transition:opacity .25s,transform .25s;
+.hero-cta:hover{transform:translateY(-3px);box-shadow:0 18px 52px rgba(184,134,11,.48);}
+
+.hero-note{margin-top:18px;font-size:12px;color:var(--iv4);}
+.hero-note a{color:var(--gold3);text-decoration:none;font-weight:600;}
+.hero-note a:hover{color:var(--gold2);}
+
+/* Gold rule */
+.gold-rule{
+  width:70px;height:1px;margin:0 auto;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
 }
-@keyframes toastUp{from{opacity:0;transform:translateY(14px) scale(.95);}to{opacity:1;transform:none;}}
-.t-ico{font-size:16px;flex-shrink:0;margin-top:1px;}
-.t-title{font-size:13px;font-weight:700;color:var(--ivory);}
-.t-msg{font-size:11px;color:var(--iv3);margin-top:2px;line-height:1.4;}
+
+/* ══════════════════════════════
+   NUMBER BAR
+══════════════════════════════ */
+.num-bar{
+  background:var(--bg2);
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+  padding:32px 28px;
+}
+.num-inner{
+  max-width:940px;margin:0 auto;
+  display:flex;justify-content:center;flex-wrap:wrap;gap:0;
+}
+.num-stat{
+  padding:14px 40px;
+  border-right:1px solid var(--line);
+  flex:1;min-width:160px;text-align:center;
+}
+.num-stat:last-child{border-right:none;}
+.num-val{
+  font-family:var(--serif);
+  font-size:clamp(22px,3.5vw,36px);
+  font-weight:700;line-height:1;margin-bottom:8px;
+}
+.num-val.gold{color:var(--gold2);}
+.num-val.red{color:var(--red);}
+.num-val.green{color:var(--gold);}
+.num-lbl{
+  font-size:10px;color:var(--iv3);
+  font-weight:600;letter-spacing:.6px;
+  text-transform:uppercase;line-height:1.45;
+}
+
+/* ══════════════════════════════
+   AUDIENCE TABS
+══════════════════════════════ */
+.audience-bar{
+  background:rgba(4,15,8,.95);
+  border-bottom:1px solid var(--line);
+  padding:0 28px;
+  display:flex;justify-content:center;
+  position:sticky;top:57px;z-index:90;
+  backdrop-filter:blur(16px);
+}
+.aud-tab{
+  padding:20px 36px;
+  font-size:13px;font-weight:600;
+  color:var(--iv3);
+  border-bottom:2px solid transparent;
+  cursor:pointer;transition:all .2s;
+  white-space:nowrap;background:none;
+  border-top:none;border-left:none;border-right:none;
+  font-family:var(--sans);letter-spacing:.01em;
+}
+.aud-tab:hover{color:var(--iv2);}
+.aud-tab.on{color:var(--gold2);border-bottom-color:var(--gold);}
+
+/* ══════════════════════════════
+   SECTIONS
+══════════════════════════════ */
+.section{max-width:900px;margin:0 auto;padding:80px 28px;}
+.section-eyebrow{
+  font-size:10px;font-weight:700;letter-spacing:3px;
+  text-transform:uppercase;color:var(--gold3);margin-bottom:14px;
+}
+.section-eyebrow.gold{color:var(--gold2);}
+.section-h2{
+  font-family:var(--serif);
+  font-size:clamp(24px,4.2vw,40px);
+  font-weight:700;line-height:1.14;
+  color:var(--ivory);margin-bottom:18px;letter-spacing:-.2px;
+}
+.section-h2 em{
+  font-style:italic;
+  background:linear-gradient(135deg,var(--gold2),var(--gold3));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.section-lead{
+  font-size:16px;color:var(--iv3);
+  line-height:1.78;font-weight:300;
+  max-width:650px;margin-bottom:36px;
+}
+.section-lead strong{color:var(--ivory);font-weight:600;}
+
+.aud-section{border-top:1px solid var(--line);}
+
+/* ══════════════════════════════
+   NEW BROKER LAYOUT
+══════════════════════════════ */
+.new-broker-layout{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:40px;align-items:start;margin-top:8px;
+}
+@media(max-width:680px){.new-broker-layout{grid-template-columns:1fr;}}
+
+.pitch-card{
+  background:var(--card2);
+  border:1px solid var(--line2);
+  border-left:3px solid var(--gold);
+  border-radius:14px;padding:30px 28px;
+}
+.pitch-label{
+  font-size:9px;font-weight:700;letter-spacing:2.5px;
+  text-transform:uppercase;color:var(--gold3);margin-bottom:16px;
+}
+.pitch-quote{
+  font-family:var(--serif);font-size:18px;font-style:italic;
+  color:var(--ivory);line-height:1.55;margin-bottom:18px;
+}
+.pitch-quote::before{content:'\201C';color:var(--gold2);font-size:28px;line-height:0;vertical-align:-.45em;margin-right:4px;}
+.pitch-quote::after{content:'\201D';color:var(--gold2);font-size:28px;line-height:0;vertical-align:-.45em;margin-left:4px;}
+.pitch-note{font-size:12px;color:var(--iv3);}
+
+.advantage-list{display:flex;flex-direction:column;gap:12px;margin-top:4px;}
+.adv-item{
+  background:var(--card);border:1px solid var(--line);
+  border-radius:12px;padding:18px 20px;
+  display:flex;gap:14px;align-items:flex-start;
+  transition:border-color .2s,background .2s;
+}
+.adv-item:hover{border-color:var(--line2);background:var(--card2);}
+.adv-ico{font-size:19px;flex-shrink:0;margin-top:1px;}
+.adv-title{font-size:13px;font-weight:700;color:var(--ivory);margin-bottom:4px;}
+.adv-desc{font-size:12px;color:var(--iv3);line-height:1.58;}
+
+/* ══════════════════════════════
+   ESTABLISHED BROKER LAYOUT
+══════════════════════════════ */
+.est-layout{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:40px;align-items:start;margin-top:8px;
+}
+@media(max-width:680px){.est-layout{grid-template-columns:1fr;}}
+
+.ruling-card{
+  background:rgba(192,57,43,.05);
+  border:1px solid rgba(192,57,43,.22);
+  border-left:3px solid var(--red);
+  border-radius:14px;padding:30px 28px;
+}
+.ruling-label{
+  font-size:9px;font-weight:700;letter-spacing:2px;
+  text-transform:uppercase;color:var(--red);
+  margin-bottom:14px;opacity:.85;
+}
+.ruling-amount{
+  font-family:var(--serif);
+  font-size:clamp(34px,5vw,52px);
+  font-weight:700;color:var(--red);line-height:1;margin-bottom:10px;
+}
+.ruling-desc{font-size:13px;color:var(--iv2);line-height:1.68;margin-bottom:18px;}
+.ruling-resolution{
+  background:rgba(184,134,11,.08);
+  border:1px solid var(--line2);
+  border-radius:8px;padding:12px 14px;
+  font-size:12px;color:var(--gold2);font-weight:600;
+}
+
+.protect-list{display:flex;flex-direction:column;gap:12px;margin-top:4px;}
+.prot-item{
+  background:var(--card);border:1px solid var(--line);
+  border-radius:12px;padding:16px 20px;
+  display:flex;gap:12px;align-items:center;
+  transition:border-color .2s;
+}
+.prot-item:hover{border-color:var(--line2);}
+.prot-check{
+  width:24px;height:24px;border-radius:50%;flex-shrink:0;
+  background:rgba(184,134,11,.10);
+  border:1px solid var(--line2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;color:var(--gold2);
+}
+.prot-text{font-size:13px;color:var(--iv2);font-weight:500;}
+
+/* ══════════════════════════════
+   WHAT TO SEAL
+══════════════════════════════ */
+.seal-bg{
+  background:var(--bg2);
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+  padding:80px 28px;
+}
+.seal-inner{max-width:900px;margin:0 auto;}
+.seal-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(255px,1fr));
+  gap:14px;margin-top:44px;
+}
+.seal-card{
+  background:var(--card);border:1px solid var(--line);
+  border-radius:14px;padding:24px 26px;
+  display:flex;gap:16px;align-items:flex-start;
+  transition:all .22s var(--ease);
+  position:relative;overflow:hidden;
+}
+.seal-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  opacity:0;transition:opacity .25s;
+}
+.seal-card:hover{
+  border-color:var(--line2);background:var(--card2);
+  transform:translateY(-2px);box-shadow:var(--shadow-card);
+}
+.seal-card:hover::before{opacity:1;}
+.seal-ico{
+  width:38px;height:38px;border-radius:10px;flex-shrink:0;
+  background:var(--gold-glow2);border:1px solid var(--line);
+  display:flex;align-items:center;justify-content:center;font-size:17px;
+}
+.seal-title{font-size:14px;font-weight:700;color:var(--ivory);margin-bottom:6px;}
+.seal-desc{font-size:12px;color:var(--iv3);line-height:1.58;}
+
+/* ══════════════════════════════
+   PRICING
+══════════════════════════════ */
+.pricing-section{padding:80px 28px;border-top:1px solid var(--line);}
+.pricing-inner{max-width:900px;margin:0 auto;}
+.pricing-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(215px,1fr));
+  gap:16px;margin-top:16px;margin-bottom:16px;
+}
+
+.price-card{
+  background:var(--card);border:1px solid var(--line);
+  border-radius:16px;padding:28px 24px;
+  display:flex;flex-direction:column;gap:8px;
+  transition:all .2s var(--ease);
+}
+.price-card:hover{border-color:var(--line2);background:var(--card2);}
+.price-card.featured{
+  background:var(--card2);
+  border:1.5px solid var(--gold3);
+  position:relative;overflow:hidden;
+}
+.price-card.featured::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--gold3),var(--gold2),var(--gold3));
+}
+.price-tier{
+  font-size:10px;font-weight:700;letter-spacing:2.5px;
+  text-transform:uppercase;color:var(--iv3);
+}
+.price-card.featured .price-tier{color:var(--gold2);}
+.price-amount{
+  font-family:var(--serif);font-size:34px;
+  font-weight:700;color:var(--ivory);line-height:1;
+}
+.price-amount span{font-size:15px;font-weight:400;color:var(--iv3);}
+.price-desc{font-size:13px;color:var(--iv3);line-height:1.62;margin-top:4px;}
+.price-desc strong{color:var(--ivory);}
+.price-cancel{margin-top:auto;padding-top:14px;font-size:11px;color:var(--gold3);}
+
+/* ══════════════════════════════
+   PROOF NUMBERS
+══════════════════════════════ */
+.proof-section{
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 50%, rgba(184,134,11,.04) 0%, transparent 70%),
+    var(--bg);
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+  padding:80px 28px;text-align:center;
+}
+.proof-inner{max-width:720px;margin:0 auto;}
+.proof-h2{
+  font-family:var(--serif);
+  font-size:clamp(24px,4.2vw,38px);
+  font-weight:700;line-height:1.18;
+  color:var(--ivory);margin-bottom:32px;
+}
+.proof-h2 em{
+  font-style:italic;
+  background:linear-gradient(135deg,var(--gold2),var(--gold3));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.proof-chips{
+  display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-bottom:40px;
+}
+.chip{
+  background:var(--card);border:1px solid var(--line);
+  border-radius:12px;padding:16px 24px;text-align:center;
+  transition:border-color .2s;
+}
+.chip:hover{border-color:var(--line2);}
+.chip-val{
+  font-size:clamp(18px,3vw,28px);font-weight:700;
+  font-family:var(--serif);color:var(--red);margin-bottom:5px;
+}
+.chip-lbl{font-size:10px;color:var(--iv3);text-transform:uppercase;letter-spacing:.6px;}
+.chip.gold .chip-val{color:var(--gold2);}
+
+/* ══════════════════════════════
+   GROUP / CEO SECTION
+══════════════════════════════ */
+.group-card{
+  background:rgba(184,134,11,.05);
+  border:1px solid var(--line2);
+  border-left:3px solid var(--gold);
+  border-radius:14px;padding:34px 38px;
+  max-width:620px;margin-top:12px;
+}
+.group-card-eyebrow{
+  font-size:9px;font-weight:700;letter-spacing:2.5px;
+  text-transform:uppercase;color:var(--gold2);margin-bottom:16px;
+}
+.group-card p{font-size:15px;color:var(--iv2);line-height:1.78;margin-bottom:20px;}
+.group-contact{display:flex;flex-direction:column;gap:10px;}
+.group-contact a{
+  font-size:14px;color:var(--gold2);text-decoration:none;
+  font-weight:600;transition:color .2s;
+}
+.group-contact a:hover{color:var(--gold2);text-decoration:underline;}
+
+/* ══════════════════════════════
+   FAQ
+══════════════════════════════ */
+.faq-list{margin-top:44px;display:flex;flex-direction:column;gap:2px;}
+.faq-item{background:var(--card);border:1px solid var(--line);}
+.faq-item:first-child{border-radius:14px 14px 0 0;}
+.faq-item:last-child{border-radius:0 0 14px 14px;}
+.faq-q{
+  width:100%;padding:22px 26px;
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  font-size:15px;font-weight:600;color:var(--ivory);text-align:left;
+  cursor:pointer;background:none;border:none;font-family:var(--sans);
+  transition:background .15s;
+}
+.faq-q:hover{background:rgba(184,134,11,.04);}
+.faq-arrow{font-size:11px;color:var(--gold3);flex-shrink:0;transition:transform .25s var(--ease);}
+.faq-item.open .faq-arrow{transform:rotate(180deg);}
+.faq-item.open .faq-q{color:var(--gold2);}
+.faq-a{
+  display:none;
+  padding:0 26px 22px;padding-top:18px;
+  font-size:14px;color:var(--iv3);line-height:1.76;
+  border-top:1px solid var(--line);
+}
+.faq-item.open .faq-a{display:block;}
+
+/* ══════════════════════════════
+   FINAL CTA
+══════════════════════════════ */
+.final-cta{
+  padding:90px 28px;text-align:center;
+  background:
+    radial-gradient(ellipse 100% 80% at 50% 100%, rgba(184,134,11,.05) 0%, transparent 65%),
+    var(--bg2);
+  border-top:1px solid var(--line);
+}
+.final-inner{max-width:620px;margin:0 auto;}
+.final-h2{
+  font-family:var(--serif);
+  font-size:clamp(26px,5.5vw,46px);
+  font-weight:700;line-height:1.1;
+  color:var(--ivory);margin-bottom:18px;letter-spacing:-.3px;
+}
+.final-h2 em{
+  font-style:italic;
+  background:linear-gradient(135deg,var(--gold2),var(--gold3));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.final-sub{font-size:17px;color:var(--iv3);line-height:1.68;font-weight:300;margin-bottom:36px;}
+.final-btn{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:20px 52px;border-radius:13px;
+  background:linear-gradient(135deg,var(--gold3) 0%,var(--gold2) 50%,var(--gold3) 100%);
+  font-size:16px;font-weight:700;color:var(--bg);
+  text-decoration:none;letter-spacing:.02em;
+  box-shadow:0 12px 44px rgba(184,134,11,.38);
+  transition:all .24s var(--ease);position:relative;overflow:hidden;
+}
+.final-btn::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(255,255,255,.14),transparent);
+  pointer-events:none;
+}
+.final-btn:hover{transform:translateY(-3px);box-shadow:0 20px 58px rgba(184,134,11,.52);}
+.final-note{margin-top:18px;font-size:11px;color:var(--iv4);}
+
+/* ══════════════════════════════
+   FOOTER
+══════════════════════════════ */
+.footer{
+  padding:28px 28px;
+  border-top:1px solid var(--line);
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;
+  background:var(--bg);
+}
+.footer-brand{font-family:var(--serif);font-size:15px;color:var(--iv3);}
+.footer-brand b{color:var(--gold3);}
+.footer-links{display:flex;gap:22px;flex-wrap:wrap;}
+.footer-links a{font-size:12px;color:var(--iv4);text-decoration:none;transition:color .15s;}
+.footer-links a:hover{color:var(--gold2);}
+
+/* ══════════════════════════════
+   MOBILE
+══════════════════════════════ */
+@media(max-width:640px){
+  .hero{padding:60px 20px 60px;}
+  .section{padding:56px 20px;}
+  .seal-bg{padding:56px 20px;}
+  .proof-section{padding:56px 20px;}
+  .final-cta{padding:60px 20px;}
+  .pricing-section{padding:56px 20px;}
+  .num-stat{border-right:none;border-bottom:1px solid var(--line);padding:16px 20px;}
+  .num-stat:last-child{border-bottom:none;}
+  .aud-tab{padding:15px 18px;font-size:12px;}
+  .hero-cta,.final-btn{width:100%;justify-content:center;padding:18px 28px;}
+  .group-card{padding:24px 20px;}
+  .nav{padding:14px 20px;}
+}
 </style>
 </head>
 <body>
 
-<!-- ═══════════════════════════════════
-     WELCOME / AUTH
-═══════════════════════════════════ -->
-<div class="page visible" id="pg-welcome">
-  <div class="sigil">
-    <div class="orb-1 orb"><div class="orb-dot"></div></div>
-    <div class="orb-2 orb"><div class="orb-dot"></div></div>
-    <div class="orb-3 orb"></div>
-    <div class="sigil-core">✦</div>
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-brand">
+    <div class="nav-brand-icon">🔏</div>
+    <span>Dox</span>Seal
   </div>
-
-  <h1 class="wl-h1">DoxSeal</h1>
-  <div class="wl-eyebrow">Document Validation &amp; Timestamp Authority</div>
-  <p class="wl-desc">Tamper-proof. Court-ready. Independently verifiable.</p>
-  <p class="wl-product">Every document you validate receives a permanent cryptographic timestamp — independently verifiable by any court, tribunal or commissioner. Powered by blockchain technology. Admissible under ECT Act 25 of 2002.</p>
-
-  <div class="live-bar">
-    <div class="live-dot"></div>
-    <span class="live-txt">Live blockchain</span>
-    <span class="live-sep">·</span>
-    <span class="live-stat">Free to start</span>
-    <span class="live-sep">·</span>
-    <span class="live-stat">Under R0.003 per seal</span>
-  </div>
-
-  <div class="auth-tabs">
-    <button class="at-tab on" id="at-in" onclick="authTab('in')">Sign In</button>
-    <button class="at-tab"    id="at-up" onclick="authTab('up')">Get Started Free</button>
-  </div>
-
-  <div class="auth-err" id="auth-err"></div>
-
-  <!-- SIGN IN -->
-  <div class="auth-form" id="f-in">
-    <div class="af-row">
-      <div class="af-label">Email address</div>
-      <input class="af-input" type="email" id="in-em" placeholder="you@yourwork.com"
-        autocomplete="email" onkeydown="if(event.key==='Enter')doLogin()">
-    </div>
-    <div class="af-row">
-      <div class="af-label">Password</div>
-      <div class="af-pw-wrap">
-        <input class="af-input" type="password" id="in-pw" placeholder="••••••••"
-          autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()">
-        <button class="af-pw-toggle" type="button" onclick="togglePass('in-pw',this)" aria-label="Show password">👁</button>
-      </div>
-    </div>
-    <button class="btn-go" id="btn-in" onclick="doLogin()">Sign In →</button>
-    <p class="auth-note">Demo: <strong>demo@doxseal.co.za</strong> / demo123</p>
-    <p class="fp-link"><a href="#" onclick="showForgotPass();return false;">Forgot password?</a></p>
-    <!-- Forgot password panel -->
-    <div id="fp-panel" style="display:none">
-      <div class="af-row" style="margin-bottom:10px">
-        <div class="af-label">Enter your email address</div>
-        <input class="af-input" type="email" id="fp-em" placeholder="you@yourwork.com" autocomplete="email">
-      </div>
-      <button class="btn-go" onclick="lookupPass()">Find my password</button>
-      <div id="fp-result" style="display:none" class="fp-result"></div>
-    </div>
-    <p class="auth-note" style="margin-top:10px;border-top:1px solid var(--line2);padding-top:10px;">
-      New to DoxSeal? <a href="https://doxseal.co.za/trial" style="color:var(--green);font-weight:600;text-decoration:none;">Start your free trial →</a>
-    </p>
-  </div>
-
-  <!-- SIGN UP -->
-  <div class="auth-form" id="f-up" style="display:none">
-    <div class="af-row">
-      <div class="af-label">Your name</div>
-      <input class="af-input" type="text" id="up-nm" placeholder="Jane Smith" autocomplete="name">
-    </div>
-    <div class="af-row">
-      <div class="af-label">Email address</div>
-      <input class="af-input" type="email" id="up-em" placeholder="you@yourwork.com" autocomplete="email">
-    </div>
-    <div class="af-row">
-      <div class="af-label">Choose a password</div>
-      <div class="af-pw-wrap">
-        <input class="af-input" type="password" id="up-pw" placeholder="Min. 8 characters" autocomplete="new-password">
-        <button class="af-pw-toggle" type="button" onclick="togglePass('up-pw',this)" aria-label="Show password">👁</button>
-      </div>
-    </div>
-    <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:12px;padding:12px 14px;background:rgba(45,206,130,.04);border:1px solid rgba(100,200,120,.16);border-radius:8px;">
-      <input type="checkbox" id="up-consent" style="margin-top:3px;flex-shrink:0;width:16px;height:16px;accent-color:#23b06d;cursor:pointer;">
-      <label for="up-consent" style="font-size:12px;color:rgba(242,237,228,.42);line-height:1.55;cursor:pointer;">I agree to the <a href="terms.html" target="_blank" style="color:#23b06d;text-decoration:none;">Terms &amp; Conditions</a> and <a href="privacy.html" target="_blank" style="color:#23b06d;text-decoration:none;">Privacy Policy</a></label>
-    </div>
-    <button class="btn-go" id="btn-up" onclick="doSignup()">✦ Create Free Account</button>
-    <p class="auth-note">Every document permanently protected and verifiable.</p>
-  </div>
-
-  <div class="trust-row">
-    <div class="trust-item"><div class="trust-ico">🔐</div><div class="trust-txt">Tamper-<br>proof</div></div>
-    <div class="trust-item"><div class="trust-ico">⏱</div><div class="trust-txt">Instantly<br>timestamped</div></div>
-    <div class="trust-item"><div class="trust-ico">⚖️</div><div class="trust-txt">Legally<br>verifiable</div></div>
-  </div>
-
-  <footer class="wl-footer">
-    <div class="wl-footer-copy">© 2026 Orsolso Trader t/a DoxSeal</div>
-    <div class="wl-footer-links">
-      <a href="terms.html">Terms &amp; Conditions</a>
-      <a href="privacy.html">Privacy Policy</a>
-      <a href="legal.html">Full Legal Docs</a>
-      <a href="mailto:hello@doxseal.co.za">hello@doxseal.co.za</a>
-    </div>
-  </footer>
-</div>
-
-<!-- ═══════════════════════════════════
-     MAIN APP
-═══════════════════════════════════ -->
-<div class="page hidden" id="pg-app">
-
-  <div class="app-hdr">
-    <button class="hdr-brand" onclick="goTab('home')">Dox<b>Seal</b></button>
-    <div class="hdr-right">
-      <div class="hdr-bal" title="Your sealing credits">
-        ✦ <span id="hdr-cred">—</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="app-body">
-
-    <!-- HOME -->
-    <div class="tab on" id="t-home">
-      <div class="home-hero">
-        <div style="display:flex;align-items:flex-start;justify-content:space-between;">
-          <div>
-            <div class="home-greet" id="h-greet">Good morning</div>
-            <div class="home-name" id="h-name">Welcome back <em>—</em></div>
-          </div>
-          <button onclick="doSignOut()" style="background:rgba(224,85,85,.10);border:1px solid rgba(224,85,85,.25);color:#e05555;font-size:11px;font-weight:700;cursor:pointer;padding:4px 10px;margin-top:2px;border-radius:6px;font-family:var(--sans);letter-spacing:.03em;">Sign out</button>
-        </div>
-        <div class="cred-pod">
-          <div class="cp-inner">
-            <div class="cp-lbl">Available Credits</div>
-            <div class="cp-val" id="cp-val">—</div>
-            <div class="cp-sub" id="cp-sub">Loading…</div>
-            <div class="cp-track"><div class="cp-fill" id="cp-fill" style="width:80%"></div></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Settings fields — always visible on Home -->
-      <div style="margin:0 16px 16px;padding:16px;background:var(--card);border:1px solid var(--line);border-radius:12px;">
-        <div style="font-size:11px;font-weight:700;color:var(--iv3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px;">Your Profile</div>
-        <label style="display:block;font-size:12px;color:var(--iv3);margin-bottom:4px;">Company or Practice Name</label>
-        <input id="co-input" type="text" placeholder="e.g. ABC Financial Services" autocomplete="organization"
-          style="display:block;width:100%;box-sizing:border-box;padding:10px 12px;font-size:14px;border-radius:8px;border:1px solid var(--line2);background:var(--bg2);color:var(--ivory);font-family:var(--sans);outline:none;margin-bottom:8px;">
-        <button onclick="saveCompany()"
-          style="width:100%;padding:10px;background:var(--green);color:#fff;font-size:13px;font-weight:700;border:none;border-radius:8px;cursor:pointer;margin-bottom:14px;">Save Company Name</button>
-        <div id="co-saved" class="wa-saved">Saved ✓</div>
-        <label style="display:block;font-size:12px;color:var(--iv3);margin-bottom:4px;">WhatsApp Number (with country code)</label>
-        <input id="wa-input" type="tel" placeholder="+27 82 123 4567" autocomplete="tel"
-          style="display:block;width:100%;box-sizing:border-box;padding:10px 12px;font-size:14px;border-radius:8px;border:1px solid var(--line2);background:var(--bg2);color:var(--ivory);font-family:var(--sans);outline:none;margin-bottom:8px;">
-        <button onclick="saveWhatsApp()"
-          style="width:100%;padding:10px;background:var(--green);color:#fff;font-size:13px;font-weight:700;border:none;border-radius:8px;cursor:pointer;">Save WhatsApp Number</button>
-        <div id="wa-saved" class="wa-saved">Saved ✓</div>
-      </div>
-
-      <div class="qa-grid">
-        <button class="qa-btn big" onclick="goTab('seal')">
-          <div class="qa-big-ico">✦</div>
-          <div class="qa-big-body">
-            <div class="qa-title">Validate Document</div>
-            <div class="qa-sub">Create a permanent legal record</div>
-          </div>
-          <div class="qa-big-arrow">›</div>
-        </button>
-      </div>
-
-      <div class="stats-strip">
-        <div class="stat">
-          <div class="stat-n g" id="st-sealed">0</div>
-          <div class="stat-l">Sealed</div>
-        </div>
-        <div class="stat">
-          <div class="stat-n au" id="st-verified">0</div>
-          <div class="stat-l">Verified</div>
-        </div>
-      </div>
-
-      <div class="sec-label">Recent Activity</div>
-      <div class="recent-wrap" id="home-recent"></div>
-    </div>
-
-    <!-- SEAL -->
-    <div class="tab" id="t-seal">
-      <div class="seal-wrap">
-        <div class="seal-hero">
-          <div class="sh-title">Validate Document</div>
-          <div class="sh-sub">Create a permanent, tamper-proof record — timestamped and independently verifiable by any party.</div>
-        </div>
-
-        <div class="s-field">
-          <div class="s-field-lbl">Who is this for?</div>
-          <input type="email" id="sf-to" placeholder="their@email.com" autocomplete="off">
-        </div>
-
-        <div class="s-field">
-          <div class="s-field-lbl">What is this about?</div>
-          <input type="text" id="sf-subj" placeholder="e.g. Invoice confirmation · Agreement · Notice…">
-          <div class="s-field-foot">
-            <span style="color:var(--iv4)">Keep it brief and clear</span>
-            <span class="s-field-hint" onclick="showExamples()">See examples</span>
-          </div>
-        </div>
-
-        <div class="s-field">
-          <div class="s-field-lbl">Your message</div>
-          <textarea id="sf-msg" rows="5"
-            placeholder="Type exactly what you want protected. This text will be permanently sealed — word for word, as written."
-            oninput="onMsgType()"></textarea>
-          <div class="s-field-foot">
-            <span style="color:var(--iv4)">Write naturally — plain language works best</span>
-            <span id="sf-cc">0 / 460</span>
-          </div>
-        </div>
-
-        <!-- File upload -->
-        <div class="file-or">or seal a file instead</div>
-
-        <div class="file-zone" id="file-zone"
-          ondragover="fzDrag(event,true)" ondragleave="fzDrag(event,false)" ondrop="fzDrop(event)">
-          <input type="file" id="file-input"
-            accept=".pdf,.jpg,.jpeg,.png,.gif,.bmp,.webp,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.csv,.zip,.mp4,.mov"
-            onchange="onFileSelect(this)">
-          <div class="fz-ico">📎</div>
-          <div class="fz-title">Upload a file to seal</div>
-          <div class="fz-sub">PDF · Image · Word · Excel · Any file type · Max 500 MB</div>
-          <div class="fz-privacy">🔒 Your file never leaves this device — only a unique fingerprint is sealed on the blockchain</div>
-        </div>
-
-        <div class="file-ready" id="file-ready">
-          <div class="fr-top">
-            <div class="fr-name" id="fr-name">—</div>
-            <span class="fr-badge">File sealed</span>
-          </div>
-          <div class="fr-hash" id="fr-hash"></div>
-          <div class="fr-status" id="fr-status">Generating fingerprint…</div>
-          <button class="btn-clear-file" onclick="clearFile()">✕ Remove file</button>
-        </div>
-
-        <div class="cost-line">
-          <span class="cl-l">Cost to seal</span>
-          <span class="cl-r">1 credit · approx R0.003</span>
-        </div>
-
-        <button class="btn-seal" id="btn-seal" onclick="doSeal()">
-          ✦ Validate &amp; Seal Document
-        </button>
-      </div>
-    </div>
-
-    <!-- HISTORY -->
-    <div class="tab" id="t-history">
-      <div class="hist-head-row">
-        <div class="hist-head">
-          <div class="hist-title">My Seals</div>
-          <div class="hist-sub">Every document you have sealed — permanently on record</div>
-        </div>
-        <button class="hist-refresh" id="hist-refresh-btn" onclick="refreshHistory()" title="Refresh from server">↻ Refresh</button>
-      </div>
-      <div class="fpills">
-        <button class="fp on" onclick="setFilter('all',this)">All</button>
-        <button class="fp" onclick="setFilter('sent',this)">Sent</button>
-        <button class="fp" onclick="setFilter('received',this)">Received</button>
-        <button class="fp" onclick="setFilter('verified',this)">✓ Verified</button>
-      </div>
-      <div class="hist-list" id="hist-list"></div>
-    </div>
-
-    <!-- ACCOUNT -->
-    <div class="tab" id="t-account">
-      <div style="padding:20px 16px;">
-
-        <div style="font-size:13px;color:var(--iv3);margin-bottom:20px;">
-          Signed in as <strong id="acc-em" style="color:var(--ivory);">—</strong>
-        </div>
-
-        <label style="display:block;font-size:12px;font-weight:700;color:var(--iv3);margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em;">Company or Practice Name</label>
-        <input id="acc-co-input" type="text" placeholder="e.g. ABC Financial Services" autocomplete="organization"
-          style="display:block;width:100%;box-sizing:border-box;padding:12px;font-size:15px;border-radius:8px;border:1px solid rgba(100,200,120,.16);background:var(--bg2);color:var(--ivory);font-family:var(--sans);outline:none;margin-bottom:8px;">
-        <button onclick="accSaveCompany()"
-          style="display:block;width:100%;padding:12px;background:#2dce82;color:#fff;font-size:14px;font-weight:700;border:none;border-radius:8px;cursor:pointer;margin-bottom:6px;">Save Company Name</button>
-        <div id="acc-co-saved" style="display:none;font-size:12px;color:#2dce82;margin-bottom:18px;">Saved ✓</div>
-
-        <label style="display:block;font-size:12px;font-weight:700;color:var(--iv3);margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em;">WhatsApp Number (+27...)</label>
-        <input id="acc-wa-input" type="tel" placeholder="+27 82 123 4567" autocomplete="tel"
-          style="display:block;width:100%;box-sizing:border-box;padding:12px;font-size:15px;border-radius:8px;border:1px solid rgba(100,200,120,.16);background:var(--bg2);color:var(--ivory);font-family:var(--sans);outline:none;margin-bottom:8px;">
-        <button onclick="accSaveWhatsApp()"
-          style="display:block;width:100%;padding:12px;background:#2dce82;color:#fff;font-size:14px;font-weight:700;border:none;border-radius:8px;cursor:pointer;margin-bottom:6px;">Save WhatsApp Number</button>
-        <div id="acc-wa-saved" style="display:none;font-size:12px;color:#2dce82;margin-bottom:24px;">Saved ✓</div>
-
-        <button onclick="doSignOut()"
-          style="display:block;width:100%;padding:13px;border-radius:12px;background:rgba(224,85,85,.08);border:1px solid rgba(224,85,85,.18);color:#e05555;font-size:14px;font-weight:700;cursor:pointer;">Sign Out</button>
-
-        <!-- Hidden elements renderUI needs -->
-        <span id="acc-nm" style="display:none"></span>
-        <span id="acc-av" style="display:none"></span>
-        <span id="acc-plan" style="display:none"></span>
-        <span id="acc-cred" style="display:none"></span>
-        <span id="acc-sealed" style="display:none"></span>
-        <span id="acc-addr" style="display:none"></span>
-
-      </div>
-    </div>
-
-  </div><!-- app-body -->
-
-
-</div>
-
-<!-- Bottom nav — fixed at body level, visible only when pg-app is active -->
-<nav class="app-nav" id="app-nav" style="display:none">
-  <button class="nav-it on" id="nb-home" onclick="goTab('home')">
-    <span class="nav-ico">🏠</span><span class="nav-lbl">Home</span>
-  </button>
-  <button class="nav-it" id="nb-seal" onclick="goTab('seal')">
-    <span class="nav-ico">✦</span><span class="nav-lbl">Validate</span>
-  </button>
-  <button class="nav-it" id="nb-history" onclick="goTab('history')">
-    <span class="nav-ico">📋</span><span class="nav-lbl">My Certs</span>
-  </button>
-  <button class="nav-it" id="nb-account" onclick="goTab('account')" style="display:flex!important">
-    <span class="nav-ico">👤</span><span class="nav-lbl">Account</span>
-  </button>
+  <a href="https://doxseal.co.za/trial" class="nav-cta">Try It Free →</a>
 </nav>
 
-<!-- ═══════════════════════════════════
-     SEALING CEREMONY
-═══════════════════════════════════ -->
-<div class="page hidden" id="pg-sealing">
-  <div class="orbit-wrap">
-    <div class="orb orb-1"><div class="orb-dot"></div></div>
-    <div class="orb orb-2"><div class="orb-dot"></div></div>
-    <div class="orb orb-3"></div>
-    <div class="orb-core">🔐</div>
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eyebrow">
+    <span class="hero-dot"></span>
+    For South African Insurance &amp; Investment Brokers
   </div>
-  <div class="sealing-t">Sealing your message…</div>
-  <div class="sealing-s">This takes just a moment</div>
-  <div class="seal-steps">
-    <div class="ss on" id="ss1"><div class="ss-dot"></div><span>Preparing your document</span></div>
-    <div class="ss" id="ss2"><div class="ss-dot"></div><span>Creating permanent record</span></div>
-    <div class="ss" id="ss3"><div class="ss-dot"></div><span>Seal confirmed</span></div>
-  </div>
-</div>
-
-<!-- ═══════════════════════════════════
-     SUCCESS / CERTIFICATE
-═══════════════════════════════════ -->
-<div class="page hidden" id="pg-success">
-  <div class="app-hdr">
-    <button class="hdr-brand" onclick="goTab('home')">Dox<b>Seal</b></button>
-    <div class="hdr-right">
-      <div class="hdr-bal" title="Your sealing credits">✦ <span id="hdr-cred-s">—</span></div>
-    </div>
-  </div>
-  <div class="suc-inner">
-    <div class="suc-badge">
-      <div class="suc-badge-ring">
-        <div class="suc-badge-ico">✅</div>
-      </div>
-    </div>
-
-    <div class="suc-eye">Certificate of Protection</div>
-    <div class="suc-title">Document Sealed ✓</div>
-    <div class="suc-desc" id="suc-desc">Your document has been permanently recorded and time-stamped — it cannot be altered, deleted or denied.</div>
-
-    <div class="cert">
-      <div class="cert-bar"></div>
-      <div class="cert-body">
-        <div class="cert-head">
-          <div class="cert-head-ico">✦</div>
-          <div>
-            <div class="cert-head-title">DoxSeal Proof Certificate</div>
-            <div class="cert-head-sub">Permanent · Tamper-proof · Independently verifiable</div>
-          </div>
-        </div>
-        <div class="cert-row cert-row-hero"><span class="ck">Protected for</span><span class="cv cv-hero" id="cv-to">—</span></div>
-        <div class="cert-row"><span class="ck">Subject</span><span class="cv" id="cv-subj">—</span></div>
-        <div class="cert-row"><span class="ck">Sealed by</span><span class="cv" id="cv-from">—</span></div>
-        <div class="cert-row" id="cv-filename-row" style="display:none">
-          <span class="ck">File sealed</span>
-          <span class="cv" id="cv-filename" style="display:flex;align-items:center;gap:6px;justify-content:flex-end;flex-wrap:wrap;">—</span>
-        </div>
-        <div class="cert-row-msg" id="cv-msg-row" style="display:none"><span class="ck-msg">Sealed message</span><span class="cv-msg" id="cv-msg"></span></div>
-        <div class="cert-row"><span class="ck">Date &amp; time</span><span class="cv" id="cv-ts">—</span></div>
-        <div class="cert-row"><span class="ck">Privacy mode</span><span class="cv" id="cv-mode">—</span></div>
-        <div class="cert-row"><span class="ck">SHA-256 fingerprint</span><span class="cv m" id="cv-hash">—</span></div>
-        <div class="cert-row"><span class="ck">Transaction ID</span><span class="cv m" id="cv-txid">—</span></div>
-
-        <!-- Independent Verification Box — hidden until real TX -->
-        <div class="cert-verify-box" id="cert-verify-box" style="display:none">
-          <div class="cvb-head">
-            <span class="cvb-badge">Independent Verification</span>
-          </div>
-          <div class="cvb-body">
-            <div class="cvb-text">
-              <div class="cvb-url-label">Verify at</div>
-              <div class="cvb-url" id="cvb-url">—</div>
-              <div class="cvb-note">Verified independently — not through DoxSeal's servers. Cannot be altered by any party.</div>
-              <div class="cvb-txid-row">
-                <div class="cvb-txid-label">Transaction ID</div>
-                <div class="cvb-txid" id="cvb-txid-full">—</div>
-              </div>
-            </div>
-            <div class="cvb-qr" id="cvb-qr"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="chain-bar">
-      <div class="chain-led"></div>
-      <div class="chain-txt" id="chain-txt">Permanently sealed · Independently verifiable</div>
-    </div>
-
-    <div class="suc-actions">
-      <button class="btn-seal-another" id="btn-again" onclick="sealAnother()">✦ Seal Another Document</button>
-      <button class="btn-dl" onclick="downloadCert()">📄 Download Certificate</button>
-      <button class="btn-print" onclick="printCert()">🖨️ Print Certificate</button>
-      <button class="btn-woc" id="btn-woc" onclick="verifyOnChain()">🔗 Verify Document ↗</button>
-    </div>
-  </div>
-</div>
-
-<!-- Toast tray -->
-<div class="toast-tray" id="toast-tray"></div>
-
-<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-'use strict';
-
-// ═══════════════════════════════
-// CONFIG — set SERVER_URL when live
-// ═══════════════════════════════
-const SERVER_URL = 'https://tm-server-myv6.onrender.com';
-const API = {
-  broadcast: SERVER_URL ? SERVER_URL+'/api/broadcast'   : null,
-  login:     SERVER_URL ? SERVER_URL+'/api/login'       : null,
-  userSeals: SERVER_URL ? SERVER_URL+'/api/user/seals'  : null,
-  faucet:    SERVER_URL ? SERVER_URL+'/api/faucet'      : null,
-  health:    SERVER_URL ? SERVER_URL+'/api/health'      : null,
-  price:     SERVER_URL ? SERVER_URL+'/api/price'       : null,
-};
-
-// ═══════════════════════════════
-// DEMO TRIAL CONFIG
-// ═══════════════════════════════
-const TRIAL_EMAILS = new Set([
-  'demo@doxseal.co.za',
-  'johan@supplycorp.co.za',
-  'shaunxve.com@gmail.com',
-  'mve@leopardcreek.co.za',
-  'warren2ve@gmail.com'
-]);
-const DEMO_LIMIT = 3;
-
-// ═══════════════════════════════
-// STATE
-// ═══════════════════════════════
-let CU=null, CREDS=0, HIST=[], LAST=null;
-let FILTER='all', PRIV='plain', PRIV_OPEN=false;
-let FILE_DATA = null; // { name, hash, size } — set when user uploads a file
-
-function loadCerts(email){
-  try{ return JSON.parse(localStorage.getItem('tm_certs_'+email.toLowerCase())||'[]'); }
-  catch(e){ return []; }
-}
-function saveCerts(email, arr){
-  try{ localStorage.setItem('tm_certs_'+email.toLowerCase(), JSON.stringify(arr.filter(m=>!m.demoSeed))); }
-  catch(e){}
-}
-let BSV_USD=0.55, ZAR=18.5;
-
-// Accounts that never hit a seal limit or upgrade screen
-const UNLIMITED_ACCOUNTS = new Set(['owner@doxseal.co.za', 'louwrens@optimumgroup.co.za']);
-
-const USERS = {
-  'demo@doxseal.co.za':          {pass:'demo123', name:'Demo User',        addr:'1TrMktDemoAddr4a2b9d1e7c',plan:'Starter'},
-  'johan@supplycorp.co.za':      {pass:'test123', name:'Johan (SupplyCorp)',addr:'1TrMktTest1Jo2b9d1e7c3f4', plan:'Starter'},
-  'shaunxve.com@gmail.com':      {pass:'test123', name:'Shaun',            addr:'1TrMktTest2Sh4c0d2e8f5', plan:'Starter'},
-  'mve@leopardcreek.co.za':      {pass:'test123', name:'MVE (Leopard Crk)',addr:'1TrMktTest3Mv6e3f9a0b6', plan:'Starter'},
-  'warren2ve@gmail.com':         {pass:'test123',       name:'Warren',           addr:'1TrMktTest4Wa8f4a0c7d7', plan:'Starter'},
-  'louwrens@optimumgroup.co.za': {pass:'Optimum2026',   name:'Louwrens (Optimum)',addr:'1TrMktVIPLo8f2c9d5e1a7b', plan:'Business'}
-};
-
-const DEMO = [
-  {id:1001,demoSeed:true,dir:'sent',subj:'Letter of Demand — Invoice #2024-118',to:'advocate@law.co.za',
-   msg:'Formal demand for payment of invoice #2024-118. Amount: R28,000. Payment required within 10 business days.',
-   hash:'3a7f92bc4d1e8af5d9c2',txid:'3a7f92bc4d1e8af5d9c2e4b6f1a3d5e7',ts:'2026-02-19 14:32',verified:true,mode:'plain'},
-  {id:1002,demoSeed:true,dir:'sent',subj:'Sale Agreement Confirmation',to:'client@property.co.za',
-   msg:'Confirmation of sale agreement for Erf 12345. Purchase price R850,000. Accepted 18 Feb 2026.',
-   hash:'5c8e3f1a9d2b7e4c6a1f',txid:'5c8e3f1a9d2b7e4c6a1f8d3b7e2a9c4d',ts:'2026-02-18 11:22',verified:true,mode:'plain'},
-  {id:1003,demoSeed:true,dir:'received',subj:'Deposit Payment Confirmation',to:'demo@doxseal.co.za',
-   msg:'Deposit of R75,000 received. Funds held in trust pending transfer.',
-   hash:'7d4a2c8f6b1e9a3d5c7f',txid:'7d4a2c8f6b1e9a3d5c7f2b4e8a1d6c3f',ts:'2026-02-17 09:15',verified:true,mode:'plain'},
-];
-
-// ═══════════════════════════════
-// PAGES
-// ═══════════════════════════════
-let curPage = 'pg-welcome';
-
-function showPage(id) {
-  if (curPage===id) return;
-  const prev = document.getElementById(curPage);
-  const next = document.getElementById(id);
-  const appNav = document.getElementById('app-nav');
-  if(appNav) appNav.style.display = (id === 'pg-app' || id === 'pg-success') ? 'flex' : 'none';
-  prev.classList.remove('visible');
-  prev.classList.add('leaving');
-  setTimeout(()=>{
-    prev.classList.remove('visible','leaving');
-    prev.classList.add('hidden');
-    next.classList.remove('hidden');
-    next.classList.add('visible');
-    curPage = id;
-    if (id==='pg-success'||id==='pg-sealing') {
-      next.scrollTop=0;
-    }
-  }, 320);
-}
-
-// ═══════════════════════════════
-// AUTH
-// ═══════════════════════════════
-function authTab(t) {
-  const fin=document.getElementById('f-in');   if(fin)  fin.style.display  = t==='in'?'flex':'none';
-  const fup=document.getElementById('f-up');   if(fup)  fup.style.display  = t==='up'?'flex':'none';
-  const ain=document.getElementById('at-in');  if(ain)  ain.classList.toggle('on', t==='in');
-  const aup=document.getElementById('at-up');  if(aup)  aup.classList.toggle('on', t==='up');
-  const err=document.getElementById('auth-err'); if(err) err.style.display='none';
-}
-
-function authErr(m){
-  const e=document.getElementById('auth-err');
-  e.textContent=m; e.style.display='block';
-}
-
-async function doLogin(){
-  const em=(document.getElementById('in-em').value||'').trim().toLowerCase();
-  const pw=document.getElementById('in-pw').value||'';
-  const btn=document.getElementById('btn-in');
-  if(!em||!pw){authErr('Please enter your email and password.');return;}
-  btn.disabled=true; btn.textContent='Signing in…';
-
-  // 1. Check local demo/trial accounts first (works without server)
-  const local=USERS[em];
-  if(local && local.pass===pw){
-    CU={...local,email:em};
-    // Trial accounts start at DEMO_LIMIT seals; fetch actual remaining from server below
-    CREDS = TRIAL_EMAILS.has(em) ? DEMO_LIMIT * 200 : 48210;
-    HIST=[...loadCerts(em),...DEMO];
-    btn.disabled=false; btn.textContent='Sign In →';
-    openApp();
-    if(!TRIAL_EMAILS.has(em)){ syncWalletBalance(); return; }
-    // Sync actual remaining seals from server so credits pod is accurate
-    if(TRIAL_EMAILS.has(em) && SERVER_URL){
-      fetch(SERVER_URL+'/demo-count',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:em})})
-        .then(r=>r.json()).then(d=>{
-          const used  = typeof d.count==='number' ? d.count : 0;
-          const limit = typeof d.limit==='number' && d.limit > 0 ? d.limit : DEMO_LIMIT;
-          CREDS = Math.max(0, limit - used) * 200;
-          renderUI();
-        }).catch(()=>{});
-    }
-    return;
-  }
-
-  // 2. Try server login for paying clients
-  if(API.login){
-    try{
-      const r=await fetch(API.login,{
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({email:em,password:pw}),
-        signal:AbortSignal.timeout(8000)
-      });
-      const d=await r.json();
-      if(d.success && d.user){
-        CU={...d.user,pass:pw};
-        // For trial accounts use remaining seals × 200; for paying use full balance
-        CREDS = d.user.account_type==='trial'
-          ? Math.max(0,(d.user.seals_limit||DEMO_LIMIT)-(d.user.seals_used||0))*200
-          : 48210;
-        HIST=loadCerts(d.user.email||em);
-        btn.disabled=false; btn.textContent='Sign In →';
-        openApp();
-        if(d.user.account_type!=='trial') syncWalletBalance();
-        return;
-      }
-      authErr(d.error||'Incorrect email or password.');
-    }catch(e){
-      authErr('Could not reach server. Check your connection.');
-    }
-  } else {
-    authErr('Incorrect email or password. Try the demo account.');
-  }
-  btn.disabled=false; btn.textContent='Sign In →';
-}
-
-function doSignup(){
-  const nm=(document.getElementById('up-nm').value||'').trim();
-  const em=(document.getElementById('up-em').value||'').trim().toLowerCase();
-  const pw=document.getElementById('up-pw').value||'';
-  const btn=document.getElementById('btn-up');
-  if(!document.getElementById('up-consent').checked){authErr('Please agree to the Terms of Service and Privacy Policy to continue.');return;}
-  if(!nm||!em||!pw){authErr('Please fill in all fields.');return;}
-  if(pw.length<8){authErr('Password must be at least 8 characters.');return;}
-  if(!/\S+@\S+\.\S+/.test(em)){authErr('Please enter a valid email address.');return;}
-  btn.disabled=true; btn.textContent='Creating account…';
-  setTimeout(()=>{
-    const addr='1TM'+Math.random().toString(36).slice(2,8).toUpperCase()+Date.now().toString(36).toUpperCase().slice(-5);
-    CU={name:nm,email:em,pass:pw,addr,plan:'Starter'};
-    USERS[em]=CU; CREDS=50000; HIST=loadCerts(em);
-    localStorage.setItem('tm_creds_'+em, JSON.stringify({name:nm,pass:pw}));
-    btn.disabled=false; btn.textContent='✦ Create Free Account';
-    openApp();
-    setTimeout(()=>toast('Welcome to DoxSeal','Go ahead — seal your first document. It takes under 10 seconds.','✦'),700);
-  }, 900);
-}
-
-function loadCompany(email){
-  return localStorage.getItem('tm_company_'+email.toLowerCase()) || '';
-}
-
-function saveCompany(){
-  if(!CU) return;
-  const inp=document.getElementById('co-input');
-  const val=(inp?inp.value:'').trim();
-  localStorage.setItem('tm_company_'+CU.email.toLowerCase(), val);
-  CU.company=val;
-  const msg=document.getElementById('co-saved');
-  if(msg){msg.classList.add('show');setTimeout(()=>msg.classList.remove('show'),2000);}
-}
-
-function loadWhatsApp(email){
-  return localStorage.getItem('tm_wa_'+email.toLowerCase()) || '';
-}
-
-function saveWhatsApp(){
-  if(!CU) return;
-  const inp=document.getElementById('wa-input');
-  const val=(inp?inp.value:'').trim();
-  localStorage.setItem('tm_wa_'+CU.email.toLowerCase(), val);
-  CU.whatsapp=val;
-  const msg=document.getElementById('wa-saved');
-  if(msg){msg.classList.add('show');setTimeout(()=>msg.classList.remove('show'),2000);}
-}
-
-function togglePass(id, btn){
-  const inp = document.getElementById(id);
-  if(!inp) return;
-  const showing = inp.type === 'text';
-  inp.type = showing ? 'password' : 'text';
-  btn.style.opacity = showing ? '0.5' : '1';
-}
-
-function showForgotPass(){
-  const panel=document.getElementById('fp-panel');
-  if(!panel) return;
-  const open=panel.style.display==='none';
-  panel.style.display=open?'block':'none';
-  if(open){
-    const res=document.getElementById('fp-result');
-    if(res){res.style.display='none';res.textContent='';}
-  }
-}
-
-function lookupPass(){
-  const emEl=document.getElementById('fp-em');
-  const resEl=document.getElementById('fp-result');
-  if(!emEl||!resEl) return;
-  const em=(emEl.value||'').trim().toLowerCase();
-  if(!em){
-    resEl.className='fp-result err'; resEl.textContent='Please enter your email address.'; resEl.style.display='block'; return;
-  }
-  // Check persistent credentials store
-  try{
-    const raw=localStorage.getItem('tm_creds_'+em);
-    if(raw){
-      const d=JSON.parse(raw);
-      if(d&&d.pass){
-        resEl.className='fp-result';
-        resEl.innerHTML='Your password is: <strong style="color:var(--green);letter-spacing:.03em">'+d.pass+'</strong>';
-        resEl.style.display='block'; return;
-      }
-    }
-  }catch(e){}
-  // Fall back to current session if email matches
-  try{
-    const raw=localStorage.getItem('tm_session');
-    if(raw){
-      const s=JSON.parse(raw);
-      if(s&&s.cu&&s.cu.email===em&&s.cu.pass){
-        resEl.className='fp-result';
-        resEl.innerHTML='Your password is: <strong style="color:var(--green);letter-spacing:.03em">'+s.cu.pass+'</strong>';
-        resEl.style.display='block'; return;
-      }
-    }
-  }catch(e){}
-  resEl.className='fp-result err'; resEl.textContent='No account found for that email address.'; resEl.style.display='block';
-}
-
-function doSignOut(){
-  CU=null; HIST=[]; LAST=null;
-  histCacheTs=0; histServerSeals=[];
-  localStorage.removeItem('tm_session');
-  showPage('pg-welcome');
-  const emEl=document.getElementById('in-em'); if(emEl) emEl.value='';
-  const pwEl=document.getElementById('in-pw'); if(pwEl) pwEl.value='';
-}
-
-// ═══════════════════════════════
-// APP
-// ═══════════════════════════════
-function openApp(){
-  saveSession();
-  renderUI();
-  showPage('pg-app');
-  setTimeout(() => goTab('home'), 340);
-  if(SERVER_URL) fetchLivePrice();
-}
-
-function syncWalletBalance(){
-  if(!SERVER_URL) return;
-  fetch(SERVER_URL+'/api/health')
-    .then(r=>r.json())
-    .then(d=>{ if(typeof d.balanceSats==='number'){ CREDS=d.balanceSats; renderUI(); } })
-    .catch(()=>{});
-}
-
-function renderUI(){
-  if(!CU) return;
-  const sealed   = HIST.filter(m=>m.dir==='sent').length;
-  const verified = HIST.filter(m=>m.verified).length;
-  const sealsLeft = Math.floor(CREDS/200);
-  const cStr     = String(sealsLeft);
-  const hr       = new Date().getHours();
-  const greet    = hr<12?'Good morning':hr<17?'Good afternoon':'Good evening';
-  const fn       = (CU.name||'').split(' ')[0];
-
-  // Header
-  set('hdr-cred',   cStr+' seals');
-  set('hdr-cred-s', cStr+' seals');
-  // Home
-  set('h-greet', greet);
-  setHTML('h-name', fn+' <em>—</em>');
-  set('cp-val', cStr);
-  set('cp-sub', sealsLeft === 1 ? '1 seal remaining' : sealsLeft+' seals remaining');
-  const fillEl = document.getElementById('cp-fill');
-  if(fillEl) fillEl.style.width = Math.min(100,(sealsLeft/250)*100)+'%';
-  set('st-sealed', sealed);
-  set('st-verified', verified);
-  // Account
-  const avEl = document.getElementById('acc-av');
-  if(avEl) avEl.textContent = (CU.name||'?').charAt(0).toUpperCase();
-  set('acc-nm', CU.name);
-  set('acc-em', CU.email);
-  set('acc-cred', cStr);
-  set('acc-sealed', sealed);
-  // Company
-  const coStored = loadCompany(CU.email);
-  CU.company = coStored;
-  const coEl = document.getElementById('co-input');
-  if (coEl) coEl.value = coStored;
-  // WhatsApp
-  const waStored = loadWhatsApp(CU.email);
-  CU.whatsapp = waStored;
-  const waEl = document.getElementById('wa-input');
-  if (waEl) waEl.value = waStored;
-  set('acc-addr', CU.addr?CU.addr.slice(0,22)+'…':'—');
-  setHTML('acc-plan', CU.plan ? '✦ '+CU.plan : null);
-
-  renderHomeRecent();
-  renderHistory();
-}
-
-function set(id,val){const e=document.getElementById(id);if(e)e.textContent=val;}
-function setHTML(id,val){const e=document.getElementById(id);if(e&&val!==null)e.innerHTML=val;}
-
-// ═══════════════════════════════
-// DEMO LIMIT HELPERS
-// ═══════════════════════════════
-function isDemoAccount(){
-  if(!CU) return false;
-  const em = CU.email.toLowerCase();
-  if(UNLIMITED_ACCOUNTS.has(em)) return false;
-  if(TRIAL_EMAILS.has(em)) return true;
-  return CU.account_type === 'trial';
-}
-function getDemoSealsUsed(){
-  if(CU && CU.account_type === 'trial' && !TRIAL_EMAILS.has(CU.email.toLowerCase())) return CU.seals_used || 0;
-  return parseInt(localStorage.getItem('tm_trial_'+CU.email.toLowerCase())||'0');
-}
-function setDemoSealsUsed(n){
-  if(CU && CU.account_type === 'trial' && !TRIAL_EMAILS.has(CU.email.toLowerCase())){ CU.seals_used = n; return; }
-  localStorage.setItem('tm_trial_'+CU.email.toLowerCase(), String(n));
-}
-
-function showUpgradeScreen(){
-  document.getElementById('pg-upgrade').classList.add('show');
-}
-
-function dismissUpgrade(){
-  document.getElementById('pg-upgrade').classList.remove('show');
-  goTab('history');
-}
-
-async function checkDemoLimit(){
-  if(!isDemoAccount()) return true;
-  // Server is authoritative — always check it first so owner resets take effect immediately.
-  // localStorage is only a fallback when the server is unreachable.
-  if(SERVER_URL){
-    try{
-      const r = await fetch(SERVER_URL+'/demo-count',{
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({email:CU.email})
-      });
-      const d = await r.json();
-      console.log('[TM] demo-count →', d);
-      const serverCount = typeof d.count === 'number' ? d.count : DEMO_LIMIT;
-      const serverLimit = typeof d.limit === 'number' && d.limit > 0 ? d.limit : DEMO_LIMIT;
-      setDemoSealsUsed(serverCount); // sync localStorage with authoritative server value
-      if(serverCount >= serverLimit){ showUpgradeScreen(); return false; }
-      return true;
-    } catch(e){
-      console.warn('[TM] demo-count unreachable, falling back to localStorage');
-    }
-  }
-  // Offline fallback only
-  if(getDemoSealsUsed() >= DEMO_LIMIT){ showUpgradeScreen(); return false; }
-  return true;
-}
-
-// ═══════════════════════════════
-// TABS
-// ═══════════════════════════════
-const TABS=['home','seal','history','account'];
-function switchTab(tab){
-  TABS.forEach(t=>{
-    const tb=document.getElementById('t-'+t);  if(tb) tb.classList.toggle('on',t===tab);
-    const nb=document.getElementById('nb-'+t); if(nb) nb.classList.toggle('on',t===tab);
-  });
-  if(tab==='history') renderHistory();
-  if(tab==='account') loadAccTabFields();
-}
-function goTab(tab){
-  if(curPage !== 'pg-app'){
-    showPage('pg-app');
-    setTimeout(()=>goTab(tab), 350); // retry after transition completes
-    return;
-  }
-  if(tab==='seal'){ checkDemoLimit().then(ok=>{ if(ok) switchTab('seal'); }); return; }
-  switchTab(tab);
-}
-function loadAccTabFields(){
-  if(!CU) return;
-  const co=localStorage.getItem('tm_company_'+CU.email.toLowerCase())||'';
-  const wa=localStorage.getItem('tm_wa_'+CU.email.toLowerCase())||'';
-  const ci=document.getElementById('acc-co-input'); if(ci) ci.value=co;
-  const wi=document.getElementById('acc-wa-input'); if(wi) wi.value=wa;
-}
-function accSaveCompany(){
-  if(!CU) return;
-  const val=(document.getElementById('acc-co-input').value||'').trim();
-  localStorage.setItem('tm_company_'+CU.email.toLowerCase(), val);
-  CU.company=val;
-  // sync to Home tab field too
-  const h=document.getElementById('co-input'); if(h) h.value=val;
-  const s=document.getElementById('acc-co-saved');
-  s.style.display='block'; setTimeout(()=>s.style.display='none',2000);
-}
-function accSaveWhatsApp(){
-  if(!CU) return;
-  const val=(document.getElementById('acc-wa-input').value||'').trim();
-  localStorage.setItem('tm_wa_'+CU.email.toLowerCase(), val);
-  CU.whatsapp=val;
-  const h=document.getElementById('wa-input'); if(h) h.value=val;
-  const s=document.getElementById('acc-wa-saved');
-  s.style.display='block'; setTimeout(()=>s.style.display='none',2000);
-}
-
-// ═══════════════════════════════
-// FILE SEAL
-// ═══════════════════════════════
-function fzDrag(e, on) {
-  e.preventDefault();
-  document.getElementById('file-zone').classList.toggle('drag', on);
-}
-function fzDrop(e) {
-  e.preventDefault();
-  fzDrag(e, false);
-  const f = e.dataTransfer.files[0];
-  if (f) processFile(f);
-}
-function onFileSelect(input) {
-  const f = input.files[0];
-  if (f) processFile(f);
-}
-async function processFile(file) {
-  FILE_DATA = null;
-  const ready = document.getElementById('file-ready');
-  ready.classList.add('show');
-  document.getElementById('file-zone').style.display = 'none';
-  document.getElementById('fr-name').textContent   = file.name;
-  document.getElementById('fr-hash').textContent   = '';
-  document.getElementById('fr-status').textContent = 'Generating fingerprint…';
-  try {
-    const buf      = await file.arrayBuffer();
-    const hashBuf  = await crypto.subtle.digest('SHA-256', buf);
-    const hash     = Array.from(new Uint8Array(hashBuf)).map(b=>b.toString(16).padStart(2,'0')).join('');
-    FILE_DATA = { name: file.name, hash, size: file.size };
-    const kb = file.size < 1024*1024
-      ? (file.size/1024).toFixed(1)+' KB'
-      : (file.size/1024/1024).toFixed(2)+' MB';
-    document.getElementById('fr-hash').textContent   = hash;
-    document.getElementById('fr-status').textContent = `Hash ready ✅ · ${kb} · File not uploaded`;
-  } catch(e) {
-    document.getElementById('fr-status').textContent = '❌ Error: ' + e.message;
-  }
-}
-function clearFile() {
-  FILE_DATA = null;
-  document.getElementById('file-ready').classList.remove('show');
-  document.getElementById('file-zone').style.display = '';
-  document.getElementById('file-input').value = '';
-}
-
-// SEAL
-// ═══════════════════════════════
-function onMsgType(){
-  const limit=PRIV==='encrypted'?80:460;
-  const v=document.getElementById('sf-msg').value;
-  if(v.length>limit) document.getElementById('sf-msg').value=v.slice(0,limit);
-  document.getElementById('sf-cc').textContent=Math.min(v.length,limit)+' / '+limit;
-}
-
-function togglePriv(){
-  PRIV_OPEN=!PRIV_OPEN;
-  document.getElementById('priv-opts').style.display=PRIV_OPEN?'flex':'none';
-  document.getElementById('priv-head-r').textContent=PRIV_OPEN?'▲ Close':'Tap to expand ▾';
-}
-
-function setPriv(mode,el){
-  PRIV=mode;
-  document.querySelectorAll('.priv-opt').forEach(o=>o.classList.remove('on'));
-  el.classList.add('on');
-  onMsgType();
-}
-
-function showExamples(){
-  toast('Subject examples','Invoice confirmation · Sale agreement · Variation order · Notice of cancellation · Offer accepted · Deposit received','💡');
-}
-
-async function doSeal(){
-  // Demo limit already checked by goTab('seal') — no second server call needed
-  if(isDemoAccount() && getDemoSealsUsed() >= DEMO_LIMIT){ showUpgradeScreen(); return; }
-
-  const to   =(document.getElementById('sf-to').value||'').trim();
-  const subj =(document.getElementById('sf-subj').value||'').trim();
-  const msg  =(document.getElementById('sf-msg').value||'').trim();
-  const isFileSeal = !!FILE_DATA;
-  if(!to)  {toast('Who is this for?','Please enter a recipient email.','⚠️');return;}
-  if(!subj){toast('What is this about?','Please add a subject line.','⚠️');return;}
-  if(!msg && !isFileSeal){toast('Nothing to seal','Type a message or upload a file.','⚠️');return;}
-  if(isFileSeal && !FILE_DATA.hash){toast('File not ready','Please wait for the fingerprint to finish.','⚠️');return;}
-  if(CREDS<200){toast('Not enough credits','Contact us to top up your account.','💳');return;}
-  document.getElementById('btn-seal').disabled=true;
-  showPage('pg-sealing');
-  try{
-    await step(1,700);
-    const hash = isFileSeal ? FILE_DATA.hash : await sha256(msg);
-    const fileName = isFileSeal ? FILE_DATA.name : null;
-    await step(2,900);
-    let txid;
-    if(API.broadcast){
-      const dateStr = new Date().toISOString().slice(0,10);
-      const opPayload = isFileSeal
-        ? 'TM|FILE|'+hash.slice(0,20)+'|'+dateStr+'|'+FILE_DATA.name.slice(0,80)
-        : buildOP(hash,to,subj,msg);
-      const r=await fetch(API.broadcast,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({opPayload,msgHash:hash,sender:CU.email,recipient:to,subject:subj})});
-      if(r.status===429) throw new Error('Too many seals in a short time — please wait a minute and try again.');
-      const d=await r.json();
-      // Server blocks demo at limit
-      if(d.error==='TRIAL_EXPIRED'){
-        setDemoSealsUsed(DEMO_LIMIT);
-        document.getElementById('btn-seal').disabled=false;
-        showPage('pg-app');
-        showUpgradeScreen();
-        return;
-      }
-      if(!d.txid) throw new Error(d.error||'Server returned no transaction ID. Please try again.');
-      txid=d.txid;
-    } else {
-      await wait(450);
-      txid='demo_'+hash.slice(0,32);
-    }
-    await step(3,550);
-    CREDS-=200;
-    // Increment demo counter in localStorage after successful seal
-    if(isDemoAccount()){
-      const used = getDemoSealsUsed() + 1;
-      setDemoSealsUsed(used);
-      console.log('[TM] demo seals used (localStorage):', used);
-    }
-    const now=new Date();
-    const tsStr=now.toLocaleString('en-ZA',{day:'numeric',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit'});
-    const company=(CU&&CU.company)||'';
-    const sealedBy=(CU&&CU.name?CU.name+' · ':'')+((CU&&CU.email)||'—');
-    const wa=(CU&&CU.whatsapp||'').replace(/\D/g,'');
-    LAST={id:Date.now(),dir:'sent',subj,to,msg:isFileSeal?'':msg,fileName,hash:hash.slice(0,20),fullHash:hash,txid,ts:now.toISOString().slice(0,16).replace('T',' '),tsStr,verified:!!API.broadcast,mode:isFileSeal?'file':PRIV,sealedBy,senderName:CU&&CU.name||'',senderEmail:CU&&CU.email||'',company,wa};
-    HIST.unshift(LAST);
-    saveCerts(CU.email, HIST);
-    // Populate success
-    set('suc-desc','"'+subj+'" has been permanently sealed. Your certificate is below.');
-    set('cv-subj',subj);
-    set('cv-to',to);
-    set('cv-from',sealedBy);
-    set('cv-ts',tsStr);
-    const _privLabels={plain:'Plain Text',hash:'Hash Only (Private)',encrypted:'Encrypted',file:'File — not uploaded'};
-    set('cv-mode',_privLabels[isFileSeal?'file':PRIV]||(isFileSeal?'File — not uploaded':PRIV));
-    // File name row
-    if(isFileSeal){
-      document.getElementById('cv-filename-row').style.display='flex';
-      document.getElementById('cv-filename').innerHTML=
-        '<span class="cert-file-badge">📎 File sealed — not uploaded</span>' +
-        '<span style="font-family:var(--mono);font-size:10px;color:var(--iv2)">'+escHtml(fileName)+'</span>';
-      document.getElementById('cv-msg-row').style.display='none';
-    } else {
-      document.getElementById('cv-filename-row').style.display='none';
-      if(msg){set('cv-msg',msg);document.getElementById('cv-msg-row').style.display='block';}
-      else{document.getElementById('cv-msg-row').style.display='none';}
-    }
-    set('cv-hash', isFileSeal ? hash : hash.slice(0,22)+'…');
-    const isLiveTx = !txid.startsWith('demo_');
-    set('cv-txid', isLiveTx ? txid.slice(0,28)+'…' : 'Demo — connect server for live TX');
-    set('chain-txt',API.broadcast?'⛓ Recorded permanently · Tamper-proof':'🔒 Sealed locally · Connect server for live sealing');
-    // Populate independent verification box
-    if(isLiveTx){
-      const verifyURL = buildVerifyURL(txid, LAST);
-      document.getElementById('cert-verify-box').style.display='block';
-      document.getElementById('cvb-url').textContent = verifyURL;
-      document.getElementById('cvb-txid-full').textContent = txid;
-      // QR code via qrserver.com — reliable in all browsers and print/PDF
-      const qrContainer = document.getElementById('cvb-qr');
-      qrContainer.innerHTML='<img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data='+encodeURIComponent(verifyURL)+'" alt="QR Code" style="width:150px;height:150px;border-radius:6px;">';
-    } else {
-      document.getElementById('cert-verify-box').style.display='none';
-    }
-    renderUI();
-    showPage('pg-success');
-    startSealCooldown();
-  } catch(err){
-    document.getElementById('btn-seal').disabled=false;
-    showPage('pg-app');
-    toast('Something went wrong',err.message||'Please try again.','⚠️');
-  }
-}
-
-async function step(n,ms){
-  ['ss1','ss2','ss3'].forEach((id,i)=>{
-    const el=document.getElementById(id);
-    if(i<n-1){el.classList.remove('on');el.classList.add('done');}
-    else if(i===n-1){el.classList.add('on');el.classList.remove('done');}
-    else{el.classList.remove('on','done');}
-  });
-  await wait(ms);
-}
-
-let _cooldownTimer = null;
-
-function startSealCooldown() {
-  const btnAgain = document.getElementById('btn-again');
-  const btnSeal  = document.getElementById('btn-seal');
-  if (_cooldownTimer) clearInterval(_cooldownTimer);
-  let secs = 10;
-  btnAgain.disabled = true;
-  btnSeal.disabled  = true;
-  btnAgain.textContent = `Next seal available in ${secs}s…`;
-  _cooldownTimer = setInterval(() => {
-    secs--;
-    if (secs <= 0) {
-      clearInterval(_cooldownTimer);
-      _cooldownTimer = null;
-      btnAgain.disabled = false;
-      btnAgain.textContent = '✦ Seal Another Document';
-      btnSeal.disabled = false;
-    } else {
-      btnAgain.textContent = `Next seal available in ${secs}s…`;
-    }
-  }, 1000);
-}
-
-function sealAnother(){
-  document.getElementById('sf-to').value='';
-  document.getElementById('sf-subj').value='';
-  document.getElementById('sf-msg').value='';
-  PRIV='plain';
-  clearFile();
-  document.getElementById('sf-cc').textContent='0 / 460';
-  goTab('seal'); // navigates to pg-app then seal tab; checks demo limit
-}
-
-function verifyOnChain(){
-  if(!LAST) return;
-  if(LAST.txid&&!LAST.txid.startsWith('demo_')){
-    window.open('https://doxseal.co.za/verify?txid='+LAST.txid,'_blank');
-  } else {
-    toast('Demo mode','Connect server to enable live permanent sealing.','ℹ️');
-  }
-}
-
-function buildVerifyURL(txid, cert){
-  let url = 'https://doxseal.co.za/verify.html?txid='+txid;
-  const name    = (cert&&cert.senderName) || (CU&&CU.name) || '';
-  const email   = (cert&&cert.senderEmail) || (CU&&CU.email) || '';
-  const company = (cert&&cert.company) || (CU&&CU.company) || '';
-  const wa      = ((cert&&cert.wa) || (CU&&CU.whatsapp) || '').replace(/\D/g,'');
-  if(name)    url += '&from='+encodeURIComponent(name);
-  if(email)   url += '&se='+encodeURIComponent(email);
-  if(company) url += '&co='+encodeURIComponent(company);
-  if(wa)      url += '&wa='+wa;
-  return url;
-}
-
-function buildCertHtml(cert){
-  const isLive  = !cert.txid.startsWith('demo_');
-  const verifyUrl = isLive ? buildVerifyURL(cert.txid, cert) : null;
-  const qrSrc     = verifyUrl ? 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data='+encodeURIComponent(verifyUrl) : null;
-  const sealedBy  = cert.sealedBy || ((CU&&CU.name ? CU.name+' · ' : '')+(CU&&CU.email||'—'));
-  const company   = cert.company || (CU&&CU.company) || '';
-  const h = s => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-  const isFileCert = cert.mode === 'file' && cert.fileName;
-
-  const html = `<!DOCTYPE html>
-<html lang="en"><head>
-<meta charset="UTF-8">
-<title>DoxSeal Certificate — ${h(cert.subj)}</title>
-<style>
-@page{size:A4 portrait;margin:14mm 18mm;}
-*{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:Georgia,'Times New Roman',serif;color:#111;background:#fff;padding:0 20px 20px;}
-.bar{height:9px;background:linear-gradient(90deg,#1a8a53,#2dce82,#c8a84b);margin:0 -20px;}
-.header{display:flex;justify-content:space-between;align-items:center;padding:18px 0 15px;border-bottom:2px solid #1a8a53;}
-.logo{font-size:24px;font-weight:700;color:#1a8a53;}
-.logo-tag{font-size:11px;color:#555;margin-top:2px;font-family:Arial,sans-serif;}
-.badge{background:#1a8a53;color:#fff;font-size:10px;padding:6px 12px;border-radius:4px;font-family:Arial,sans-serif;}
-.title-wrap{text-align:center;padding:16px 0 14px;border-bottom:1px solid #c4e0cc;}
-.eyebrow{font-size:9px;letter-spacing:2px;color:#888;text-transform:uppercase;font-family:Arial,sans-serif;margin-bottom:6px;}
-.cert-title{font-size:20px;color:#1a8a53;font-weight:700;}
-.cert-sub{font-size:11px;color:#555;margin-top:5px;font-family:Arial,sans-serif;}
-.section{padding:14px 0;border-bottom:1px solid #e0ede5;}
-.section-lbl{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#888;margin-bottom:10px;font-family:Arial,sans-serif;}
-table{width:100%;border-collapse:collapse;}
-td{padding:4px 0;font-size:12px;vertical-align:top;}
-td:first-child{color:#555;width:36%;font-size:11px;font-family:Arial,sans-serif;}
-.hash-block{margin-bottom:8px;}
-.hero-row td{padding:10px 0 12px;}
-.hero-row td:first-child{font-size:12px;color:#555;font-family:Arial,sans-serif;}
-.hero-val{font-size:17px !important;font-weight:700;color:#111;}
-.msg-row td:first-child{vertical-align:top;padding-top:6px;}
-.msg-val{white-space:pre-wrap;word-break:break-word;overflow-wrap:break-word;line-height:1.7;font-size:12px;}
-.hash-lbl{font-size:9px;color:#555;margin-bottom:3px;font-family:Arial,sans-serif;}
-.hash-val{font-family:'Courier New',Courier,monospace;font-size:10px;color:#1a8a53;word-break:break-all;background:#f0f7f3;padding:6px;border-radius:3px;border:1px solid #c4e0cc;}
-.verify-inner{display:flex;gap:20px;align-items:flex-start;}
-.verify-left{flex:1;min-width:0;}
-.verify-note{font-size:10px;color:#555;line-height:1.6;margin-bottom:12px;font-family:Arial,sans-serif;}
-.url-lbl{font-size:9px;color:#888;text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;font-family:Arial,sans-serif;}
-.url{font-family:'Courier New',Courier,monospace;font-size:10px;color:#1a8a53;word-break:break-all;margin-bottom:10px;}
-.qr-wrap{flex-shrink:0;text-align:center;}
-.qr-wrap img{width:150px;height:150px;border:1px solid #ccc;border-radius:4px;display:block;}
-.qr-lbl{font-size:11px;color:#333;font-weight:600;margin-top:10px;font-family:Arial,sans-serif;line-height:1.55;max-width:160px;text-align:center;}
-.footer{padding:12px 0;border-top:2px solid #1a8a53;text-align:center;margin-top:20px;background:#eef8f2;}
-.footer-main{font-size:10px;color:#333;font-family:Arial,sans-serif;}
-.footer-sub{font-size:9px;color:#888;margin-top:3px;font-family:Arial,sans-serif;}
-</style>
-</head><body>
-<div class="bar"></div>
-<div class="header">
-  <div><div class="logo">DoxSeal</div><div class="logo-tag">Blockchain Document Protection</div></div>
-  <div class="badge">&#9679; Permanently Sealed</div>
-</div>
-<div class="title-wrap">
-  <div class="eyebrow">Certificate of Digital Protection</div>
-  <div class="cert-title">DoxSeal — Certificate of Digital Protection</div>
-  <div class="cert-sub">Permanently sealed · Immutable · Tamper-evident · Independently verifiable</div>
-</div>
-<div class="section">
-  <div class="section-lbl">Document Details</div>
-  <table>
-    <tr class="hero-row"><td>Protected For</td><td class="hero-val">${h(cert.to)}</td></tr>
-    <tr><td>Document / Subject</td><td>${h(cert.subj)}</td></tr>
-    <tr><td>Sealed By</td><td>${h(sealedBy)}</td></tr>
-    ${company ? `<tr><td>Company / Practice</td><td>${h(company)}</td></tr>` : ''}
-    ${isFileCert ? `<tr><td>File Sealed</td><td style="font-family:monospace;font-size:11px">${h(cert.fileName)}</td></tr>` : ''}
-    ${isFileCert ? `<tr><td>POPIA Status</td><td style="color:#1a8a53;font-weight:700">File NOT uploaded — fingerprint only</td></tr>` : ''}
-    <tr><td>Date &amp; Time</td><td>${h(cert.tsStr)}</td></tr>
-    <tr><td>Privacy Mode</td><td>${h(cert.mode==='file'?'File fingerprint — file never left device':cert.mode)}</td></tr>
-  </table>
-</div>
-<div class="section">
-  <div class="section-lbl">Cryptographic Proof</div>
-  <div class="hash-block"><div class="hash-lbl">SHA-256 Digital Fingerprint (Full Hash)</div><div class="hash-val">${h(cert.fullHash)}</div></div>
-  <div class="hash-block"><div class="hash-lbl">Permanent Seal Reference (Transaction ID)</div><div class="hash-val">${h(cert.txid)}</div></div>
-</div>
-<div class="section">
-  <div class="section-lbl">Independent Verification</div>
-  <div class="verify-inner">
-    <div class="verify-left">
-      <p class="verify-note">This certificate can be independently verified on a permanent public ledger. The proof cannot be altered, deleted, or denied by any party — including DoxSeal.</p>
-      <div class="url-lbl">Verify this certificate at</div>
-      <div class="url">${verifyUrl ? h(verifyUrl) : 'Connect server for live sealing'}</div>
-      <div class="url-lbl">Or directly on WhatsOnChain</div>
-      <div class="url">${isLive ? 'https://whatsonchain.com/tx/'+h(cert.txid) : '(demo seal — not on chain)'}</div>
-    </div>
-    ${qrSrc ? '<div class="qr-wrap"><img id="cert-qr" src="'+qrSrc+'" alt="Scan to verify"><div class="qr-lbl">📱 Scan this QR code with your phone camera to read your personal sealed message and verify this certificate online</div></div>' : ''}
-  </div>
-</div>
-<div class="footer">
-  <div class="footer-main">This certificate is self-verifying. Verify at doxseal.co.za/verify.html — Electronic Communications and Transactions Act 25 of 2002</div>
-  <div class="footer-sub">DoxSeal · hello@doxseal.co.za · doxseal.co.za · The proof exists independently and permanently — tamper-proof and immutable.</div>
-</div>
-</body></html>`;
-  return html;
-}
-
-function downloadCertById(id){
-  const m=HIST.find(c=>c.id===id);
-  if(m) downloadCert(m);
-}
-
-function downloadCert(m){
-  const cert = m || LAST;
-  if(!cert) return;
-  const html = buildCertHtml(cert);
-  const blob = new Blob([html], {type: 'text/html'});
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement('a');
-  link.download = 'DoxSeal-Certificate.html';
-  link.href = url;
-  link.click();
-  URL.revokeObjectURL(url);
-  toast('Certificate downloaded','Saved to your downloads folder.','📄');
-}
-
-function viewCertById(id){
-  const m=HIST.find(c=>c.id===id);
-  if(!m){toast('Not found','Certificate not found.','⚠️');return;}
-  const frame=document.getElementById('cert-modal-frame');
-  frame.srcdoc=buildCertHtml(m);
-  document.getElementById('cert-modal').classList.add('open');
-}
-
-function closeCertModal(){
-  document.getElementById('cert-modal').classList.remove('open');
-  setTimeout(()=>{document.getElementById('cert-modal-frame').srcdoc='';},250);
-}
-
-function printCert(){
-  if(!LAST){toast('Nothing to print','Complete a seal first.','⚠️');return;}
-
-  const isLive  = !LAST.txid.startsWith('demo_');
-  const verifyUrl = isLive
-    ? buildVerifyURL(LAST.txid, LAST)
-    : 'Demo mode — connect server for live sealing';
-  const wocUrl  = isLive ? 'https://whatsonchain.com/tx/'+LAST.txid : '(demo seal — not on chain)';
-
-  const privLabels = {
-    plain:     'Plain Text — Full message recorded permanently',
-    hash:      'Hash Only — Message is private; cryptographic proof is public',
-    encrypted: 'Encrypted — Message is encrypted and recorded permanently'
-  };
-
-  // Populate fields
-  const s = id => document.getElementById(id);
-  s('pc-subj').textContent  = LAST.subj  || '—';
-  s('pc-to').textContent    = LAST.to    || '—';
-  s('pc-from').textContent  = (CU&&CU.name ? CU.name+' · ' : '')+(CU&&CU.email||'—');
-  s('pc-ts').textContent    = LAST.tsStr || '—';
-  s('pc-mode').textContent  = LAST.mode==='file' ? 'File fingerprint — file never left device' : (privLabels[LAST.mode] || LAST.mode || '—');
-  if(LAST.fileName){ try{ s('pc-subj').textContent += ' · File: '+LAST.fileName; }catch(e){} }
-  s('pc-hash').textContent  = LAST.fullHash || '—';
-  s('pc-txid').textContent  = LAST.txid     || '—';
-  s('pc-url').textContent   = verifyUrl;
-  s('pc-woc').textContent   = wocUrl;
-
-  // QR code — set onload BEFORE src so the handler is always attached
-  const qrImg = s('pc-qr-img');
-  if(isLive){
-    qrImg.style.display = 'block';
-    qrImg.onload  = function(){ setTimeout(function(){ window.print(); }, 500); };
-    qrImg.onerror = function(){ window.print(); };
-    qrImg.src = 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data='+encodeURIComponent(verifyUrl);
-  } else {
-    window.print();
-  }
-}
-
-// ═══════════════════════════════
-// HISTORY
-// ═══════════════════════════════
-function setFilter(f,el){
-  FILTER=f;
-  document.querySelectorAll('.fp').forEach(p=>p.classList.remove('on'));
-  el.classList.add('on');
-  renderHistory();
-}
-
-// ── server seal cache ──────────────────────────────────
-let histCacheTs = 0;
-let histServerSeals = []; // raw server objects merged into HIST format
-
-function serverEntryToHist(s) {
-  const d = new Date(s.ts);
-  const ts = d.toISOString().slice(0,16).replace('T',' ');
-  return {
-    id:          s.ts,
-    dir:         'sent',
-    subj:        s.subject || '(no subject)',
-    to:          '',
-    msg:         '',
-    fileName:    '',
-    hash:        (s.hash||'').slice(0,20),
-    fullHash:    s.hash||'',
-    txid:        s.txid||'',
-    ts,
-    verified:    true,
-    mode:        '',
-    sealedBy:    s.email||'',
-    senderEmail: s.email||'',
-    senderName:  '',
-    company:     '',
-    wa:          '',
-    fromServer:  true
-  };
-}
-
-function mergeHistWithServer(serverItems) {
-  const localTxids = new Set(HIST.map(m=>m.txid).filter(Boolean));
-  const extra = serverItems
-    .filter(s => s.txid && !localTxids.has(s.txid))
-    .map(serverEntryToHist);
-  // combine, sort newest first
-  const combined = [...HIST, ...extra].sort((a,b)=>{
-    const ta = typeof a.id==='number' ? a.id : new Date(a.ts||0).getTime();
-    const tb = typeof b.id==='number' ? b.id : new Date(b.ts||0).getTime();
-    return tb - ta;
-  });
-  return combined;
-}
-
-async function fetchServerHistory() {
-  if (!API.userSeals || !CU || !CU.pass) return [];
-  try {
-    const r = await fetch(API.userSeals, {
-      method:  'POST',
-      headers: {'Content-Type':'application/json'},
-      body:    JSON.stringify({email: CU.email, password: CU.pass}),
-      signal:  AbortSignal.timeout(8_000)
-    });
-    if (!r.ok) return [];
-    const d = await r.json();
-    return d.seals || [];
-  } catch { return []; }
-}
-
-function renderHistoryFromData(merged) {
-  const list = document.getElementById('hist-list');
-  if (!list) return;
-  const items = FILTER==='all' ? merged
-    : FILTER==='sent'     ? merged.filter(m=>m.dir==='sent')
-    : FILTER==='received' ? merged.filter(m=>m.dir==='received')
-    : merged.filter(m=>m.verified);
-  if (!items.length) {
-    list.innerHTML=`<div class="empty-st"><div class="empty-ico">📋</div><div class="empty-t">No seals yet</div><div class="empty-s">Your sealed documents appear here — each one permanently protected and independently verifiable.</div></div>`;
-    return;
-  }
-  list.innerHTML = items.map(m=>proofHTML(m)).join('');
-}
-
-function renderHistory() {
-  const list = document.getElementById('hist-list');
-  if (!list) return;
-
-  // Show what we have locally immediately
-  renderHistoryFromData(HIST);
-
-  // If cache is fresh (< 5 min) use it
-  if (Date.now() - histCacheTs < 300_000 && histServerSeals.length) {
-    renderHistoryFromData(mergeHistWithServer(histServerSeals));
-    return;
-  }
-
-  // Fetch from server (non-blocking — show spinner in list while loading)
-  if (API.userSeals && CU && CU.pass) {
-    list.innerHTML = `<div class="hist-spinner"><div class="spinner-ring"></div><div class="spinner-txt">Loading your seals…</div></div>`;
-    const btn = document.getElementById('hist-refresh-btn');
-    if (btn) btn.disabled = true;
-    fetchServerHistory().then(serverSeals => {
-      histServerSeals = serverSeals;
-      histCacheTs = Date.now();
-      renderHistoryFromData(mergeHistWithServer(serverSeals));
-      if (btn) btn.disabled = false;
-    });
-  }
-}
-
-function refreshHistory() {
-  histCacheTs = 0; // bust cache
-  renderHistory();
-}
-
-function renderHomeRecent(){
-  const wrap=document.getElementById('home-recent');
-  if(!wrap) return;
-  const r=HIST.slice(0,3);
-  if(!r.length){
-    wrap.innerHTML=`<div class="empty-st" style="padding:24px"><div class="empty-ico">🔐</div><div class="empty-t">No messages yet</div><div class="empty-s">Seal your first message to see your proof history here.</div></div>`;
-    return;
-  }
-  wrap.innerHTML=r.map(m=>proofHTML(m,true)).join('');
-}
-
-function proofHTML(m, compact){
-  const cls=m.dir==='sent'?'s':'r';
-  const ico=m.dir==='sent'?'🔐':'📩';
-  const time=m.ts?m.ts.slice(5,16):'—';
-  const hasLocalCert = !!HIST.find(h=>h.id===m.id);
-  const fullHash = m.fullHash || m.hash || '';
-  const shortTxid = m.txid&&!m.txid.startsWith('demo_') ? m.txid.slice(0,20)+'…' : '(demo)';
-  const verifyUrl = m.txid&&!m.txid.startsWith('demo_')
-    ? `https://doxseal.co.za/verify.html?txid=${m.txid}` : null;
-  return `<div class="proof-card" onclick="toggleDetail(this)">
-    <div class="pc-row">
-      <div class="pc-ico ${cls}">${ico}</div>
-      <div class="pc-body">
-        <div class="pc-subj">${m.subj}${m.fromServer&&!hasLocalCert?'<span class="seal-source-badge">verified</span>':''}</div>
-        <div class="pc-meta">${m.dir==='sent'&&m.to?'To: '+m.to:m.dir==='received'&&m.to?'From: '+m.to:'Sealed by you'}</div>
-      </div>
-      <div class="pc-aside">
-        <div class="pc-badge ${m.verified?'v':'p'}">${m.verified?'✓ On-chain':'⏳ Pending'}</div>
-        <div class="pc-time">${time}</div>
-      </div>
-    </div>
-    ${!compact?`<div class="pc-detail">
-      ${m.msg?`<div class="pd-row"><span class="pd-k">Message</span><span class="pd-v">${(m.msg||'').slice(0,120)}${(m.msg||'').length>120?'…':''}</span></div>`:''}
-      <div class="pd-row"><span class="pd-k">Date sealed</span><span class="pd-v">${m.ts||'—'}</span></div>
-      <div class="pd-row"><span class="pd-k">SHA-256 fingerprint</span><span class="pd-v m" style="font-size:9px;word-break:break-all;max-width:70%">${fullHash||'—'}</span></div>
-      <div class="pd-row"><span class="pd-k">Transaction ID</span><span class="pd-v m">${shortTxid}</span></div>
-      <div class="pd-btns">
-        ${verifyUrl?`<button class="pd-btn" onclick="event.stopPropagation();window.open('${verifyUrl}','_blank')">⛓ Verify ↗</button>`:''}
-        ${hasLocalCert?`<button class="pd-btn" onclick="event.stopPropagation();viewCertById(${m.id})">👁 View cert</button>`:''}
-        ${hasLocalCert?`<button class="pd-btn" onclick="event.stopPropagation();downloadCertById(${m.id})">📄 Download</button>`:''}
-      </div>
-    </div>`:''}
-  </div>`;
-}
-
-function toggleDetail(card){
-  const detail = card.querySelector('.pc-detail');
-  if (detail) detail.classList.toggle('open');
-}
-
-function openWoc(txid){
-  if(txid&&!txid.startsWith('demo_')){window.open('https://whatsonchain.com/tx/'+txid,'_blank');}
-  else{toast('Demo mode','Connect server to enable live verification.','ℹ️');}
-}
-
-// ═══════════════════════════════
-// ACCOUNT
-// ═══════════════════════════════
-// ═══════════════════════════════
-// TOAST
-// ═══════════════════════════════
-function toast(title,msg,ico){
-  const tray=document.getElementById('toast-tray');
-  const el=document.createElement('div');
-  el.className='toast';
-  el.innerHTML=`<div class="t-ico">${ico||'✦'}</div><div><div class="t-title">${title}</div><div class="t-msg">${msg}</div></div>`;
-  tray.appendChild(el);
-  setTimeout(()=>{el.style.opacity='0';el.style.transform='translateY(6px)';el.style.transition='all .25s';setTimeout(()=>el.remove(),250);},3800);
-}
-
-// ═══════════════════════════════
-// UTILS
-// ═══════════════════════════════
-const wait=ms=>new Promise(r=>setTimeout(r,ms));
-
-function escHtml(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-
-async function sha256(str){
-  const buf=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(str));
-  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
-}
-
-function buildOP(hash,to,subj,msg){
-  const d=new Date().toISOString().slice(0,10);
-  if(PRIV==='plain')     return 'TM|MSG|'+hash.slice(0,20)+'|'+d+'|'+msg.slice(0,500);
-  if(PRIV==='hash')      return 'TM|PROOF|'+hash.slice(0,20)+'|'+d;
-  if(PRIV==='encrypted') return 'TM|ENC|'+btoa(unescape(encodeURIComponent(msg.slice(0,80))));
-  return 'TM|MSG|'+hash.slice(0,20)+'|'+d;
-}
-
-async function fetchLivePrice(){
-  try{
-    const r=await fetch('https://api.whatsonchain.com/v1/bsv/main/exchangerate',{signal:AbortSignal.timeout(5000)});
-    const d=await r.json();
-    if(d.rate>0){BSV_USD=parseFloat(d.rate);renderUI();}
-  }catch(e){}
-}
-
-// ═══════════════════════════════
-// SESSION PERSISTENCE
-// ═══════════════════════════════
-function saveSession(){
-  if(!CU) return;
-  try{
-    localStorage.setItem('tm_session', JSON.stringify({
-      cu:{email:CU.email,name:CU.name,plan:CU.plan,addr:CU.addr||'',pass:CU.pass||'',
-          account_type:CU.account_type||'',seals_used:CU.seals_used||0,seals_limit:CU.seals_limit||0},
-      creds:CREDS,
-      ts: Date.now()
-    }));
-  }catch(e){}
-}
-
-const SESSION_TTL = 7 * 24 * 60 * 60 * 1000; // 7 days
-
-function restoreSession(){
-  try{
-    const raw = localStorage.getItem('tm_session');
-    if(!raw) return false;
-    const s = JSON.parse(raw);
-    if(!s||!s.cu||!s.cu.email) return false;
-    if(!s.ts || (Date.now() - s.ts) > SESSION_TTL){
-      localStorage.removeItem('tm_session');
-      return false;
-    }
-    const em = s.cu.email.toLowerCase();
-    CU = {...s.cu, email:em,
-      company: loadCompany(em),
-      whatsapp: loadWhatsApp(em),
-      account_type: s.cu.account_type || '',
-      seals_used:   s.cu.seals_used   || 0,
-      seals_limit:  s.cu.seals_limit  || 0
-    };
-    if(!USERS[em]) USERS[em] = CU;
-    CREDS = (typeof s.creds === 'number' && s.creds > 0) ? s.creds : 50000;
-    HIST = loadCerts(em);
-    if(TRIAL_EMAILS.has(em) || em === 'demo@doxseal.co.za') HIST = [...HIST, ...DEMO];
-    return true;
-  }catch(e){ return false; }
-}
-
-document.addEventListener('keydown',e=>{
-  if(e.key==='Escape'&&document.getElementById('cert-modal').classList.contains('open')) closeCertModal();
-});
-
-// Always show login page — no auto-restore on load.
-</script>
-
-<!-- CERT VIEW MODAL -->
-<div id="cert-modal">
-  <button id="cert-modal-close" onclick="closeCertModal()" title="Close">×</button>
-  <iframe id="cert-modal-frame" title="Certificate" sandbox="allow-same-origin"></iframe>
-</div>
-
-<!-- TRIAL EXPIRED OVERLAY -->
-<div id="pg-upgrade">
-  <div class="upg-icon">✦</div>
-  <h2 class="upg-h">You have used your 3 free seals</h2>
-  <p class="upg-sub">Upgrade to continue sealing documents. Your existing account and certificate history are preserved — no new password needed.</p>
-  <p class="upg-note" style="margin-top:0;margin-bottom:24px;font-size:14px;color:var(--iv3);">From R297/month · Cancel anytime · No lock-in</p>
-  <a class="upg-btn" href="https://doxseal.co.za/subscribe.html" target="_blank" rel="noopener">
-    Upgrade My Account →
+  <h1 class="hero-h1">The only financial advisor who gives clients <em>permanent proof</em> of exactly what was promised</h1>
+  <p class="hero-sub">Seal every financial plan, every proposal, every client instruction on the blockchain. <strong>Win more cold appointments.</strong> Generate automatic referrals. <strong>FAIS-compliant. ECT Act certified.</strong></p>
+  <a href="https://doxseal.co.za/trial" class="hero-cta">
+    <span>See It In Action</span>
+    <span>→</span>
   </a>
-  <button class="upg-back" onclick="dismissUpgrade()">← Back to my certificates</button>
-  <p class="upg-note" style="margin-top:16px;"><a href="https://wa.me/27726126733" target="_blank" rel="noopener" style="color:var(--iv3);text-decoration:none;font-size:13px;">Questions? WhatsApp us</a></p>
-  <p class="upg-note" style="margin-top:8px;"><a href="mailto:hello@doxseal.co.za" style="color:var(--iv3);text-decoration:none;font-size:13px;">Or email hello@doxseal.co.za</a></p>
-</div>
+  <p class="hero-note">Start your free trial at <a href="https://doxseal.co.za/trial">doxseal.co.za/trial</a></p>
+</section>
 
-<!-- ════════════════════════════════════════════════════════════
-     PRINT CERTIFICATE — hidden on screen, shown in @media print
-     Populated by printCert() before window.print() is called.
-════════════════════════════════════════════════════════════ -->
-<div id="print-cert" style="display:none">
-  <div class="pc-outer">
-
-    <!-- Green gradient bar -->
-    <div class="pc-bar"></div>
-
-    <!-- Letterhead -->
-    <div class="pc-header">
-      <div>
-        <div class="pc-logo">DoxSeal</div>
-        <div class="pc-logo-tag">Blockchain Document Protection</div>
-      </div>
-      <div class="pc-seal-badge">&#9679; Permanently Sealed</div>
+<!-- NUMBER BAR -->
+<div class="num-bar">
+  <div class="num-inner">
+    <div class="num-stat">
+      <div class="num-val red">38,855</div>
+      <div class="num-lbl">Insurance complaints to NFO in 2024</div>
     </div>
-
-    <!-- Certificate title -->
-    <div class="pc-title-wrap">
-      <div class="pc-eyebrow">Certificate of Digital Protection</div>
-      <div class="pc-cert-title">DoxSeal — Certificate of Digital Protection</div>
-      <div class="pc-cert-sub">Permanently sealed · Immutable · Tamper-evident · Independently verifiable</div>
+    <div class="num-stat">
+      <div class="num-val gold">R328.5M</div>
+      <div class="num-lbl">Recovered against brokers &amp; insurers</div>
     </div>
-
-    <!-- Document details -->
-    <div class="pc-section">
-      <div class="pc-section-lbl">Document Details</div>
-      <table class="pc-table">
-        <tr><td class="pk">Protected&nbsp;For</td><td class="pv pv-hero" id="pc-to"></td></tr>
-        <tr><td class="pk">Document&nbsp;/&nbsp;Subject</td><td class="pv" id="pc-subj"></td></tr>
-        <tr><td class="pk">Sealed&nbsp;By</td><td class="pv" id="pc-from"></td></tr>
-        <tr><td class="pk">Date&nbsp;&amp;&nbsp;Time</td><td class="pv" id="pc-ts"></td></tr>
-        <tr><td class="pk">Privacy&nbsp;Mode</td><td class="pv" id="pc-mode"></td></tr>
-      </table>
+    <div class="num-stat">
+      <div class="num-val red">R122,350</div>
+      <div class="num-lbl">Paid personally — failed to prove disclosure</div>
     </div>
-
-    <!-- Cryptographic proof -->
-    <div class="pc-section pc-crypto">
-      <div class="pc-section-lbl">Cryptographic Proof</div>
-      <div class="pc-hash-block">
-        <div class="pc-hash-lbl">SHA-256 Digital Fingerprint (Full Hash)</div>
-        <div class="pc-hash-val" id="pc-hash"></div>
-      </div>
-      <div class="pc-hash-block">
-        <div class="pc-hash-lbl">Permanent Seal Reference (Transaction ID)</div>
-        <div class="pc-hash-val" id="pc-txid"></div>
-      </div>
+    <div class="num-stat">
+      <div class="num-val gold">R499</div>
+      <div class="num-lbl">DoxSeal per month</div>
     </div>
-
-    <!-- Independent verification -->
-    <div class="pc-section">
-      <div class="pc-section-lbl">Independent Verification</div>
-      <div class="pc-verify-inner">
-        <div class="pc-verify-left">
-          <p class="pc-verify-note">This certificate can be independently verified on a permanent public ledger. The cryptographic proof cannot be altered, deleted, or denied by any party — including DoxSeal. Verification is performed directly against the permanent record, not DoxSeal servers.</p>
-          <div class="pc-url-lbl">Verify this certificate at</div>
-          <div class="pc-url" id="pc-url"></div>
-          <div class="pc-url-lbl">Or directly on WhatsOnChain</div>
-          <div class="pc-url" id="pc-woc"></div>
-        </div>
-        <div class="pc-qr-wrap">
-          <img id="pc-qr-img" src="" alt="QR Code" style="display:none">
-          <div class="pc-qr-lbl">📱 Scan this QR code with your phone camera to read your personal sealed message and verify this certificate online</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Footer -->
-    <div class="pc-footer">
-      <div class="pc-footer-main">This certificate is self-verifying. Verify at doxseal.co.za/verify — Electronic Communications and Transactions Act 25 of 2002</div>
-      <div class="pc-footer-sub">DoxSeal · hello@doxseal.co.za · doxseal.co.za · The proof exists independently and permanently — tamper-proof and immutable.</div>
-    </div>
-
   </div>
 </div>
 
+<!-- AUDIENCE TABS -->
+<div class="audience-bar">
+  <button class="aud-tab on" onclick="showAud('new',this)">New Brokers — Win Clients</button>
+  <button class="aud-tab" onclick="showAud('est',this)">Established Brokers — Ombud Protection</button>
+</div>
+
+<!-- NEW BROKER SECTION -->
+<div class="aud-section" id="aud-new">
+  <section class="section">
+    <div class="section-eyebrow">For New Brokers</div>
+    <h2 class="section-h2">Win clients from brokers with <em>10 years' experience</em></h2>
+    <p class="section-lead">Every broker gives clients a printed quote. You give them a PDF blockchain certificate alongside it. Their terms are <strong>locked permanently on the blockchain</strong>. You cannot change them. Nobody can. That is why clients choose you over someone with a decade of experience.</p>
+    <div class="new-broker-layout">
+      <div>
+        <div class="pitch-card">
+          <div class="pitch-label">Your Pitch — Word for Word</div>
+          <div class="pitch-quote">I am the only broker who gives you permanent proof of exactly what I promised — before you sign anything.</div>
+          <div class="pitch-note">Hand them the PDF certificate. Watch the conversation change.</div>
+        </div>
+      </div>
+      <div class="advantage-list">
+        <div class="adv-item">
+          <span class="adv-ico">🏆</span>
+          <div>
+            <div class="adv-title">Instant differentiation</div>
+            <div class="adv-desc">No experienced broker is offering this. You walk in with something they have never seen. The conversation is about trust before it is about premium.</div>
+          </div>
+        </div>
+        <div class="adv-item">
+          <span class="adv-ico">📋</span>
+          <div>
+            <div class="adv-title">A certificate at every appointment</div>
+            <div class="adv-desc">Seal the quote before you leave the table. Email them the blockchain certificate on the spot. Their existing broker cannot match it.</div>
+          </div>
+        </div>
+        <div class="adv-item">
+          <span class="adv-ico">🔁</span>
+          <div>
+            <div class="adv-title">Clients who refer clients</div>
+            <div class="adv-desc">A client with a blockchain certificate talks about it. It is different. It is visible. It generates referrals without you asking for them.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ESTABLISHED BROKER SECTION -->
+<div class="aud-section" id="aud-est" style="display:none;">
+  <section class="section">
+    <div class="section-eyebrow gold">For Established Brokers</div>
+    <h2 class="section-h2">Never pay an Ombud ruling <em>out of your own pocket</em> again</h2>
+    <p class="section-lead">A broker was ordered to pay <strong>R122,350 personally</strong> last year. Not the insurer. The broker. The reason: he could not prove he disclosed a policy exclusion to his client. The conversation happened. He just could not prove it.</p>
+    <div class="est-layout">
+      <div class="ruling-card">
+        <div class="ruling-label">Real Ombud Ruling · 2024</div>
+        <div class="ruling-amount">R122,350</div>
+        <div class="ruling-desc">Ordered against the broker personally. The insurer paid nothing. The exclusion had been verbally disclosed — the broker had no proof it ever happened. One sealed record would have closed this case in minutes.</div>
+        <div class="ruling-resolution">✦ DoxSeal seals every client conversation. One QR code closes any Ombud case.</div>
+      </div>
+      <div class="protect-list">
+        <div class="prot-item"><div class="prot-check">✦</div><div class="prot-text">Every exclusion disclosure sealed at the exact moment of advice</div></div>
+        <div class="prot-item"><div class="prot-check">✦</div><div class="prot-text">Independently verifiable timestamp — no one can dispute the date</div></div>
+        <div class="prot-item"><div class="prot-check">✦</div><div class="prot-text">QR code on every certificate — FAIS Ombud can verify in seconds</div></div>
+        <div class="prot-item"><div class="prot-check">✦</div><div class="prot-text">Full suitability records sealed with every investment recommendation</div></div>
+        <div class="prot-item"><div class="prot-check">✦</div><div class="prot-text">Policy change instructions sealed on client receipt — no version disputes</div></div>
+        <div class="prot-item"><div class="prot-check">✦</div><div class="prot-text">Section 7 FAIS Record of Advice — unassailable, blockchain-backed</div></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- WHAT TO SEAL -->
+<div class="seal-bg">
+  <div class="seal-inner">
+    <div class="section-eyebrow">What to Seal</div>
+    <h2 class="section-h2">Every document that matters — <em>sealed the moment it's issued.</em></h2>
+    <div class="seal-grid">
+      <div class="seal-card"><div class="seal-ico">📄</div><div><div class="seal-title">Quotations &amp; Policy Terms</div><div class="seal-desc">Sealed on presentation. The terms you quoted are locked. Nobody can claim they were changed after the fact.</div></div></div>
+      <div class="seal-card"><div class="seal-ico">⚠️</div><div><div class="seal-title">Exclusion Disclosures</div><div class="seal-desc">Sealed at point of advice. The most common reason brokers pay Ombud rulings — eliminated in 30 seconds.</div></div></div>
+      <div class="seal-card"><div class="seal-ico">🔄</div><div><div class="seal-title">Policy Change Instructions</div><div class="seal-desc">Sealed on client receipt. No disputes about what was requested, what was authorised, or when.</div></div></div>
+      <div class="seal-card"><div class="seal-ico">📅</div><div><div class="seal-title">Renewal Notices</div><div class="seal-desc">Sealed on issue date. Proof the client was notified — before the renewal, not after the claim.</div></div></div>
+      <div class="seal-card"><div class="seal-ico">✅</div><div><div class="seal-title">Claim Acknowledgements</div><div class="seal-desc">Sealed immediately on receipt. Timestamp proves you received it, logged it, and acted.</div></div></div>
+      <div class="seal-card"><div class="seal-ico">📈</div><div><div class="seal-title">Investment Recommendations</div><div class="seal-desc">Sealed with full suitability record. Your FAIS Record of Advice — permanent, verifiable, unassailable.</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- PRICING -->
+<div class="pricing-section">
+  <div class="pricing-inner">
+    <div class="section-eyebrow">Pricing</div>
+    <h2 class="section-h2" style="margin-bottom:10px;">Less than one tank of petrol per month.<br><em>Cancel anytime.</em></h2>
+    <p class="section-lead">One new client pays for years of this. Start on Starter, upgrade when you're ready.</p>
+    <div class="pricing-grid">
+      <div class="price-card">
+        <div class="price-tier">Starter</div>
+        <div class="price-amount">R499<span>/mo</span></div>
+        <div class="price-desc">Seal up to 50 documents per month. Quotes, financial plans, client certificates.</div>
+        <div class="price-cancel">Cancel anytime.</div>
+      </div>
+      <div class="price-card featured">
+        <div class="price-tier">✦ Pro · Most Popular</div>
+        <div class="price-amount" style="font-size:22px;color:var(--iv2);">Contact us</div>
+        <div class="price-desc">Seal up to 200 documents plus <strong>20 blockchain-sealed prospect messages</strong> included every month.</div>
+        <div class="price-cancel">Cancel anytime.</div>
+      </div>
+      <div class="price-card">
+        <div class="price-tier">Growth</div>
+        <div class="price-amount" style="font-size:22px;color:var(--iv2);">Contact us</div>
+        <div class="price-desc">Unlimited document sealing plus 50 prospect messages per month.</div>
+        <div class="price-cancel">Cancel anytime.</div>
+      </div>
+    </div>
+    <p style="font-size:12px;color:var(--iv4);text-align:center;margin-top:8px;">No contracts on monthly plans.</p>
+  </div>
+</div>
+
+<!-- PROOF NUMBERS -->
+<div class="proof-section">
+  <div class="proof-inner">
+    <h2 class="proof-h2">The numbers that should make every broker <em>uncomfortable</em></h2>
+    <div class="proof-chips">
+      <div class="chip"><div class="chip-val">38,855</div><div class="chip-lbl">NFO complaints in 2024</div></div>
+      <div class="chip"><div class="chip-val">R328.5M</div><div class="chip-lbl">Recovered from brokers</div></div>
+      <div class="chip"><div class="chip-val">R122,350</div><div class="chip-lbl">One broker. One ruling. No proof.</div></div>
+      <div class="chip gold"><div class="chip-val">from R499/mo</div><div class="chip-lbl">Less than one tank of petrol</div></div>
+    </div>
+    <a href="https://doxseal.co.za/trial" class="hero-cta" style="font-size:15px;padding:16px 38px;">
+      Start Protecting Yourself Today →
+    </a>
+  </div>
+</div>
+
+<!-- GROUP / CEO -->
+<div class="seal-bg">
+  <div class="seal-inner">
+    <div class="section-eyebrow gold">For Investment Group Owners &amp; CEOs</div>
+    <h2 class="section-h2">Rolling out DoxSeal <em>across your group</em></h2>
+    <p class="section-lead" style="max-width:680px;">If you manage a team of financial advisors — DoxSeal gives every advisor in your group a competitive edge that no other group has. Every client meeting sealed. Every FAIS record unassailable. Every referral automatic.</p>
+    <div class="group-card">
+      <div class="group-card-eyebrow">Free 2-Week Group Pilot</div>
+      <p>We offer a free 2-week pilot for investment groups — 3 advisors, zero cost, results in 2 weeks.</p>
+      <div class="group-contact">
+        <div>📧 <a href="mailto:johan@doxseal.co.za">johan@doxseal.co.za</a></div>
+        <div>💬 <a href="https://wa.me/27726126733">WhatsApp: +27 72 612 6733</a></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FAQ -->
+<section class="section">
+  <div class="section-eyebrow">Questions</div>
+  <h2 class="section-h2">Straight answers.</h2>
+  <div class="faq-list">
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)"><span>Is this FAIS compliant documentation?</span><span class="faq-arrow">▼</span></button>
+      <div class="faq-a">The blockchain timestamp proves the exact date, time and content of every client communication. It is independently verifiable by the FAIS Ombud at whatsonchain.com. The immutability of the blockchain record means the content cannot have been altered after the fact — which is exactly what the Ombud needs to see.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)"><span>Does my client need to use DoxSeal?</span><span class="faq-arrow">▼</span></button>
+      <div class="faq-a">No. You seal it on your side at the time of issue. The proof belongs to you. Your client does not need an account — the blockchain record is public and independently verifiable by anyone, including a commissioner or adjudicator.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)"><span>What about the printed quotes I already hand over?</span><span class="faq-arrow">▼</span></button>
+      <div class="faq-a">Seal it in 30 seconds before you hand it over. Your client gets the printed quote and a PDF blockchain certificate. Nothing else changes in your workflow — except that you now have permanent proof of exactly what you quoted, when you quoted it.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)"><span>What about investment advice records?</span><span class="faq-arrow">▼</span></button>
+      <div class="faq-a">Every recommendation, every risk disclosure, every mandate change — sealed permanently. Your FAIS Record of Advice is unassailable. If it ever goes to the Ombud, you produce the blockchain certificate and a QR code that verifies it independently. The case closes.</div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<div class="final-cta">
+  <div class="final-inner">
+    <h2 class="final-h2">The broker who <em>proves everything</em> wins everything.</h2>
+    <p class="final-sub">Clients. Trust. Ombud cases. Start sealing your conversations today.</p>
+    <a href="https://doxseal.co.za/trial" class="final-btn">
+      <span>Get Started Now</span>
+      <span>→</span>
+    </a>
+    <p class="final-note">From R499/month. Less than one tank of petrol. Cancel anytime. One new client pays for years of this.</p>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-brand">© 2026 Orsolso Trader t/a <b>Dox</b>Seal</div>
+  <div class="footer-links">
+    <a href="legal.html#terms">Terms of Service</a>
+    <a href="legal.html#privacy">Privacy Policy</a>
+    <a href="legal.html#popia">POPIA Compliance</a>
+    <a href="mailto:johan@doxseal.co.za">johan@doxseal.co.za</a>
+  </div>
+</footer>
+
+<script>
+function showAud(id, btn) {
+  document.getElementById('aud-new').style.display = id === 'new' ? 'block' : 'none';
+  document.getElementById('aud-est').style.display = id === 'est' ? 'block' : 'none';
+  document.querySelectorAll('.aud-tab').forEach(t => t.classList.remove('on'));
+  btn.classList.add('on');
+}
+function toggleFaq(btn) {
+  const item = btn.closest('.faq-item');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+</script>
 </body>
 </html>
