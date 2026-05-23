@@ -1764,11 +1764,18 @@ td:first-child{color:#555;width:36%;font-size:11px;font-family:Arial,sans-serif;
 
 function downloadCertById(id){const m=HIST.find(c=>c.id===id);if(m)downloadCert(m);}
 function downloadCert(m){
-  const cert=m||LAST;if(!cert)return;
-  const html=buildCertHtml(cert);
-  const dataUrl='data:text/html;charset=utf-8,'+encodeURIComponent(html);
-  window.open(dataUrl,'_blank');
-  toast('Certificate ready','Opened in a new tab — use your browser\'s share or save option.','📄');
+  const cert = m || LAST;
+  if(!cert) return;
+  const html = buildCertHtml(cert);
+  const win = window.open('', '_blank');
+  if(win){
+    win.document.open();
+    win.document.write(html);
+    win.document.close();
+    toast('Certificate opened','Use your browser menu to save or share.','📄');
+  } else {
+    toast('Pop-up blocked','Please allow pop-ups for doxseal.co.za in your browser settings.','⚠️');
+  }
 }
 
 function viewCertById(id){
