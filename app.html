@@ -1766,12 +1766,9 @@ function downloadCertById(id){const m=HIST.find(c=>c.id===id);if(m)downloadCert(
 function downloadCert(m){
   const cert=m||LAST;if(!cert)return;
   const html=buildCertHtml(cert);
-  const blob=new Blob([html],{type:'text/html'});
-  const url=URL.createObjectURL(blob);
-  const link=document.createElement('a');
-  link.download='DoxSeal-Certificate.html';link.href=url;link.click();
-  URL.revokeObjectURL(url);
-  toast('Certificate downloaded','Saved to your downloads folder.','📄');
+  const dataUrl='data:text/html;charset=utf-8,'+encodeURIComponent(html);
+  window.open(dataUrl,'_blank');
+  toast('Certificate ready','Opened in a new tab — use your browser\'s share or save option.','📄');
 }
 
 function viewCertById(id){
