@@ -7,4 +7,5 @@
   <url><loc>https://doxseal.co.za/trial.html</loc><priority>0.7</priority></url>
   <url><loc>https://doxseal.co.za/subscribe.html</loc><priority>0.6</priority></url>
   <url><loc>https://doxseal.co.za/legal.html</loc><priority>0.4</priority></url>
+  <url><loc>https://doxseal.co.za/api-docs.html</loc><priority>0.4</priority></url>
 </urlset>
