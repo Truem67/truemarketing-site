@@ -178,22 +178,19 @@ body::after{
    PRIMARY BUTTON
 ══════════════════════════════ */
 .btn-primary{
-  width:100%;padding:15px;border:none;border-radius:11px;
-  background:linear-gradient(135deg,var(--gold3) 0%,var(--gold2) 50%,var(--gold3) 100%);
-  color:var(--bg);font-family:var(--sans);font-size:15px;font-weight:700;
+  display:block;width:100%;padding:15px;border:none;border-radius:11px;
+  background:linear-gradient(135deg,#9a6f08 0%,#c9a84c 50%,#9a6f08 100%);
+  color:#040f08;font-family:var(--sans);font-size:15px;font-weight:700;
   cursor:pointer;letter-spacing:.02em;
   box-shadow:0 6px 24px rgba(184,134,11,.28);
   transition:all .2s var(--ease);
-  margin-top:8px;position:relative;overflow:hidden;
+  margin-top:8px;
+  -webkit-appearance:none;
+  transform:translateZ(0);
 }
-.btn-primary::after{
-  content:'';position:absolute;inset:0;
-  background:linear-gradient(180deg,rgba(255,255,255,.13),transparent);
-  pointer-events:none;
-}
-.btn-primary:hover{transform:translateY(-1px);box-shadow:0 10px 32px rgba(184,134,11,.40);}
-.btn-primary:active{transform:scale(.98);}
-.btn-primary:disabled{opacity:.5;cursor:default;transform:none;}
+.btn-primary:hover{transform:translateY(-1px) translateZ(0);box-shadow:0 10px 32px rgba(184,134,11,.40);}
+.btn-primary:active{transform:scale(.98) translateZ(0);}
+.btn-primary:disabled{opacity:.5;cursor:default;transform:translateZ(0);}
 
 /* ══════════════════════════════
    CODE INPUT
