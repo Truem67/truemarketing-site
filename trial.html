@@ -420,6 +420,20 @@ const SERVER = 'https://tm-server-myv6.onrender.com';
 let currentEmail = '';
 let currentName  = '';
 
+// Pilot signup: ?pilot=optimum2026 → unlimited seals, no trial cap
+const _pilotToken = new URLSearchParams(window.location.search).get('pilot') || '';
+const _isPilot    = _pilotToken === 'optimum2026';
+
+if (_isPilot) {
+  document.addEventListener('DOMContentLoaded', () => {
+    const sub = document.querySelector('#step-1 .step-sub');
+    if (sub) sub.textContent = 'Pilot access — unlimited seals';
+    const trialBadge = [...document.querySelectorAll('.trust-item')]
+      .find(el => el.textContent.includes('3 free seals'));
+    if (trialBadge) trialBadge.textContent = 'Unlimited seals';
+  });
+}
+
 function showErr(id, msg) {
   const el = document.getElementById(id);
   el.textContent = msg;
@@ -463,7 +477,7 @@ async function requestCode() {
     const r = await fetch(SERVER + '/api/trial/request', {
       method:  'POST',
       headers: { 'Content-Type': 'application/json' },
-      body:    JSON.stringify({ name, email, company }),
+      body:    JSON.stringify({ name, email, company, pilot: _pilotToken }),
       signal:  AbortSignal.timeout(10000)
     });
     const d = await r.json();
@@ -532,7 +546,7 @@ async function resendCode() {
     const r = await fetch(SERVER + '/api/trial/request', {
       method:  'POST',
       headers: { 'Content-Type': 'application/json' },
-      body:    JSON.stringify({ name: currentName, email: currentEmail, company }),
+      body:    JSON.stringify({ name: currentName, email: currentEmail, company, pilot: _pilotToken }),
       signal:  AbortSignal.timeout(10000)
     });
     const d = await r.json();
