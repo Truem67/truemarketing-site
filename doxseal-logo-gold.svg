@@ -1,67 +1,59 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+<svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+  <!-- Outer orbit ring -->
+  <circle cx="150" cy="150" r="138" fill="none" stroke="#b8860b" stroke-width="1" opacity="0.5"/>
+
+  <!-- Outer ring dots -->
+  <circle cx="150" cy="12" r="4" fill="#c9a84c"/>
+  <circle cx="150" cy="288" r="4" fill="#c9a84c"/>
+
+  <!-- Middle orbit ring -->
+  <circle cx="150" cy="150" r="108" fill="none" stroke="#9a6f08" stroke-width="0.8" opacity="0.4"/>
+
+  <!-- Inner orbit ring -->
+  <circle cx="150" cy="150" r="78" fill="none" stroke="#b8860b" stroke-width="0.8" opacity="0.35"/>
+
+  <!-- Inner ring dots -->
+  <circle cx="150" cy="72" r="3" fill="#b8860b" opacity="0.7"/>
+  <circle cx="150" cy="228" r="3" fill="#b8860b" opacity="0.7"/>
+
+  <!-- Glowing core circle -->
   <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%"   stop-color="#040f08"/>
-      <stop offset="100%" stop-color="#0a2614"/>
-    </linearGradient>
-    <linearGradient id="icon-grad" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%"   stop-color="#9a6f08"/>
-      <stop offset="50%"  stop-color="#c9a84c"/>
-      <stop offset="100%" stop-color="#9a6f08"/>
-    </linearGradient>
-    <linearGradient id="rule" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%"   stop-color="#b8860b" stop-opacity="0"/>
-      <stop offset="50%"  stop-color="#b8860b" stop-opacity="0.5"/>
-      <stop offset="100%" stop-color="#b8860b" stop-opacity="0"/>
-    </linearGradient>
-    <radialGradient id="glow" cx="50%" cy="50%" r="55%">
-      <stop offset="0%"   stop-color="#b8860b" stop-opacity="0.07"/>
+    <radialGradient id="coreGrad" cx="50%" cy="40%" r="55%">
+      <stop offset="0%" stop-color="#c9a84c" stop-opacity="1"/>
+      <stop offset="45%" stop-color="#b8860b" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#4a2800" stop-opacity="1"/>
+    </radialGradient>
+    <radialGradient id="glowGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#b8860b" stop-opacity="0.35"/>
       <stop offset="100%" stop-color="#b8860b" stop-opacity="0"/>
     </radialGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
   </defs>
 
-  <!-- Background -->
-  <rect width="1200" height="630" fill="url(#bg)"/>
-  <rect width="1200" height="630" fill="url(#glow)"/>
+  <!-- Outer glow behind core -->
+  <circle cx="150" cy="150" r="72" fill="url(#glowGrad)"/>
 
-  <!-- Top gold rule -->
-  <rect x="0" y="0" width="1200" height="3" fill="url(#rule)"/>
+  <!-- Core circle -->
+  <circle cx="150" cy="150" r="58" fill="url(#coreGrad)"/>
 
-  <!-- Icon: rounded square -->
-  <rect x="552" y="148" width="96" height="96" rx="20" fill="url(#icon-grad)"/>
-
-  <!-- Four-pointed star mark inside icon -->
-  <!-- Vertical bar -->
-  <rect x="592" y="158" width="16" height="76" rx="8" fill="#040f08"/>
-  <!-- Horizontal bar -->
-  <rect x="562" y="188" width="76" height="16" rx="8" fill="#040f08"/>
-  <!-- Diagonal NW-SE -->
-  <rect x="568" y="162" width="12" height="70" rx="6" fill="#040f08" transform="rotate(45 600 196)"/>
-  <!-- Diagonal NE-SW -->
-  <rect x="568" y="162" width="12" height="70" rx="6" fill="#040f08" transform="rotate(-45 600 196)"/>
-
-  <!-- Wordmark -->
-  <text font-family="Georgia, 'Times New Roman', serif" font-size="80" font-weight="700" text-anchor="middle" x="600" y="330">
-    <tspan fill="#c9a84c">Dox</tspan><tspan fill="#f0ead8">Seal</tspan>
-  </text>
-
-  <!-- Tagline -->
-  <text font-family="'Helvetica Neue', Arial, sans-serif" font-size="19" font-weight="500"
-        letter-spacing="4" text-anchor="middle" x="600" y="374"
-        fill="#f0ead8" fill-opacity="0.42">
-    PERMANENT DOCUMENT SEALING
-  </text>
-
-  <!-- Divider rule -->
-  <rect x="360" y="406" width="480" height="1" fill="url(#rule)"/>
-
-  <!-- Domain -->
-  <text font-family="'Helvetica Neue', Arial, sans-serif" font-size="17"
-        text-anchor="middle" x="600" y="442"
-        fill="#f0ead8" fill-opacity="0.28" letter-spacing="1">
-    doxseal.co.za
-  </text>
-
-  <!-- Bottom gold rule -->
-  <rect x="0" y="627" width="1200" height="3" fill="url(#rule)"/>
+  <!-- 4-pointed star / compass rose -->
+  <path d="
+    M150 105
+    C150 105 155 140 160 150
+    C155 160 150 195 150 195
+    C150 195 145 160 140 150
+    C145 140 150 105 150 105
+    Z
+  " fill="white" opacity="0.95" filter="url(#glow)"/>
+  <path d="
+    M105 150
+    C105 150 140 145 150 140
+    C160 145 195 150 195 150
+    C195 150 160 155 150 160
+    C140 155 105 150 105 150
+    Z
+  " fill="white" opacity="0.95"/>
 </svg>
