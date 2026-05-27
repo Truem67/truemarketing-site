@@ -1333,7 +1333,7 @@ body::before{
 
   <div class="auth-tabs">
     <button class="at-tab on" id="at-in">Sign In</button>
-    <button class="at-tab"    id="at-up">Get Started Free</button>
+    <a class="at-tab" id="at-up" href="https://doxseal.co.za/trial.html" style="text-decoration:none;display:flex;align-items:center;justify-content:center;">Get Started Free</a>
   </div>
 
   <div class="auth-err" id="auth-err"></div>
@@ -2720,7 +2720,7 @@ setTimeout(function(){
 document.addEventListener('DOMContentLoaded', function() {
   // Auth tabs
   document.getElementById('at-in').addEventListener('click', function(){ authTab('in'); });
-  document.getElementById('at-up').addEventListener('click', function(){ authTab('up'); });
+
 
   // Sign in
   document.getElementById('in-em').addEventListener('keydown', function(e){ if(e.key==='Enter') doLogin(); });
