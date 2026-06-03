@@ -1668,7 +1668,7 @@ async function doSeal(){
       const phone=rawPhone.startsWith('0')?'27'+rawPhone.slice(1):rawPhone;
       const senderFirst=(CU&&CU.name||'').split(' ')[0]||(CU&&CU.email)||'DoxSeal';
       const waText='Hi, '+senderFirst+' has sealed a document for you on DoxSeal. Subject: '+subj+'. Verify it here: https://doxseal.co.za/verify.html?txid='+txid;
-      btnWa.href='https://wa.me/'+phone+'?text='+encodeURIComponent(waText);
+      btnWa.href='https://api.whatsapp.com/send?phone='+phone+'&text='+encodeURIComponent(waText);
       btnWa.style.display='flex';
     }else{
       btnWa.href='';
