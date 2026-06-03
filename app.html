@@ -1174,7 +1174,7 @@ body::before{
 
     <div class="suc-eye">Certificate of Protection</div>
     <div class="suc-title">Document Sealed</div>
-    <div class="suc-desc" id="suc-desc">Your document has been permanently recorded and time-stamped � it cannot be altered, deleted or denied.</div>
+    <div class="suc-desc" id="suc-desc">Your document has been permanently recorded and time-stamped &mdash; it cannot be altered, deleted or denied.</div>
 
     <div class="cert">
       <div class="cert-bar"></div>
@@ -1606,11 +1606,11 @@ async function doSeal(){
     HIST.unshift(LAST);saveCerts(CU.email,HIST);
     set('suc-desc','"'+subj+'" has been permanently sealed. Your certificate is below.');
     set('cv-subj',subj);set('cv-to',to);set('cv-from',sealedBy);set('cv-ts',tsStr);
-    const _privLabels={plain:'Plain Text',hash:'Hash Only (Private)',encrypted:'Encrypted',file:'File � not uploaded'};
-    set('cv-mode',_privLabels[isFileSeal?'file':PRIV]||(isFileSeal?'File � not uploaded':PRIV));
+    const _privLabels={plain:'Plain Text',hash:'Hash Only (Private)',encrypted:'Encrypted',file:'File &mdash; not uploaded'};
+    set('cv-mode',_privLabels[isFileSeal?'file':PRIV]||(isFileSeal?'File &mdash; not uploaded':PRIV));
     if(isFileSeal){
       document.getElementById('cv-filename-row').style.display='flex';
-      document.getElementById('cv-filename').innerHTML='<span class="cert-file-badge">File sealed � not uploaded</span><span style="font-family:var(--mono);font-size:10px;color:var(--iv2)">'+escHtml(fileName)+'</span>';
+      document.getElementById('cv-filename').innerHTML='<span class="cert-file-badge">File sealed</span><span style="font-family:var(--mono);font-size:10px;color:var(--iv2)">'+escHtml(fileName)+'</span>';
       document.getElementById('cv-msg-row').style.display='none';
     }else{
       document.getElementById('cv-filename-row').style.display='none';
@@ -1781,7 +1781,7 @@ td:first-child{color:#555;width:36%;font-size:11px;font-family:Arial,sans-serif;
 
 <div class="bar"></div>
 <div class="header"><div><div class="logo">DoxSeal</div><div class="logo-tag">Blockchain Document Protection</div></div><div class="badge">&#9679; Permanently Sealed</div></div>
-<div class="title-wrap"><div class="eyebrow">Certificate of Digital Protection</div><div class="cert-title">DoxSeal � Certificate of Digital Protection</div><div class="cert-sub">Permanently sealed &middot; Tamper-proof &middot; Independently verifiable</div></div>
+<div class="title-wrap"><div class="eyebrow">Certificate of Digital Protection</div><div class="cert-title">DoxSeal &mdash; Certificate of Digital Protection</div><div class="cert-sub">Permanently sealed &middot; Tamper-proof &middot; Independently verifiable</div></div>
 <div class="section"><div class="section-lbl">Document Details</div>
 <table>
   <tr class="hero-row"><td>Protected For</td><td class="hero-val">${h(cert.to)}</td></tr>
@@ -2062,7 +2062,7 @@ document.addEventListener('DOMContentLoaded',function(){
     </div>
     <div class="pc-title-wrap">
       <div class="pc-eyebrow">Certificate of Digital Protection</div>
-      <div class="pc-cert-title">DoxSeal � Certificate of Digital Protection</div>
+      <div class="pc-cert-title">DoxSeal &mdash; Certificate of Digital Protection</div>
       <div class="pc-cert-sub">Permanently sealed &middot; Tamper-proof &middot; Independently verifiable</div>
     </div>
     <div class="pc-section">
@@ -2084,7 +2084,7 @@ document.addEventListener('DOMContentLoaded',function(){
       <div class="pc-section-lbl">Independent Verification</div>
       <div class="pc-verify-inner">
         <div class="pc-verify-left">
-          <p class="pc-verify-note">This certificate can be independently verified on the BSV public blockchain. The cryptographic proof exists permanently on a decentralised public ledger and cannot be altered, deleted, or denied by any party � including DoxSeal.</p>
+          <p class="pc-verify-note">This certificate can be independently verified as permanently and tamper-proofly recorded and cannot be altered, deleted, or denied by any party � including DoxSeal.</p>
           <div class="pc-url-lbl">Verify this certificate at</div><div class="pc-url" id="pc-url"></div>
         </div>
         <div class="pc-qr-wrap">
