@@ -886,10 +886,10 @@ body::before{
       <div class="af-label">Password</div>
       <div class="af-pw-wrap">
         <input class="af-input" type="password" id="in-pw" placeholder="��������" autocomplete="off">
-        <button class="af-pw-toggle" id="pw-toggle-in" type="button" aria-label="Show password">??</button>
+        <button class="af-pw-toggle" id="pw-toggle-in" type="button" aria-label="Show password">&#9679;</button>
       </div>
     </div>
-    <button class="btn-go" id="btn-in">Sign In ?</button>
+    <button class="btn-go" id="btn-in">Sign In</button>
     <p class="fp-link"><a href="#" id="fp-link-a">Forgot password?</a></p>
     <div id="fp-panel" style="display:none">
       <div class="af-row" style="margin-bottom:10px">
@@ -918,7 +918,7 @@ body::before{
       <div class="af-label">Choose a password</div>
       <div class="af-pw-wrap">
         <input class="af-input" type="password" id="up-pw" placeholder="Min. 8 characters" autocomplete="new-password">
-        <button class="af-pw-toggle" id="pw-toggle-up" type="button" aria-label="Show password">??</button>
+        <button class="af-pw-toggle" id="pw-toggle-up" type="button" aria-label="Show password">&#9679;</button>
       </div>
     </div>
     <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:12px;padding:12px 14px;background:rgba(184,134,11,.04);border:1px solid var(--line);border-radius:8px;">
@@ -930,9 +930,9 @@ body::before{
   </div>
 
   <div class="trust-row">
-    <div class="trust-item"><div class="trust-ico">??</div><div class="trust-txt">Tamper-<br>proof</div></div>
-    <div class="trust-item"><div class="trust-ico">?</div><div class="trust-txt">Instantly<br>timestamped</div></div>
-    <div class="trust-item"><div class="trust-ico">??</div><div class="trust-txt">Legally<br>verifiable</div></div>
+    <div class="trust-item"><div class="trust-ico">&#10003;</div><div class="trust-txt">Tamper-<br>proof</div></div>
+    <div class="trust-item"><div class="trust-ico">&#10003;</div><div class="trust-txt">Instantly<br>timestamped</div></div>
+    <div class="trust-item"><div class="trust-ico">&#10003;</div><div class="trust-txt">Legally<br>verifiable</div></div>
   </div>
 
   <footer class="wl-footer">
@@ -959,7 +959,7 @@ body::before{
       <span>Dox</span>Seal
     </div>
     <div class="hdr-right">
-      <div class="hdr-bal" title="Your sealing credits">? <span id="hdr-cred">�</span></div>
+      <div class="hdr-bal" title="Your sealing credits"><span id="hdr-cred">�</span></div>
       <button class="hdr-out" id="hdr-out">Sign out</button>
     </div>
   </div>
@@ -1010,7 +1010,7 @@ body::before{
             <div class="qa-title">Validate Document</div>
             <div class="qa-sub">Create a permanent legal record</div>
           </div>
-          <div class="qa-big-arrow">�</div>
+          <div class="qa-big-arrow">&#8594;</div>
         </button>
       </div>
 
@@ -1058,10 +1058,10 @@ body::before{
 
         <div class="file-zone" id="file-zone">
           <input type="file" id="file-input" accept=".pdf,.jpg,.jpeg,.png,.gif,.bmp,.webp,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.csv,.zip,.mp4,.mov">
-          <div class="fz-ico">??</div>
+          <div class="fz-ico">+</div>
           <div class="fz-title">Upload a file to seal</div>
           <div class="fz-sub">PDF � Image � Word � Excel � Any file type � Max 500 MB</div>
-          <div class="fz-privacy">?? Your file never leaves this device � only a unique fingerprint is sealed on the blockchain</div>
+          <div class="fz-privacy">Your file never leaves this device � only a unique fingerprint is sealed on the blockchain</div>
         </div>
 
         <div class="file-ready" id="file-ready">
@@ -1136,10 +1136,10 @@ body::before{
 
 <!-- Bottom nav -->
 <nav class="app-nav" id="app-nav" style="display:none">
-  <button class="nav-it on" id="nb-home"><span class="nav-ico">??</span><span class="nav-lbl">Home</span></button>
-  <button class="nav-it" id="nb-seal"><span class="nav-ico">?</span><span class="nav-lbl">Validate</span></button>
-  <button class="nav-it" id="nb-history"><span class="nav-ico">??</span><span class="nav-lbl">My Certs</span></button>
-  <button class="nav-it" id="nb-account" style="display:flex!important"><span class="nav-ico">??</span><span class="nav-lbl">Account</span></button>
+  <button class="nav-it on" id="nb-home"><span class="nav-lbl">Home</span></button>
+  <button class="nav-it" id="nb-seal"><span class="nav-lbl">Validate</span></button>
+  <button class="nav-it" id="nb-history"><span class="nav-lbl">My Certs</span></button>
+  <button class="nav-it" id="nb-account" style="display:flex!important"><span class="nav-lbl">Account</span></button>
 </nav>
 
 <!-- -----------------------------------
@@ -1150,7 +1150,7 @@ body::before{
     <div class="orb orb-1"><div class="orb-dot"></div></div>
     <div class="orb orb-2"><div class="orb-dot"></div></div>
     <div class="orb orb-3"></div>
-    <div class="orb-core">??</div>
+    <div class="orb-core">&#10022;</div>
   </div>
   <div class="sealing-t">Sealing your message�</div>
   <div class="sealing-s">This takes just a moment</div>
@@ -1223,18 +1223,18 @@ body::before{
     </div>
 
     <div class="suc-actions">
-      <button class="btn-dl" id="btn-dl">?? Download Certificate</button>
-      <button class="btn-print" id="btn-print">??? Print Certificate</button>
-      <button class="btn-woc" id="btn-woc">?? Verify Document ?</button>
+      <button class="btn-dl" id="btn-dl">Download Certificate</button>
+      <button class="btn-print" id="btn-print">Print Certificate</button>
+      <button class="btn-woc" id="btn-woc">Verify on Blockchain</button>
       <div class="share-box" id="share-box" style="display:none">
         <div class="share-box-lbl">Verify link</div>
         <div class="share-url" id="share-url-display"></div>
       </div>
       <div class="share-btn-row" id="share-btn-row" style="display:none">
-        <button class="btn-copy-msg" id="btn-copy-msg">?? Copy Message</button>
-        <button class="btn-native-share" id="btn-native-share">? Share</button>
+        <button class="btn-copy-msg" id="btn-copy-msg">Copy Message</button>
+        <button class="btn-native-share" id="btn-native-share">Share</button>
       </div>
-      <button class="btn-again" id="btn-again">? Validate Another Document</button>
+      <button class="btn-again" id="btn-again">Validate Another Document</button>
     </div>
   </div>
 </div>
@@ -1363,7 +1363,7 @@ function doSignup(){
     localStorage.setItem('tm_creds_'+em, JSON.stringify({name:nm,pass:pw}));
     btn.disabled=false; btn.textContent='? Create Free Account';
     openApp();
-    setTimeout(()=>toast('? 50,000 free credits added!','Go ahead � seal your first message. It takes under 10 seconds.','?'),700);
+    setTimeout(()=>toast('50,000 free credits added!','Go ahead � seal your first message. It takes under 10 seconds.'),700);
   }, 900);
 }
 
@@ -1549,7 +1549,7 @@ async function processFile(file){
     FILE_DATA={name:file.name,hash,size:file.size};
     const kb=file.size<1024*1024?(file.size/1024).toFixed(1)+' KB':(file.size/1024/1024).toFixed(2)+' MB';
     document.getElementById('fr-hash').textContent=hash;
-    document.getElementById('fr-status').textContent=`Hash ready ? � ${kb} � File not uploaded`;
+    document.getElementById('fr-status').textContent=`Hash ready – ${kb} � File not uploaded`;
   }catch(e){document.getElementById('fr-status').textContent='? Error: '+e.message;}
 }
 function clearFile(){
@@ -1576,7 +1576,7 @@ function setPriv(mode,el){
   el.classList.add('on');onMsgType();
 }
 function showExamples(){
-  toast('Subject examples','Invoice confirmation � Sale agreement � Variation order � Notice of cancellation � Offer accepted � Deposit received','?');
+  toast('Subject examples','Invoice confirmation � Sale agreement � Variation order � Notice of cancellation � Offer accepted � Deposit received');
 }
 
 async function doSeal(){
@@ -1585,11 +1585,11 @@ async function doSeal(){
   const subj=(document.getElementById('sf-subj').value||'').trim();
   const msg=(document.getElementById('sf-msg').value||'').trim();
   const isFileSeal=!!FILE_DATA;
-  if(!to){toast('Who is this for?','Please enter a recipient email.','??');return;}
-  if(!subj){toast('What is this about?','Please add a subject line.','??');return;}
-  if(!msg&&!isFileSeal){toast('Nothing to seal','Type a message or upload a file.','??');return;}
-  if(isFileSeal&&!FILE_DATA.hash){toast('File not ready','Please wait for the fingerprint to finish.','??');return;}
-  if(CREDS<200){toast('Not enough credits','Contact us to top up your account.','??');return;}
+  if(!to){toast('Who is this for?','Please enter a recipient email.');return;}
+  if(!subj){toast('What is this about?','Please add a subject line.');return;}
+  if(!msg&&!isFileSeal){toast('Nothing to seal','Type a message or upload a file.');return;}
+  if(isFileSeal&&!FILE_DATA.hash){toast('File not ready','Please wait for the fingerprint to finish.');return;}
+  if(CREDS<200){toast('Not enough credits','Contact us to top up your account.');return;}
   document.getElementById('btn-seal').disabled=true;
   showPage('pg-sealing');
   try{
@@ -1624,7 +1624,7 @@ async function doSeal(){
     set('cv-mode',_privLabels[isFileSeal?'file':PRIV]||(isFileSeal?'File � not uploaded':PRIV));
     if(isFileSeal){
       document.getElementById('cv-filename-row').style.display='flex';
-      document.getElementById('cv-filename').innerHTML='<span class="cert-file-badge">?? File sealed � not uploaded</span><span style="font-family:var(--mono);font-size:10px;color:var(--iv2)">'+escHtml(fileName)+'</span>';
+      document.getElementById('cv-filename').innerHTML='<span class="cert-file-badge">File sealed � not uploaded</span><span style="font-family:var(--mono);font-size:10px;color:var(--iv2)">'+escHtml(fileName)+'</span>';
       document.getElementById('cv-msg-row').style.display='none';
     }else{
       document.getElementById('cv-filename-row').style.display='none';
@@ -1634,7 +1634,7 @@ async function doSeal(){
     set('cv-hash',isFileSeal?hash:hash.slice(0,22)+'�');
     const isLiveTx=!txid.startsWith('demo_');
     set('cv-txid',isLiveTx?txid.slice(0,28)+'�':'Demo � connect server for live TX');
-    set('chain-txt',API.broadcast?'? Recorded on BSV blockchain � Permanent':'?? Sealed locally � Connect server for on-chain');
+    set('chain-txt',API.broadcast?'Recorded on BSV blockchain � Permanent':'Sealed locally � Connect server for on-chain');
     if(isLiveTx){
       const verifyURL=buildVerifyURL(txid,LAST);
       document.getElementById('cert-verify-box').style.display='block';
@@ -1656,7 +1656,7 @@ async function doSeal(){
     }
   }catch(err){
     document.getElementById('btn-seal').disabled=false;
-    showPage('pg-app');toast('Something went wrong',err.message||'Please try again.','??');
+    showPage('pg-app');toast('Something went wrong',err.message||'Please try again.');
   }
 }
 
@@ -1696,7 +1696,7 @@ async function sealAnother(){
 function verifyOnChain(){
   if(!LAST)return;
   if(LAST.txid&&!LAST.txid.startsWith('demo_')){window.open('https://doxseal.co.za/verify?txid='+LAST.txid,'_blank');}
-  else{toast('Demo mode','Connect your BSV server for live blockchain transactions.','??');}
+  else{toast('Demo mode','Connect your BSV server for live blockchain transactions.');}
 }
 
 function _shareMsg(){
@@ -1712,8 +1712,8 @@ async function copyShareMsg(){
     await navigator.clipboard.writeText(msg);
     const btn=document.getElementById('btn-copy-msg');
     btn.textContent='? Copied!';btn.classList.add('copied');
-    setTimeout(()=>{btn.textContent='?? Copy Message';btn.classList.remove('copied');},2500);
-  }catch(e){toast('Copy failed','Please copy the link manually.','??');}
+    setTimeout(()=>{btn.textContent='Copy Message';btn.classList.remove('copied');},2500);
+  }catch(e){toast('Copy failed','Please copy the link manually.');}
 }
 
 async function nativeShare(){
@@ -1726,7 +1726,7 @@ async function nativeShare(){
       text:'Hi, '+senderFirst+' has sealed a document for you on DoxSeal.',
       url:verifyLink
     });
-  }catch(e){if(e.name!=='AbortError')toast('Share failed',e.message||'Please try again.','??');}
+  }catch(e){if(e.name!=='AbortError')toast('Share failed',e.message||'Please try again.');}
 }
 
 function buildVerifyURL(txid,cert){
@@ -1817,7 +1817,7 @@ td:first-child{color:#555;width:36%;font-size:11px;font-family:Arial,sans-serif;
   <div class="url">${verifyUrl?h(verifyUrl):'Connect server for live blockchain transactions'}</div>
   <div class="url-lbl">Or directly on WhatsOnChain</div>
   <div class="url">${isLive?'https://whatsonchain.com/tx/'+h(cert.txid):'(demo seal � not on chain)'}</div>
-</div>${qrSrc?'<div class="qr-wrap"><img src="'+qrSrc+'" alt="Scan to verify"><div class="qr-lbl">?? Scan to verify this certificate on the blockchain</div></div>':''}</div></div>
+</div>${qrSrc?'<div class="qr-wrap"><img src="'+qrSrc+'" alt="Scan to verify"><div class="qr-lbl">Scan to verify this certificate on the blockchain</div></div>':''}</div></div>
 <div class="footer"><div class="footer-main">This certificate is self-verifying. Verify at doxseal.co.za/verify.html � Electronic Communications and Transactions Act 25 of 2002</div><div class="footer-sub">DoxSeal � johan@doxseal.co.za � doxseal.co.za</div></div>
 </body></html>`;
   return html;
@@ -1833,15 +1833,15 @@ function downloadCert(m){
     win.document.open();
     win.document.write(html);
     win.document.close();
-    toast('Certificate opened','Use your browser menu to save or share.','??');
+    toast('Certificate opened','Use your browser menu to save or share.');
   } else {
-    toast('Pop-up blocked','Please allow pop-ups for doxseal.co.za in your browser settings.','??');
+    toast('Pop-up blocked','Please allow pop-ups for doxseal.co.za in your browser settings.');
   }
 }
 
 function viewCertById(id){
   const m=HIST.find(c=>c.id===id);
-  if(!m){toast('Not found','Certificate not found.','??');return;}
+  if(!m){toast('Not found','Certificate not found.');return;}
   const frame=document.getElementById('cert-modal-frame');
   frame.srcdoc=buildCertHtml(m);
   document.getElementById('cert-modal').classList.add('open');
@@ -1852,7 +1852,7 @@ function closeCertModal(){
 }
 
 function printCert(){
-  if(!LAST){toast('Nothing to print','Complete a seal first.','??');return;}
+  if(!LAST){toast('Nothing to print','Complete a seal first.');return;}
   const isLive=!LAST.txid.startsWith('demo_');
   const verifyUrl=isLive?buildVerifyURL(LAST.txid,LAST):'Demo mode � connect server for live blockchain transactions';
   const wocUrl=isLive?'https://whatsonchain.com/tx/'+LAST.txid:'(demo seal � not on chain)';
@@ -1883,26 +1883,26 @@ function setFilter(f,el){
 function renderHistory(){
   const list=document.getElementById('hist-list');if(!list)return;
   const items=FILTER==='all'?HIST:FILTER==='sent'?HIST.filter(m=>m.dir==='sent'):FILTER==='received'?HIST.filter(m=>m.dir==='received'):HIST.filter(m=>m.verified);
-  if(!items.length){list.innerHTML=`<div class="empty-st"><div class="empty-ico">??</div><div class="empty-t">No proofs yet</div><div class="empty-s">Your sealed messages appear here � each one permanently recorded on the blockchain.</div></div>`;return;}
+  if(!items.length){list.innerHTML=`<div class="empty-st"><div class="empty-ico"></div><div class="empty-t">No proofs yet</div><div class="empty-s">Your sealed messages appear here � each one permanently recorded on the blockchain.</div></div>`;return;}
   list.innerHTML=items.map(m=>proofHTML(m)).join('');
 }
 
 function renderHomeRecent(){
   const wrap=document.getElementById('home-recent');if(!wrap)return;
   const r=HIST.slice(0,3);
-  if(!r.length){wrap.innerHTML=`<div class="empty-st" style="padding:24px"><div class="empty-ico">??</div><div class="empty-t">No messages yet</div><div class="empty-s">Seal your first message to see your proof history here.</div></div>`;return;}
+  if(!r.length){wrap.innerHTML=`<div class="empty-st" style="padding:24px"><div class="empty-ico"></div><div class="empty-t">No messages yet</div><div class="empty-s">Seal your first message to see your proof history here.</div></div>`;return;}
   wrap.innerHTML=r.map(m=>proofHTML(m,true)).join('');
 }
 
 function proofHTML(m,compact){
   const cls=m.dir==='sent'?'s':'r';
-  const ico=m.dir==='sent'?'??':'??';
+  const ico=m.dir==='sent'?'&uarr;':'&darr;';
   const time=m.ts?m.ts.slice(5,16):'�';
   return `<div class="proof-card" data-id="${m.id}">
     <div class="pc-row">
       <div class="pc-ico ${cls}">${ico}</div>
       <div class="pc-body"><div class="pc-subj">${m.subj}</div><div class="pc-meta">${m.dir==='sent'?'To: ':'From: '}${m.to}</div></div>
-      <div class="pc-aside"><div class="pc-badge ${m.verified?'v':'p'}">${m.verified?'? On-chain':'? Pending'}</div><div class="pc-time">${time}</div></div>
+      <div class="pc-aside"><div class="pc-badge ${m.verified?'v':'p'}">${m.verified?'Live':'Pending'}</div><div class="pc-time">${time}</div></div>
     </div>
     ${!compact?`<div class="pc-detail" id="pd-${m.id}">
       ${m.msg?`<div class="pd-row"><span class="pd-k">Message</span><span class="pd-v">${(m.msg||'').slice(0,100)}${(m.msg||'').length>100?'�':''}</span></div>`:''}
@@ -1910,9 +1910,9 @@ function proofHTML(m,compact){
       <div class="pd-row"><span class="pd-k">Transaction ID</span><span class="pd-v m">${m.txid&&!m.txid.startsWith('demo_')?m.txid.slice(0,20)+'�':'(demo)'}</span></div>
       <div class="pd-row"><span class="pd-k">Fingerprint</span><span class="pd-v m">${m.hash||''}�</span></div>
       <div class="pd-btns">
-        <button class="pd-btn pd-view" data-id="${m.id}">?? View</button>
-        <button class="pd-btn pd-verify" data-id="${m.id}" data-txid="${m.txid||''}">? Verify ?</button>
-        <button class="pd-btn pd-dl" data-id="${m.id}">?? Download</button>
+        <button class="pd-btn pd-view" data-id="${m.id}">View</button>
+        <button class="pd-btn pd-verify" data-id="${m.id}" data-txid="${m.txid||''}">Verify</button>
+        <button class="pd-btn pd-dl" data-id="${m.id}">Download</button>
       </div>
     </div>`:''}
   </div>`;
@@ -1921,14 +1921,14 @@ function proofHTML(m,compact){
 function toggleDetail(id){const el=document.getElementById('pd-'+id);if(el)el.classList.toggle('open');}
 function openWoc(txid){
   if(txid&&!txid.startsWith('demo_')){window.open('https://whatsonchain.com/tx/'+txid,'_blank');}
-  else{toast('Demo mode','Connect your BSV server for live blockchain verification.','??');}
+  else{toast('Demo mode','Connect your BSV server for live blockchain verification.');}
 }
-function showAddr(){toast('Your blockchain address',CU&&CU.addr?CU.addr:'Not set','?');}
+function showAddr(){toast('Your blockchain address',CU&&CU.addr?CU.addr:'Not set');}
 
 function toast(title,msg,ico){
   const tray=document.getElementById('toast-tray');
   const el=document.createElement('div');el.className='toast';
-  el.innerHTML=`<div class="t-ico">${ico||'?'}</div><div><div class="t-title">${title}</div><div class="t-msg">${msg}</div></div>`;
+  el.innerHTML=`<div class="t-ico">${ico||''}</div><div><div class="t-title">${title}</div><div class="t-msg">${msg}</div></div>`;
   tray.appendChild(el);
   setTimeout(()=>{el.style.opacity='0';el.style.transform='translateY(6px)';el.style.transition='all .25s';setTimeout(()=>el.remove(),250);},3800);
 }
@@ -2020,14 +2020,14 @@ document.addEventListener('DOMContentLoaded',function(){
   document.getElementById('nb-history').addEventListener('click',function(){goTab('history');});
   document.getElementById('nb-account').addEventListener('click',function(){goTab('account');});
   document.getElementById('btn-dl').addEventListener('click', function(){
-    if(!LAST){toast('Nothing to download','Complete a seal first.','??');return;}
+    if(!LAST){toast('Nothing to download','Complete a seal first.');return;}
     const html = buildCertHtml(LAST);
     const win = window.open('', '_blank');
     if(win){
       win.document.open();
       win.document.write(html);
       win.document.close();
-      toast('Certificate opened','Use browser menu to save or share.','??');
+      toast('Certificate opened','Use browser menu to save or share.');
     } else {
       // Fallback � inject into current page as printable overlay
       const div = document.createElement('div');
@@ -2039,7 +2039,7 @@ document.addEventListener('DOMContentLoaded',function(){
       closeBtn.onclick = function(){ document.body.removeChild(div); };
       div.appendChild(closeBtn);
       document.body.appendChild(div);
-      toast('Certificate ready','Tap the menu to share or print.','??');
+      toast('Certificate ready','Tap the menu to share or print.');
     }
   });
   document.getElementById('btn-print').addEventListener('click',printCert);
@@ -2106,7 +2106,7 @@ document.addEventListener('DOMContentLoaded',function(){
         </div>
         <div class="pc-qr-wrap">
           <img id="pc-qr-img" src="" alt="QR Code" style="display:none">
-          <div class="pc-qr-lbl">?? Scan this QR code with your phone camera to verify this certificate on the blockchain</div>
+          <div class="pc-qr-lbl">Scan this QR code with your phone camera to verify this certificate on the blockchain</div>
         </div>
       </div>
     </div>
