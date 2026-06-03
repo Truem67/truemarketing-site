@@ -424,9 +424,9 @@ body.auto-verify-mode .check-another{display:inline-block;}
       type="text"
       placeholder="e.g. 3a7f92bc4d1e8af5d9c2e4b6f1a3d5e7..."
       autocomplete="off" spellcheck="false"
-      onkeydown="if(event.key==='Enter')doVerify()">
+      >
     <div class="input-hint">The Proof Reference is the 64-character ID on every DoxSeal certificate.</div>
-    <button class="verify-btn" onclick="doVerify()">Verify Document</button>
+    <button class="verify-btn" id="verify-btn">Verify Document</button>
   </div>
 </div>
 
@@ -439,7 +439,7 @@ body.auto-verify-mode .check-another{display:inline-block;}
 
 <!-- RESULT -->
 <div class="result-wrap" id="result-wrap">
-  <span class="check-another" onclick="showInputAgain()">Check another document</span>
+  <span class="check-another" id="check-another-btn">Check another document</span>
 
   <!-- VERIFIED -->
   <div id="r-verified" style="display:none">
@@ -649,23 +649,29 @@ async function doVerify() {
 
   try {
     const url = `https://tm-server-myv6.onrender.com/api/verify/${txid}`;
+    console.log('[DoxSeal] fetching:', url);
     const res = await fetch(url, {
       signal: AbortSignal.timeout(12000),
       headers: { 'Accept': 'application/json' }
     });
+    console.log('[DoxSeal] API response status:', res.status);
 
     document.getElementById('loading-state').classList.remove('show');
     document.getElementById('result-wrap').classList.add('show');
 
     if (res.status === 404 || res.status === 400) {
+      console.log('[DoxSeal] → showNotFound');
       showNotFound(txid);
     } else if (!res.ok) {
+      console.log('[DoxSeal] → showApiError (status ' + res.status + ')');
       showApiError(txid);
     } else {
       const tx = await res.json();
+      console.log('[DoxSeal] → showVerified, blocktime:', tx.blocktime);
       showVerified(txid, tx);
     }
   } catch(e) {
+    console.error('[DoxSeal] fetch error:', e.name, e.message);
     document.getElementById('loading-state').classList.remove('show');
     document.getElementById('result-wrap').classList.add('show');
     showApiError(txid);
@@ -788,8 +794,32 @@ function showApiError(txid) {
   showOnly('r-error');
 }
 
+// ── Attach all event listeners here (no inline onclick/onkeydown) ──────────
+document.getElementById('verify-btn').addEventListener('click', function() {
+  console.log('[DoxSeal] Verify button clicked');
+  doVerify();
+});
+document.getElementById('txid-input').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') { console.log('[DoxSeal] Enter key in input'); doVerify(); }
+});
+document.getElementById('check-another-btn').addEventListener('click', showInputAgain);
+
+// Add console.log to doVerify entry
+const _origDoVerify = doVerify;
+doVerify = async function() {
+  const val = (document.getElementById('txid-input').value || '').trim();
+  console.log('[DoxSeal] doVerify called, input length:', val.length);
+  try {
+    await _origDoVerify();
+  } catch(e) {
+    console.error('[DoxSeal] doVerify threw:', e.message);
+  }
+};
+
+// Auto-verify from URL
 (function() {
   const txid = _params.get('txid') || _params.get('tx') || '';
+  console.log('[DoxSeal] page load, txid param:', txid ? txid.slice(0,12)+'...' : 'none');
   if (txid) {
     document.getElementById('txid-input').value = txid;
     document.body.classList.add('auto-verify-mode');
