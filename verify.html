@@ -701,20 +701,20 @@ function showVerified(txid, tx) {
   _certParams.set('ts', sealDate);
   const _certUrl = 'https://doxseal.co.za/cert.html?' + _certParams.toString();
   console.log('[DoxSeal] cert URL:', _certUrl);
-  // Remove any previously injected cert button, then inject fresh (no display:none fight)
+  // Inject into result-wrap (already display:block) — not into r-verified (still hidden at this point)
   const _oldBtn = document.getElementById('btn-view-cert');
   if (_oldBtn) _oldBtn.remove();
-  const _replyWrap = document.getElementById('reply-wrap');
-  if (_replyWrap) {
+  const _resultWrap = document.getElementById('result-wrap');
+  if (_resultWrap) {
     const _certBtn = document.createElement('a');
     _certBtn.id = 'btn-view-cert';
     _certBtn.className = 'btn-view-cert';
     _certBtn.href = _certUrl;
     _certBtn.textContent = 'View Full Certificate';
-    _replyWrap.parentNode.insertBefore(_certBtn, _replyWrap);
-    console.log('[DoxSeal] certBtn injected, href:', _certBtn.href);
+    _resultWrap.appendChild(_certBtn);
+    console.log('[DoxSeal] certBtn appended to result-wrap, href:', _certBtn.href);
   } else {
-    console.error('[DoxSeal] reply-wrap not found — cannot inject certBtn');
+    console.error('[DoxSeal] result-wrap not found');
   }
 
   const rawPayload = extractOpReturn(tx.vout);
@@ -779,10 +779,12 @@ function escHtml(str) {
 }
 
 function showNotFound(txid) {
+  const _b=document.getElementById('btn-view-cert');if(_b)_b.remove();
   showOnly('r-notfound');
 }
 
 function showApiError(txid) {
+  const _b=document.getElementById('btn-view-cert');if(_b)_b.remove();
   showOnly('r-error');
 }
 
