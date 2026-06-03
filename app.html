@@ -495,14 +495,15 @@ body::before{
 .cl-l{color:var(--iv3);}
 .cl-r{font-family:var(--mono);color:var(--gold2);font-weight:500;}
 
-/* WhatsApp notify toggle */
-.wa-notify-row{padding:13px 15px!important;display:flex;align-items:center;}
-.wa-notify-row.s-field{border-color:transparent;background:rgba(37,211,102,.04);border-color:rgba(37,211,102,.15);}
-.wa-notify-row.s-field:focus-within{border-color:rgba(37,211,102,.35);box-shadow:0 0 0 3px rgba(37,211,102,.08);}
-.wa-toggle-label{display:flex;align-items:center;gap:10px;cursor:pointer;width:100%;}
-.wa-toggle-label input[type=checkbox]{width:16px;height:16px;flex-shrink:0;accent-color:#25d366;cursor:pointer;}
-.wa-toggle-txt{font-size:13px;color:var(--iv2);font-weight:500;}
-.s-field-opt{font-weight:400;color:var(--iv4);font-size:10px;text-transform:none;letter-spacing:0;}
+/* Share box on success screen */
+.share-box{background:rgba(255,255,255,.04);border:1.5px solid var(--line2);border-radius:12px;padding:12px 14px;margin-bottom:10px;}
+.share-box-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--gold3);margin-bottom:6px;}
+.share-url{font-family:var(--mono);font-size:11px;color:var(--iv2);word-break:break-all;line-height:1.6;}
+.share-btn-row{display:flex;gap:9px;margin-bottom:10px;}
+.btn-copy-msg{flex:1;padding:13px 10px;border-radius:12px;background:var(--card);border:1.5px solid var(--line2);font-size:13px;font-weight:600;color:var(--iv2);display:flex;align-items:center;justify-content:center;gap:7px;transition:border-color .15s,color .15s;}
+.btn-copy-msg:hover{border-color:var(--gold);color:var(--gold2);}
+.btn-copy-msg.copied{border-color:var(--green-bright);color:var(--green-bright);}
+.btn-native-share{flex:1;padding:13px 10px;border-radius:12px;background:linear-gradient(135deg,var(--gold3),var(--gold2));font-size:13px;font-weight:700;color:#040f08;display:flex;align-items:center;justify-content:center;gap:7px;transition:opacity .15s;}
 
 /* Seal CTA */
 .btn-seal{
@@ -669,15 +670,7 @@ body::before{
   transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px;
 }
 .btn-woc:hover{border-color:var(--gold2);color:var(--gold2);}
-.btn-wa-send{
-  width:100%;padding:15px;border-radius:14px;
-  background:#25d366;color:#fff;font-size:15px;font-weight:700;
-  display:flex;align-items:center;justify-content:center;gap:9px;
-  text-decoration:none;transition:background .15s,transform .1s,box-shadow .15s;
-  box-shadow:0 4px 18px rgba(37,211,102,.32);cursor:pointer;
-}
-.btn-wa-send:hover{background:#1ebe5d;transform:translateY(-1px);box-shadow:0 8px 24px rgba(37,211,102,.42);}
-.btn-wa-send:active{transform:translateY(0);}
+
 .btn-again{
   width:100%;padding:12px;border-radius:14px;
   background:transparent;font-size:13px;font-weight:500;color:var(--iv3);
@@ -1043,21 +1036,6 @@ body::before{
           <input type="email" id="sf-to" placeholder="their@email.com" autocomplete="off">
         </div>
 
-        <div class="s-field wa-notify-row">
-          <label class="wa-toggle-label">
-            <input type="checkbox" id="sf-wa-notify">
-            <span class="wa-toggle-txt">Notify recipient via WhatsApp after sealing</span>
-          </label>
-        </div>
-
-        <div class="s-field" id="sf-wa-wrap" style="display:none">
-          <div class="s-field-lbl">Recipient WhatsApp number <span class="s-field-opt">(optional)</span></div>
-          <input type="tel" id="sf-wa-num" placeholder="27XXXXXXXXX or 0XXXXXXXXX" autocomplete="off" maxlength="12">
-          <div class="s-field-foot">
-            <span style="color:var(--iv4)">International: 27XXXXXXXXX &nbsp;&#8226;&nbsp; Local SA: 0XXXXXXXXX</span>
-          </div>
-        </div>
-
         <div class="s-field">
           <div class="s-field-lbl">What is this about?</div>
           <input type="text" id="sf-subj" placeholder="e.g. Invoice confirmation � Agreement � Notice�">
@@ -1248,10 +1226,14 @@ body::before{
       <button class="btn-dl" id="btn-dl">?? Download Certificate</button>
       <button class="btn-print" id="btn-print">??? Print Certificate</button>
       <button class="btn-woc" id="btn-woc">?? Verify Document ?</button>
-      <a class="btn-wa-send" id="btn-wa-send" style="display:none" target="_blank" rel="noopener">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.558 4.118 1.532 5.845L.057 23.571a.75.75 0 0 0 .921.921l5.726-1.475A11.953 11.953 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75a9.715 9.715 0 0 1-4.928-1.341l-.353-.21-3.656.941.963-3.541-.23-.364A9.714 9.714 0 0 1 2.25 12C2.25 6.615 6.615 2.25 12 2.25S21.75 6.615 21.75 12 17.385 21.75 12 21.75z"/></svg>
-        Send via WhatsApp
-      </a>
+      <div class="share-box" id="share-box" style="display:none">
+        <div class="share-box-lbl">Verify link</div>
+        <div class="share-url" id="share-url-display"></div>
+      </div>
+      <div class="share-btn-row" id="share-btn-row" style="display:none">
+        <button class="btn-copy-msg" id="btn-copy-msg">?? Copy Message</button>
+        <button class="btn-native-share" id="btn-native-share">? Share</button>
+      </div>
       <button class="btn-again" id="btn-again">? Validate Another Document</button>
     </div>
   </div>
@@ -1662,17 +1644,15 @@ async function doSeal(){
       qrContainer.innerHTML='<img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data='+encodeURIComponent(verifyURL)+'" alt="QR Code" style="width:150px;height:150px;border-radius:6px;">';
     }else{document.getElementById('cert-verify-box').style.display='none';}
     renderUI();showPage('pg-success');startSealCooldown();
-    const rawPhone=(document.getElementById('sf-wa-num').value||'').replace(/\D/g,'');
-    const btnWa=document.getElementById('btn-wa-send');
-    if(document.getElementById('sf-wa-notify').checked&&rawPhone){
-      const phone=rawPhone.startsWith('0')?'27'+rawPhone.slice(1):rawPhone;
-      const senderFirst=(CU&&CU.name||'').split(' ')[0]||(CU&&CU.email)||'DoxSeal';
-      const waText='Hi, '+senderFirst+' has sealed a document for you on DoxSeal. Subject: '+subj+'. Verify it here: https://doxseal.co.za/verify.html?txid='+txid;
-      btnWa.href='https://api.whatsapp.com/send?phone='+phone+'&text='+encodeURIComponent(waText);
-      btnWa.style.display='flex';
+    if(isLiveTx){
+      const verifyLink='https://doxseal.co.za/verify.html?txid='+txid;
+      document.getElementById('share-url-display').textContent=verifyLink;
+      document.getElementById('share-box').style.display='block';
+      document.getElementById('share-btn-row').style.display='flex';
+      if(!navigator.share)document.getElementById('btn-native-share').style.display='none';
     }else{
-      btnWa.href='';
-      btnWa.style.display='none';
+      document.getElementById('share-box').style.display='none';
+      document.getElementById('share-btn-row').style.display='none';
     }
   }catch(err){
     document.getElementById('btn-seal').disabled=false;
@@ -1707,10 +1687,8 @@ function startSealCooldown(){
 
 async function sealAnother(){
   document.getElementById('sf-to').value='';document.getElementById('sf-subj').value='';document.getElementById('sf-msg').value='';
-  document.getElementById('sf-wa-notify').checked=false;
-  document.getElementById('sf-wa-num').value='';
-  document.getElementById('sf-wa-wrap').style.display='none';
-  const _bwa=document.getElementById('btn-wa-send');_bwa.href='';_bwa.style.display='none';
+  document.getElementById('share-box').style.display='none';
+  document.getElementById('share-btn-row').style.display='none';
   PRIV='plain';clearFile();document.getElementById('sf-cc').textContent='0 / 460';
   showPage('pg-app');await goTab('seal');
 }
@@ -1719,6 +1697,36 @@ function verifyOnChain(){
   if(!LAST)return;
   if(LAST.txid&&!LAST.txid.startsWith('demo_')){window.open('https://doxseal.co.za/verify?txid='+LAST.txid,'_blank');}
   else{toast('Demo mode','Connect your BSV server for live blockchain transactions.','??');}
+}
+
+function _shareMsg(){
+  if(!LAST)return null;
+  const verifyLink='https://doxseal.co.za/verify.html?txid='+LAST.txid;
+  const senderFirst=(CU&&CU.name||'').split(' ')[0]||(CU&&CU.email)||'DoxSeal';
+  return 'Hi, '+senderFirst+' has sealed a document for you on DoxSeal. Please verify it here: '+verifyLink;
+}
+
+async function copyShareMsg(){
+  const msg=_shareMsg();if(!msg)return;
+  try{
+    await navigator.clipboard.writeText(msg);
+    const btn=document.getElementById('btn-copy-msg');
+    btn.textContent='? Copied!';btn.classList.add('copied');
+    setTimeout(()=>{btn.textContent='?? Copy Message';btn.classList.remove('copied');},2500);
+  }catch(e){toast('Copy failed','Please copy the link manually.','??');}
+}
+
+async function nativeShare(){
+  if(!LAST||!navigator.share)return;
+  const verifyLink='https://doxseal.co.za/verify.html?txid='+LAST.txid;
+  const senderFirst=(CU&&CU.name||'').split(' ')[0]||(CU&&CU.email)||'DoxSeal';
+  try{
+    await navigator.share({
+      title:'DoxSeal Document',
+      text:'Hi, '+senderFirst+' has sealed a document for you on DoxSeal.',
+      url:verifyLink
+    });
+  }catch(e){if(e.name!=='AbortError')toast('Share failed',e.message||'Please try again.','??');}
 }
 
 function buildVerifyURL(txid,cert){
@@ -1984,11 +1992,9 @@ document.addEventListener('DOMContentLoaded',function(){
   document.getElementById('btn-save-company').addEventListener('click',saveCompany);
   document.getElementById('btn-save-whatsapp').addEventListener('click',saveWhatsApp);
   document.getElementById('btn-go-seal').addEventListener('click',function(){goTab('seal');});
-  document.getElementById('sf-wa-notify').addEventListener('change',function(){
-    document.getElementById('sf-wa-wrap').style.display=this.checked?'block':'none';
-    if(this.checked)document.getElementById('sf-wa-num').focus();
-  });
   document.getElementById('hint-examples').addEventListener('click',showExamples);
+  document.getElementById('btn-copy-msg').addEventListener('click',copyShareMsg);
+  document.getElementById('btn-native-share').addEventListener('click',nativeShare);
   document.getElementById('sf-msg').addEventListener('input',onMsgType);
   document.getElementById('file-input').addEventListener('change',function(){onFileSelect(this);});
   const fz=document.getElementById('file-zone');
