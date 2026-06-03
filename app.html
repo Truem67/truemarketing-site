@@ -1645,7 +1645,7 @@ async function doSeal(){
     }else{document.getElementById('cert-verify-box').style.display='none';}
     renderUI();showPage('pg-success');startSealCooldown();
     if(isLiveTx){
-      const verifyLink='https://doxseal.co.za/verify.html?txid='+txid;
+      const verifyLink=buildVerifyURL(txid,LAST);
       document.getElementById('share-url-display').textContent=verifyLink;
       document.getElementById('share-box').style.display='block';
       document.getElementById('share-btn-row').style.display='flex';
@@ -1695,13 +1695,13 @@ async function sealAnother(){
 
 function verifyOnChain(){
   if(!LAST)return;
-  if(LAST.txid&&!LAST.txid.startsWith('demo_')){window.open('https://doxseal.co.za/verify?txid='+LAST.txid,'_blank');}
+  if(LAST.txid&&!LAST.txid.startsWith('demo_')){window.open(buildVerifyURL(LAST.txid,LAST),'_blank');}
   else{toast('Demo mode','Connect your BSV server for live blockchain transactions.');}
 }
 
 function _shareMsg(){
   if(!LAST)return null;
-  const verifyLink='https://doxseal.co.za/verify.html?txid='+LAST.txid;
+  const verifyLink=buildVerifyURL(LAST.txid,LAST);
   const senderFirst=(CU&&CU.name||'').split(' ')[0]||(CU&&CU.email)||'DoxSeal';
   return 'Hi, '+senderFirst+' has sealed a document for you on DoxSeal. Please verify it here: '+verifyLink;
 }
@@ -1718,7 +1718,7 @@ async function copyShareMsg(){
 
 async function nativeShare(){
   if(!LAST||!navigator.share)return;
-  const verifyLink='https://doxseal.co.za/verify.html?txid='+LAST.txid;
+  const verifyLink=buildVerifyURL(LAST.txid,LAST);
   const senderFirst=(CU&&CU.name||'').split(' ')[0]||(CU&&CU.email)||'DoxSeal';
   try{
     await navigator.share({
