@@ -7,14 +7,14 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>DoxSeal · Seal Your Words Forever</title>
+<title>DoxSeal ï¿½ Seal Your Words Forever</title>
 <link rel="icon" type="image/x-icon" href="/favicon.ico">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 /* -----------------------------------------------
-   DOXSEAL — UNIFIED DESIGN SYSTEM
-   Springbok Edition · Old Gold + Deep Green
+   DOXSEAL ï¿½ UNIFIED DESIGN SYSTEM
+   Springbok Edition ï¿½ Old Gold + Deep Green
 ----------------------------------------------- */
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 
@@ -495,6 +495,15 @@ body::before{
 .cl-l{color:var(--iv3);}
 .cl-r{font-family:var(--mono);color:var(--gold2);font-weight:500;}
 
+/* WhatsApp notify toggle */
+.wa-notify-row{padding:13px 15px!important;display:flex;align-items:center;}
+.wa-notify-row.s-field{border-color:transparent;background:rgba(37,211,102,.04);border-color:rgba(37,211,102,.15);}
+.wa-notify-row.s-field:focus-within{border-color:rgba(37,211,102,.35);box-shadow:0 0 0 3px rgba(37,211,102,.08);}
+.wa-toggle-label{display:flex;align-items:center;gap:10px;cursor:pointer;width:100%;}
+.wa-toggle-label input[type=checkbox]{width:16px;height:16px;flex-shrink:0;accent-color:#25d366;cursor:pointer;}
+.wa-toggle-txt{font-size:13px;color:var(--iv2);font-weight:500;}
+.s-field-opt{font-weight:400;color:var(--iv4);font-size:10px;text-transform:none;letter-spacing:0;}
+
 /* Seal CTA */
 .btn-seal{
   display:flex;align-items:center;justify-content:center;gap:10px;
@@ -847,14 +856,14 @@ body::before{
   <h1 class="wl-h1">DoxSeal</h1>
   <div class="wl-eyebrow">Document Validation &amp; Timestamp Authority</div>
   <p class="wl-desc">Tamper-proof. Court-ready. Independently verifiable.</p>
-  <p class="wl-product">Every document you validate receives a permanent cryptographic timestamp — independently verifiable by any court, tribunal or commissioner. Powered by blockchain technology. Admissible under ECT Act 25 of 2002.</p>
+  <p class="wl-product">Every document you validate receives a permanent cryptographic timestamp ï¿½ independently verifiable by any court, tribunal or commissioner. Powered by blockchain technology. Admissible under ECT Act 25 of 2002.</p>
 
   <div class="live-bar">
     <div class="live-dot"></div>
     <span class="live-txt">Live blockchain</span>
-    <span class="live-sep">·</span>
+    <span class="live-sep">ï¿½</span>
     <span class="live-stat">Free to start</span>
-    <span class="live-sep">·</span>
+    <span class="live-sep">ï¿½</span>
     <span class="live-stat">Under R0.003 per seal</span>
   </div>
 
@@ -874,7 +883,7 @@ body::before{
     <div class="af-row">
       <div class="af-label">Password</div>
       <div class="af-pw-wrap">
-        <input class="af-input" type="password" id="in-pw" placeholder="••••••••" autocomplete="off">
+        <input class="af-input" type="password" id="in-pw" placeholder="ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½" autocomplete="off">
         <button class="af-pw-toggle" id="pw-toggle-in" type="button" aria-label="Show password">??</button>
       </div>
     </div>
@@ -915,7 +924,7 @@ body::before{
       <label for="up-consent" style="font-size:12px;color:var(--iv3);line-height:1.55;cursor:pointer;">I agree to the <a href="legal.html#terms" target="_blank" style="color:var(--gold2);text-decoration:none;">Terms of Service</a> and <a href="legal.html#privacy" target="_blank" style="color:var(--gold2);text-decoration:none;">Privacy Policy</a> at doxseal.co.za/legal.html</label>
     </div>
     <button class="btn-go" id="btn-up">? Create Free Account</button>
-    <p class="auth-note">You receive <strong>50,000 free credits</strong> instantly — no card required.<br>Every document permanently protected and verifiable.</p>
+    <p class="auth-note">You receive <strong>50,000 free credits</strong> instantly ï¿½ no card required.<br>Every document permanently protected and verifiable.</p>
   </div>
 
   <div class="trust-row">
@@ -948,7 +957,7 @@ body::before{
       <span>Dox</span>Seal
     </div>
     <div class="hdr-right">
-      <div class="hdr-bal" title="Your sealing credits">? <span id="hdr-cred">—</span></div>
+      <div class="hdr-bal" title="Your sealing credits">? <span id="hdr-cred">ï¿½</span></div>
       <button class="hdr-out" id="hdr-out">Sign out</button>
     </div>
   </div>
@@ -961,15 +970,15 @@ body::before{
         <div style="display:flex;align-items:flex-start;justify-content:space-between;">
           <div>
             <div class="home-greet" id="h-greet">Good morning</div>
-            <div class="home-name" id="h-name">Welcome back <em>—</em></div>
+            <div class="home-name" id="h-name">Welcome back <em>ï¿½</em></div>
           </div>
           <button id="home-signout" style="background:rgba(192,57,43,.10);border:1px solid rgba(192,57,43,.25);color:var(--red);font-size:11px;font-weight:700;cursor:pointer;padding:4px 10px;margin-top:2px;border-radius:6px;font-family:var(--sans);letter-spacing:.03em;">Sign out</button>
         </div>
         <div class="cred-pod">
           <div class="cp-inner">
             <div class="cp-lbl">Available Credits</div>
-            <div class="cp-val" id="cp-val">—</div>
-            <div class="cp-sub" id="cp-sub">Loading…</div>
+            <div class="cp-val" id="cp-val">ï¿½</div>
+            <div class="cp-sub" id="cp-sub">Loadingï¿½</div>
             <div class="cp-track"><div class="cp-fill" id="cp-fill" style="width:80%"></div></div>
           </div>
         </div>
@@ -999,7 +1008,7 @@ body::before{
             <div class="qa-title">Validate Document</div>
             <div class="qa-sub">Create a permanent legal record</div>
           </div>
-          <div class="qa-big-arrow">›</div>
+          <div class="qa-big-arrow">ï¿½</div>
         </button>
       </div>
 
@@ -1017,7 +1026,7 @@ body::before{
       <div class="seal-wrap">
         <div class="seal-hero">
           <div class="sh-title">Validate Document</div>
-          <div class="sh-sub">Create a permanent, tamper-proof record — timestamped and independently verifiable by any party.</div>
+          <div class="sh-sub">Create a permanent, tamper-proof record ï¿½ timestamped and independently verifiable by any party.</div>
         </div>
 
         <div class="s-field">
@@ -1025,9 +1034,24 @@ body::before{
           <input type="email" id="sf-to" placeholder="their@email.com" autocomplete="off">
         </div>
 
+        <div class="s-field wa-notify-row">
+          <label class="wa-toggle-label">
+            <input type="checkbox" id="sf-wa-notify">
+            <span class="wa-toggle-txt">Notify recipient via WhatsApp after sealing</span>
+          </label>
+        </div>
+
+        <div class="s-field" id="sf-wa-wrap" style="display:none">
+          <div class="s-field-lbl">Recipient WhatsApp number <span class="s-field-opt">(optional)</span></div>
+          <input type="tel" id="sf-wa-num" placeholder="27XXXXXXXXX or 0XXXXXXXXX" autocomplete="off" maxlength="12">
+          <div class="s-field-foot">
+            <span style="color:var(--iv4)">International: 27XXXXXXXXX &nbsp;&#8226;&nbsp; Local SA: 0XXXXXXXXX</span>
+          </div>
+        </div>
+
         <div class="s-field">
           <div class="s-field-lbl">What is this about?</div>
-          <input type="text" id="sf-subj" placeholder="e.g. Invoice confirmation · Agreement · Notice…">
+          <input type="text" id="sf-subj" placeholder="e.g. Invoice confirmation ï¿½ Agreement ï¿½ Noticeï¿½">
           <div class="s-field-foot">
             <span style="color:var(--iv4)">Keep it brief and clear</span>
             <span class="s-field-hint" id="hint-examples">See examples</span>
@@ -1036,9 +1060,9 @@ body::before{
 
         <div class="s-field">
           <div class="s-field-lbl">Your message</div>
-          <textarea id="sf-msg" rows="5" placeholder="Type exactly what you want protected. This text will be permanently sealed — word for word, as written."></textarea>
+          <textarea id="sf-msg" rows="5" placeholder="Type exactly what you want protected. This text will be permanently sealed ï¿½ word for word, as written."></textarea>
           <div class="s-field-foot">
-            <span style="color:var(--iv4)">Write naturally — plain language works best</span>
+            <span style="color:var(--iv4)">Write naturally ï¿½ plain language works best</span>
             <span id="sf-cc">0 / 460</span>
           </div>
         </div>
@@ -1049,23 +1073,23 @@ body::before{
           <input type="file" id="file-input" accept=".pdf,.jpg,.jpeg,.png,.gif,.bmp,.webp,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.csv,.zip,.mp4,.mov">
           <div class="fz-ico">??</div>
           <div class="fz-title">Upload a file to seal</div>
-          <div class="fz-sub">PDF · Image · Word · Excel · Any file type · Max 500 MB</div>
-          <div class="fz-privacy">?? Your file never leaves this device — only a unique fingerprint is sealed on the blockchain</div>
+          <div class="fz-sub">PDF ï¿½ Image ï¿½ Word ï¿½ Excel ï¿½ Any file type ï¿½ Max 500 MB</div>
+          <div class="fz-privacy">?? Your file never leaves this device ï¿½ only a unique fingerprint is sealed on the blockchain</div>
         </div>
 
         <div class="file-ready" id="file-ready">
           <div class="fr-top">
-            <div class="fr-name" id="fr-name">—</div>
+            <div class="fr-name" id="fr-name">ï¿½</div>
             <span class="fr-badge">File sealed</span>
           </div>
           <div class="fr-hash" id="fr-hash"></div>
-          <div class="fr-status" id="fr-status">Generating fingerprint…</div>
+          <div class="fr-status" id="fr-status">Generating fingerprintï¿½</div>
           <button class="btn-clear-file" id="btn-clear-file">? Remove file</button>
         </div>
 
         <div class="cost-line">
           <span class="cl-l">Cost to seal</span>
-          <span class="cl-r">1 credit · approx R0.003</span>
+          <span class="cl-r">1 credit ï¿½ approx R0.003</span>
         </div>
 
         <button class="btn-seal" id="btn-seal">? Validate &amp; Seal Document</button>
@@ -1091,7 +1115,7 @@ body::before{
     <div class="tab" id="t-account">
       <div style="padding:20px 16px;">
         <div style="font-size:13px;color:var(--iv3);margin-bottom:20px;">
-          Signed in as <strong id="acc-em" style="color:var(--ivory);">—</strong>
+          Signed in as <strong id="acc-em" style="color:var(--ivory);">ï¿½</strong>
         </div>
 
         <label style="display:block;font-size:12px;font-weight:700;color:var(--gold3);margin-bottom:6px;text-transform:uppercase;letter-spacing:.08em;">Company or Practice Name</label>
@@ -1141,7 +1165,7 @@ body::before{
     <div class="orb orb-3"></div>
     <div class="orb-core">??</div>
   </div>
-  <div class="sealing-t">Sealing your message…</div>
+  <div class="sealing-t">Sealing your messageï¿½</div>
   <div class="sealing-s">This takes just a moment</div>
   <div class="seal-steps">
     <div class="ss on" id="ss1"><div class="ss-dot"></div><span>Preparing your document</span></div>
@@ -1163,7 +1187,7 @@ body::before{
 
     <div class="suc-eye">Certificate of Protection</div>
     <div class="suc-title">Document Sealed ?</div>
-    <div class="suc-desc" id="suc-desc">Your document has been permanently recorded and time-stamped — it cannot be altered, deleted or denied.</div>
+    <div class="suc-desc" id="suc-desc">Your document has been permanently recorded and time-stamped ï¿½ it cannot be altered, deleted or denied.</div>
 
     <div class="cert">
       <div class="cert-bar"></div>
@@ -1172,32 +1196,32 @@ body::before{
           <div class="cert-head-ico">?</div>
           <div>
             <div class="cert-head-title">DoxSeal Proof Certificate</div>
-            <div class="cert-head-sub">Permanent · Tamper-proof · Independently verifiable</div>
+            <div class="cert-head-sub">Permanent ï¿½ Tamper-proof ï¿½ Independently verifiable</div>
           </div>
         </div>
-        <div class="cert-row cert-row-hero"><span class="ck">Protected for</span><span class="cv cv-hero" id="cv-to">—</span></div>
-        <div class="cert-row"><span class="ck">Subject</span><span class="cv" id="cv-subj">—</span></div>
-        <div class="cert-row"><span class="ck">Sealed by</span><span class="cv" id="cv-from">—</span></div>
+        <div class="cert-row cert-row-hero"><span class="ck">Protected for</span><span class="cv cv-hero" id="cv-to">ï¿½</span></div>
+        <div class="cert-row"><span class="ck">Subject</span><span class="cv" id="cv-subj">ï¿½</span></div>
+        <div class="cert-row"><span class="ck">Sealed by</span><span class="cv" id="cv-from">ï¿½</span></div>
         <div class="cert-row" id="cv-filename-row" style="display:none">
           <span class="ck">File sealed</span>
-          <span class="cv" id="cv-filename" style="display:flex;align-items:center;gap:6px;justify-content:flex-end;flex-wrap:wrap;">—</span>
+          <span class="cv" id="cv-filename" style="display:flex;align-items:center;gap:6px;justify-content:flex-end;flex-wrap:wrap;">ï¿½</span>
         </div>
         <div class="cert-row-msg" id="cv-msg-row" style="display:none"><span class="ck-msg">Sealed message</span><span class="cv-msg" id="cv-msg"></span></div>
-        <div class="cert-row"><span class="ck">Date &amp; time</span><span class="cv" id="cv-ts">—</span></div>
-        <div class="cert-row"><span class="ck">Privacy mode</span><span class="cv" id="cv-mode">—</span></div>
-        <div class="cert-row"><span class="ck">SHA-256 fingerprint</span><span class="cv m" id="cv-hash">—</span></div>
-        <div class="cert-row"><span class="ck">Transaction ID</span><span class="cv m" id="cv-txid">—</span></div>
+        <div class="cert-row"><span class="ck">Date &amp; time</span><span class="cv" id="cv-ts">ï¿½</span></div>
+        <div class="cert-row"><span class="ck">Privacy mode</span><span class="cv" id="cv-mode">ï¿½</span></div>
+        <div class="cert-row"><span class="ck">SHA-256 fingerprint</span><span class="cv m" id="cv-hash">ï¿½</span></div>
+        <div class="cert-row"><span class="ck">Transaction ID</span><span class="cv m" id="cv-txid">ï¿½</span></div>
 
         <div class="cert-verify-box" id="cert-verify-box" style="display:none">
           <div class="cvb-head"><span class="cvb-badge">Independent Verification</span></div>
           <div class="cvb-body">
             <div class="cvb-text">
               <div class="cvb-url-label">Verify at</div>
-              <div class="cvb-url" id="cvb-url">—</div>
-              <div class="cvb-note">Verified independently — not through DoxSeal's servers. Cannot be altered by any party.</div>
+              <div class="cvb-url" id="cvb-url">ï¿½</div>
+              <div class="cvb-note">Verified independently ï¿½ not through DoxSeal's servers. Cannot be altered by any party.</div>
               <div class="cvb-txid-row">
                 <div class="cvb-txid-label">Transaction ID</div>
-                <div class="cvb-txid" id="cvb-txid-full">—</div>
+                <div class="cvb-txid" id="cvb-txid-full">ï¿½</div>
               </div>
             </div>
             <div class="cvb-qr" id="cvb-qr"></div>
@@ -1208,7 +1232,7 @@ body::before{
 
     <div class="chain-bar">
       <div class="chain-led"></div>
-      <div class="chain-txt" id="chain-txt">Permanently sealed · Independently verifiable</div>
+      <div class="chain-txt" id="chain-txt">Permanently sealed ï¿½ Independently verifiable</div>
     </div>
 
     <div class="suc-actions">
@@ -1262,7 +1286,7 @@ let BSV_USD=0.55, ZAR=18.5;
 const UNLIMITED_ACCOUNTS = new Set(['owner@doxseal.co.za', 'demo@doxseal.co.za', 'louwrens@optimumgroup.co.za']);
 
 const DEMO = [
-  {id:1001,demoSeed:true,dir:'sent',subj:'Letter of Demand — Invoice #2024-118',to:'advocate@law.co.za',
+  {id:1001,demoSeed:true,dir:'sent',subj:'Letter of Demand ï¿½ Invoice #2024-118',to:'advocate@law.co.za',
    msg:'Formal demand for payment of invoice #2024-118. Amount: R28,000. Payment required within 10 business days.',
    hash:'3a7f92bc4d1e8af5d9c2',txid:'3a7f92bc4d1e8af5d9c2e4b6f1a3d5e7',ts:'2026-02-19 14:32',verified:true,mode:'plain'},
   {id:1002,demoSeed:true,dir:'sent',subj:'Sale Agreement Confirmation',to:'client@property.co.za',
@@ -1310,7 +1334,7 @@ async function doLogin(){
   const pw=document.getElementById('in-pw').value||'';
   const btn=document.getElementById('btn-in');
   if(!em||!pw){authErr('Please enter your email and password.');return;}
-  btn.disabled=true; btn.textContent='Signing in…';
+  btn.disabled=true; btn.textContent='Signing inï¿½';
   if(!API.login){authErr('Server not configured. Contact support.');btn.disabled=false;btn.textContent='Sign In ?';return;}
   try{
     const r=await fetch(API.login,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:em,password:pw}),signal:AbortSignal.timeout(8000)});
@@ -1336,7 +1360,7 @@ function doSignup(){
   if(!nm||!em||!pw){authErr('Please fill in all fields.');return;}
   if(pw.length<8){authErr('Password must be at least 8 characters.');return;}
   if(!/\S+@\S+\.\S+/.test(em)){authErr('Please enter a valid email address.');return;}
-  btn.disabled=true; btn.textContent='Creating account…';
+  btn.disabled=true; btn.textContent='Creating accountï¿½';
   setTimeout(()=>{
     const addr='1TM'+Math.random().toString(36).slice(2,8).toUpperCase()+Date.now().toString(36).toUpperCase().slice(-5);
     CU={name:nm,email:em,pass:pw,addr,plan:'Starter'};
@@ -1344,7 +1368,7 @@ function doSignup(){
     localStorage.setItem('tm_creds_'+em, JSON.stringify({name:nm,pass:pw}));
     btn.disabled=false; btn.textContent='? Create Free Account';
     openApp();
-    setTimeout(()=>toast('? 50,000 free credits added!','Go ahead — seal your first message. It takes under 10 seconds.','?'),700);
+    setTimeout(()=>toast('? 50,000 free credits added!','Go ahead ï¿½ seal your first message. It takes under 10 seconds.','?'),700);
   }, 900);
 }
 
@@ -1423,9 +1447,9 @@ function renderUI(){
   const fn=(CU.name||'').split(' ')[0];
   set('hdr-cred',cStr);
   set('h-greet',greet);
-  setHTML('h-name',fn+' <em>—</em>');
+  setHTML('h-name',fn+' <em>ï¿½</em>');
   set('cp-val',cStr);
-  set('cp-sub','˜ '+zarStr+' remaining value');
+  set('cp-sub','ï¿½ '+zarStr+' remaining value');
   const fillEl=document.getElementById('cp-fill');
   if(fillEl)fillEl.style.width=Math.min(100,(CREDS/50000)*100)+'%';
   set('st-sealed',sealed);set('st-verified',verified);
@@ -1435,7 +1459,7 @@ function renderUI(){
   const coEl=document.getElementById('co-input');if(coEl)coEl.value=coStored;
   const waStored=loadWhatsApp(CU.email);CU.whatsapp=waStored;
   const waEl=document.getElementById('wa-input');if(waEl)waEl.value=waStored;
-  set('acc-addr',CU.addr?CU.addr.slice(0,22)+'…':'—');
+  set('acc-addr',CU.addr?CU.addr.slice(0,22)+'ï¿½':'ï¿½');
   setHTML('acc-plan',CU.plan?'? '+CU.plan:null);
   renderHomeRecent();renderHistory();
 }
@@ -1522,7 +1546,7 @@ async function processFile(file){
   document.getElementById('file-zone').style.display='none';
   document.getElementById('fr-name').textContent=file.name;
   document.getElementById('fr-hash').textContent='';
-  document.getElementById('fr-status').textContent='Generating fingerprint…';
+  document.getElementById('fr-status').textContent='Generating fingerprintï¿½';
   try{
     const buf=await file.arrayBuffer();
     const hashBuf=await crypto.subtle.digest('SHA-256',buf);
@@ -1530,7 +1554,7 @@ async function processFile(file){
     FILE_DATA={name:file.name,hash,size:file.size};
     const kb=file.size<1024*1024?(file.size/1024).toFixed(1)+' KB':(file.size/1024/1024).toFixed(2)+' MB';
     document.getElementById('fr-hash').textContent=hash;
-    document.getElementById('fr-status').textContent=`Hash ready ? · ${kb} · File not uploaded`;
+    document.getElementById('fr-status').textContent=`Hash ready ? ï¿½ ${kb} ï¿½ File not uploaded`;
   }catch(e){document.getElementById('fr-status').textContent='? Error: '+e.message;}
 }
 function clearFile(){
@@ -1557,7 +1581,7 @@ function setPriv(mode,el){
   el.classList.add('on');onMsgType();
 }
 function showExamples(){
-  toast('Subject examples','Invoice confirmation · Sale agreement · Variation order · Notice of cancellation · Offer accepted · Deposit received','?');
+  toast('Subject examples','Invoice confirmation ï¿½ Sale agreement ï¿½ Variation order ï¿½ Notice of cancellation ï¿½ Offer accepted ï¿½ Deposit received','?');
 }
 
 async function doSeal(){
@@ -1583,7 +1607,7 @@ async function doSeal(){
       const dateStr=new Date().toISOString().slice(0,10);
       const opPayload=isFileSeal?'TM|FILE|'+hash.slice(0,20)+'|'+dateStr+'|'+FILE_DATA.name.slice(0,80):buildOP(hash,to,subj,msg);
       const r=await fetch(API.broadcast,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({opPayload,msgHash:hash,sender:CU.email,recipient:to,subject:subj})});
-      if(r.status===429)throw new Error('Too many seals in a short time — please wait a minute and try again.');
+      if(r.status===429)throw new Error('Too many seals in a short time ï¿½ please wait a minute and try again.');
       const resp=await r.json();
       if(resp.error==='TRIAL_EXPIRED'){setDemoSealsUsed(DEMO_LIMIT);document.getElementById('btn-seal').disabled=false;showPage('pg-app');showUpgradeScreen();return;}
       if(!resp.txid)throw new Error(resp.error||'Server returned no transaction ID. Please try again.');
@@ -1595,27 +1619,27 @@ async function doSeal(){
     const now=new Date();
     const tsStr=now.toLocaleString('en-ZA',{day:'numeric',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit'});
     const company=(CU&&CU.company)||'';
-    const sealedBy=(CU&&CU.name?CU.name+' · ':'')+((CU&&CU.email)||'—');
+    const sealedBy=(CU&&CU.name?CU.name+' ï¿½ ':'')+((CU&&CU.email)||'ï¿½');
     const wa=(CU&&CU.whatsapp||'').replace(/\D/g,'');
     LAST={id:Date.now(),dir:'sent',subj,to,msg:isFileSeal?'':msg,fileName,hash:hash.slice(0,20),fullHash:hash,txid,ts:now.toISOString().slice(0,16).replace('T',' '),tsStr,verified:!!API.broadcast,mode:isFileSeal?'file':PRIV,sealedBy,senderName:CU&&CU.name||'',senderEmail:CU&&CU.email||'',company,wa};
     HIST.unshift(LAST);saveCerts(CU.email,HIST);
     set('suc-desc','"'+subj+'" has been permanently sealed. Your certificate is below.');
     set('cv-subj',subj);set('cv-to',to);set('cv-from',sealedBy);set('cv-ts',tsStr);
-    const _privLabels={plain:'Plain Text',hash:'Hash Only (Private)',encrypted:'Encrypted',file:'File — not uploaded'};
-    set('cv-mode',_privLabels[isFileSeal?'file':PRIV]||(isFileSeal?'File — not uploaded':PRIV));
+    const _privLabels={plain:'Plain Text',hash:'Hash Only (Private)',encrypted:'Encrypted',file:'File ï¿½ not uploaded'};
+    set('cv-mode',_privLabels[isFileSeal?'file':PRIV]||(isFileSeal?'File ï¿½ not uploaded':PRIV));
     if(isFileSeal){
       document.getElementById('cv-filename-row').style.display='flex';
-      document.getElementById('cv-filename').innerHTML='<span class="cert-file-badge">?? File sealed — not uploaded</span><span style="font-family:var(--mono);font-size:10px;color:var(--iv2)">'+escHtml(fileName)+'</span>';
+      document.getElementById('cv-filename').innerHTML='<span class="cert-file-badge">?? File sealed ï¿½ not uploaded</span><span style="font-family:var(--mono);font-size:10px;color:var(--iv2)">'+escHtml(fileName)+'</span>';
       document.getElementById('cv-msg-row').style.display='none';
     }else{
       document.getElementById('cv-filename-row').style.display='none';
       if(msg){set('cv-msg',msg);document.getElementById('cv-msg-row').style.display='block';}
       else{document.getElementById('cv-msg-row').style.display='none';}
     }
-    set('cv-hash',isFileSeal?hash:hash.slice(0,22)+'…');
+    set('cv-hash',isFileSeal?hash:hash.slice(0,22)+'ï¿½');
     const isLiveTx=!txid.startsWith('demo_');
-    set('cv-txid',isLiveTx?txid.slice(0,28)+'…':'Demo — connect server for live TX');
-    set('chain-txt',API.broadcast?'? Recorded on BSV blockchain · Permanent':'?? Sealed locally · Connect server for on-chain');
+    set('cv-txid',isLiveTx?txid.slice(0,28)+'ï¿½':'Demo ï¿½ connect server for live TX');
+    set('chain-txt',API.broadcast?'? Recorded on BSV blockchain ï¿½ Permanent':'?? Sealed locally ï¿½ Connect server for on-chain');
     if(isLiveTx){
       const verifyURL=buildVerifyURL(txid,LAST);
       document.getElementById('cert-verify-box').style.display='block';
@@ -1625,6 +1649,13 @@ async function doSeal(){
       qrContainer.innerHTML='<img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data='+encodeURIComponent(verifyURL)+'" alt="QR Code" style="width:150px;height:150px;border-radius:6px;">';
     }else{document.getElementById('cert-verify-box').style.display='none';}
     renderUI();showPage('pg-success');startSealCooldown();
+    const rawPhone=(document.getElementById('sf-wa-num').value||'').replace(/\D/g,'');
+    if(document.getElementById('sf-wa-notify').checked&&rawPhone){
+      const phone=rawPhone.startsWith('0')?'27'+rawPhone.slice(1):rawPhone;
+      const senderFirst=(CU&&CU.name||'').split(' ')[0]||(CU&&CU.email)||'DoxSeal';
+      const waText='Hi, '+senderFirst+' has sealed a document for you on DoxSeal. Subject: '+subj+'. Verify it here: https://doxseal.co.za/verify.html?txid='+txid;
+      window.open('https://wa.me/'+phone+'?text='+encodeURIComponent(waText),'_blank');
+    }
   }catch(err){
     document.getElementById('btn-seal').disabled=false;
     showPage('pg-app');toast('Something went wrong',err.message||'Please try again.','??');
@@ -1648,16 +1679,19 @@ function startSealCooldown(){
   if(_cooldownTimer)clearInterval(_cooldownTimer);
   let secs=10;
   btnAgain.disabled=true;btnSeal.disabled=true;
-  btnAgain.textContent=`Next seal available in ${secs}s…`;
+  btnAgain.textContent=`Next seal available in ${secs}sï¿½`;
   _cooldownTimer=setInterval(()=>{
     secs--;
     if(secs<=0){clearInterval(_cooldownTimer);_cooldownTimer=null;btnAgain.disabled=false;btnAgain.textContent='? Validate Another Document';btnSeal.disabled=false;}
-    else{btnAgain.textContent=`Next seal available in ${secs}s…`;}
+    else{btnAgain.textContent=`Next seal available in ${secs}sï¿½`;}
   },1000);
 }
 
 async function sealAnother(){
   document.getElementById('sf-to').value='';document.getElementById('sf-subj').value='';document.getElementById('sf-msg').value='';
+  document.getElementById('sf-wa-notify').checked=false;
+  document.getElementById('sf-wa-num').value='';
+  document.getElementById('sf-wa-wrap').style.display='none';
   PRIV='plain';clearFile();document.getElementById('sf-cc').textContent='0 / 460';
   showPage('pg-app');await goTab('seal');
 }
@@ -1685,14 +1719,14 @@ function buildCertHtml(cert){
   const isLive=!cert.txid.startsWith('demo_');
   const verifyUrl=isLive?buildVerifyURL(cert.txid,cert):null;
   const qrSrc=verifyUrl?'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data='+encodeURIComponent(verifyUrl):null;
-  const sealedBy=cert.sealedBy||((CU&&CU.name?CU.name+' · ':'')+((CU&&CU.email)||'—'));
+  const sealedBy=cert.sealedBy||((CU&&CU.name?CU.name+' ï¿½ ':'')+((CU&&CU.email)||'ï¿½'));
   const company=cert.company||(CU&&CU.company)||'';
   const h=s=>String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   const isFileCert=cert.mode==='file'&&cert.fileName;
   const html=`<!DOCTYPE html>
 <html lang="en"><head>
 <meta charset="UTF-8">
-<title>DoxSeal Certificate — ${h(cert.subj)}</title>
+<title>DoxSeal Certificate ï¿½ ${h(cert.subj)}</title>
 <style>
 @page{size:A4 portrait;margin:14mm 18mm;}
 *{box-sizing:border-box;margin:0;padding:0;}
@@ -1733,7 +1767,7 @@ td:first-child{color:#555;width:36%;font-size:11px;font-family:Arial,sans-serif;
 
 <div class="bar"></div>
 <div class="header"><div><div class="logo">DoxSeal</div><div class="logo-tag">Blockchain Document Protection</div></div><div class="badge">&#9679; Permanently Sealed</div></div>
-<div class="title-wrap"><div class="eyebrow">Certificate of Digital Protection</div><div class="cert-title">DoxSeal — Certificate of Digital Protection</div><div class="cert-sub">Sealed on the BSV blockchain · Immutable · Tamper-evident · Independently verifiable</div></div>
+<div class="title-wrap"><div class="eyebrow">Certificate of Digital Protection</div><div class="cert-title">DoxSeal ï¿½ Certificate of Digital Protection</div><div class="cert-sub">Sealed on the BSV blockchain ï¿½ Immutable ï¿½ Tamper-evident ï¿½ Independently verifiable</div></div>
 <div class="section"><div class="section-lbl">Document Details</div>
 <table>
   <tr class="hero-row"><td>Protected For</td><td class="hero-val">${h(cert.to)}</td></tr>
@@ -1741,9 +1775,9 @@ td:first-child{color:#555;width:36%;font-size:11px;font-family:Arial,sans-serif;
   <tr><td>Sealed By</td><td>${h(sealedBy)}</td></tr>
   ${company?`<tr><td>Company / Practice</td><td>${h(company)}</td></tr>`:''}
   ${isFileCert?`<tr><td>File Sealed</td><td style="font-family:monospace;font-size:11px">${h(cert.fileName)}</td></tr>`:''}
-  ${isFileCert?`<tr><td>POPIA Status</td><td style="color:#1a8a53;font-weight:700">File NOT uploaded — fingerprint only</td></tr>`:''}
+  ${isFileCert?`<tr><td>POPIA Status</td><td style="color:#1a8a53;font-weight:700">File NOT uploaded ï¿½ fingerprint only</td></tr>`:''}
   <tr><td>Date &amp; Time</td><td>${h(cert.tsStr)}</td></tr>
-  <tr><td>Privacy Mode</td><td>${h(cert.mode==='file'?'File fingerprint — file never left device':cert.mode)}</td></tr>
+  <tr><td>Privacy Mode</td><td>${h(cert.mode==='file'?'File fingerprint ï¿½ file never left device':cert.mode)}</td></tr>
 </table></div>
 <div class="section"><div class="section-lbl">Cryptographic Proof</div>
   <div class="hash-lbl">SHA-256 Digital Fingerprint (Full Hash)</div><div class="hash-val">${h(cert.fullHash)}</div>
@@ -1751,13 +1785,13 @@ td:first-child{color:#555;width:36%;font-size:11px;font-family:Arial,sans-serif;
 </div>
 <div class="section"><div class="section-lbl">Independent Verification</div>
 <div class="verify-inner"><div class="verify-left">
-  <p class="verify-note">This certificate can be independently verified on the BSV public blockchain. The proof exists permanently on a decentralised public ledger and cannot be altered, deleted, or denied by any party — including DoxSeal.</p>
+  <p class="verify-note">This certificate can be independently verified on the BSV public blockchain. The proof exists permanently on a decentralised public ledger and cannot be altered, deleted, or denied by any party ï¿½ including DoxSeal.</p>
   <div class="url-lbl">Verify this certificate at</div>
   <div class="url">${verifyUrl?h(verifyUrl):'Connect server for live blockchain transactions'}</div>
   <div class="url-lbl">Or directly on WhatsOnChain</div>
-  <div class="url">${isLive?'https://whatsonchain.com/tx/'+h(cert.txid):'(demo seal — not on chain)'}</div>
+  <div class="url">${isLive?'https://whatsonchain.com/tx/'+h(cert.txid):'(demo seal ï¿½ not on chain)'}</div>
 </div>${qrSrc?'<div class="qr-wrap"><img src="'+qrSrc+'" alt="Scan to verify"><div class="qr-lbl">?? Scan to verify this certificate on the blockchain</div></div>':''}</div></div>
-<div class="footer"><div class="footer-main">This certificate is self-verifying. Verify at doxseal.co.za/verify.html — Electronic Communications and Transactions Act 25 of 2002</div><div class="footer-sub">DoxSeal · johan@doxseal.co.za · doxseal.co.za</div></div>
+<div class="footer"><div class="footer-main">This certificate is self-verifying. Verify at doxseal.co.za/verify.html ï¿½ Electronic Communications and Transactions Act 25 of 2002</div><div class="footer-sub">DoxSeal ï¿½ johan@doxseal.co.za ï¿½ doxseal.co.za</div></div>
 </body></html>`;
   return html;
 }
@@ -1793,16 +1827,16 @@ function closeCertModal(){
 function printCert(){
   if(!LAST){toast('Nothing to print','Complete a seal first.','??');return;}
   const isLive=!LAST.txid.startsWith('demo_');
-  const verifyUrl=isLive?buildVerifyURL(LAST.txid,LAST):'Demo mode — connect server for live blockchain transactions';
-  const wocUrl=isLive?'https://whatsonchain.com/tx/'+LAST.txid:'(demo seal — not on chain)';
-  const privLabels={plain:'Plain Text — Full message recorded on the blockchain',hash:'Hash Only — Message is private; cryptographic proof is public',encrypted:'Encrypted — Message is encrypted on the blockchain'};
+  const verifyUrl=isLive?buildVerifyURL(LAST.txid,LAST):'Demo mode ï¿½ connect server for live blockchain transactions';
+  const wocUrl=isLive?'https://whatsonchain.com/tx/'+LAST.txid:'(demo seal ï¿½ not on chain)';
+  const privLabels={plain:'Plain Text ï¿½ Full message recorded on the blockchain',hash:'Hash Only ï¿½ Message is private; cryptographic proof is public',encrypted:'Encrypted ï¿½ Message is encrypted on the blockchain'};
   const s=id=>document.getElementById(id);
-  s('pc-subj').textContent=LAST.subj||'—';s('pc-to').textContent=LAST.to||'—';
-  s('pc-from').textContent=(CU&&CU.name?CU.name+' · ':'')+((CU&&CU.email)||'—');
-  s('pc-ts').textContent=LAST.tsStr||'—';
-  s('pc-mode').textContent=LAST.mode==='file'?'File fingerprint — file never left device':(privLabels[LAST.mode]||LAST.mode||'—');
-  if(LAST.fileName){try{s('pc-subj').textContent+=' · File: '+LAST.fileName;}catch(e){}}
-  s('pc-hash').textContent=LAST.fullHash||'—';s('pc-txid').textContent=LAST.txid||'—';
+  s('pc-subj').textContent=LAST.subj||'ï¿½';s('pc-to').textContent=LAST.to||'ï¿½';
+  s('pc-from').textContent=(CU&&CU.name?CU.name+' ï¿½ ':'')+((CU&&CU.email)||'ï¿½');
+  s('pc-ts').textContent=LAST.tsStr||'ï¿½';
+  s('pc-mode').textContent=LAST.mode==='file'?'File fingerprint ï¿½ file never left device':(privLabels[LAST.mode]||LAST.mode||'ï¿½');
+  if(LAST.fileName){try{s('pc-subj').textContent+=' ï¿½ File: '+LAST.fileName;}catch(e){}}
+  s('pc-hash').textContent=LAST.fullHash||'ï¿½';s('pc-txid').textContent=LAST.txid||'ï¿½';
   s('pc-url').textContent=verifyUrl;s('pc-woc').textContent=wocUrl;
   const qrImg=s('pc-qr-img');
   if(isLive){
@@ -1822,7 +1856,7 @@ function setFilter(f,el){
 function renderHistory(){
   const list=document.getElementById('hist-list');if(!list)return;
   const items=FILTER==='all'?HIST:FILTER==='sent'?HIST.filter(m=>m.dir==='sent'):FILTER==='received'?HIST.filter(m=>m.dir==='received'):HIST.filter(m=>m.verified);
-  if(!items.length){list.innerHTML=`<div class="empty-st"><div class="empty-ico">??</div><div class="empty-t">No proofs yet</div><div class="empty-s">Your sealed messages appear here — each one permanently recorded on the blockchain.</div></div>`;return;}
+  if(!items.length){list.innerHTML=`<div class="empty-st"><div class="empty-ico">??</div><div class="empty-t">No proofs yet</div><div class="empty-s">Your sealed messages appear here ï¿½ each one permanently recorded on the blockchain.</div></div>`;return;}
   list.innerHTML=items.map(m=>proofHTML(m)).join('');
 }
 
@@ -1836,7 +1870,7 @@ function renderHomeRecent(){
 function proofHTML(m,compact){
   const cls=m.dir==='sent'?'s':'r';
   const ico=m.dir==='sent'?'??':'??';
-  const time=m.ts?m.ts.slice(5,16):'—';
+  const time=m.ts?m.ts.slice(5,16):'ï¿½';
   return `<div class="proof-card" data-id="${m.id}">
     <div class="pc-row">
       <div class="pc-ico ${cls}">${ico}</div>
@@ -1844,10 +1878,10 @@ function proofHTML(m,compact){
       <div class="pc-aside"><div class="pc-badge ${m.verified?'v':'p'}">${m.verified?'? On-chain':'? Pending'}</div><div class="pc-time">${time}</div></div>
     </div>
     ${!compact?`<div class="pc-detail" id="pd-${m.id}">
-      ${m.msg?`<div class="pd-row"><span class="pd-k">Message</span><span class="pd-v">${(m.msg||'').slice(0,100)}${(m.msg||'').length>100?'…':''}</span></div>`:''}
-      <div class="pd-row"><span class="pd-k">Date sealed</span><span class="pd-v">${m.ts||'—'}</span></div>
-      <div class="pd-row"><span class="pd-k">Transaction ID</span><span class="pd-v m">${m.txid&&!m.txid.startsWith('demo_')?m.txid.slice(0,20)+'…':'(demo)'}</span></div>
-      <div class="pd-row"><span class="pd-k">Fingerprint</span><span class="pd-v m">${m.hash||''}…</span></div>
+      ${m.msg?`<div class="pd-row"><span class="pd-k">Message</span><span class="pd-v">${(m.msg||'').slice(0,100)}${(m.msg||'').length>100?'ï¿½':''}</span></div>`:''}
+      <div class="pd-row"><span class="pd-k">Date sealed</span><span class="pd-v">${m.ts||'ï¿½'}</span></div>
+      <div class="pd-row"><span class="pd-k">Transaction ID</span><span class="pd-v m">${m.txid&&!m.txid.startsWith('demo_')?m.txid.slice(0,20)+'ï¿½':'(demo)'}</span></div>
+      <div class="pd-row"><span class="pd-k">Fingerprint</span><span class="pd-v m">${m.hash||''}ï¿½</span></div>
       <div class="pd-btns">
         <button class="pd-btn pd-view" data-id="${m.id}">?? View</button>
         <button class="pd-btn pd-verify" data-id="${m.id}" data-txid="${m.txid||''}">? Verify ?</button>
@@ -1931,6 +1965,10 @@ document.addEventListener('DOMContentLoaded',function(){
   document.getElementById('btn-save-company').addEventListener('click',saveCompany);
   document.getElementById('btn-save-whatsapp').addEventListener('click',saveWhatsApp);
   document.getElementById('btn-go-seal').addEventListener('click',function(){goTab('seal');});
+  document.getElementById('sf-wa-notify').addEventListener('change',function(){
+    document.getElementById('sf-wa-wrap').style.display=this.checked?'block':'none';
+    if(this.checked)document.getElementById('sf-wa-num').focus();
+  });
   document.getElementById('hint-examples').addEventListener('click',showExamples);
   document.getElementById('sf-msg').addEventListener('input',onMsgType);
   document.getElementById('file-input').addEventListener('change',function(){onFileSelect(this);});
@@ -1946,7 +1984,7 @@ document.addEventListener('DOMContentLoaded',function(){
     const id=parseInt(card.dataset.id);
     if(e.target.closest('.pd-view')){e.stopPropagation();viewCertById(id);}
     else if(e.target.closest('.pd-dl')){e.stopPropagation();downloadCertById(id);}
-    else if(e.target.closest('.pd-verify')){e.stopPropagation();const txid=e.target.closest('.pd-verify').dataset.txid;if(txid&&!txid.startsWith('demo_'))window.open('https://doxseal.co.za/verify.html?txid='+txid,'_blank');else alert('Demo seal — connect server for live verification.');}
+    else if(e.target.closest('.pd-verify')){e.stopPropagation();const txid=e.target.closest('.pd-verify').dataset.txid;if(txid&&!txid.startsWith('demo_'))window.open('https://doxseal.co.za/verify.html?txid='+txid,'_blank');else alert('Demo seal ï¿½ connect server for live verification.');}
     else{toggleDetail(id);}
   });
   document.getElementById('acc-btn-save-company').addEventListener('click',accSaveCompany);
@@ -1966,7 +2004,7 @@ document.addEventListener('DOMContentLoaded',function(){
       win.document.close();
       toast('Certificate opened','Use browser menu to save or share.','??');
     } else {
-      // Fallback — inject into current page as printable overlay
+      // Fallback ï¿½ inject into current page as printable overlay
       const div = document.createElement('div');
       div.style.cssText = 'position:fixed;inset:0;z-index:99999;background:#fff;overflow:auto;';
       div.innerHTML = html;
@@ -1989,7 +2027,7 @@ document.addEventListener('DOMContentLoaded',function(){
 
 <!-- CERT VIEW MODAL -->
 <div id="cert-modal">
-  <button id="cert-modal-close" title="Close">×</button>
+  <button id="cert-modal-close" title="Close">ï¿½</button>
   <iframe id="cert-modal-frame" title="Certificate" sandbox="allow-same-origin"></iframe>
 </div>
 
@@ -1997,8 +2035,8 @@ document.addEventListener('DOMContentLoaded',function(){
 <div id="pg-upgrade">
   <div class="upg-icon">?</div>
   <h2 class="upg-h">You have used your 3 free seals</h2>
-  <p class="upg-sub">Upgrade to continue sealing documents. Your existing account and certificate history are preserved — no new password needed.</p>
-  <p class="upg-note" style="margin-top:0;margin-bottom:24px;font-size:14px;color:var(--iv3);">From R299/month · Cancel anytime · No lock-in</p>
+  <p class="upg-sub">Upgrade to continue sealing documents. Your existing account and certificate history are preserved ï¿½ no new password needed.</p>
+  <p class="upg-note" style="margin-top:0;margin-bottom:24px;font-size:14px;color:var(--iv3);">From R299/month ï¿½ Cancel anytime ï¿½ No lock-in</p>
   <a class="upg-btn" href="https://doxseal.co.za/subscribe.html" target="_blank" rel="noopener">Upgrade My Account ?</a>
   <button class="upg-back" id="btn-upgrade-back">? Back to my certificates</button>
   <p class="upg-note" style="margin-top:16px;"><a href="https://wa.me/27726126733" target="_blank" rel="noopener" style="color:var(--iv3);text-decoration:none;font-size:13px;">Questions? WhatsApp us</a></p>
@@ -2015,8 +2053,8 @@ document.addEventListener('DOMContentLoaded',function(){
     </div>
     <div class="pc-title-wrap">
       <div class="pc-eyebrow">Certificate of Digital Protection</div>
-      <div class="pc-cert-title">DoxSeal — Certificate of Digital Protection</div>
-      <div class="pc-cert-sub">Sealed on the BSV blockchain · Immutable · Tamper-evident · Independently verifiable</div>
+      <div class="pc-cert-title">DoxSeal ï¿½ Certificate of Digital Protection</div>
+      <div class="pc-cert-sub">Sealed on the BSV blockchain ï¿½ Immutable ï¿½ Tamper-evident ï¿½ Independently verifiable</div>
     </div>
     <div class="pc-section">
       <div class="pc-section-lbl">Document Details</div>
@@ -2037,7 +2075,7 @@ document.addEventListener('DOMContentLoaded',function(){
       <div class="pc-section-lbl">Independent Verification</div>
       <div class="pc-verify-inner">
         <div class="pc-verify-left">
-          <p class="pc-verify-note">This certificate can be independently verified on the BSV public blockchain. The cryptographic proof exists permanently on a decentralised public ledger and cannot be altered, deleted, or denied by any party — including DoxSeal.</p>
+          <p class="pc-verify-note">This certificate can be independently verified on the BSV public blockchain. The cryptographic proof exists permanently on a decentralised public ledger and cannot be altered, deleted, or denied by any party ï¿½ including DoxSeal.</p>
           <div class="pc-url-lbl">Verify this certificate at</div><div class="pc-url" id="pc-url"></div>
           <div class="pc-url-lbl">Or directly on WhatsOnChain</div><div class="pc-url" id="pc-woc"></div>
         </div>
@@ -2048,8 +2086,8 @@ document.addEventListener('DOMContentLoaded',function(){
       </div>
     </div>
     <div class="pc-footer">
-      <div class="pc-footer-main">This certificate is self-verifying. Verify at doxseal.co.za/verify — Electronic Communications and Transactions Act 25 of 2002</div>
-      <div class="pc-footer-sub">DoxSeal · johan@doxseal.co.za · doxseal.co.za · The proof exists independently on the BSV blockchain — permanently and immutably.</div>
+      <div class="pc-footer-main">This certificate is self-verifying. Verify at doxseal.co.za/verify ï¿½ Electronic Communications and Transactions Act 25 of 2002</div>
+      <div class="pc-footer-sub">DoxSeal ï¿½ johan@doxseal.co.za ï¿½ doxseal.co.za ï¿½ The proof exists independently on the BSV blockchain ï¿½ permanently and immutably.</div>
     </div>
   </div>
 </div>
