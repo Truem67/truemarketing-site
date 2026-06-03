@@ -282,15 +282,14 @@ if(!txid){
     <div class="qr-wrap no-print">
       <img class="qr-img" id="cert-qr-img" src="" alt="QR code to verify">
       <div>
-        <div class="qr-title">Verify independently</div>
-        <div class="qr-sub">Scan this QR code or tap Verify Document below. Free, no account required.</div>
-        <div class="qr-url">${esc(verifyUrl)}</div>
+        <div class="qr-title">Scan to verify</div>
+        <div class="qr-sub">Scan this QR code with any phone camera to confirm this document is genuine. Free, no account required.</div>
       </div>
     </div>
 
     <div class="cert-actions">
       <button class="btn-print" onclick="window.print()">Save as PDF / Print Certificate</button>
-      <a class="btn-verify" id="cert-verify-link" href="#" target="_blank" rel="noopener">Verify this document</a>
+      <a class="btn-verify" id="cert-verify-link" href="#" target="_blank" rel="noopener">Verify this document &rarr;</a>
     </div>
 
     <div class="note">

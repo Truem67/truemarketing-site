@@ -1631,10 +1631,10 @@ async function doSeal(){
       if(msg){set('cv-msg',msg);document.getElementById('cv-msg-row').style.display='block';}
       else{document.getElementById('cv-msg-row').style.display='none';}
     }
-    set('cv-hash',isFileSeal?hash:hash.slice(0,22)+'�');
+    set('cv-hash',isFileSeal?hash:hash);
     const isLiveTx=!txid.startsWith('demo_');
-    set('cv-txid',isLiveTx?txid.slice(0,28)+'�':'Demo � connect server for live TX');
-    set('chain-txt',API.broadcast?'Recorded on BSV blockchain � Permanent':'Sealed locally � Connect server for on-chain');
+    set('cv-txid',isLiveTx?txid:'Demo mode');
+    set('chain-txt',API.broadcast?'Permanently recorded · Tamper-proof':'Sealed locally · Connect server for permanent record');
     if(isLiveTx){
       const verifyURL=buildVerifyURL(txid,LAST);
       document.getElementById('cert-verify-box').style.display='block';
