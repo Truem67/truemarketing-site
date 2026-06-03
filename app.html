@@ -1654,7 +1654,11 @@ async function doSeal(){
       const phone=rawPhone.startsWith('0')?'27'+rawPhone.slice(1):rawPhone;
       const senderFirst=(CU&&CU.name||'').split(' ')[0]||(CU&&CU.email)||'DoxSeal';
       const waText='Hi, '+senderFirst+' has sealed a document for you on DoxSeal. Subject: '+subj+'. Verify it here: https://doxseal.co.za/verify.html?txid='+txid;
-      window.open('https://wa.me/'+phone+'?text='+encodeURIComponent(waText),'_blank');
+      const isMobile=/Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+      const waUrl=isMobile
+        ?'whatsapp://send?phone='+phone+'&text='+encodeURIComponent(waText)
+        :'https://wa.me/'+phone+'?text='+encodeURIComponent(waText);
+      window.open(waUrl,'_blank');
     }
   }catch(err){
     document.getElementById('btn-seal').disabled=false;
