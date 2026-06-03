@@ -1624,7 +1624,6 @@ async function doSeal(){
     if(isLiveTx){
       const verifyURL=buildVerifyURL(txid,LAST);
       document.getElementById('cert-verify-box').style.display='block';
-      document.getElementById('cvb-txid-full').textContent=txid;
       const qrContainer=document.getElementById('cvb-qr');
       qrContainer.innerHTML='<img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data='+encodeURIComponent(verifyURL)+'" alt="QR Code" style="width:150px;height:150px;border-radius:6px;">';
     }else{document.getElementById('cert-verify-box').style.display='none';}
