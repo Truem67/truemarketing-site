@@ -510,7 +510,7 @@ body.auto-verify-mode .check-another{display:inline-block;}
 
 <!-- FOOTER -->
 <footer class="page-footer">
-  <div class="footer-brand">© 2026 Orsolso Trader t/a <b>Dox</b>Seal</div>
+  <div class="footer-brand">© 2026 Johan van Eyssen · <b>Dox</b>Seal</div>
   <div class="footer-links">
     <a href="https://doxseal.co.za">Home</a>
     <a href="https://doxseal.co.za/brokers.html">For Brokers</a>
@@ -669,8 +669,8 @@ function showVerified(txid, tx) {
   const shortRef = txid.slice(0, 8).toUpperCase();
 
   const senderDisplay = _senderName
-    ? (_senderCo ? `${_senderName} � ${_senderCo}` : _senderName)
-    : (_senderCo || '');
+    ? (_senderCo ? `${_senderName} · ${_senderCo}` : _senderName)
+    : (_senderCo || _senderEmail || '');
 
   const byLine = senderDisplay ? ` by ${senderDisplay}` : '';
   setText('r-confirm-sub', `This document is genuine and unaltered. Sealed on ${sealDate}${byLine}.`);
