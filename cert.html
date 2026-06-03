@@ -111,7 +111,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;
   border-radius:14px;padding:18px 20px;
   display:flex;align-items:center;gap:18px;margin-bottom:20px;
 }
-.qr-img{width:100px;height:100px;border-radius:8px;flex-shrink:0;}
+.qr-img{width:120px;height:120px;border-radius:8px;flex-shrink:0;}
 .qr-title{font-size:13px;font-weight:600;color:var(--ivory);margin-bottom:4px;}
 .qr-sub{font-size:12px;color:var(--iv3);line-height:1.6;margin-bottom:8px;}
 .qr-url{font-family:var(--mono);font-size:10px;color:var(--gold2);word-break:break-all;line-height:1.6;}
@@ -244,7 +244,7 @@ if(!txid){
 
   document.getElementById('nav-verify-btn').href = verifyUrl;
 
-  const qrSrc = 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=' + encodeURIComponent(verifyUrl);
+  const qrSrc = 'https://api.qrserver.com/v1/create-qr-code/?size=320x320&data=' + encodeURIComponent(verifyUrl);
 
   const certTitle = subj ? `"${esc(subj)}"` : 'Document';
   const sealedOn  = ts || 'See verify page';
@@ -280,7 +280,7 @@ if(!txid){
     </div>
 
     <div class="qr-wrap no-print">
-      <img class="qr-img" src="${qrSrc}" alt="QR code to verify" loading="lazy">
+      <img class="qr-img" id="cert-qr-img" src="" alt="QR code to verify">
       <div>
         <div class="qr-title">Verify independently</div>
         <div class="qr-sub">Scan this QR code or tap Verify Document below. Free, no account required.</div>
@@ -290,7 +290,7 @@ if(!txid){
 
     <div class="cert-actions">
       <button class="btn-print" onclick="window.print()">Save as PDF / Print Certificate</button>
-      <a class="btn-verify" id="cert-verify-link" href="${esc(verifyUrl)}" target="_blank" rel="noopener">Verify this document</a>
+      <a class="btn-verify" id="cert-verify-link" href="#" target="_blank" rel="noopener">Verify this document</a>
     </div>
 
     <div class="note">
@@ -298,6 +298,9 @@ if(!txid){
     </div>
   `;
 
+  // Set src/href via JS to avoid HTML-parser & entity mangling
+  document.getElementById('cert-qr-img').src = qrSrc;
+  document.getElementById('cert-verify-link').href = verifyUrl;
   document.title = `DoxSeal Certificate — ${subj || txid.slice(0,12)}`;
 }
 </script>
