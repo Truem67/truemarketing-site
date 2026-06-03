@@ -1735,10 +1735,16 @@ function buildVerifyURL(txid,cert){
   const email=(cert&&cert.senderEmail)||(CU&&CU.email)||'';
   const company=(cert&&cert.company)||(CU&&CU.company)||'';
   const wa=((cert&&cert.wa)||(CU&&CU.whatsapp)||'').replace(/\D/g,'');
+  const subj=(cert&&cert.subj)||'';
+  const to=(cert&&cert.to)||'';
+  const fh=(cert&&cert.fullHash)||'';
   if(name)url+='&from='+encodeURIComponent(name);
   if(email)url+='&se='+encodeURIComponent(email);
   if(company)url+='&co='+encodeURIComponent(company);
   if(wa)url+='&wa='+wa;
+  if(subj)url+='&subj='+encodeURIComponent(subj);
+  if(to)url+='&to='+encodeURIComponent(to);
+  if(fh)url+='&fh='+fh;
   return url;
 }
 

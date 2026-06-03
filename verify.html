@@ -259,6 +259,9 @@ body.auto-verify-mode .check-another{display:inline-block;}
 }
 .banner-error .banner-title{color:var(--amber);}
 
+/* Verified badge */
+.cert-verified-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(26,138,83,.12);border:1.5px solid rgba(26,138,83,.38);color:#4caf7d;font-size:13px;font-weight:700;padding:8px 16px;border-radius:8px;margin-bottom:18px;letter-spacing:.04em;}
+
 /* ------------------------------
    RESULT CARD
 ------------------------------ */
@@ -415,7 +418,7 @@ body.auto-verify-mode .check-another{display:inline-block;}
       autocomplete="off" spellcheck="false"
       onkeydown="if(event.key==='Enter')doVerify()">
     <div class="input-hint">The Proof Reference is the 64-character ID on every DoxSeal certificate.</div>
-    <button class="verify-btn" onclick="doVerify()">Verify Document ?</button>
+    <button class="verify-btn" onclick="doVerify()">Verify Document</button>
   </div>
 </div>
 
@@ -428,40 +431,37 @@ body.auto-verify-mode .check-another{display:inline-block;}
 
 <!-- RESULT -->
 <div class="result-wrap" id="result-wrap">
-  <span class="check-another" onclick="showInputAgain()">? Check another document</span>
+  <span class="check-another" onclick="showInputAgain()">Check another document</span>
 
   <!-- VERIFIED -->
   <div id="r-verified" style="display:none">
     <div class="banner-verified">
-      <div class="banner-ico">?</div>
+      <div class="banner-ico">&#10003;</div>
       <div class="banner-text">
-        <div class="banner-title">Document Verified ?</div>
+        <div class="banner-title">Document Verified</div>
         <div class="banner-sub" id="r-confirm-sub">This document is genuine and unaltered.</div>
       </div>
     </div>
 
+    <div class="cert-verified-badge">&#10003; Verified on blockchain</div>
     <div class="result-card">
       <div class="rc-bar"></div>
       <div class="rc-body">
         <div class="rc-section">
-          <div class="rc-row"><span class="rk">Sealed by</span><span class="rv" id="r-sealed-by">�</span></div>
-          <div class="rc-row"><span class="rk">Date sealed</span><span class="rv" id="r-date">�</span></div>
-          <div class="rc-row"><span class="rk">Reference</span><span class="rv mono" id="r-shortref">�</span></div>
+          <div class="rc-row" id="r-subject-row" style="display:none"><span class="rk">Subject</span><span class="rv" id="r-subject"></span></div>
+          <div class="rc-row"><span class="rk">Sealed by</span><span class="rv" id="r-sealed-by"></span></div>
+          <div class="rc-row" id="r-recipient-row" style="display:none"><span class="rk">Protected for</span><span class="rv" id="r-recipient"></span></div>
+          <div class="rc-row"><span class="rk">Date sealed</span><span class="rv" id="r-date"></span></div>
+          <div class="rc-row" id="r-hash-row" style="display:none"><span class="rk">SHA-256 fingerprint</span><span class="rv mono" id="r-hash"></span></div>
+          <div class="rc-row"><span class="rk">Transaction ID</span><span class="rv mono" id="r-txid-full"></span></div>
         </div>
         <div class="rc-section" id="r-msg-section" style="display:none">
           <div class="rc-section-title">Document Content</div>
-          <div class="payload-box" id="r-msg-content" style="word-break:break-word;white-space:pre-wrap;">�</div>
+          <div class="payload-box" id="r-msg-content" style="word-break:break-word;white-space:pre-wrap;"></div>
         </div>
       </div>
     </div>
-
-    <a class="woc-link" id="r-woc-link-verified" href="#" target="_blank" rel="noopener" style="margin-top:16px;display:flex;">
-      <div class="woc-left">
-        <div class="woc-label">View transaction on WhatsOnChain</div>
-        <div class="woc-url" id="r-woc-url-verified">�</div>
-      </div>
-      <div class="woc-arr">?</div>
-    </a>
+
 
     <div class="reply-wrap" id="reply-wrap">
       <a class="btn-wa" id="btn-wa" href="#" target="_blank" rel="noopener">
@@ -474,7 +474,7 @@ body.auto-verify-mode .check-another{display:inline-block;}
   <!-- NOT FOUND -->
   <div id="r-notfound" style="display:none">
     <div class="banner-notfound">
-      <div class="banner-ico">?</div>
+      <div class="banner-ico">&#10007;</div>
       <div class="banner-text">
         <div class="banner-title">Document Not Found</div>
         <div class="banner-sub">No verified record exists for this Proof Reference.</div>
@@ -488,32 +488,18 @@ body.auto-verify-mode .check-another{display:inline-block;}
         � The document was never confirmed in the permanent record<br><br>
         A genuine DoxSeal certificate will always produce a verified result.
       </div>
-    </div>
-    <a class="woc-link" id="r-woc-link-nf" href="#" target="_blank" rel="noopener">
-      <div class="woc-left">
-        <div class="woc-label">Check independently at WhatsOnChain</div>
-        <div class="woc-url" id="r-woc-url-nf">�</div>
-      </div>
-      <div class="woc-arr">?</div>
-    </a>
+    </div>
   </div>
 
   <!-- API ERROR -->
   <div id="r-error" style="display:none">
     <div class="banner-error">
-      <div class="banner-ico">??</div>
+      <div class="banner-ico">!</div>
       <div class="banner-text">
         <div class="banner-title">Verification Temporarily Unavailable</div>
         <div class="banner-sub">The verification service could not be reached. Use the link below to verify independently.</div>
       </div>
-    </div>
-    <a class="woc-link" id="r-woc-link-err" href="#" target="_blank" rel="noopener">
-      <div class="woc-left">
-        <div class="woc-label">Verify independently at WhatsOnChain</div>
-        <div class="woc-url" id="r-woc-url-err">�</div>
-      </div>
-      <div class="woc-arr">?</div>
-    </a>
+    </div>
     <div class="independence-note" style="margin-top:16px">
       <div class="in-title">Manual verification always works</div>
       <div class="in-text">Even when this page is temporarily unavailable, the sealed record remains permanent. Use the link above and enter the Proof Reference to verify directly.</div>
@@ -543,6 +529,9 @@ const _senderName  = _params.get('from') || '';
 const _senderEmail = _params.get('se')   || '';
 const _senderCo    = _params.get('co')   || '';
 const _senderWa    = _params.get('wa')   || '';
+const _subject     = _params.get('subj') || '';
+const _recipient   = _params.get('to')   || '';
+const _fullHash    = _params.get('fh')   || '';
 let   _currentTxid = '';
 
 function hexToUtf8(hex) {
@@ -607,7 +596,7 @@ function formatDate(blocktime) {
 
 function formatConfirmations(n) {
   if (!n || n === 0) return 'Unconfirmed';
-  if (n >= 6) return n.toLocaleString() + ' confirmations ?';
+  if (n >= 6) return n.toLocaleString() + ' confirmations';
   return n + ' confirmation' + (n===1?'':'s') + ' (still confirming)';
 }
 
@@ -686,9 +675,12 @@ function showVerified(txid, tx) {
   const byLine = senderDisplay ? ` by ${senderDisplay}` : '';
   setText('r-confirm-sub', `This document is genuine and unaltered. Sealed on ${sealDate}${byLine}.`);
 
-  setText('r-sealed-by', senderDisplay || '�');
+  setText('r-sealed-by', senderDisplay || 'Not specified');
   setText('r-date', sealDate);
-  setText('r-shortref', shortRef);
+  setText('r-txid-full', txid);
+  if (_subject)   { setText('r-subject', _subject);     document.getElementById('r-subject-row').style.display   = 'flex'; }
+  if (_recipient) { setText('r-recipient', _recipient); document.getElementById('r-recipient-row').style.display = 'flex'; }
+  if (_fullHash)  { setText('r-hash', _fullHash);       document.getElementById('r-hash-row').style.display      = 'flex'; }
 
   const rawPayload = extractOpReturn(tx.vout);
   const parsed = parseTMPayload(rawPayload);
@@ -698,10 +690,6 @@ function showVerified(txid, tx) {
     setText('r-msg-content', message);
   }
 
-  const wocUrl = `https://whatsonchain.com/tx/${txid}`;
-  const wocLink = document.getElementById('r-woc-link-verified');
-  wocLink.href = wocUrl;
-  setText('r-woc-url-verified', wocUrl);
 
   if (_senderWa) {
     const greeting = _senderName ? `Hi ${_senderName}` : 'Hi';
@@ -755,16 +743,10 @@ function escHtml(str) {
 }
 
 function showNotFound(txid) {
-  const wocUrl = `https://whatsonchain.com/tx/${txid}`;
-  document.getElementById('r-woc-link-nf').href = wocUrl;
-  setText('r-woc-url-nf', wocUrl);
   showOnly('r-notfound');
 }
 
 function showApiError(txid) {
-  const wocUrl = `https://whatsonchain.com/tx/${txid}`;
-  document.getElementById('r-woc-link-err').href = wocUrl;
-  setText('r-woc-url-err', wocUrl);
   showOnly('r-error');
 }
 
