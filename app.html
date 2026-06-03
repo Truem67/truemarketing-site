@@ -1815,8 +1815,6 @@ td:first-child{color:#555;width:36%;font-size:11px;font-family:Arial,sans-serif;
   <p class="verify-note">This certificate can be independently verified on the BSV public blockchain. The proof exists permanently on a decentralised public ledger and cannot be altered, deleted, or denied by any party � including DoxSeal.</p>
   <div class="url-lbl">Verify this certificate at</div>
   <div class="url">${verifyUrl?h(verifyUrl):'Connect server for live blockchain transactions'}</div>
-  <div class="url-lbl">Or directly on WhatsOnChain</div>
-  <div class="url">${isLive?'https://whatsonchain.com/tx/'+h(cert.txid):'(demo seal � not on chain)'}</div>
 </div>${qrSrc?'<div class="qr-wrap"><img src="'+qrSrc+'" alt="Scan to verify"><div class="qr-lbl">Scan to verify this certificate on the blockchain</div></div>':''}</div></div>
 <div class="footer"><div class="footer-main">This certificate is self-verifying. Verify at doxseal.co.za/verify.html � Electronic Communications and Transactions Act 25 of 2002</div><div class="footer-sub">DoxSeal � johan@doxseal.co.za � doxseal.co.za</div></div>
 </body></html>`;
@@ -1855,8 +1853,7 @@ function printCert(){
   if(!LAST){toast('Nothing to print','Complete a seal first.');return;}
   const isLive=!LAST.txid.startsWith('demo_');
   const verifyUrl=isLive?buildVerifyURL(LAST.txid,LAST):'Demo mode � connect server for live blockchain transactions';
-  const wocUrl=isLive?'https://whatsonchain.com/tx/'+LAST.txid:'(demo seal � not on chain)';
-  const privLabels={plain:'Plain Text � Full message recorded on the blockchain',hash:'Hash Only � Message is private; cryptographic proof is public',encrypted:'Encrypted � Message is encrypted on the blockchain'};
+    const privLabels={plain:'Plain Text � Full message recorded on the blockchain',hash:'Hash Only � Message is private; cryptographic proof is public',encrypted:'Encrypted � Message is encrypted on the blockchain'};
   const s=id=>document.getElementById(id);
   s('pc-subj').textContent=LAST.subj||'�';s('pc-to').textContent=LAST.to||'�';
   s('pc-from').textContent=(CU&&CU.name?CU.name+' � ':'')+((CU&&CU.email)||'�');
@@ -1864,7 +1861,7 @@ function printCert(){
   s('pc-mode').textContent=LAST.mode==='file'?'File fingerprint � file never left device':(privLabels[LAST.mode]||LAST.mode||'�');
   if(LAST.fileName){try{s('pc-subj').textContent+=' � File: '+LAST.fileName;}catch(e){}}
   s('pc-hash').textContent=LAST.fullHash||'�';s('pc-txid').textContent=LAST.txid||'�';
-  s('pc-url').textContent=verifyUrl;s('pc-woc').textContent=wocUrl;
+  s('pc-url').textContent=verifyUrl;
   const qrImg=s('pc-qr-img');
   if(isLive){
     qrImg.style.display='block';
@@ -1920,7 +1917,7 @@ function proofHTML(m,compact){
 
 function toggleDetail(id){const el=document.getElementById('pd-'+id);if(el)el.classList.toggle('open');}
 function openWoc(txid){
-  if(txid&&!txid.startsWith('demo_')){window.open('https://whatsonchain.com/tx/'+txid,'_blank');}
+  if(txid&&!txid.startsWith('demo_')){window.open('https://doxseal.co.za/verify.html?txid='+txid,'_blank');}
   else{toast('Demo mode','Connect your BSV server for live blockchain verification.');}
 }
 function showAddr(){toast('Your blockchain address',CU&&CU.addr?CU.addr:'Not set');}
@@ -2102,7 +2099,6 @@ document.addEventListener('DOMContentLoaded',function(){
         <div class="pc-verify-left">
           <p class="pc-verify-note">This certificate can be independently verified on the BSV public blockchain. The cryptographic proof exists permanently on a decentralised public ledger and cannot be altered, deleted, or denied by any party � including DoxSeal.</p>
           <div class="pc-url-lbl">Verify this certificate at</div><div class="pc-url" id="pc-url"></div>
-          <div class="pc-url-lbl">Or directly on WhatsOnChain</div><div class="pc-url" id="pc-woc"></div>
         </div>
         <div class="pc-qr-wrap">
           <img id="pc-qr-img" src="" alt="QR Code" style="display:none">
