@@ -1661,7 +1661,7 @@ function startSealCooldown(){
   btnAgain.textContent=`Next seal available in ${secs}s...`;
   _cooldownTimer=setInterval(()=>{
     secs--;
-    if(secs<=0){clearInterval(_cooldownTimer);_cooldownTimer=null;btnAgain.disabled=false;btnAgain.textContent='? Validate Another Document';btnSeal.disabled=false;}
+    if(secs<=0){clearInterval(_cooldownTimer);_cooldownTimer=null;btnAgain.disabled=false;btnAgain.textContent='Validate Another Document';btnSeal.disabled=false;}
     else{btnAgain.textContent=`Next seal available in ${secs}s...`;}
   },1000);
 }
