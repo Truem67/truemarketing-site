@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DoxSeal — Permanent Document Integrity for South African Law Firms</title>
+<meta name="description" content="Seal contracts, agreements and client communications with tamper-proof blockchain certificates. Independently verifiable forever. POPIA compliant. From R499/month.">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* -----------------------------------------------
+   DOXSEAL — UNIFIED DESIGN SYSTEM
+   Springbok Edition — Old Gold + Deep Green
+----------------------------------------------- */
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+
+:root{
+  --bg:        #040f08;
+  --bg2:       #071a0e;
+  --bg3:       #0a2614;
+  --card:      #0d3018;
+  --card2:     #10391c;
+  --edge:      #174d26;
+
+  --line:      rgba(184,134,11,.13);
+  --line2:     rgba(184,134,11,.24);
+  --line3:     rgba(184,134,11,.38);
+
+  --gold:      #b8860b;
+  --gold2:     #c9a84c;
+  --gold3:     #9a6f08;
+  --gold4:     #7a5506;
+  --gold-glow: rgba(184,134,11,.16);
+  --gold-glow2:rgba(184,134,11,.08);
+
+  --ivory:     #f0ead8;
+  --iv2:       rgba(240,234,216,.78);
+  --iv3:       rgba(240,234,216,.48);
+  --iv4:       rgba(240,234,216,.26);
+  --iv5:       rgba(240,234,216,.10);
+
+  --red:       #c0392b;
+  --red-soft:  rgba(192,57,43,.10);
+
+  --serif:     'Cormorant Garamond', Georgia, serif;
+  --sans:      'DM Sans', sans-serif;
+  --mono:      'JetBrains Mono', monospace;
+
+  --ease:      cubic-bezier(.4,0,.2,1);
+  --bounce:    cubic-bezier(.34,1.56,.64,1);
+
+  --shadow-gold: 0 0 32px rgba(184,134,11,.18), 0 6px 24px rgba(0,0,0,.45);
+  --shadow-card: 0 8px 40px rgba(0,0,0,.38), 0 1px 0 rgba(184,134,11,.10) inset;
+}
+
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);
+  font-family:var(--sans);
+  color:var(--ivory);
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+
+body::before{
+  content:'';position:fixed;inset:0;z-index:9998;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23g)' opacity='1'/%3E%3C/svg%3E");
+  opacity:.03;mix-blend-mode:screen;
+}
+
+::selection{background:rgba(184,134,11,.28);}
+::-webkit-scrollbar{width:3px;}
+::-webkit-scrollbar-thumb{background:var(--line2);border-radius:3px;}
+
+/* ------------------------------
+   NAV
+------------------------------ */
+.nav{
+  position:sticky;top:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 28px;
+  background:rgba(4,15,8,.92);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--line);
+}
+
+/* ------------------------------
+   HERO
+------------------------------ */
+.hero{
+  padding:90px 28px 80px;text-align:center;
+  background:
+    radial-gradient(ellipse 90% 55% at 20% -5%, rgba(184,134,11,.06) 0%, transparent 60%),
+    radial-gradient(ellipse 70% 50% at 82% 108%, rgba(184,134,11,.04) 0%, transparent 55%),
+    var(--bg);
+  position:relative;overflow:hidden;
+}
+.hero::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--line3),transparent);
+}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  background:rgba(184,134,11,.07);
+  border:1px solid var(--line2);
+  border-radius:30px;padding:8px 20px;
+  font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  color:var(--gold2);margin-bottom:36px;
+}
+.hero-dot{
+  width:7px;height:7px;border-radius:50%;
+  background:var(--gold);box-shadow:0 0 7px var(--gold);
+  animation:flash 2.4s infinite;
+}
+@keyframes flash{0%,100%{opacity:1;}50%{opacity:.25;}}
+.hero-h1{
+  font-family:var(--serif);
+  font-size:clamp(28px,5.8vw,56px);
+  font-weight:700;line-height:1.06;
+  color:var(--ivory);max-width:840px;margin:0 auto 24px;
+  letter-spacing:-.3px;
+}
+.hero-h1 em{
+  font-style:italic;
+  background:linear-gradient(135deg,var(--gold2),var(--gold3));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.hero-sub{
+  font-size:clamp(15px,2.2vw,18px);
+  color:var(--iv3);line-height:1.75;font-weight:300;
+  max-width:640px;margin:0 auto 48px;
+}
+.hero-cta{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:18px 44px;border-radius:13px;
+  background:linear-gradient(135deg,var(--gold3) 0%,var(--gold2) 50%,var(--gold3) 100%);
+  font-size:16px;font-weight:700;color:var(--bg);
+  text-decoration:none;letter-spacing:.02em;
+  box-shadow:0 10px 40px rgba(184,134,11,.36);
+  transition:all .24s var(--ease);position:relative;overflow:hidden;
+}
+.hero-cta::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(255,255,255,.14),transparent);
+  pointer-events:none;
+}
+.hero-cta:hover{transform:translateY(-3px);box-shadow:0 18px 52px rgba(184,134,11,.48);}
+.hero-note{margin-top:20px;font-size:12px;color:var(--iv4);}
+.hero-note strong{color:var(--gold3);}
+
+/* ------------------------------
+   ROI BAR
+------------------------------ */
+.roi-bar{
+  background:var(--bg2);
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+  padding:32px 28px;
+}
+.roi-inner{
+  max-width:920px;margin:0 auto;
+  display:flex;justify-content:center;gap:0;flex-wrap:wrap;
+}
+.roi-stat{
+  padding:14px 40px;
+  border-right:1px solid var(--line);
+  flex:1;min-width:160px;text-align:center;
+}
+.roi-stat:last-child{border-right:none;}
+.roi-num{
+  font-family:var(--serif);
+  font-size:clamp(24px,4vw,38px);
+  font-weight:700;color:var(--gold2);
+  line-height:1;margin-bottom:8px;
+}
+.roi-num.red{color:var(--red);}
+.roi-lbl{font-size:11px;color:var(--iv3);font-weight:600;letter-spacing:.6px;text-transform:uppercase;}
+
+/* ------------------------------
+   SECTIONS
+------------------------------ */
+.section{max-width:880px;margin:0 auto;padding:80px 28px;}
+.section-eyebrow{
+  font-size:10px;font-weight:700;letter-spacing:3px;
+  text-transform:uppercase;color:var(--gold3);margin-bottom:14px;
+}
+.section-h2{
+  font-family:var(--serif);
+  font-size:clamp(24px,4.2vw,40px);
+  font-weight:700;line-height:1.14;
+  color:var(--ivory);margin-bottom:18px;letter-spacing:-.2px;
+}
+.section-h2 em{
+  font-style:italic;
+  background:linear-gradient(135deg,var(--gold2),var(--gold3));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.section-lead{
+  font-size:16px;color:var(--iv3);
+  line-height:1.78;font-weight:300;
+  max-width:640px;margin-bottom:40px;
+}
+.section-lead strong{color:var(--ivory);font-weight:600;}
+
+/* ------------------------------
+   PROBLEM CARDS
+------------------------------ */
+.problem-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:14px;margin-bottom:40px;
+}
+.problem-card{
+  background:rgba(192,57,43,.05);
+  border:1px solid rgba(192,57,43,.18);
+  border-radius:14px;padding:22px 24px;
+  display:flex;gap:14px;align-items:flex-start;
+  transition:border-color .2s;
+}
+.problem-card:hover{border-color:rgba(192,57,43,.32);}
+.problem-ico{font-size:20px;flex-shrink:0;margin-top:1px;}
+.problem-txt{font-size:14px;color:var(--iv2);line-height:1.58;font-weight:400;}
+
+.law-box{
+  background:var(--card2);
+  border:1px solid var(--line2);
+  border-left:3px solid var(--gold);
+  border-radius:14px;padding:26px 28px;
+  display:flex;gap:18px;align-items:flex-start;
+}
+.law-ico{font-size:24px;flex-shrink:0;margin-top:2px;}
+.law-title{
+  font-size:11px;font-weight:700;color:var(--gold2);
+  letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;
+}
+.law-text{font-size:14px;color:var(--iv2);line-height:1.68;}
+.law-text strong{color:var(--ivory);}
+
+/* ------------------------------
+   HOW IT WORKS
+------------------------------ */
+.how-section{
+  background:var(--bg2);
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+  padding:80px 28px;
+}
+.how-inner{max-width:880px;margin:0 auto;}
+.steps{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(225px,1fr));
+  gap:2px;margin-top:44px;
+}
+.step{
+  background:var(--card);
+  padding:34px 30px;
+  position:relative;
+  transition:background .2s,border-color .2s;
+  border-top:2px solid transparent;
+}
+.step:first-child{border-radius:14px 0 0 14px;}
+.step:last-child{border-radius:0 14px 14px 0;}
+.step:hover{background:var(--card2);border-top-color:var(--gold);}
+.step-num{
+  font-family:var(--mono);font-size:11px;font-weight:500;
+  color:var(--gold3);letter-spacing:1.5px;margin-bottom:18px;
+}
+.step-ico{font-size:30px;margin-bottom:16px;display:block;}
+.step-title{
+  font-family:var(--serif);font-size:20px;
+  font-weight:700;color:var(--ivory);margin-bottom:12px;
+}
+.step-desc{font-size:13px;color:var(--iv3);line-height:1.68;}
+
+@media(max-width:640px){
+  .step:first-child,.step:last-child{border-radius:0;}
+  .step:first-child{border-radius:14px 14px 0 0;}
+  .step:last-child{border-radius:0 0 14px 14px;}
+}
+
+/* ------------------------------
+   USE CASES
+------------------------------ */
+.use-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));
+  gap:12px;margin-top:44px;
+}
+.use-card{
+  background:var(--card);border:1px solid var(--line);
+  border-radius:14px;padding:22px 24px;
+  display:flex;gap:14px;align-items:flex-start;
+  transition:all .22s var(--ease);position:relative;overflow:hidden;
+}
+.use-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  opacity:0;transition:opacity .25s;
+}
+.use-card:hover{
+  border-color:var(--line2);background:var(--card2);
+  transform:translateY(-2px);box-shadow:var(--shadow-card);
+}
+.use-card:hover::before{opacity:1;}
+.use-check{
+  width:24px;height:24px;border-radius:50%;flex-shrink:0;
+  background:var(--gold-glow2);
+  border:1px solid var(--line2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;color:var(--gold2);margin-top:1px;
+}
+.use-title{font-size:14px;font-weight:700;color:var(--ivory);margin-bottom:5px;}
+.use-desc{font-size:12px;color:var(--iv3);line-height:1.58;}
+
+/* ------------------------------
+   BENEFITS
+------------------------------ */
+.benefits-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:12px;margin-top:44px;
+}
+.benefit-card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:14px;padding:26px 24px;
+  transition:all .22s var(--ease);
+}
+.benefit-card:hover{background:var(--card2);border-color:var(--line2);}
+.benefit-icon{
+  width:38px;height:38px;border-radius:10px;
+  background:var(--gold-glow2);border:1px solid var(--line2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;margin-bottom:16px;
+}
+.benefit-title{font-size:14px;font-weight:700;color:var(--gold2);margin-bottom:8px;}
+.benefit-desc{font-size:13px;color:var(--iv3);line-height:1.6;}
+
+/* ------------------------------
+   PROOF SECTION
+------------------------------ */
+.proof-section{
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 50%, rgba(184,134,11,.04) 0%, transparent 70%),
+    var(--bg);
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+  padding:80px 28px;text-align:center;
+}
+.proof-inner{max-width:680px;margin:0 auto;}
+.proof-quote{
+  font-family:var(--serif);
+  font-size:clamp(22px,3.8vw,34px);
+  font-weight:700;line-height:1.24;
+  color:var(--ivory);margin-bottom:28px;
+}
+.proof-quote em{
+  font-style:italic;
+  background:linear-gradient(135deg,var(--gold2),var(--gold3));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.proof-calc{
+  display:inline-flex;flex-wrap:wrap;justify-content:center;
+  align-items:center;gap:10px;margin-bottom:36px;
+}
+.proof-chip{
+  background:var(--card);border:1px solid var(--line2);
+  border-radius:12px;padding:14px 22px;
+  font-size:13px;color:var(--iv2);
+}
+.proof-chip strong{
+  display:block;
+  font-family:var(--serif);font-size:22px;
+  font-weight:700;color:var(--red);margin-bottom:4px;
+}
+.proof-chip.gold strong{color:var(--gold2);}
+.vs-arrow{font-size:22px;color:var(--iv4);}
+
+/* ------------------------------
+   FAQ
+------------------------------ */
+.faq-list{margin-top:44px;display:flex;flex-direction:column;gap:2px;}
+.faq-item{background:var(--card);border:1px solid var(--line);}
+.faq-item:first-child{border-radius:14px 14px 0 0;}
+.faq-item:last-child{border-radius:0 0 14px 14px;}
+.faq-q{
+  width:100%;padding:22px 26px;
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  font-size:15px;font-weight:600;color:var(--ivory);text-align:left;
+  cursor:pointer;background:none;border:none;font-family:var(--sans);
+  transition:background .15s;
+}
+.faq-q:hover{background:rgba(184,134,11,.04);}
+.faq-arrow{font-size:11px;color:var(--gold3);flex-shrink:0;transition:transform .25s var(--ease);}
+.faq-item.open .faq-arrow{transform:rotate(180deg);}
+.faq-item.open .faq-q{color:var(--gold2);}
+.faq-a{
+  display:none;padding:18px 26px 22px;
+  font-size:14px;color:var(--iv3);line-height:1.76;
+  border-top:1px solid var(--line);
+}
+.faq-item.open .faq-a{display:block;}
+
+/* ------------------------------
+   DEMO FORM
+------------------------------ */
+.demo-section{
+  background:var(--bg2);
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+  padding:80px 28px;
+}
+.demo-inner{max-width:560px;margin:0 auto;text-align:center;}
+.demo-eyebrow{
+  font-size:10px;font-weight:700;letter-spacing:3px;
+  text-transform:uppercase;color:var(--gold3);margin-bottom:14px;
+}
+.demo-h2{
+  font-family:var(--serif);
+  font-size:clamp(24px,4vw,38px);
+  font-weight:700;line-height:1.16;
+  color:var(--ivory);margin-bottom:14px;
+}
+.demo-h2 em{
+  font-style:italic;
+  background:linear-gradient(135deg,var(--gold2),var(--gold3));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.demo-sub{font-size:15px;color:var(--iv3);line-height:1.72;margin-bottom:36px;font-weight:300;}
+.demo-form{
+  background:var(--card);
+  border:1px solid var(--line2);
+  border-radius:18px;padding:36px;
+  text-align:left;
+}
+.form-group{margin-bottom:16px;}
+.form-label{
+  display:block;font-size:10px;font-weight:700;
+  letter-spacing:2px;text-transform:uppercase;
+  color:var(--gold3);margin-bottom:8px;
+}
+.form-input{
+  width:100%;padding:13px 16px;
+  background:var(--bg);
+  border:1px solid var(--line2);
+  border-radius:9px;
+  font-family:var(--sans);font-size:14px;color:var(--ivory);
+  outline:none;transition:border-color .2s,box-shadow .2s;
+  appearance:none;
+}
+.form-input::placeholder{color:var(--iv4);}
+.form-input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(184,134,11,.12);}
+.form-btn{
+  width:100%;margin-top:8px;padding:16px;
+  background:linear-gradient(135deg,var(--gold3) 0%,var(--gold2) 50%,var(--gold3) 100%);
+  color:var(--bg);border:none;border-radius:10px;
+  font-family:var(--sans);font-size:15px;font-weight:700;
+  cursor:pointer;letter-spacing:.02em;
+  box-shadow:0 6px 24px rgba(184,134,11,.30);
+  transition:all .2s var(--ease);
+}
+.form-btn:hover{transform:translateY(-1px);box-shadow:0 10px 32px rgba(184,134,11,.44);}
+.form-footnote{font-size:11px;color:var(--iv4);text-align:center;margin-top:12px;line-height:1.5;}
+.form-success{display:none;text-align:center;padding:40px 20px;}
+.form-success-icon{font-size:44px;margin-bottom:16px;}
+.form-success-title{font-family:var(--serif);font-size:24px;font-weight:700;color:var(--gold2);margin-bottom:10px;}
+.form-success-sub{font-size:14px;color:var(--iv3);line-height:1.65;}
+
+/* ------------------------------
+   FINAL CTA
+------------------------------ */
+.final-cta{
+  padding:90px 28px;text-align:center;
+  background:
+    radial-gradient(ellipse 100% 80% at 50% 100%, rgba(184,134,11,.05) 0%, transparent 65%),
+    var(--bg2);
+  border-top:1px solid var(--line);
+}
+.final-inner{max-width:620px;margin:0 auto;}
+.final-h2{
+  font-family:var(--serif);
+  font-size:clamp(26px,5.5vw,46px);
+  font-weight:700;line-height:1.1;
+  color:var(--ivory);margin-bottom:18px;letter-spacing:-.3px;
+}
+.final-h2 em{
+  font-style:italic;
+  background:linear-gradient(135deg,var(--gold2),var(--gold3));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.final-sub{font-size:17px;color:var(--iv3);line-height:1.68;font-weight:300;margin-bottom:36px;}
+.final-btn{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:20px 52px;border-radius:13px;
+  background:linear-gradient(135deg,var(--gold3) 0%,var(--gold2) 50%,var(--gold3) 100%);
+  font-size:16px;font-weight:700;color:var(--bg);
+  text-decoration:none;letter-spacing:.02em;
+  box-shadow:0 12px 44px rgba(184,134,11,.38);
+  transition:all .24s var(--ease);position:relative;overflow:hidden;
+}
+.final-btn::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(255,255,255,.14),transparent);
+  pointer-events:none;
+}
+.final-btn:hover{transform:translateY(-3px);box-shadow:0 20px 58px rgba(184,134,11,.52);}
+.final-note{margin-top:18px;font-size:11px;color:var(--iv4);}
+.final-note strong{color:var(--gold3);}
+
+/* ------------------------------
+   FOOTER
+------------------------------ */
+.footer{
+  padding:28px 28px;
+  border-top:1px solid var(--line);
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:12px;background:var(--bg);
+}
+.footer-brand{font-family:var(--serif);font-size:15px;color:var(--iv3);}
+.footer-brand b{color:var(--gold3);}
+.footer-links{display:flex;gap:22px;flex-wrap:wrap;}
+.footer-links a{font-size:12px;color:var(--iv4);text-decoration:none;transition:color .15s;}
+.footer-links a:hover{color:var(--gold2);}
+
+/* ------------------------------
+   MOBILE
+------------------------------ */
+@media(max-width:640px){
+  .nav{padding:14px 20px;}
+  .hero{padding:60px 20px 60px;}
+  .hero-cta,.final-btn{width:100%;justify-content:center;padding:18px 28px;}
+  .roi-stat{border-right:none;border-bottom:1px solid var(--line);padding:16px 20px;}
+  .roi-stat:last-child{border-bottom:none;}
+  .section{padding:56px 20px;}
+  .how-section{padding:56px 20px;}
+  .proof-section{padding:56px 20px;}
+  .final-cta{padding:60px 20px;}
+  .demo-section{padding:56px 20px;}
+  .demo-form{padding:24px 20px;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="https://doxseal.co.za" style="display:flex;align-items:center;gap:9px;text-decoration:none;font-family:'Cormorant Garamond',Georgia,serif;font-size:19px;font-weight:700;color:#f0ead8;">
+    <div style="width:26px;height:26px;border-radius:6px;background:linear-gradient(135deg,#9a6f08,#c9a84c);display:flex;align-items:center;justify-content:center;font-size:12px;color:#040f08;flex-shrink:0;">✦</div>
+    <span style="color:#c9a84c;">Dox</span>Seal
+  </a>
+  <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+    <a href="https://doxseal.co.za/brokers.html" style="font-size:12px;color:rgba(240,234,216,.48);text-decoration:none;padding:6px 12px;">For Brokers</a>
+    <a href="https://doxseal.co.za/hr-landing.html" style="font-size:12px;color:rgba(240,234,216,.48);text-decoration:none;padding:6px 12px;">For HR</a>
+    <a href="https://doxseal.co.za/verify.html" style="font-size:12px;color:rgba(240,234,216,.48);text-decoration:none;padding:6px 12px;">Verify</a>
+    <a href="https://doxseal.co.za/app.html" style="font-size:13px;font-weight:600;color:#c9a84c;background:transparent;border:1px solid rgba(184,134,11,.24);padding:8px 16px;border-radius:8px;text-decoration:none;">Sign In</a>
+    <a href="https://doxseal.co.za/trial.html" style="font-size:13px;font-weight:700;color:#040f08;background:linear-gradient(135deg,#9a6f08,#c9a84c);padding:8px 16px;border-radius:8px;text-decoration:none;">Try Free</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eyebrow">
+    <span class="hero-dot"></span>
+    For Law Firms &amp; Attorneys
+  </div>
+  <h1 class="hero-h1">Permanent Document Integrity for<br><em>South African Law Firms</em></h1>
+  <p class="hero-sub">Seal contracts, agreements and client communications with tamper-proof certificates — independently verifiable forever.</p>
+  <a href="#demo" class="hero-cta">
+    <span>Request a Demo</span>
+    <span>→</span>
+  </a>
+  <p class="hero-note">No document stored on our servers. POPIA compliant. <strong>From R499/month.</strong></p>
+</section>
+
+<!-- ROI BAR -->
+<div class="roi-bar">
+  <div class="roi-inner">
+    <div class="roi-stat">
+      <div class="roi-num red">R500k+</div>
+      <div class="roi-lbl">Average negligence claim</div>
+    </div>
+    <div class="roi-stat">
+      <div class="roi-num">R499</div>
+      <div class="roi-lbl">DoxSeal per month</div>
+    </div>
+    <div class="roi-stat">
+      <div class="roi-num">15 sec</div>
+      <div class="roi-lbl">To seal any document</div>
+    </div>
+    <div class="roi-stat">
+      <div class="roi-num">Forever</div>
+      <div class="roi-lbl">Proof on permanent record</div>
+    </div>
+  </div>
+</div>
+
+<!-- PROBLEM -->
+<section class="section">
+  <div class="section-eyebrow">The Disputes You Face</div>
+  <h2 class="section-h2">When a client says <em>"that's not what you advised,"</em><br>can you prove otherwise?</h2>
+  <p class="section-lead">Professional liability in South Africa is growing. Without a timestamped, tamper-proof record of advice given and documents exchanged, your word against a client's is not a position you want to defend.</p>
+  <div class="problem-grid">
+    <div class="problem-card"><span class="problem-ico">⚖️</span><span class="problem-txt">Client disputes the advice they received — no record of what was communicated or when</span></div>
+    <div class="problem-card"><span class="problem-ico">📄</span><span class="problem-txt">Contract version dispute — opposing party claims they signed a different version</span></div>
+    <div class="problem-card"><span class="problem-ico">🕐</span><span class="problem-txt">Deadline missed — no proof of when documents were issued or instructions received</span></div>
+    <div class="problem-card"><span class="problem-ico">🏠</span><span class="problem-txt">Conveyancing dispute — terms of offer to purchase disputed after transfer</span></div>
+  </div>
+  <div class="law-box">
+    <span class="law-ico">⚖️</span>
+    <div>
+      <div class="law-title">FAIS Act &amp; Professional Indemnity</div>
+      <div class="law-text">The FAIS Act requires financial service providers to maintain records of <strong>advice given, documents provided and client instructions received.</strong> A blockchain-sealed record provides independently verifiable proof of content and timestamp — without storing the document itself on any third-party server.</div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<div class="how-section">
+  <div class="how-inner">
+    <div class="section-eyebrow">How It Works</div>
+    <h2 class="section-h2">Three steps. <em>Permanent proof.</em></h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">STEP 01</div>
+        <span class="step-ico">📋</span>
+        <div class="step-title">Seal the document</div>
+        <div class="step-desc">Upload a file or type the content directly. DoxSeal creates a SHA-256 fingerprint of the exact content at that exact moment.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">STEP 02</div>
+        <span class="step-ico">🔗</span>
+        <div class="step-title">Recorded on-chain</div>
+        <div class="step-desc">The fingerprint is permanently written to the blockchain. Timestamped to the second. Mathematically impossible to alter or backdate.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">STEP 03</div>
+        <span class="step-ico">✅</span>
+        <div class="step-title">Certificate issued</div>
+        <div class="step-desc">A verifiable certificate with a public blockchain reference. Opposing counsel, your client, or any court can independently confirm it — no DoxSeal account needed.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- USE CASES -->
+<section class="section">
+  <div class="section-eyebrow">Use Cases</div>
+  <h2 class="section-h2">Every document that matters, <em>sealed at the moment it matters.</em></h2>
+  <p class="section-lead">From the moment of signing to the moment of filing — a permanent, tamper-proof record of each critical document.</p>
+  <div class="use-grid">
+    <div class="use-card">
+      <div class="use-check">✦</div>
+      <div>
+        <div class="use-title">Settlement Agreements</div>
+        <div class="use-desc">Seal at the moment of signing. Permanent proof of the exact terms agreed — no future dispute about what was settled or when.</div>
+      </div>
+    </div>
+    <div class="use-card">
+      <div class="use-check">✦</div>
+      <div>
+        <div class="use-title">Client Advice Records</div>
+        <div class="use-desc">Timestamped proof of advice given. FAIS compliance and professional liability protection — sealed at the time of the advice, not reconstructed later.</div>
+      </div>
+    </div>
+    <div class="use-card">
+      <div class="use-check">✦</div>
+      <div>
+        <div class="use-title">Contract Versions</div>
+        <div class="use-desc">Tamper-proof evidence of which version was signed. No more disputes about amendments, insertions or clauses that were never agreed.</div>
+      </div>
+    </div>
+    <div class="use-card">
+      <div class="use-check">✦</div>
+      <div>
+        <div class="use-title">Conveyancing Documents</div>
+        <div class="use-desc">Seal transfer documents, offers to purchase and condition reports at the time of issue. Permanent record of what was disclosed and when.</div>
+      </div>
+    </div>
+    <div class="use-card">
+      <div class="use-check">✦</div>
+      <div>
+        <div class="use-title">Evidence Preservation</div>
+        <div class="use-desc">Seal witness statements, affidavits and supporting documents. Proof that content has not been altered since the moment of sealing.</div>
+      </div>
+    </div>
+    <div class="use-card">
+      <div class="use-check">✦</div>
+      <div>
+        <div class="use-title">Instruction Records</div>
+        <div class="use-desc">Seal written client instructions and mandates as received. Clear, timestamped record of what your client authorised and when.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BENEFITS -->
+<div class="how-section">
+  <div class="how-inner">
+    <div class="section-eyebrow">Why DoxSeal</div>
+    <h2 class="section-h2">Built for the way law firms <em>actually work.</em></h2>
+    <p class="section-lead" style="max-width:580px;">No new workflows. No document storage risk. Just a 15-second seal at the point that matters.</p>
+    <div class="benefits-grid" style="margin-top:44px;">
+      <div class="benefit-card">
+        <div class="benefit-icon">🔒</div>
+        <div class="benefit-title">No Document Stored</div>
+        <div class="benefit-desc">Only a cryptographic fingerprint is recorded — never the document itself. POPIA compliant by design. Your client's confidential information never leaves your control.</div>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon">🌐</div>
+        <div class="benefit-title">Independently Verifiable</div>
+        <div class="benefit-desc">Opposing counsel, your client, or a judge can verify the seal at whatsonchain.com — without a DoxSeal account. The proof stands on its own.</div>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon">⚡</div>
+        <div class="benefit-title">15 Seconds to Seal</div>
+        <div class="benefit-desc">No training required. Open DoxSeal, paste or upload, seal. Fits into your existing document process with no disruption to how your firm operates.</div>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon">♾️</div>
+        <div class="benefit-title">Permanent Record</div>
+        <div class="benefit-desc">Blockchain records cannot be deleted. The seal exists forever — even if DoxSeal ceased to exist tomorrow. Your proof is not dependent on any single company.</div>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon">📅</div>
+        <div class="benefit-title">Tamper-Proof Timestamp</div>
+        <div class="benefit-desc">The blockchain timestamp is set by a global network of nodes — not by you, not by us. It cannot be backdated, adjusted or disputed by any party.</div>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon">💼</div>
+        <div class="benefit-title">From R499/month</div>
+        <div class="benefit-desc">Unlimited seals for your firm's matters. One professional negligence claim costs more than a decade of DoxSeal subscriptions.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PROOF LINE -->
+<div class="proof-section">
+  <div class="proof-inner">
+    <p class="proof-quote">One avoided negligence claim pays for <em>83 years</em> of DoxSeal.</p>
+    <div class="proof-calc">
+      <div class="proof-chip">
+        <strong>R500,000+</strong>
+        <span style="font-size:11px;color:var(--iv4);">Average professional negligence claim</span>
+      </div>
+      <div class="vs-arrow">vs</div>
+      <div class="proof-chip gold">
+        <strong>R499 / month</strong>
+        <span style="font-size:11px;color:var(--gold3);">DoxSeal for Law Firms</span>
+      </div>
+    </div>
+    <a href="#demo" class="hero-cta" style="font-size:15px;padding:16px 38px;">
+      Request a Demo →
+    </a>
+  </div>
+</div>
+
+<!-- FAQ -->
+<section class="section">
+  <div class="section-eyebrow">Questions</div>
+  <h2 class="section-h2">What attorneys ask us.</h2>
+  <div class="faq-list">
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)"><span>Is a blockchain seal admissible as evidence?</span><span class="faq-arrow">▼</span></button>
+      <div class="faq-a">The blockchain record provides independently verifiable proof of two things: the exact content at the time of sealing, and the precise timestamp. The Electronic Communications and Transactions Act (ECT Act) recognises electronic records as admissible evidence. The immutability of a public blockchain — where no single party controls the record — makes it exceptionally difficult to challenge the authenticity of the timestamp or content.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)"><span>Does DoxSeal store our client documents?</span><span class="faq-arrow">▼</span></button>
+      <div class="faq-a">No. DoxSeal records only a SHA-256 cryptographic fingerprint of the document — never the document content itself. Your client's confidential information never leaves your control. This means DoxSeal is POPIA compliant by design and does not create any third-party data storage risk for your firm.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)"><span>Does the other party need to use DoxSeal?</span><span class="faq-arrow">▼</span></button>
+      <div class="faq-a">No. You seal the document on your side at the time of signing, issue or dispatch. The proof belongs to your firm. Opposing counsel, your client or any court can verify the seal at whatsonchain.com with no account required — they simply check that the document's fingerprint matches the blockchain record.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)"><span>How is this different from email timestamps or PDF metadata?</span><span class="faq-arrow">▼</span></button>
+      <div class="faq-a">Email timestamps and PDF metadata are controlled by the sender and can be altered. A blockchain seal is set by a global network of independent nodes — not by you, not by DoxSeal, not by any single party. The timestamp and content fingerprint are cryptographically locked and publicly auditable. No IT access, no server control, no privileged position allows it to be changed after the fact.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)"><span>What happens if DoxSeal shuts down?</span><span class="faq-arrow">▼</span></button>
+      <div class="faq-a">Nothing changes. The blockchain record is permanent and public — it exists on thousands of independent nodes worldwide. Your proof certificates contain the transaction ID which can be independently verified at whatsonchain.com or any BSV blockchain explorer forever, without DoxSeal existing. Your seals do not depend on our continued operation.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)"><span>Can we seal on behalf of multiple attorneys in the firm?</span><span class="faq-arrow">▼</span></button>
+      <div class="faq-a">Yes. The Business plan supports multiple users under one firm account. Each seal carries the sealing attorney's name and email in the certificate, creating an individual record of who sealed what and when. Contact us to discuss firm-wide pricing for larger practices.</div>
+    </div>
+  </div>
+</section>
+
+<!-- DEMO FORM -->
+<div class="demo-section" id="demo">
+  <div class="demo-inner">
+    <div class="demo-eyebrow">Request a Demo</div>
+    <h2 class="demo-h2">See DoxSeal seal a legal document <em>live.</em></h2>
+    <p class="demo-sub">We will seal a real contract or agreement in front of you and show you the independently verifiable proof. No slides. 20 minutes.</p>
+    <div class="demo-form" id="lead-form">
+      <div class="form-group">
+        <label class="form-label">Full Name</label>
+        <input id="f-name" class="form-input" type="text" placeholder="Adv. Jane Smith">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Work Email</label>
+        <input id="f-email" class="form-input" type="email" placeholder="jane@smithattorneys.co.za">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Firm Name</label>
+        <input id="f-company" class="form-input" type="text" placeholder="Smith &amp; Associates Inc.">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Your Role</label>
+        <select id="f-role" class="form-input">
+          <option value="">Select your role...</option>
+          <option>Attorney / Associate</option>
+          <option>Director / Partner</option>
+          <option>Conveyancer</option>
+          <option>Advocate</option>
+          <option>Compliance Officer</option>
+          <option>Practice Manager</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <button class="form-btn" onclick="submitDemo()">Request Demo →</button>
+      <p class="form-footnote">No spam — just a confirmation and calendar invite from Johan van Eyssen, Founder of DoxSeal.</p>
+    </div>
+    <div class="form-success" id="form-success">
+      <div class="form-success-icon">✅</div>
+      <div class="form-success-title">Demo request received</div>
+      <div class="form-success-sub">Johan will be in touch within one business day to confirm a time. Check your inbox.</div>
+    </div>
+  </div>
+</div>
+
+<!-- FINAL CTA -->
+<div class="final-cta">
+  <div class="final-inner">
+    <h2 class="final-h2">Stop relying on memory.<br><em>Start building proof.</em></h2>
+    <p class="final-sub">Every client engagement without a sealed record is a potential dispute waiting to happen. Start protecting your practice today.</p>
+    <a href="#demo" class="final-btn">
+      <span>Request a Demo</span>
+      <span>→</span>
+    </a>
+    <p class="final-note">From <strong>R499/month.</strong> No contracts. Cancel anytime.</p>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-brand">DoxSeal · johan@doxseal.co.za</div>
+  <div class="footer-links">
+    <a href="https://doxseal.co.za">Home</a>
+    <a href="https://doxseal.co.za/brokers.html">For Brokers</a>
+    <a href="https://doxseal.co.za/hr-landing.html">For HR</a>
+    <a href="https://doxseal.co.za/legal-landing.html">For Law Firms</a>
+    <a href="https://doxseal.co.za/verify.html">Verify</a>
+    <a href="https://doxseal.co.za/legal.html">Legal</a>
+    <a href="mailto:johan@doxseal.co.za">Contact</a>
+  </div>
+</footer>
+
+<script>
+function submitDemo(){
+  var name=document.getElementById('f-name').value.trim();
+  var email=document.getElementById('f-email').value.trim();
+  var company=document.getElementById('f-company').value.trim();
+  var role=document.getElementById('f-role').value;
+  if(!name||!email||!company||!role){alert('Please fill in all fields.');return;}
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){alert('Please enter a valid email address.');return;}
+  fetch('https://tm-server-myv6.onrender.com/api/demo-request',{
+    method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({name,email,company,role,source:'legal-landing'})
+  }).catch(function(){});
+  document.getElementById('lead-form').style.display='none';
+  document.getElementById('form-success').style.display='block';
+}
+function toggleFaq(btn){
+  var item=btn.closest('.faq-item');
+  var isOpen=item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(function(el){el.classList.remove('open');});
+  if(!isOpen)item.classList.add('open');
+}
+</script>
+</body>
+</html>
