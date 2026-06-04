@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <!-- DoxSeal app v2026.04.30d -->
 <html lang="en">
 <head>
@@ -1346,7 +1346,7 @@ function doSignup(){
     const addr='1TM'+Math.random().toString(36).slice(2,8).toUpperCase()+Date.now().toString(36).toUpperCase().slice(-5);
     CU={name:nm,email:em,pass:pw,addr,plan:'Starter'};
     CREDS=50000; HIST=loadCerts(em);
-    localStorage.setItem('tm_creds_'+em, JSON.stringify({name:nm,pass:pw}));
+
     btn.disabled=false; btn.textContent='? Create Free Account';
     openApp();
     setTimeout(()=>toast('50,000 free credits added!','Go ahead � seal your first message. It takes under 10 seconds.'),700);
@@ -1388,20 +1388,11 @@ function showForgotPass(){
   if(open){const res=document.getElementById('fp-result');if(res){res.style.display='none';res.textContent='';}}
 }
 function lookupPass(){
-  const emEl=document.getElementById('fp-em');
   const resEl=document.getElementById('fp-result');
-  if(!emEl||!resEl) return;
-  const em=(emEl.value||'').trim().toLowerCase();
-  if(!em){resEl.className='fp-result err';resEl.textContent='Please enter your email address.';resEl.style.display='block';return;}
-  try{
-    const raw=localStorage.getItem('tm_creds_'+em);
-    if(raw){const d=JSON.parse(raw);if(d&&d.pass){resEl.className='fp-result';resEl.innerHTML='Your password is: <strong style="color:var(--gold2);letter-spacing:.03em">'+d.pass+'</strong>';resEl.style.display='block';return;}}
-  }catch(e){}
-  try{
-    const raw=localStorage.getItem('tm_session');
-    if(raw){const s=JSON.parse(raw);if(s&&s.cu&&s.cu.email===em&&s.cu.pass){resEl.className='fp-result';resEl.innerHTML='Your password is: <strong style="color:var(--gold2);letter-spacing:.03em">'+s.cu.pass+'</strong>';resEl.style.display='block';return;}}
-  }catch(e){}
-  resEl.className='fp-result err';resEl.textContent='No account found for that email address.';resEl.style.display='block';
+  if(!resEl) return;
+  resEl.className='fp-result';
+  resEl.textContent='For security, passwords are not stored locally. Contact hello@doxseal.co.za to reset your password.';
+  resEl.style.display='block';
 }
 function doSignOut(){
   CU=null;HIST=[];LAST=null;
@@ -1884,11 +1875,11 @@ function proofHTML(m,compact){
   return `<div class="proof-card" data-id="${m.id}">
     <div class="pc-row">
       <div class="pc-ico ${cls}">${ico}</div>
-      <div class="pc-body"><div class="pc-subj">${m.subj}</div><div class="pc-meta">${m.dir==='sent'?'To: ':'From: '}${m.to}</div></div>
+      <div class="pc-body"><div class="pc-subj">${escHtml(m.subj)}</div><div class="pc-meta">${m.dir==='sent'?'To: ':'From: '}${escHtml(m.to)}</div></div>
       <div class="pc-aside"><div class="pc-badge ${m.verified?'v':'p'}">${m.verified?'Live':'Pending'}</div><div class="pc-time">${time}</div></div>
     </div>
     ${!compact?`<div class="pc-detail" id="pd-${m.id}">
-      ${m.msg?`<div class="pd-row"><span class="pd-k">Message</span><span class="pd-v">${(m.msg||'').slice(0,100)}${(m.msg||'').length>100?'�':''}</span></div>`:''}
+      ${m.msg?`<div class="pd-row"><span class="pd-k">Message</span><span class="pd-v">${escHtml((m.msg||'').slice(0,100))}${(m.msg||'').length>100?'�':''}</span></div>`:''}
       <div class="pd-row"><span class="pd-k">Date sealed</span><span class="pd-v">${m.ts||'�'}</span></div>
       <div class="pd-row"><span class="pd-k">Transaction ID</span><span class="pd-v m">${m.txid&&!m.txid.startsWith('demo_')?m.txid.slice(0,20)+'�':'(demo)'}</span></div>
       <div class="pd-row"><span class="pd-k">Fingerprint</span><span class="pd-v m">${m.hash||''}�</span></div>
@@ -1935,7 +1926,7 @@ async function fetchLivePrice(){
 
 function saveSession(){
   if(!CU)return;
-  try{localStorage.setItem('tm_session',JSON.stringify({cu:{email:CU.email,name:CU.name,plan:CU.plan,addr:CU.addr||'',pass:CU.pass||'',account_type:CU.account_type||'',seals_used:CU.seals_used||0,seals_limit:CU.seals_limit||0},creds:CREDS,ts:Date.now()}));}catch(e){}
+  try{localStorage.setItem('tm_session',JSON.stringify({cu:{email:CU.email,name:CU.name,plan:CU.plan,addr:CU.addr||'',account_type:CU.account_type||'',seals_used:CU.seals_used||0,seals_limit:CU.seals_limit||0},creds:CREDS,ts:Date.now()}));}catch(e){}
 }
 
 const SESSION_TTL=7*24*60*60*1000;
