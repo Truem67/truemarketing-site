@@ -1327,7 +1327,7 @@ async function doLogin(){
   btn.disabled=true; btn.textContent='Signing in�';
   if(!API.login){authErr('Server not configured. Contact support.');btn.disabled=false;btn.textContent='Sign In';return;}
   try{
-    const r=await fetch(API.login,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:em,password:pw}),signal:AbortSignal.timeout(8000)});
+    const r=await fetch(API.login,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:em,password:pw}),signal:AbortSignal.timeout(15000)});
     const d=await r.json();
     if(d.success && d.user){
       CU={...d.user,pass:pw}; CREDS=48210;
