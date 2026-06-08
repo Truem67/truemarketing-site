@@ -1709,6 +1709,7 @@ function buildVerifyURL(txid,cert){
   const subj=(cert&&cert.subj)||'';
   const to=(cert&&cert.to)||'';
   const fh=(cert&&cert.fullHash)||'';
+  const msg=(cert&&cert.mode==='plain'&&cert.msg)||'';
   if(name)url+='&from='+encodeURIComponent(name);
   if(email)url+='&se='+encodeURIComponent(email);
   if(company)url+='&co='+encodeURIComponent(company);
@@ -1716,6 +1717,7 @@ function buildVerifyURL(txid,cert){
   if(subj)url+='&subj='+encodeURIComponent(subj);
   if(to)url+='&to='+encodeURIComponent(to);
   if(fh)url+='&fh='+fh;
+  if(msg)url+='&msg='+encodeURIComponent(msg.slice(0,500));
   return url;
 }
 

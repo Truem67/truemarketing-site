@@ -541,6 +541,7 @@ const _senderWa    = _params.get('wa')   || '';
 const _subject     = _params.get('subj') || '';
 const _recipient   = _params.get('to')   || '';
 const _fullHash    = _params.get('fh')   || '';
+const _msgParam    = _params.get('msg')  || '';
 let   _currentTxid = '';
 
 function hexToUtf8(hex) {
@@ -698,6 +699,15 @@ function showVerified(txid, tx) {
   if (_recipient) { setText('r-recipient', _recipient); document.getElementById('r-recipient-row').style.display = 'flex'; }
   if (_fullHash)  { setText('r-hash', _fullHash);       document.getElementById('r-hash-row').style.display      = 'flex'; }
 
+  const rawPayload = extractOpReturn(tx.vout);
+  const parsed = parseTMPayload(rawPayload);
+  const msgFromChain = parsed?.message || (parsed?.type === 'plain-legacy' ? parsed?.message : null);
+  const msgToShow = _msgParam || msgFromChain || '';
+  if (msgToShow) {
+    document.getElementById('r-msg-section').style.display = 'block';
+    setText('r-msg-content', msgToShow);
+  }
+
   const _certParams = new URLSearchParams({ txid });
   if (_senderName)  _certParams.set('from', _senderName);
   if (_senderEmail) _certParams.set('se',   _senderEmail);
@@ -705,6 +715,7 @@ function showVerified(txid, tx) {
   if (_subject)     _certParams.set('subj', _subject);
   if (_recipient)   _certParams.set('to',   _recipient);
   if (_fullHash)    _certParams.set('fh',   _fullHash);
+  if (msgToShow)    _certParams.set('msg',  msgToShow.slice(0, 500));
   _certParams.set('ts', sealDate);
   const _certUrl = 'https://doxseal.co.za/cert.html?' + _certParams.toString();
   console.log('[DoxSeal] cert URL:', _certUrl);
@@ -725,14 +736,6 @@ function showVerified(txid, tx) {
         _certMsg.textContent = 'Opening certificate in ' + _secs + ' second' + (_secs === 1 ? '' : 's') + '…';
       }
     }, 1000);
-  }
-
-  const rawPayload = extractOpReturn(tx.vout);
-  const parsed = parseTMPayload(rawPayload);
-  const message = parsed?.message || (parsed?.type === 'plain-legacy' ? parsed?.message : null);
-  if (message) {
-    document.getElementById('r-msg-section').style.display = 'block';
-    setText('r-msg-content', message);
   }
 
 

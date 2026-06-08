@@ -156,6 +156,11 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;
 }
 .note strong{color:var(--iv2);}
 
+/* ── SEALED MESSAGE ───────────────────────────────── */
+.cert-msg{padding:12px 0 4px;border-top:1px solid rgba(255,255,255,.04);margin-top:4px;}
+.cert-msg-lbl{font-size:10px;color:var(--iv4);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;}
+.cert-msg-val{font-size:13px;color:var(--iv2);white-space:pre-wrap;word-break:break-word;line-height:1.75;}
+
 /* ── NO PARAMS ────────────────────────────────────── */
 .empty{text-align:center;padding:64px 24px;}
 .empty-title{font-family:var(--serif);font-size:24px;color:var(--ivory);margin-bottom:10px;}
@@ -223,6 +228,7 @@ const fh   = _p.get('fh')   || '';
 const se   = _p.get('se')   || '';
 const co   = _p.get('co')   || '';
 const ts   = _p.get('ts')   || '';
+const msg  = _p.get('msg')  || '';
 
 function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
@@ -291,6 +297,7 @@ if(!txid){
         ${row('Date sealed', sealedOn)}
         ${row('SHA-256 fingerprint', fh, {mono:true})}
         ${row('Transaction ID', txid, {mono:true})}
+        ${msg ? `<div class="cert-msg"><div class="cert-msg-lbl">Sealed Message</div><div class="cert-msg-val">${esc(msg)}</div></div>` : ''}
       </div>
     </div>
 
