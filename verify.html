@@ -699,10 +699,16 @@ function showVerified(txid, tx) {
   if (_recipient) { setText('r-recipient', _recipient); document.getElementById('r-recipient-row').style.display = 'flex'; }
   if (_fullHash)  { setText('r-hash', _fullHash);       document.getElementById('r-hash-row').style.display      = 'flex'; }
 
-  const rawPayload = extractOpReturn(tx.vout);
+  // Prefer server-extracted sealedMessage (hex-parsed, reliable).
+  // Fall back to client-side ASM extraction, then URL param.
+  const rawPayload = tx.sealedMessage || extractOpReturn(tx.vout);
+  console.log('[DoxSeal] sealedMessage from server:', tx.sealedMessage || '(none)');
+  console.log('[DoxSeal] rawPayload after extraction:', rawPayload ? rawPayload.slice(0, 80) : '(null)');
   const parsed = parseTMPayload(rawPayload);
+  console.log('[DoxSeal] parsed type:', parsed?.type, '| message:', parsed?.message ? parsed.message.slice(0, 60) : '(none)');
   const msgFromChain = parsed?.message || (parsed?.type === 'plain-legacy' ? parsed?.message : null);
-  const msgToShow = _msgParam || msgFromChain || '';
+  const msgToShow = msgFromChain || _msgParam || '';
+  console.log('[DoxSeal] msgToShow:', msgToShow ? msgToShow.slice(0, 60) : '(empty — will not show Document Content)');
   if (msgToShow) {
     document.getElementById('r-msg-section').style.display = 'block';
     setText('r-msg-content', msgToShow);
