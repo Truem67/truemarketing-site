@@ -46,10 +46,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;
 .nav-brand img{height:28px;width:auto;}
 .nav-brand em{font-style:normal;color:var(--gold2);}
 .nav-label{font-size:12px;color:var(--iv3);}
-.nav-btn{font-size:12px;color:var(--gold2);background:transparent;
-  border:1px solid var(--line2);padding:6px 14px;border-radius:8px;
-  text-decoration:none;transition:border-color .15s;white-space:nowrap;}
-.nav-btn:hover{border-color:var(--gold2);}
 
 /* ── PAGE ─────────────────────────────────────────── */
 .page{max-width:600px;margin:0 auto;padding:28px 16px 64px;position:relative;z-index:1;}
@@ -203,7 +199,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;
     <span><em>Dox</em>Seal</span>
   </a>
   <span class="nav-label">Certificate of Protection</span>
-  <a id="nav-verify-btn" href="https://doxseal.co.za/verify.html" class="nav-btn" target="_blank" rel="noopener">Verify</a>
 </nav>
 
 <div class="page" id="cert-page"></div>
@@ -262,8 +257,6 @@ if(!txid){
   if(to)   vParams.set('to', to);
   if(fh)   vParams.set('fh', fh);
   const verifyUrl = 'https://doxseal.co.za/verify.html?' + vParams.toString();
-
-  document.getElementById('nav-verify-btn').href = verifyUrl;
 
   const qrSrc = 'https://api.qrserver.com/v1/create-qr-code/?size=320x320&data=' + encodeURIComponent(verifyUrl);
 
