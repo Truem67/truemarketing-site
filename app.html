@@ -729,46 +729,50 @@ body::before{
 ------------------------------ */
 #print-cert{display:none;}
 @media print{
-  @page{size:A4 portrait;margin:14mm 18mm;}
+  @page{size:A4 portrait;margin:10mm 14mm;}
+  body{margin:0;padding:0;}
   html,body{overflow:visible!important;height:auto!important;background:#fff!important;font-family:Georgia,'Times New Roman',serif;color:#111!important;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
   body::before{display:none!important;}
   .page,#pg-upgrade,#toast-tray{display:none!important;}
   #print-cert{display:block!important;background:#fff;color:#111;font-family:Georgia,'Times New Roman',serif;}
-  .pc-outer{border:2px solid #1a8a53;display:flex;flex-direction:column;min-height:calc(297mm - 28mm);}
-  .pc-bar{height:9px;background:linear-gradient(90deg,#1a8a53,#b8860b,#c9a84c)!important;}
-  .pc-header{display:flex;justify-content:space-between;align-items:center;padding:18px 28px 15px;border-bottom:1px solid #c4d4aa;}
-  .pc-logo{font-family:Georgia,'Times New Roman',serif;font-size:24px;font-weight:700;color:#1a8a53!important;letter-spacing:-.3px;}
-  .pc-logo-tag{font-family:Arial,Helvetica,sans-serif;font-size:9px;color:#888!important;letter-spacing:1.4px;text-transform:uppercase;margin-top:3px;}
-  .pc-seal-badge{font-family:Arial,Helvetica,sans-serif;font-size:8px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#fff!important;background:#1a8a53!important;padding:5px 12px;border-radius:3px;display:inline-block;}
-  .pc-title-wrap{text-align:center;padding:20px 28px 17px;border-bottom:1px solid #c4d4aa;background:#f6fcf8!important;}
-  .pc-eyebrow{font-family:Arial,Helvetica,sans-serif;font-size:9px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:#1a8a53!important;margin-bottom:8px;}
-  .pc-cert-title{font-family:Georgia,'Times New Roman',serif;font-size:22px;font-weight:700;color:#111!important;letter-spacing:-.2px;margin-bottom:5px;}
-  .pc-cert-sub{font-family:Arial,Helvetica,sans-serif;font-size:10px;color:#555!important;letter-spacing:.3px;}
-  .pc-section{padding:15px 28px;border-bottom:1px solid #e6eeea;}
-  .pc-section-lbl{font-family:Arial,Helvetica,sans-serif;font-size:9px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;color:#1a8a53!important;margin-bottom:11px;}
+  /* No min-height — let content size naturally so nothing overflows to page 2 */
+  .pc-outer{border:2px solid #1a8a53;display:flex;flex-direction:column;page-break-inside:avoid;break-inside:avoid;}
+  *{page-break-after:avoid;}
+  .pc-bar{height:7px;background:linear-gradient(90deg,#1a8a53,#b8860b,#c9a84c)!important;}
+  .pc-header{display:flex;justify-content:space-between;align-items:center;padding:11px 22px 9px;border-bottom:1px solid #c4d4aa;}
+  .pc-logo{font-family:Georgia,'Times New Roman',serif;font-size:20px;font-weight:700;color:#1a8a53!important;letter-spacing:-.3px;}
+  .pc-logo-tag{font-family:Arial,Helvetica,sans-serif;font-size:8px;color:#888!important;letter-spacing:1.4px;text-transform:uppercase;margin-top:2px;}
+  .pc-seal-badge{font-family:Arial,Helvetica,sans-serif;font-size:8px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#fff!important;background:#1a8a53!important;padding:4px 10px;border-radius:3px;display:inline-block;}
+  .pc-title-wrap{text-align:center;padding:11px 22px 9px;border-bottom:1px solid #c4d4aa;background:#f6fcf8!important;}
+  .pc-eyebrow{font-family:Arial,Helvetica,sans-serif;font-size:8px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:#1a8a53!important;margin-bottom:5px;}
+  .pc-cert-title{font-family:Georgia,'Times New Roman',serif;font-size:17px;font-weight:700;color:#111!important;letter-spacing:-.2px;margin-bottom:3px;}
+  .pc-cert-sub{font-family:Arial,Helvetica,sans-serif;font-size:9px;color:#555!important;letter-spacing:.3px;}
+  .pc-section{padding:9px 22px;border-bottom:1px solid #e6eeea;page-break-inside:avoid;break-inside:avoid;}
+  .pc-section-lbl{font-family:Arial,Helvetica,sans-serif;font-size:8px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;color:#1a8a53!important;margin-bottom:7px;}
   .pc-table{width:100%;border-collapse:collapse;}
   .pc-table tr{border-bottom:1px solid #eaefec;}
   .pc-table tr:last-child{border:none;}
-  .pc-table td{padding:7px 0;vertical-align:top;}
-  .pk{font-family:Arial,Helvetica,sans-serif;font-size:10px;font-weight:700;color:#555!important;text-transform:uppercase;letter-spacing:.4px;width:32%;padding-right:14px;}
-  .pv{font-family:Georgia,'Times New Roman',serif;font-size:12px;color:#111!important;line-height:1.5;}
-  .pv-hero{font-size:17px!important;font-weight:700;color:#111!important;}
+  .pc-table td{padding:4px 0;vertical-align:top;}
+  .pk{font-family:Arial,Helvetica,sans-serif;font-size:9px;font-weight:700;color:#555!important;text-transform:uppercase;letter-spacing:.4px;width:32%;padding-right:12px;}
+  .pv{font-family:Georgia,'Times New Roman',serif;font-size:11px;color:#111!important;line-height:1.4;}
+  .pv-hero{font-size:13px!important;font-weight:700;color:#111!important;}
   .pc-crypto{background:#f4fbf7!important;}
-  .pc-hash-block{margin-bottom:11px;}
+  .pc-hash-block{margin-bottom:7px;}
   .pc-hash-block:last-child{margin-bottom:0;}
-  .pc-hash-lbl{font-family:Arial,Helvetica,sans-serif;font-size:9px;font-weight:700;color:#555!important;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;}
-  .pc-hash-val{font-family:'Courier New',Courier,monospace;font-size:10px;color:#111!important;background:#e3f3ec!important;border-left:3px solid #1a8a53;padding:7px 11px;border-radius:0 4px 4px 0;word-break:break-all;line-height:1.7;}
-  .pc-verify-inner{display:flex;gap:18px;align-items:flex-start;}
+  .pc-hash-lbl{font-family:Arial,Helvetica,sans-serif;font-size:8px;font-weight:700;color:#555!important;text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px;}
+  .pc-hash-val{font-family:'Courier New',Courier,monospace;font-size:9px;color:#111!important;background:#e3f3ec!important;border-left:3px solid #1a8a53;padding:5px 9px;border-radius:0 4px 4px 0;word-break:break-all;line-height:1.55;}
+  .pc-verify-inner{display:flex;gap:14px;align-items:flex-start;}
   .pc-verify-left{flex:1;min-width:0;}
-  .pc-verify-note{font-family:Arial,Helvetica,sans-serif;font-size:10px;color:#444!important;line-height:1.7;margin-bottom:11px;}
-  .pc-url-lbl{font-family:Arial,Helvetica,sans-serif;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#888!important;margin-bottom:3px;}
-  .pc-url{font-family:'Courier New',Courier,monospace;font-size:10px;color:#1a8a53!important;word-break:break-all;line-height:1.5;margin-bottom:9px;}
+  .pc-verify-note{font-family:Arial,Helvetica,sans-serif;font-size:9px;color:#444!important;line-height:1.6;margin-bottom:7px;}
+  .pc-url-lbl{font-family:Arial,Helvetica,sans-serif;font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#888!important;margin-bottom:2px;}
+  .pc-url{font-family:'Courier New',Courier,monospace;font-size:9px;color:#1a8a53!important;word-break:break-all;line-height:1.45;margin-bottom:6px;}
+  /* QR reduced from 150px to 110px so verify section doesn't overflow */
   .pc-qr-wrap{flex-shrink:0;text-align:center;}
-  .pc-qr-wrap img{width:150px!important;height:150px!important;display:block;border:1px solid #ccc;border-radius:4px;}
-  .pc-qr-lbl{font-family:Arial,Helvetica,sans-serif;font-size:11px;font-weight:600;color:#333!important;margin-top:10px;line-height:1.55;max-width:160px;text-align:center;}
-  .pc-footer{margin-top:auto;padding:12px 28px;background:#eef8f2!important;border-top:2px solid #1a8a53;text-align:center;}
-  .pc-footer-main{font-family:Arial,Helvetica,sans-serif;font-size:10px;font-weight:700;color:#1a8a53!important;margin-bottom:4px;letter-spacing:.2px;}
-  .pc-footer-sub{font-family:Arial,Helvetica,sans-serif;font-size:9px;color:#888!important;letter-spacing:.2px;}
+  .pc-qr-wrap img{width:110px!important;height:110px!important;display:block;border:1px solid #ccc;border-radius:4px;}
+  .pc-qr-lbl{font-family:Arial,Helvetica,sans-serif;font-size:9px;font-weight:600;color:#333!important;margin-top:6px;line-height:1.45;max-width:120px;text-align:center;}
+  .pc-footer{padding:8px 22px;background:#eef8f2!important;border-top:2px solid #1a8a53;text-align:center;}
+  .pc-footer-main{font-family:Arial,Helvetica,sans-serif;font-size:9px;font-weight:700;color:#1a8a53!important;margin-bottom:3px;letter-spacing:.2px;}
+  .pc-footer-sub{font-family:Arial,Helvetica,sans-serif;font-size:8px;color:#888!important;letter-spacing:.2px;}
 }
 
 /* ------------------------------
