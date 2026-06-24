@@ -515,6 +515,67 @@
     50%      { box-shadow: 0 0 70px rgba(184,134,11,0.45), 0 0 130px rgba(184,134,11,0.18); }
   }
 
+  /* -- SAMPLE CERTIFICATE -- */
+  .sample-cert-card {
+    background: var(--dark-card);
+    border: 1px solid var(--green-border);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.45), 0 0 48px rgba(184,134,11,0.07);
+    max-width: 520px; margin: 0 auto;
+  }
+  .scert-bar {
+    height: 4px;
+    background: linear-gradient(90deg, #9a6f08, var(--green-bright), #9a6f08);
+  }
+  .scert-inner { padding: 1.5rem 1.7rem; }
+  .scert-head {
+    display: flex; align-items: center; gap: 0.85rem;
+    padding-bottom: 1rem; margin-bottom: 1rem;
+    border-bottom: 1px solid var(--green-border);
+  }
+  .scert-head-logo {
+    width: 38px; height: 38px; border-radius: 8px; flex-shrink: 0;
+    background: linear-gradient(135deg, #9a6f08, var(--green-bright));
+    display: flex; align-items: center; justify-content: center;
+  }
+  .scert-head-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem; font-weight: 700; color: var(--cream); line-height: 1.2;
+  }
+  .scert-head-sub {
+    font-size: 0.62rem; color: var(--text-muted);
+    text-transform: uppercase; letter-spacing: 0.08em; margin-top: 3px;
+  }
+  .scert-row {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    padding: 0.5rem 0; border-bottom: 1px solid rgba(255,255,255,0.04);
+    gap: 1rem;
+  }
+  .scert-row:last-of-type { border-bottom: none; }
+  .scert-key {
+    color: var(--text-muted); flex-shrink: 0; min-width: 110px;
+    font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.08em;
+  }
+  .scert-val { font-size: 0.82rem; color: rgba(240,234,216,0.78); text-align: right; word-break: break-all; }
+  .scert-mono { font-family: monospace; font-size: 0.62rem; color: var(--green-bright); }
+  .scert-badge {
+    display: flex; align-items: center; gap: 0.5rem;
+    margin-top: 1rem; padding: 0.6rem 0.9rem;
+    background: rgba(26,138,83,0.10); border: 1px solid rgba(26,138,83,0.28);
+    border-radius: 6px; color: #4caf7d; font-size: 0.77rem; font-weight: 500;
+  }
+  .scert-footer {
+    display: flex; align-items: center; gap: 1rem;
+    margin-top: 1rem; padding-top: 1rem;
+    border-top: 1px solid var(--green-border);
+  }
+  .scert-qr {
+    flex-shrink: 0; width: 60px; height: 60px; border-radius: 6px;
+    background: rgba(184,134,11,0.08);
+    display: flex; align-items: center; justify-content: center;
+  }
+
   @media (max-width: 900px) {
     nav { padding: 1rem 1.5rem; }
     .nav-links { display: none; }
@@ -555,7 +616,7 @@
   <div class="hero-content">
     <div class="hero-eyebrow">Permanently-Sealed Document Integrity</div>
     <h1 class="hero-title">
-      Proof That Cannot Be <em>Disputed.</em>
+      Proof That <em>Holds Up.</em>
     </h1>
     <p class="hero-sub">
       Document integrity you can prove — permanently, independently, forever.
@@ -634,6 +695,60 @@
       </svg>
       <h3 class="step-title">Receive TrueSeal™ Certificate</h3>
       <p class="step-desc">Download a branded PDF certificate with a unique transaction ID, timestamp, and verification QR code — independently verifiable forever.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SAMPLE CERTIFICATE -->
+<section class="section" style="background:var(--dark-mid);border-top:1px solid var(--green-border);border-bottom:1px solid var(--green-border);">
+  <div class="section-header">
+    <div class="section-eyebrow">Sample Certificate</div>
+    <h2 class="section-title">Every sealed document produces a certificate like this —<br><em style="font-style:italic;color:var(--green-bright);">independently verifiable by anyone, forever.</em></h2>
+  </div>
+  <div class="sample-cert-card">
+    <div class="scert-bar"></div>
+    <div class="scert-inner">
+      <div class="scert-head">
+        <div class="scert-head-logo">
+          <img src="/doxseal-logo-gold.svg" alt="DoxSeal" style="height:20px;width:auto;">
+        </div>
+        <div>
+          <div class="scert-head-title">TrueSeal™ Certificate</div>
+          <div class="scert-head-sub">Document Integrity Certificate</div>
+        </div>
+      </div>
+      <div class="scert-row"><span class="scert-key">Protected For</span><span class="scert-val">sample@example.co.za</span></div>
+      <div class="scert-row"><span class="scert-key">Subject</span><span class="scert-val">Sample Sealed Document</span></div>
+      <div class="scert-row"><span class="scert-key">Sealed By</span><span class="scert-val">DoxSeal Demo</span></div>
+      <div class="scert-row"><span class="scert-key">Sealed At</span><span class="scert-val">2026-06-24 · 09:14 SAST</span></div>
+      <div class="scert-row"><span class="scert-key">SHA-256</span><span class="scert-val scert-mono">a3f5c8d2e1b7940f3c6a9e2d5b8f1c4e7a0d3b6e9c2f5a8d1b4e7f0a3c6d9b2</span></div>
+      <div class="scert-row"><span class="scert-key">Transaction ID</span><span class="scert-val scert-mono">4f8e2a1c9d3b7f5e0a4c8d2e6b0f3a7c1e5d9b3f7a0e4c8</span></div>
+      <div class="scert-badge">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.2"/><path d="M4 7l2 2 4-4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Permanently recorded &middot; Tamper-proof
+      </div>
+      <div class="scert-footer">
+        <div class="scert-qr">
+          <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2" y="2" width="16" height="16" rx="2" stroke="rgba(184,134,11,0.5)" stroke-width="1.5" fill="none"/>
+            <rect x="5" y="5" width="10" height="10" fill="rgba(184,134,11,0.28)" rx="1"/>
+            <rect x="26" y="2" width="16" height="16" rx="2" stroke="rgba(184,134,11,0.5)" stroke-width="1.5" fill="none"/>
+            <rect x="29" y="5" width="10" height="10" fill="rgba(184,134,11,0.28)" rx="1"/>
+            <rect x="2" y="26" width="16" height="16" rx="2" stroke="rgba(184,134,11,0.5)" stroke-width="1.5" fill="none"/>
+            <rect x="5" y="29" width="10" height="10" fill="rgba(184,134,11,0.28)" rx="1"/>
+            <rect x="21" y="21" width="5" height="5" fill="rgba(184,134,11,0.35)" rx="1"/>
+            <rect x="28" y="21" width="3" height="3" fill="rgba(184,134,11,0.22)" rx="1"/>
+            <rect x="33" y="25" width="3" height="3" fill="rgba(184,134,11,0.18)" rx="1"/>
+            <rect x="21" y="28" width="3" height="3" fill="rgba(184,134,11,0.18)" rx="1"/>
+            <rect x="21" y="33" width="5" height="5" fill="rgba(184,134,11,0.25)" rx="1"/>
+            <rect x="28" y="33" width="5" height="3" fill="rgba(184,134,11,0.18)" rx="1"/>
+          </svg>
+        </div>
+        <div>
+          <div style="font-size:0.75rem;color:var(--cream);font-weight:500;margin-bottom:0.25rem;">Scan to verify independently</div>
+          <div style="font-family:monospace;font-size:0.62rem;color:var(--green-bright);opacity:0.75;">doxseal.co.za/verify?id=4f8e2a1c…</div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -775,10 +890,10 @@
             <td class="comp-cell yes">Never</td>
           </tr>
           <tr>
-            <td class="comp-row-label">Cost per seal</td>
+            <td class="comp-row-label">Pricing</td>
             <td class="comp-cell no">Free</td>
-            <td class="comp-cell warn">R10–R50</td>
-            <td class="comp-cell yes">From R0.003</td>
+            <td class="comp-cell warn">R10–R50 per signature</td>
+            <td class="comp-cell yes">Flat monthly — no per-signature fees</td>
           </tr>
         </tbody>
       </table>
