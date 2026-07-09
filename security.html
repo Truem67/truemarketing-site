@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Security &amp; Technical Overview — DoxSeal</title>
+<meta name="description" content="Everything an IT or compliance team needs to know before evaluating DoxSeal — what it does, what it stores, what it never stores, and how it's protected.">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --dark:         #040f08;
+    --dark-mid:     #071a0e;
+    --dark-card:    #0d3018;
+    --green:        #b8860b;
+    --green-bright: #c9a84c;
+    --green-dim:    rgba(184,134,11,0.12);
+    --green-border: rgba(184,134,11,0.22);
+    --cream:        #f0ead8;
+    --text-muted:   rgba(240,234,216,0.48);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--dark);
+    color: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(rgba(184,134,11,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(184,134,11,0.03) 1px, transparent 1px);
+    background-size: 56px 56px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky; top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 4rem;
+    background: rgba(4,15,8,0.94);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--green-border);
+  }
+
+  .nav-brand {
+    display: flex; align-items: center; gap: 0.7rem;
+    text-decoration: none;
+  }
+
+  .nav-wordmark {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.25rem; font-weight: 700;
+    color: var(--cream); letter-spacing: 0.04em;
+  }
+  .nav-wordmark span { color: var(--green-bright); }
+
+  /* MAIN CONTENT */
+  main {
+    position: relative; z-index: 1;
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 5rem 2rem 6rem;
+  }
+
+  /* PAGE HEADER */
+  .page-eyebrow {
+    font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--green-bright); margin-bottom: 1rem;
+  }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 900; line-height: 1.1;
+    margin-bottom: 1.2rem;
+  }
+
+  .page-intro {
+    font-size: 1rem; line-height: 1.8;
+    color: var(--text-muted);
+    max-width: 640px;
+    margin-bottom: 3.5rem;
+    padding-bottom: 2.5rem;
+    border-bottom: 1px solid var(--green-border);
+  }
+
+  /* SECTIONS */
+  .sec {
+    margin-bottom: 3rem;
+    padding-left: 1.2rem;
+    border-left: 3px solid var(--green);
+  }
+
+  .sec h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem; font-weight: 700;
+    color: var(--green-bright);
+    margin-bottom: 0.8rem;
+  }
+
+  .sec p {
+    font-size: 0.92rem; line-height: 1.8;
+    color: var(--text-muted);
+  }
+
+  /* BULLET LISTS */
+  .bullet-list {
+    list-style: none;
+    display: flex; flex-direction: column; gap: 0.6rem;
+    margin-top: 0.6rem;
+  }
+
+  .bullet-list li {
+    font-size: 0.9rem; line-height: 1.7;
+    color: var(--text-muted);
+    display: flex; align-items: flex-start; gap: 0.75rem;
+  }
+
+  .bullet-list li::before {
+    content: '';
+    display: block;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--green-bright);
+    margin-top: 0.52rem;
+    flex-shrink: 0;
+  }
+
+  /* SECURITY TABLE */
+  .sec-table-wrap {
+    margin-top: 0.8rem;
+    border: 1px solid var(--green-border);
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--dark-card);
+  }
+
+  .sec-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+  }
+
+  .sec-table tr {
+    border-bottom: 1px solid var(--green-border);
+  }
+  .sec-table tr:last-child { border-bottom: none; }
+
+  .sec-table td {
+    padding: 0.85rem 1.1rem;
+    vertical-align: top;
+    line-height: 1.65;
+  }
+
+  .sec-table td:first-child {
+    font-weight: 500;
+    color: var(--cream);
+    white-space: nowrap;
+    width: 36%;
+    border-right: 1px solid var(--green-border);
+  }
+
+  .sec-table td:last-child {
+    color: var(--text-muted);
+  }
+
+  /* CTA CARD */
+  .cta-card {
+    margin-top: 4rem;
+    background: var(--dark-card);
+    border: 1px solid var(--green-border);
+    border-top: 3px solid var(--green);
+    border-radius: 10px;
+    padding: 2.8rem 2.4rem;
+    text-align: center;
+  }
+
+  .cta-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem; font-weight: 700;
+    margin-bottom: 0.8rem;
+  }
+
+  .cta-card p {
+    font-size: 0.92rem; line-height: 1.75;
+    color: var(--text-muted);
+    margin-bottom: 1.8rem;
+  }
+
+  .btn-primary {
+    display: inline-block;
+    background: var(--green); color: var(--dark);
+    border: none; padding: 0.75rem 1.8rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem; font-weight: 500;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    cursor: pointer; transition: all 0.25s; text-decoration: none;
+  }
+  .btn-primary:hover {
+    background: var(--green-bright);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px rgba(184,134,11,0.30);
+  }
+
+  /* FOOTER */
+  .site-footer {
+    border-top: 1px solid var(--green-border);
+    padding: 1.8rem 2rem;
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    position: relative; z-index: 1;
+  }
+
+  @media (max-width: 640px) {
+    nav { padding: 1rem 1.2rem; }
+    main { padding: 3rem 1.2rem 4rem; }
+    .sec-table td:first-child { white-space: normal; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-brand">
+    <img src="/doxseal-logo-gold.svg" style="height:32px;width:auto;" alt="DoxSeal">
+    <span class="nav-wordmark">Dox<span>Seal</span></span>
+  </a>
+</nav>
+
+<main>
+
+  <div class="page-eyebrow">For IT &amp; Compliance Review</div>
+  <h1>Security &amp; Technical Overview</h1>
+  <p class="page-intro">Everything an IT or compliance team needs to know before evaluating DoxSeal — what it does, what it stores, what it never stores, and how it's protected.</p>
+
+  <div class="sec">
+    <h2>What DoxSeal is</h2>
+    <p>DoxSeal creates a tamper-proof record of a document at a moment in time. It computes the document's SHA-256 fingerprint and anchors that fingerprint to a public ledger with a timestamp. From then on, anyone can prove in seconds that the document is unchanged since sealing — turning evidence disputes from days of email archaeology into a single verification.</p>
+  </div>
+
+  <div class="sec">
+    <h2>Deployment — nothing to install</h2>
+    <ul class="bullet-list">
+      <li>100% browser-based (Chrome, Edge, Firefox, Safari) — no client software, plugins or agents.</li>
+      <li>No changes to your network, workstations or existing systems; no integration required to evaluate.</li>
+      <li>Sign in and seal — a first document can be sealed and verified within two minutes.</li>
+    </ul>
+  </div>
+
+  <div class="sec">
+    <h2>What is stored — and what is not</h2>
+    <ul class="bullet-list">
+      <li>Your document never leaves your device — the fingerprint is computed in your browser; the file itself is not uploaded.</li>
+      <li>On the public ledger: only the SHA-256 fingerprint and timestamp — a fingerprint is one-way, document contents cannot be reconstructed from it.</li>
+      <li>Never on the public ledger: document contents, client names, policy numbers or any personal information.</li>
+      <li>In DoxSeal's secured database: seal records (fingerprint, timestamp, transaction reference) and user accounts, hosted on established managed cloud infrastructure.</li>
+      <li>Because no document contents or personal information are published, sealing is POPIA-friendly by design.</li>
+    </ul>
+  </div>
+
+  <div class="sec">
+    <h2>Security controls</h2>
+    <div class="sec-table-wrap">
+      <table class="sec-table">
+        <tbody>
+          <tr>
+            <td>Transport</td>
+            <td>All traffic encrypted over HTTPS/TLS.</td>
+          </tr>
+          <tr>
+            <td>Authentication</td>
+            <td>Two-factor authentication (one-time email code) on login; all authentication and authorisation enforced server-side.</td>
+          </tr>
+          <tr>
+            <td>Application hardening</td>
+            <td>Strict HTTP security headers, locked-down CORS, rate limiting and input validation on all endpoints.</td>
+          </tr>
+          <tr>
+            <td>Administration</td>
+            <td>Administrative functions protected by separate secret-key authentication, isolated from user accounts.</td>
+          </tr>
+          <tr>
+            <td>Availability</td>
+            <td>Service health monitored 24/7 at five-minute intervals.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="sec">
+    <h2>Verification is independent of DoxSeal</h2>
+    <ul class="bullet-list">
+      <li>Seals anchor to a public ledger; proof does not depend on DoxSeal's servers, database or continued existence.</li>
+      <li>Any party — insurer, loss adjuster, court — can verify a sealed document free at <a href="https://doxseal.co.za/verify.html" style="color:var(--green-bright);">doxseal.co.za/verify.html</a>, no account required.</li>
+    </ul>
+  </div>
+
+  <div class="sec">
+    <h2>Evaluation terms</h2>
+    <ul class="bullet-list">
+      <li>Unlimited seals, free for the duration of the evaluation; no contract, no payment details, walk away at any time.</li>
+      <li>Questions from your IT team are welcome — a 15-minute technical call can be arranged at short notice.</li>
+    </ul>
+  </div>
+
+  <div class="cta-card">
+    <h3>Questions before your review?</h3>
+    <p>Email <a href="mailto:johan@doxseal.co.za" style="color:var(--green-bright);">johan@doxseal.co.za</a> — direct line to the founder, answers within the day.</p>
+    <a href="mailto:johan@doxseal.co.za?subject=DoxSeal%20technical%20call%20request" class="btn-primary">Book a 15-minute technical call</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  &copy; 2026 DoxSeal &middot; Built in South Africa &middot; Available Worldwide
+</footer>
+
+</body>
+</html>
